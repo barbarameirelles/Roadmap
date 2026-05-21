@@ -152,7 +152,13 @@ function GanttRow({
           <div className="g-feat-meta">
             <div className="g-feat-name">
               {feat.flagged && <span className="flag" title="Marco crítico">⚑</span>}
-              {feat.name}
+              <span className="g-feat-name-text">{feat.name}</span>
+              {feat.tags?.includes("platform2") && (
+                <span className="g-p2-tag">2.0</span>
+              )}
+              {(feat.project === "cdp" || feat.tags?.includes("cdp")) && (
+                <span className="g-cdp-tag">CDP</span>
+              )}
             </div>
             {feat.subtitle && (
               <div className="g-feat-sub">{feat.subtitle}</div>
@@ -243,12 +249,17 @@ export default function GanttRoadmapView() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
 
+  const isCdp = (f: { project?: string; tags?: string[] }) =>
+    f.project === "cdp" || f.tags?.includes("cdp");
+
+  const isPlatform2 = (f: { tags?: string[] }) => f.tags?.includes("platform2") ?? false;
+
   const counts = useMemo(() => {
     const base = projectFilter === "all"
       ? FEATURES
       : projectFilter === "cdp"
-        ? FEATURES.filter(f => f.project === "cdp")
-        : FEATURES.filter(f => f.project !== "cdp");
+        ? FEATURES.filter(isCdp)
+        : FEATURES.filter(isPlatform2);
     const c: Record<string, number> = { all: base.length };
     base.forEach(f => { c[f.status] = (c[f.status] || 0) + 1; });
     return c;
@@ -256,8 +267,8 @@ export default function GanttRoadmapView() {
 
   const filtered = useMemo(() => {
     return FEATURES.filter(f => {
-      if (projectFilter === "cdp" && f.project !== "cdp") return false;
-      if (projectFilter === "platform" && f.project === "cdp") return false;
+      if (projectFilter === "cdp"      && !isCdp(f))       return false;
+      if (projectFilter === "platform" && !isPlatform2(f)) return false;
       if (statusFilter !== "all" && f.status !== statusFilter) return false;
       if (quarterFilter !== "all") {
         const q = QUARTERS.find(q => q.id === quarterFilter);

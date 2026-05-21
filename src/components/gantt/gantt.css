@@ -287,10 +287,8 @@
 .g-gantt-row:hover { background: #fafbfd; }
 .g-gantt-row:last-child { border-bottom: none; }
 
-.g-gantt-row.cdp-row { background: #f0fdf9; border-left: 3px solid #14b8a6; }
-.g-gantt-row.cdp-row:hover { background: #e6faf5; }
-.g-gantt-row.cdp-row .g-feat-name { color: #0f766e; }
-.g-gantt-row.cdp-row .g-epic-tag { background: #ccfbf1; color: #0f766e; }
+.g-gantt-row.cdp-row { }
+.g-gantt-row.cdp-row:hover { }
 
 .g-pill.cdp-pill { border-color: #14b8a6; color: #0f766e; }
 .g-pill.cdp-pill.active { background: #14b8a6; border-color: #14b8a6; color: #fff; }
@@ -316,10 +314,24 @@
 .g-feat-meta { min-width: 0; flex: 1; }
 .g-feat-name {
   font-weight: 500; color: var(--g-ink); font-size: 13.5px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   display: flex; align-items: center; gap: 6px;
+  min-width: 0;
 }
-.g-feat-name .flag { font-size: 13px; }
+.g-feat-name-text {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  flex: 1 1 auto; min-width: 0;
+}
+.g-feat-name .flag { font-size: 13px; flex-shrink: 0; }
+.g-cdp-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  color: #0f766e; background: #ccfbf1; border: 1px solid #99f6e4;
+  padding: 1px 6px; border-radius: 10px; flex-shrink: 0;
+}
+.g-p2-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  color: #1d4ed8; background: #dbeafe; border: 1px solid #93c5fd;
+  padding: 1px 6px; border-radius: 10px; flex-shrink: 0;
+}
 .g-feat-sub { font-size: 11px; color: var(--g-ink-4); margin-top: 2px; display: flex; gap: 8px; align-items: center; }
 .g-jira-key {
   font-size: 11px; color: var(--g-blue);
@@ -462,6 +474,42 @@
 .g-exec-head {
   display: flex; align-items: flex-start; justify-content: space-between;
   margin-bottom: 20px; gap: 16px;
+}
+
+/* ── Scope toggle (Geral / Plataforma 2.0 / CDP) ── */
+.g-exec-scope-toggle {
+  display: flex;
+  background: #f1f5f9;
+  border: 1px solid var(--g-border);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+.g-scope-btn {
+  padding: 6px 16px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--g-ink-3);
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s, box-shadow 0.14s;
+  white-space: nowrap;
+}
+.g-scope-btn:hover:not(.active) { background: #e2e8f0; color: var(--g-ink-2); }
+.g-scope-btn.active {
+  background: #fff;
+  color: var(--g-ink);
+  box-shadow: 0 1px 3px rgba(15,23,42,0.10), 0 0 0 1px rgba(15,23,42,0.06);
+}
+.g-scope-btn.active.cdp-btn { color: #0f766e; }
+
+/* Scope subtitle note */
+.g-exec-scope-note {
+  margin: -12px 0 16px;
+  font-size: 13px;
+  color: var(--g-ink-3);
 }
 .g-exec-snapshot {
   display: inline-flex; align-items: center; gap: 8px;
