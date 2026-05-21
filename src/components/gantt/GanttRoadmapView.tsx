@@ -281,9 +281,15 @@ export default function GanttRoadmapView() {
 
   const toggle = (id: string) => setExpanded(p => ({ ...p, [id]: !p[id] }));
 
-  const totalConcluidos   = FEATURES.filter(f => f.status === "concluido").length;
-  const totalEmAndamento  = FEATURES.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
-  const totalAtrasados    = FEATURES.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
+  const projectFiltered = useMemo(() => {
+    if (projectFilter === "cdp")      return FEATURES.filter(isCdp);
+    if (projectFilter === "platform") return FEATURES.filter(isPlatform2);
+    return FEATURES;
+  }, [projectFilter]);
+
+  const totalConcluidos   = projectFiltered.filter(f => f.status === "concluido").length;
+  const totalEmAndamento  = projectFiltered.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
+  const totalAtrasados    = projectFiltered.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
 
   const statusPills: { id: "all" | FeatureStatus; label: string }[] = [
     { id: "all",                  label: "Todos" },
@@ -304,7 +310,7 @@ export default function GanttRoadmapView() {
       <div className="g-kpi-grid">
         <div className="g-kpi">
           <div className="g-kpi-label">Total de Itens</div>
-          <div className="g-kpi-value g-tabular">{FEATURES.length}</div>
+          <div className="g-kpi-value g-tabular">{projectFiltered.length}</div>
         </div>
         <div className="g-kpi accent-green">
           <div className="g-kpi-label">Concluídos</div>

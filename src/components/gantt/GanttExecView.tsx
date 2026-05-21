@@ -1,10 +1,11 @@
-import { useMemo } from "react";
-import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH } from "@/data/ganttData";
+import { useState, useMemo } from "react";
+import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH, type Feature } from "@/data/ganttData";
 
-type QTag = "past" | "current" | "future";
+type QTag  = "past" | "current" | "future";
+type Scope = "all" | "platform2" | "cdp";
 
 function qTagFor(qStart: number, qEnd: number): QTag {
-  if (qEnd < TODAY_MONTH) return "past";
+  if (qEnd < TODAY_MONTH)                          return "past";
   if (qStart <= TODAY_MONTH && TODAY_MONTH <= qEnd) return "current";
   return "future";
 }
@@ -13,40 +14,85 @@ function qLabelFor(tag: QTag) {
   return tag === "past" ? "Passado" : tag === "current" ? "Atual" : "Futuro";
 }
 
-function riskOf(qId: string, concluidos: number, total: number, atrasados: number) {
-  if (qId === "Q1-2026") return { color: "green", label: "Saudável",   note: `${concluidos}/${total} entregues` };
-  if (qId === "Q2-2026") return { color: "red",   label: "Crítico",    note: `${atrasados} atraso · 0% concluído` };
-  if (qId === "Q3-2026") return { color: "amber", label: "Atenção",    note: "Marco Standalone + VTEX" };
-  if (qId === "Q4-2026") return { color: "gray",  label: "Futuro",     note: `${total} planejados` };
-  return                        { color: "gray",  label: "Futuro",     note: `${total} planejados` };
+function riskOf(
+  qTag:        QTag,
+  concluidos:  number,
+  total:       number,
+  atrasados:   number,
+  hasMilestone: boolean,
+  scope:       Scope,
+) {
+  if (total === 0) return { color: "gray", label: "Futuro", note: "0 planejados" };
+
+  if (qTag === "future") {
+    if (hasMilestone && scope !== "cdp")
+      return { color: "amber", label: "Atenção", note: "Marco Standalone + VTEX" };
+    return { color: "gray", label: "Futuro", note: `${total} planejados` };
+  }
+
+  const ratio = concluidos / total;
+  const note  = atrasados > 0
+    ? `${atrasados} atraso · ${Math.round(ratio * 100)}% concluído`
+    : `${concluidos}/${total} entregues`;
+
+  if (qTag === "past") {
+    if (ratio >= 0.8) return { color: "green", label: "Saudável", note };
+    if (ratio >= 0.5) return { color: "amber", label: "Atenção",  note };
+    return                   { color: "red",   label: "Crítico",  note };
+  }
+
+  // current quarter
+  if (ratio >= 0.8)        return { color: "green", label: "Saudável", note };
+  if (ratio < 0.5)         return { color: "red",   label: "Crítico",  note };
+  return                          { color: "amber", label: "Atenção",  note };
 }
 
 export default function GanttExecView() {
-  const total = FEATURES.length;
+  const [scope, setScope] = useState<Scope>("all");
+
+  const isCdp      = (f: Feature) => f.project === "cdp" || (f.tags?.includes("cdp") ?? false);
+  const isPlatform2 = (f: Feature) => f.tags?.includes("platform2") ?? false;
+
+  const scopeFeatures = useMemo(() => {
+    if (scope === "cdp")      return FEATURES.filter(isCdp);
+    if (scope === "platform2") return FEATURES.filter(isPlatform2);
+    return FEATURES;
+  }, [scope]);
+
+  const total = scopeFeatures.length;
 
   const perQ = useMemo(() => QUARTERS.map(q => {
-    const items = FEATURES.filter(f => f.planned.start >= q.start && f.planned.start <= q.end);
-    const concluidos         = items.filter(f => f.status === "concluido").length;
-    const atrasados          = items.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
-    const emAndamento        = items.filter(f => f.status === "em-andamento").length;
-    const planejados         = items.filter(f => f.status === "no-prazo").length;
-    const avgProgress        = items.length > 0
+    const items       = scopeFeatures.filter(f => f.planned.start >= q.start && f.planned.start <= q.end);
+    const concluidos  = items.filter(f => f.status === "concluido").length;
+    const atrasados   = items.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
+    const emAndamento = items.filter(f => f.status === "em-andamento").length;
+    const planejados  = items.filter(f => f.status === "no-prazo").length;
+    const avgProgress = items.length > 0
       ? Math.round(items.reduce((s, f) => s + f.progress, 0) / items.length)
       : 0;
-    const tag = qTagFor(q.start, q.end);
-    return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, planejados, avgProgress, tag };
-  }), []);
+    const tag          = qTagFor(q.start, q.end);
+    const hasMilestone = scopeFeatures.some(
+      f => f.milestone && f.milestone.month >= q.start && f.milestone.month <= q.end
+    );
+    return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, planejados, avgProgress, tag, hasMilestone };
+  }), [scopeFeatures]);
 
-  const plannedByToday    = FEATURES.filter(f => f.planned.end <= TODAY_MONTH);
-  const concluidosTotal   = FEATURES.filter(f => f.status === "concluido").length;
-  const atrasadosCount    = FEATURES.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
-  const emAndamentoTotal  = FEATURES.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
-  const pctPlanned        = Math.round((plannedByToday.length / total) * 100);
-  const pctDelivered      = Math.round((concluidosTotal / total) * 100);
-  const avgProgressTotal  = Math.round(FEATURES.reduce((s, f) => s + f.progress, 0) / total);
-  const milestone         = FEATURES.find(f => f.milestone);
+  const plannedByToday   = scopeFeatures.filter(f => f.planned.end <= TODAY_MONTH);
+  const concluidosTotal  = scopeFeatures.filter(f => f.status === "concluido").length;
+  const atrasadosCount   = scopeFeatures.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
+  const emAndamentoTotal = scopeFeatures.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
+  const pctPlanned       = total > 0 ? Math.round((plannedByToday.length / total) * 100) : 0;
+  const pctDelivered     = total > 0 ? Math.round((concluidosTotal / total) * 100) : 0;
+  const avgProgressTotal = total > 0 ? Math.round(scopeFeatures.reduce((s, f) => s + f.progress, 0) / total) : 0;
+  const milestone        = scope !== "cdp" ? scopeFeatures.find(f => f.milestone) : undefined;
 
   const todayLabel = `${MONTHS[TODAY_MONTH].label}/${MONTHS[TODAY_MONTH].year}`;
+
+  const scopeLabels: Record<Scope, string> = {
+    all:       "Geral",
+    platform2: "Plataforma 2.0",
+    cdp:       "CDP",
+  };
 
   return (
     <div className="g-page">
@@ -60,10 +106,37 @@ export default function GanttExecView() {
             {" · "}mês {TODAY_MONTH + 1} de {MONTHS.length}
           </p>
         </div>
-        <div className="g-exec-snapshot">
-          <span className="dash" /> Hoje: {todayLabel}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {/* Scope toggle */}
+          <div className="g-exec-scope-toggle">
+            {(["all", "platform2", "cdp"] as Scope[]).map(s => (
+              <button
+                key={s}
+                className={
+                  "g-scope-btn" +
+                  (scope === s  ? " active"  : "") +
+                  (s === "cdp"  ? " cdp-btn" : "")
+                }
+                onClick={() => setScope(s)}
+              >
+                {scopeLabels[s]}
+              </button>
+            ))}
+          </div>
+          <div className="g-exec-snapshot">
+            <span className="dash" /> Hoje: {todayLabel}
+          </div>
         </div>
       </div>
+
+      {/* Scope subtitle */}
+      {scope !== "all" && (
+        <div className="g-exec-scope-note">
+          {scope === "platform2"
+            ? `Exibindo ${total} épicos da migração Plataforma 2.0`
+            : `Exibindo ${total} épicos relacionados à CDP`}
+        </div>
+      )}
 
       {/* KPIs */}
       <div className="g-kpi-grid">
@@ -93,7 +166,7 @@ export default function GanttExecView() {
       <h2 className="g-q-section-title">Saúde por trimestre</h2>
       <div className="g-risk-strip">
         {perQ.map(q => {
-          const r = riskOf(q.id, q.concluidos, q.total, q.atrasados);
+          const r = riskOf(q.tag, q.concluidos, q.total, q.atrasados, q.hasMilestone, scope);
           return (
             <div className="g-risk-cell" key={q.id}>
               <span className={"g-risk-bullet " + r.color} />
@@ -125,7 +198,7 @@ export default function GanttExecView() {
                     key={m.idx}
                     className={
                       "g-exec-month" +
-                      (isToday     ? " today"      : "") +
+                      (isToday     ? " today"       : "") +
                       (isMilestone ? " milestone-m" : "")
                     }
                   >
@@ -187,9 +260,9 @@ export default function GanttExecView() {
               } else if (isCurrent) {
                 valNode  = <span className="val red g-tabular">{q.concluidos}/{q.total}</span>;
                 barColor = "red";
-                barWidth = (q.concluidos / q.total) * 100;
+                barWidth = q.total > 0 ? (q.concluidos / q.total) * 100 : 0;
               } else {
-                const ratio = q.concluidos / q.total;
+                const ratio = q.total > 0 ? q.concluidos / q.total : 0;
                 const color = ratio >= 0.8 ? "green" : ratio >= 0.5 ? "amber" : "red";
                 valNode  = <span className={"val " + color + " g-tabular"}>{q.concluidos}/{q.total}</span>;
                 barColor = color;
@@ -245,10 +318,12 @@ export default function GanttExecView() {
             <span className="g-today-dashes" />
             Hoje (Mês {TODAY_MONTH + 1})
           </div>
-          <div className="g-legend-section">
-            <span className="g-legend-dot milestone-d" />
-            Marco: Standalone + VTEX (Set/26)
-          </div>
+          {milestone && (
+            <div className="g-legend-section">
+              <span className="g-legend-dot milestone-d" />
+              Marco: Standalone + VTEX (Set/26)
+            </div>
+          )}
         </div>
       </div>
 
@@ -292,8 +367,13 @@ export default function GanttExecView() {
                     <span className="v g-tabular">{q.planejados}</span>
                   </div>
                 )}
+                {q.total === 0 && (
+                  <div className="g-q-stat">
+                    <span className="lbl" style={{ color: "var(--g-ink-4)" }}>Nenhum épico neste escopo</span>
+                  </div>
+                )}
               </div>
-              {(q.tag !== "future" || q.concluidos > 0 || q.avgProgress > 0) && (
+              {q.total > 0 && (q.tag !== "future" || q.concluidos > 0 || q.avgProgress > 0) && (
                 <div className="g-q-conclusao">
                   <div className="row">
                     <span style={{ color: "var(--g-ink-3)" }}>Fechados</span>
