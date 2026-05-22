@@ -243,8 +243,8 @@ function GanttRow({
 }
 
 export default function GanttRoadmapView() {
-  const [statusFilter, setStatusFilter] = useState<"all" | FeatureStatus>("all");
-  const [quarterFilter, setQuarterFilter] = useState<"all" | string>("all");
+  const [statusFilter, setStatusFilter] = useState<Set<FeatureStatus>>(new Set());
+  const [quarterFilter, setQuarterFilter] = useState<Set<string>>(new Set());
   const [projectFilter, setProjectFilter] = useState<"all" | "platform" | "cdp">("all");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
@@ -269,17 +269,25 @@ export default function GanttRoadmapView() {
     return FEATURES.filter(f => {
       if (projectFilter === "cdp"      && !isCdp(f))       return false;
       if (projectFilter === "platform" && !isPlatform2(f)) return false;
-      if (statusFilter !== "all" && f.status !== statusFilter) return false;
-      if (quarterFilter !== "all") {
-        const q = QUARTERS.find(q => q.id === quarterFilter);
-        if (!q) return true;
-        if (!(f.planned.end >= q.start && f.planned.start <= q.end)) return false;
+      if (statusFilter.size > 0 && !statusFilter.has(f.status)) return false;
+      if (quarterFilter.size > 0) {
+        const matchesAny = [...quarterFilter].some(qId => {
+          const q = QUARTERS.find(q => q.id === qId);
+          return q ? f.planned.end >= q.start && f.planned.start <= q.end : false;
+        });
+        if (!matchesAny) return false;
       }
       return true;
     });
   }, [statusFilter, quarterFilter, projectFilter]);
 
   const toggle = (id: string) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+
+  const toggleStatus = (id: FeatureStatus) =>
+    setStatusFilter(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
+
+  const toggleQuarter = (id: string) =>
+    setQuarterFilter(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
 
   const projectFiltered = useMemo(() => {
     if (projectFilter === "cdp")      return FEATURES.filter(isCdp);
@@ -291,12 +299,11 @@ export default function GanttRoadmapView() {
   const totalEmAndamento  = projectFiltered.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
   const totalAtrasados    = projectFiltered.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
 
-  const statusPills: { id: "all" | FeatureStatus; label: string }[] = [
-    { id: "all",                  label: "Todos" },
-    { id: "concluido",            label: "Concluídos" },
-    { id: "no-prazo",             label: "No prazo" },
-    { id: "em-andamento",         label: "Em andamento" },
-    { id: "atrasado",             label: "Atrasados" },
+  const statusPills: { id: FeatureStatus; label: string }[] = [
+    { id: "concluido",             label: "Concluídos" },
+    { id: "no-prazo",              label: "No prazo" },
+    { id: "em-andamento",          label: "Em andamento" },
+    { id: "atrasado",              label: "Atrasados" },
     { id: "atrasado-em-andamento", label: "Atrasados · Em andamento" },
   ];
 
@@ -341,11 +348,18 @@ export default function GanttRoadmapView() {
         </div>
         <div className="g-filter-group">
           <span className="g-filter-label">Filtrar por Status:</span>
+          <button
+            className={"g-pill" + (statusFilter.size === 0 ? " active" : "")}
+            onClick={() => setStatusFilter(new Set())}
+          >
+            Todos
+            <span className="count">{counts.all || 0}</span>
+          </button>
           {statusPills.map(({ id, label }) => (
             <button
               key={id}
-              className={"g-pill" + (statusFilter === id ? " active" : "")}
-              onClick={() => setStatusFilter(id)}
+              className={"g-pill" + (statusFilter.has(id) ? " active" : "")}
+              onClick={() => toggleStatus(id)}
             >
               {label}
               <span className="count">{counts[id] || 0}</span>
@@ -355,16 +369,16 @@ export default function GanttRoadmapView() {
         <div className="g-filter-group">
           <span className="g-filter-label">Filtrar por Trimestre:</span>
           <button
-            className={"g-pill" + (quarterFilter === "all" ? " active" : "")}
-            onClick={() => setQuarterFilter("all")}
+            className={"g-pill" + (quarterFilter.size === 0 ? " active" : "")}
+            onClick={() => setQuarterFilter(new Set())}
           >
             Todos os Trimestres
           </button>
           {QUARTERS.map(q => (
             <button
               key={q.id}
-              className={"g-pill" + (quarterFilter === q.id ? " active" : "")}
-              onClick={() => setQuarterFilter(q.id)}
+              className={"g-pill" + (quarterFilter.has(q.id) ? " active" : "")}
+              onClick={() => toggleQuarter(q.id)}
             >
               {q.label} ({q.sub})
             </button>
