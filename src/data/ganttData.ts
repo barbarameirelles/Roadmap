@@ -332,6 +332,13 @@ export const FEATURES: Feature[] = [
       { key: "POS-4130", title: "Consolidar Compras", status: "To Do", points: 0 },
       { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "To Do", points: 0 },
       { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "To Do", points: 0 },
+      { key: "POS-4161", title: "[CDP] Testar e validar contrato feito pelo Dib", status: "To Do", points: 0 },
+      { key: "POS-4162", title: "[CDP] Back: Listagem de profiles na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4163", title: "[CDP] Back: Filtros de profiles na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4164", title: "[CDP] Back: Obter eventos do profile na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4165", title: "[CDP] Back: Excluir o profile na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4166", title: "[CDP] Back: Exportar o profile na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4167", title: "[CDP] Back: End-points para fornecer a CDP como API", status: "To Do", points: 0 },
     ],
   },
 
@@ -608,7 +615,7 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "cdp-2a", jiraKey: "CDP-2",
+    id: "cdp-2a", jiraKey: "POS-4158", jiraKeys: ["POS-4158", "FRONT-692"],
     name: "Trazer dados do Commerce para CDP",
     subtitle: "Ingestão de dados de Commerce na CDP",
     epic: "CDP",
@@ -617,11 +624,20 @@ export const FEATURES: Feature[] = [
     status: "no-prazo", progress: 0,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
-    subtasks: [],
+    subtasks: [
+      { key: "POS-4175", title: "[Commerce] Back: Adequação de contrato da ingestão dos dados", status: "To Do", points: 0 },
+      { key: "POS-4176", title: "[Commerce] Aumentar ingestão de eventos", status: "To Do", points: 0 },
+      { key: "POS-4177", title: "[Commerce] Definir o que deverá ser consolidado (Sávio)", status: "To Do", points: 0 },
+      { key: "POS-4178", title: "[Commerce] Back: Ju cadastra a regra e irá refletir no front", status: "To Do", points: 0 },
+      { key: "POS-4179", title: "[Commerce] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
+      { key: "POS-4180", title: "[Commerce] Enriquecer dados de pedido buscando informações no ETL (Jimmy)", status: "To Do", points: 0 },
+      { key: "POS-4181", title: "[Commerce] Consumir API de produtos do commerce (Barreto)", status: "To Do", points: 0 },
+      { key: "FRONT-695", title: "[Commerce] Front: Exibir dados Commerce na visão do cliente", status: "To Do", points: 0 },
+    ],
   },
 
   {
-    id: "cdp-2b", jiraKey: "CDP-2b",
+    id: "cdp-2b", jiraKey: "POS-4157", jiraKeys: ["POS-4157", "FRONT-691"],
     name: "Trazer dados de OMS para CDP",
     subtitle: "Ingestão de dados de OMS na CDP",
     epic: "CDP",
@@ -630,11 +646,18 @@ export const FEATURES: Feature[] = [
     status: "no-prazo", progress: 0,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
-    subtasks: [],
+    subtasks: [
+      { key: "POS-4170", title: "[OMS] Definir com Felipe quais dados serão enviados via API do Dib", status: "To Do", points: 0 },
+      { key: "POS-4171", title: "[OMS] Back: Adequação de contrato da ingestão dos dados", status: "To Do", points: 0 },
+      { key: "POS-4172", title: "[OMS] Definir o que deverá ser consolidado (Sávio)", status: "To Do", points: 0 },
+      { key: "POS-4173", title: "[OMS] Back: Ju cadastra a regra e irá refletir no front", status: "To Do", points: 0 },
+      { key: "POS-4174", title: "[OMS] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
+      { key: "FRONT-694", title: "[OMS] Front: Exibir dados OMS na visão do cliente", status: "To Do", points: 0 },
+    ],
   },
 
   {
-    id: "cdp-4", jiraKey: "CDP-4",
+    id: "cdp-4", jiraKey: "POS-4159", jiraKeys: ["POS-4159", "FRONT-693"],
     name: "Disponibilizar segmentador para o commerce",
     subtitle: "Segmentos CDP disponíveis no commerce",
     epic: "CDP",
@@ -643,7 +666,13 @@ export const FEATURES: Feature[] = [
     status: "no-prazo", progress: 0,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
-    subtasks: [],
+    subtasks: [
+      { key: "POS-4182", title: "[Segmentador Commerce] Disponibilizar tela de segmentação no admin do Commerce", status: "To Do", points: 0 },
+      { key: "POS-4183", title: "[Segmentador Commerce] Definir processo de onboarding: acesso, cadastro e permissões", status: "To Do", points: 0 },
+      { key: "POS-4184", title: "[Segmentador Commerce] Definir primeiros casos de uso para primeira entrega", status: "To Do", points: 0 },
+      { key: "FRONT-696", title: "[Segmentador Commerce] Front: Implementar autenticação específica", status: "To Do", points: 0 },
+      { key: "FRONT-697", title: "[Segmentador Commerce] Front: Suprimir menu e header do segmentador", status: "To Do", points: 0 },
+    ],
   },
 
   {
@@ -705,6 +734,26 @@ export const FEATURES: Feature[] = [
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [],
+  },
+
+  {
+    id: "cdp-5", jiraKey: "POS-4160",
+    name: "Base Analítica",
+    subtitle: "Base analítica de eventos para BI e governança de dados",
+    epic: "CDP",
+    project: "cdp",
+    planned: { start: 8, end: 12 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
+    storyPoints: 0,
+    subtasks: [
+      { key: "POS-4185", title: "[Base Analítica] Base analítica de eventos pelo BI (Herbert)", status: "To Do", points: 0 },
+      { key: "POS-4186", title: "[Base Analítica] Provisionar a base analítica", status: "To Do", points: 0 },
+      { key: "POS-4187", title: "[Base Analítica] Ingerir dados na base analítica", status: "To Do", points: 0 },
+      { key: "POS-4188", title: "[Base Analítica] Estruturação da governança da ingestão dos dados", status: "To Do", points: 0 },
+      { key: "POS-4189", title: "[Base Analítica] Back-up dos dados — definir estratégia com Doni e Bryan", status: "To Do", points: 0 },
+      { key: "POS-4190", title: "[Base Analítica] Definir por quanto tempo os dados serão retidos", status: "To Do", points: 0 },
+    ],
   },
 
   {

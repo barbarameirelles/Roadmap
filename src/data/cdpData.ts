@@ -70,4 +70,12 @@ export const CDP_EPICS: CDPEpic[] = [
     progress: 0,
     subitems: [],
   },
+  {
+    id: "cdp-5",
+    name: "Base Analítica",
+    planned: { start: 8, end: 12 },
+    status: "no-prazo",
+    progress: 0,
+    subitems: [],
+  },
 ];
