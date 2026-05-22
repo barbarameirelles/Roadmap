@@ -91,7 +91,7 @@ export default function GanttExecView() {
   const scopeLabels: Record<Scope, string> = {
     all:       "Geral",
     platform2: "Plataforma 2.0",
-    cdp:       "CDP",
+    cdp:       "Audience (CDP)",
   };
 
   return (
@@ -134,7 +134,7 @@ export default function GanttExecView() {
         <div className="g-exec-scope-note">
           {scope === "platform2"
             ? `Exibindo ${total} épicos da migração Plataforma 2.0`
-            : `Exibindo ${total} épicos relacionados à CDP`}
+            : `Exibindo ${total} épicos relacionados à Audience (CDP)`}
         </div>
       )}
 

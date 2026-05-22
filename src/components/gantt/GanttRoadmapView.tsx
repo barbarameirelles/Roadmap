@@ -157,7 +157,7 @@ function GanttRow({
                 <span className="g-p2-tag">2.0</span>
               )}
               {(feat.project === "cdp" || feat.tags?.includes("cdp")) && (
-                <span className="g-cdp-tag">CDP</span>
+                <span className="g-cdp-tag">Audience (CDP)</span>
               )}
             </div>
             {feat.subtitle && (
@@ -342,7 +342,7 @@ export default function GanttRoadmapView() {
               className={"g-pill" + (projectFilter === p ? " active" : "") + (p === "cdp" ? " cdp-pill" : "")}
               onClick={() => setProjectFilter(p)}
             >
-              {p === "all" ? "Todos" : p === "platform" ? "Plataforma 2.0" : "CDP"}
+              {p === "all" ? "Todos" : p === "platform" ? "Plataforma 2.0" : "Audience (CDP)"}
             </button>
           ))}
         </div>

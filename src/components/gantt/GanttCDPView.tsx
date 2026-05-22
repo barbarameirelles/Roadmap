@@ -226,8 +226,8 @@ export default function GanttCDPView() {
   return (
     <div className="g-page">
       <div className="g-page-head">
-        <h1 className="g-page-title">Roadmap CDP</h1>
-        <p className="g-page-sub">Customer Data Platform · Épicos e iniciativas</p>
+        <h1 className="g-page-title">Roadmap Audience (CDP)</h1>
+        <p className="g-page-sub">Audience (CDP) · Épicos e iniciativas</p>
       </div>
 
       <div className="g-kpi-grid">
