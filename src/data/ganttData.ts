@@ -799,6 +799,20 @@ export const FEATURES: Feature[] = [
   },
 
 
+  // ─── Audience (CDP) ── CMS ────────────────────────────────────────────────
+  {
+    id: "f31", jiraKey: "CMS-AUD",
+    name: "Audiências no CMS Commerce",
+    subtitle: "Segmentos de Audience (CDP) disponíveis no CMS",
+    epic: "CMS Commerce",
+    project: "cdp",
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
   // ─── CDP ──────────────────────────────────────────────────────────────────
   {
     id: "f30", jiraKey: "FRONT-157",
