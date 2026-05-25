@@ -28,7 +28,7 @@ export const CDP_EPICS: CDPEpic[] = [
     name: "Estruturação da CDP",
     planned: { start: 0, end: 3 },
     status: "em-andamento",
-    progress: 50,
+    progress: 12,
     subitems: [],
   },
   {
@@ -36,14 +36,14 @@ export const CDP_EPICS: CDPEpic[] = [
     name: "Enriquecimento de dados",
     planned: { start: 2, end: 7 },
     status: "em-andamento",
-    progress: 30,
+    progress: 0,
     subitems: [
       {
         id: "cdp-2-1",
         name: "Trazer dados do Commerce",
         planned: { start: 2, end: 4 },
         status: "em-andamento",
-        progress: 50,
+        progress: 0,
       },
       {
         id: "cdp-2-2",

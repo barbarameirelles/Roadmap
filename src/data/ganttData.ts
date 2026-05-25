@@ -316,7 +316,7 @@ export const FEATURES: Feature[] = [
     project: "cdp",
     tags: ["platform2"],
     planned: { start: 0, end: 7 }, executed: { start: 0, end: 4 },
-    status: "em-andamento", progress: 9,
+    status: "em-andamento", progress: 12,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 24,
     subtasks: [
@@ -380,7 +380,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 94,
+    status: "em-andamento", progress: 87,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 113,
     subtasks: [
@@ -414,7 +414,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-152",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 42,
+    status: "em-andamento", progress: 58,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 14,
     subtasks: [
@@ -461,7 +461,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Segmentador",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 57,
+    status: "em-andamento", progress: 64,
     owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
     storyPoints: 0,
     subtasks: [
@@ -484,7 +484,7 @@ export const FEATURES: Feature[] = [
     planned: { start: 3, end: 7 }, executed: { start: 3, end: 4 },
     milestone: { month: 5, label: "Disponibilização de receita e exportação de dados" },
     flagged: true,
-    status: "em-andamento", progress: 21,
+    status: "em-andamento", progress: 24,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 13,
     subtasks: [
@@ -556,7 +556,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-524",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 6 }, executed: null,
-    status: "no-prazo", progress: 0,
+    status: "no-prazo", progress: 3,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 33,
     subtasks: [
@@ -604,7 +604,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 5 }, executed: { start: 3, end: 4 },
     flagged: true,
-    status: "em-andamento", progress: 38,
+    status: "em-andamento", progress: 56,
     owner: { name: "Renato Novaes", initials: "RN", color: "#9333ea" },
     storyPoints: 3,
     subtasks: [
@@ -885,7 +885,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Melhorias e evoluções",
     tags: ["platform2"],
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 0,
+    status: "no-prazo", progress: 17,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
