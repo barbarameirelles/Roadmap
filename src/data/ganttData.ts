@@ -339,6 +339,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4165", title: "[CDP] Back: Excluir o profile na API da CDP", status: "To Do", points: 0 },
       { key: "POS-4166", title: "[CDP] Back: Exportar o profile na API da CDP", status: "To Do", points: 0 },
       { key: "POS-4167", title: "[CDP] Back: End-points para fornecer a CDP como API", status: "To Do", points: 0 },
+      { key: "POS-4195", title: "[CDP] Alterar um endpoint específico para disponibilizar segmentos criados pelo cliente", status: "To Do", points: 0 },
     ],
   },
 
@@ -400,6 +401,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-4046", title: "BTG - Alterações nas regras", status: "Done", points: 3 },
       { key: "POS-4074", title: "Criar endpoint de campanhas ativas por tipo e canal", status: "Done", points: 3 },
       { key: "FRONT-591", title: "BTG: Feature de template de produto", status: "In Progress", points: 0 },
+      { key: "POS-4168", title: "[BTG] Teste de carga da aplicação", status: "To Do", points: 0 },
+      { key: "POS-4169", title: "[BTG] Entender o consumo para definir limites e preços da aplicação", status: "To Do", points: 0 },
     ],
   },
 
