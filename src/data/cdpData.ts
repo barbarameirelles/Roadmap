@@ -47,7 +47,7 @@ export const CDP_EPICS: CDPEpic[] = [
       },
       {
         id: "cdp-2-2",
-        name: "Trazer dados de OMS",
+        name: "Trazer dados de Loja física",
         planned: { start: 5, end: 7 },
         status: "no-prazo",
         progress: 0,

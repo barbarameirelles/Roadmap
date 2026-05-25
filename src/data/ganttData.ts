@@ -638,8 +638,8 @@ export const FEATURES: Feature[] = [
 
   {
     id: "cdp-2b", jiraKey: "POS-4157", jiraKeys: ["POS-4157", "FRONT-691"],
-    name: "Trazer dados de OMS para CDP",
-    subtitle: "Ingestão de dados de OMS na CDP",
+    name: "Trazer dados de Loja física para CDP",
+    subtitle: "Ingestão de dados de Loja física na CDP",
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 7 }, executed: null,
