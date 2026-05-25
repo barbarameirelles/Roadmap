@@ -446,6 +446,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-544", title: "BTG - Regra de Novidades", status: "In Progress", points: 0 },
       { key: "FRONT-545", title: "BTG - Regra Redução de Preços", status: "In Progress", points: 0 },
       { key: "FRONT-221", title: "BTG - Regra de Aniversário", status: "To Do", points: 0 },
+      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "To Do", points: 0 },
       { key: "POS-3770",  title: "Construção das regras: Navegações e abandono de carrinho", status: "To Do", points: 5 },
       { key: "POS-3924",  title: "Segmentação de Indecisos", status: "To Do", points: 3 },
       { key: "POS-4050",  title: "Segmentação dos Dados de Redução de Preços", status: "To Do", points: 3 },
@@ -591,6 +592,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-549", title: "BTG - Regra Avise-me", status: "To Do", points: 3 },
       { key: "FRONT-550", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3 },
       { key: "FRONT-570", title: "BTG - Réguas Consolidadas", status: "To Do", points: 3 },
+      { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0 },
     ],
   },
 
@@ -696,6 +698,9 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-683", title: "Segmentos Salvos em Campanhas Automáticas", status: "To Do", points: 0 },
       { key: "FRONT-684", title: "Audiências Pré-definidas em Campanhas Automáticas", status: "To Do", points: 0 },
       { key: "FRONT-685", title: "Listas em Campanhas Automáticas", status: "To Do", points: 0 },
+      { key: "FRONT-154", title: "Importação de HTML para E-mail e Unificação da Biblioteca de Templates", status: "To Do", points: 0 },
+      { key: "FRONT-673", title: "Gestão de Opt-out (Importação em Lote e Manual)", status: "To Do", points: 0 },
+      { key: "POS-4056",  title: "Ajustar Status em envios pontuais e automáticos", status: "To Do", points: 0 },
     ],
   },
 
