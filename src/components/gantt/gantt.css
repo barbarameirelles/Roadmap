@@ -699,3 +699,179 @@
   background: var(--g-evolution); transform: rotate(45deg);
   margin-right: 2px; vertical-align: middle; border-radius: 1px;
 }
+
+/* ── Kanban board ─────────────────────────────────────────────────────── */
+.kb-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.kb-col {
+  background: #f8fafc;
+  border: 1px solid var(--g-border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.kb-col-header {
+  padding: 14px 16px 12px;
+  border-top: 3px solid transparent;
+  background: #fff;
+  border-bottom: 1px solid var(--g-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+.kb-col-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kb-col-title {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+.kb-col-count {
+  font-size: 11px;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: var(--g-ink-3);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.kb-col-sp {
+  font-size: 11px;
+  color: var(--g-ink-4);
+  font-weight: 500;
+}
+
+.kb-col-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 80px;
+}
+
+.kb-empty {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--g-ink-4);
+  font-size: 12px;
+}
+
+/* ── Kanban card ─────────────────────────────────────────────────────── */
+.kb-card {
+  background: #fff;
+  border: 1px solid var(--g-border);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--g-shadow-card);
+  transition: box-shadow .15s, transform .15s;
+}
+
+.kb-card:hover {
+  box-shadow: 0 4px 12px rgba(15,23,42,0.08);
+  transform: translateY(-1px);
+}
+
+.kb-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.kb-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.kb-owner-avatar {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 10px; font-weight: 700;
+  color: #fff;
+  flex: 0 0 26px;
+  letter-spacing: 0;
+}
+
+.kb-card-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--g-ink);
+  line-height: 1.4;
+}
+
+.kb-card-name .flag { font-size: 12px; }
+
+.kb-card-sub {
+  font-size: 11px;
+  color: var(--g-ink-4);
+  line-height: 1.4;
+}
+
+.kb-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+
+.kb-epic-tag {
+  font-size: 11px;
+  color: var(--g-ink-3);
+  background: #f1f5f9;
+  padding: 2px 7px;
+  border-radius: 4px;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kb-quarter-tag {
+  font-size: 10px;
+  color: var(--g-ink-4);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.kb-card-progress { margin-top: 2px; }
+
+.kb-progress-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.kb-progress-bar .seg       { height: 100%; }
+.kb-progress-bar .seg.done  { background: #16a34a; }
+.kb-progress-bar .seg.inp   { background: #3b82f6; }
+
+.kb-progress-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--g-ink-4);
+}

@@ -1,4 +1,4 @@
-type Tab = "roadmap" | "exec";
+type Tab = "roadmap" | "exec" | "kanban";
 
 interface Props {
   activeTab: Tab;
@@ -24,11 +24,21 @@ function ExecIcon() {
   );
 }
 
+function KanbanIcon() {
+  return (
+    <svg className="g-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2"  y="3" width="6" height="13" rx="1" />
+      <rect x="9"  y="3" width="6" height="18" rx="1" />
+      <rect x="16" y="3" width="6" height="9"  rx="1" />
+    </svg>
+  );
+}
 
 export default function GanttTopbar({ activeTab, onTab }: Props) {
   const TABS: { id: Tab; title: string; sub: string; Icon: () => JSX.Element }[] = [
     { id: "roadmap", title: "Roadmap",        sub: "Visualização mensal do projeto",   Icon: RoadmapIcon },
     { id: "exec",    title: "Visão Executiva", sub: "% planejado vs % entregue",        Icon: ExecIcon    },
+    { id: "kanban",  title: "Kanban",          sub: "To do · In progress · Done",       Icon: KanbanIcon  },
   ];
 
   return (
