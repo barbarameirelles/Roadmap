@@ -4,8 +4,9 @@ import GanttTopbar from "./components/gantt/GanttTopbar";
 import GanttRoadmapView from "./components/gantt/GanttRoadmapView";
 import GanttExecView from "./components/gantt/GanttExecView";
 import GanttKanbanView from "./components/gantt/GanttKanbanView";
+import GanttSprintView from "./components/gantt/GanttSprintView";
 
-type Tab = "roadmap" | "exec" | "kanban";
+type Tab = "roadmap" | "exec" | "kanban" | "sprint";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("roadmap");
@@ -16,6 +17,7 @@ export default function App() {
       {tab === "roadmap" && <GanttRoadmapView />}
       {tab === "exec"    && <GanttExecView />}
       {tab === "kanban"  && <GanttKanbanView />}
+      {tab === "sprint"  && <GanttSprintView />}
     </div>
   );
 }

@@ -75,7 +75,17 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
 };
 
 export const CURRENT_SPRINT = 41;
-export const CURRENT_SPRINT_LABEL = "Sprint 41 (19/mai–01/jun)";
+
+export const SPRINT_DATES: Record<number, { start: string; end: string }> = {
+  36: { start: "10/mar", end: "23/mar" },
+  37: { start: "24/mar", end: "06/abr" },
+  38: { start: "07/abr", end: "20/abr" },
+  39: { start: "21/abr", end: "04/mai" },
+  40: { start: "05/mai", end: "18/mai" },
+  41: { start: "19/mai", end: "01/jun" },
+  42: { start: "02/jun", end: "15/jun" },
+  43: { start: "16/jun", end: "30/jun" },
+};
 
 export interface Feature {
   id: string;

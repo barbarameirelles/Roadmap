@@ -875,3 +875,230 @@
   font-size: 10.5px;
   color: var(--g-ink-4);
 }
+
+/* ── Sprint View ─────────────────────────────────────────── */
+
+.sp-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+}
+.sp-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--g-border);
+  background: var(--g-bg);
+  color: var(--g-ink-2);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.sp-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.sp-nav-btn:not(:disabled):hover { background: var(--g-border); }
+.sp-nav-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.sp-nav-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--g-ink-1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sp-current-badge {
+  font-size: 10px;
+  font-weight: 600;
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 1px 7px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.sp-nav-dates {
+  font-size: 12px;
+  color: var(--g-ink-4);
+}
+
+.sp-history {
+  display: flex;
+  gap: 6px;
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+.sp-hist-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 48px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.sp-hist-item:hover   { background: var(--g-border); }
+.sp-hist-item.active  { background: #dbeafe; }
+.sp-hist-item.current .sp-hist-label { color: #2563eb; font-weight: 700; }
+.sp-hist-bar-wrap {
+  width: 28px;
+  height: 40px;
+  display: flex;
+  align-items: flex-end;
+}
+.sp-hist-bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  transition: height 0.2s;
+}
+.sp-hist-label {
+  font-size: 10.5px;
+  color: var(--g-ink-3);
+  font-weight: 500;
+}
+.sp-hist-pct {
+  font-size: 10px;
+  color: var(--g-ink-4);
+}
+
+.sp-delivery-bar-wrap {
+  margin-bottom: 20px;
+}
+.sp-delivery-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 6px;
+}
+.sp-db-done { background: #16a34a; height: 100%; transition: width 0.3s; }
+.sp-db-inp  { background: #3b82f6; height: 100%; transition: width 0.3s; }
+.sp-delivery-legend {
+  font-size: 11px;
+  color: var(--g-ink-4);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-feat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sp-feat-card {
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.sp-feat-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.sp-feat-info { flex: 1; min-width: 0; }
+.sp-feat-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--g-ink-1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.sp-feat-name .flag { color: #ef4444; font-size: 13px; }
+.sp-feat-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sp-feat-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.sp-feat-delivery {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.sp-delivery-pct {
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.sp-delivery-sub {
+  font-size: 11px;
+  color: var(--g-ink-4);
+}
+
+.sp-subtask-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sp-subtask-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: var(--g-bg);
+  font-size: 12.5px;
+}
+.sp-subtask-title {
+  flex: 1;
+  color: var(--g-ink-2);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sp-st-chip {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.sp-subtask-pts {
+  font-size: 10.5px;
+  color: var(--g-ink-4);
+  white-space: nowrap;
+}
+
+.sp-empty {
+  text-align: center;
+  color: var(--g-ink-4);
+  font-size: 14px;
+  padding: 48px 0;
+}
