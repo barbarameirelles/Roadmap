@@ -76,6 +76,12 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
 
 export const CURRENT_SPRINT = 41;
 
+export const THIS_MONTH_SPRINTS: number[] = Object.entries(SPRINT_TO_MONTH)
+  .filter(([, m]) => Number(m) === TODAY_MONTH)
+  .map(([s]) => Number(s));
+
+export const CURRENT_MONTH_LABEL = MONTHS[TODAY_MONTH]?.label ?? "";
+
 export const SPRINT_DATES: Record<number, { start: string; end: string }> = {
   36: { start: "10/mar", end: "23/mar" },
   37: { start: "24/mar", end: "06/abr" },

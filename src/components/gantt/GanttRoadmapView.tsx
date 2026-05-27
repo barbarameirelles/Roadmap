@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import {
-  FEATURES, MONTHS, QUARTERS, STATUS_META, TODAY_MONTH,
+  FEATURES, MONTHS, QUARTERS, STATUS_META, TODAY_MONTH, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
   type FeatureStatus, type Feature,
 } from "@/data/ganttData";
 
@@ -176,6 +176,18 @@ function GanttRow({
                     <div className="seg inp"   style={{ width: inpPct  + "%" }} />
                   </div>
                   <span className="g-feat-progress-label">{donePct}% concluído</span>
+                </div>
+              );
+            })()}
+            {(() => {
+              const mTasks = feat.subtasks.filter(s => s.sprint !== undefined && THIS_MONTH_SPRINTS.includes(s.sprint));
+              const mDone  = mTasks.filter(s => s.status === "Done").length;
+              if (mTasks.length === 0) return null;
+              const color = mDone === mTasks.length ? "#16a34a" : mDone > 0 ? "#d97706" : "#94a3b8";
+              return (
+                <div className="g-month-delivery">
+                  <span className="g-month-tag">{CURRENT_MONTH_LABEL}</span>
+                  <span className="g-month-stat" style={{ color }}>{mDone}/{mTasks.length} entregues</span>
                 </div>
               );
             })()}

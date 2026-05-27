@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import {
-  FEATURES, QUARTERS, STATUS_META, MONTHS,
+  FEATURES, QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
   type FeatureStatus, type Feature,
 } from "@/data/ganttData";
 
@@ -90,6 +90,24 @@ function KanbanCard({ feat }: { feat: Feature }) {
           </div>
         </div>
       )}
+      {(() => {
+        const mTasks = feat.subtasks.filter(s => s.sprint !== undefined && THIS_MONTH_SPRINTS.includes(s.sprint));
+        const mDone  = mTasks.filter(s => s.status === "Done").length;
+        if (mTasks.length === 0) return null;
+        const pct   = Math.round((mDone / mTasks.length) * 100);
+        const color = pct === 100 ? "#16a34a" : pct > 0 ? "#d97706" : "#94a3b8";
+        return (
+          <div className="kb-month-delivery">
+            <div className="kb-month-bar-track">
+              <div className="kb-month-bar-fill" style={{ width: pct + "%", background: color }} />
+            </div>
+            <div className="kb-month-foot">
+              <span className="kb-month-tag">{CURRENT_MONTH_LABEL}</span>
+              <span style={{ color }}>{mDone}/{mTasks.length} entregues</span>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
