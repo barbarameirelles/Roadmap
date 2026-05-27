@@ -717,6 +717,19 @@ export const FEATURES: Feature[] = [
     subtasks: [],
   },
 
+  {
+    id: "f28", jiraKey: "FRONT-599",
+    name: "Teste A/B",
+    subtitle: "Testes de variação para campanhas e conteúdos",
+    epic: "2.0 Teste A/B",
+    tags: ["platform2"],
+    planned: { start: 6, end: 8 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "isabela.beatriz", initials: "IB", color: "#059669" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
 
   {
     id: "f29", jiraKey: "CDP-WAU",
