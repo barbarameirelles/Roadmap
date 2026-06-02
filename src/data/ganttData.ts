@@ -222,7 +222,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Landing Page",
     tags: ["platform2"],
     planned: { start: 0, end: 2 }, executed: { start: 0, end: 2 },
-    status: "concluido", progress: 100,
+    status: "em-andamento", progress: 75,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#0891b2" },
     storyPoints: 5,
     subtasks: [
@@ -231,6 +231,9 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-268", title: "Disponibilizar templates de LP como Modelos Prontos", status: "Done", points: 3, sprint: 38 },
       { key: "FRONT-311", title: "Ajuste de Responsividade e Visualização do Editor Beefree", status: "Done", points: 3, sprint: 38 },
       { key: "POS-3269",  title: "BUG: Erro ao criar Landing Page - Inclusão de templates", status: "Done", points: 3, sprint: 32 },
+      { key: "FRONT-496", title: "Ajustar tamanho do card da LP pra ficar igual ao das demais features", status: "Done", points: 0 },
+      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "To Do", points: 0 },
+      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
     ],
   },
 
@@ -241,7 +244,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Studio",
     tags: ["platform2"],
     planned: { start: 0, end: 2 }, executed: { start: 0, end: 2 },
-    status: "concluido", progress: 100,
+    status: "em-andamento", progress: 94,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#059669" },
     storyPoints: 14,
     subtasks: [
@@ -259,6 +262,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-3344",  title: "Ajuste de status/ações na tela de Studio", status: "Done", points: 3, sprint: 33 },
       { key: "POS-3704",  title: "Disponibilizar templates pré prontos no Studio", status: "Done", points: 3, sprint: 35 },
       { key: "POS-3730",  title: "Update do Template do Whatsapp em Studio não sincroniza", status: "Done", points: 3, sprint: 36 },
+      { key: "FRONT-581", title: "STUDIO: Visualização dos templates criados está quebrada", status: "Done", points: 0 },
+      { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "To Do", points: 0 },
     ],
   },
 
@@ -448,7 +453,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-152",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 79,
+    status: "em-andamento", progress: 76,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 14,
     subtasks: [
@@ -485,6 +490,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-3924",  title: "Segmentação de Indecisos", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4050",  title: "Segmentação dos Dados de Redução de Preços", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4051",  title: "Segmentação dos Dados de Novidades", status: "To Do", points: 3, sprint: 42 },
+      { key: "FRONT-701", title: "Integração do Editor Beefree com Templates de Produto", status: "In Progress", points: 0 },
+      { key: "FRONT-711", title: "Ligar recomendação dos produtos com disparo de campanha", status: "To Do", points: 0 },
     ],
   },
 
@@ -495,7 +502,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Segmentador",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 86,
+    status: "em-andamento", progress: 75,
     owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
     storyPoints: 0,
     subtasks: [
@@ -506,6 +513,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
       { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
       { key: "FRONT-626", title: "Trazer dados de loja física", status: "To Do", points: 0 },
+      { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
     ],
   },
 
@@ -518,7 +526,7 @@ export const FEATURES: Feature[] = [
     planned: { start: 3, end: 7 }, executed: { start: 3, end: 4 },
     milestone: { month: 5, label: "Disponibilização de receita e exportação de dados" },
     flagged: true,
-    status: "em-andamento", progress: 32,
+    status: "em-andamento", progress: 31,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 13,
     subtasks: [
@@ -556,6 +564,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-632", title: "Relatório de On site", status: "To Do", points: 0 },
       { key: "FRONT-633", title: "Relatório de Web Push", status: "To Do", points: 0 },
       { key: "FRONT-674", title: "Relatório de Opt-out", status: "To Do", points: 0, sprint: 43 },
+      { key: "POS-4217",  title: "Home - card de Receita Total e coluna Receita em Performance de Campanhas", status: "To Do", points: 0 },
     ],
   },
 
@@ -721,7 +730,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: null,
-    status: "em-andamento", progress: 5,
+    status: "em-andamento", progress: 4,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#2563eb" },
     storyPoints: 4,
     subtasks: [
@@ -735,6 +744,8 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-154", title: "Importação de HTML para E-mail e Unificação da Biblioteca de Templates", status: "In Progress", points: 0, sprint: 41 },
       { key: "FRONT-673", title: "Gestão de Opt-out (Importação em Lote e Manual)", status: "To Do", points: 0, sprint: 43 },
       { key: "POS-4056",  title: "Ajustar Status em envios pontuais e automáticos", status: "To Do", points: 0, sprint: 42 },
+      { key: "FRONT-703", title: "Novas Audiências no On-site Pop-up", status: "To Do", points: 0 },
+      { key: "FRONT-704", title: "Alinhar componentes no On-site Pop-up", status: "To Do", points: 0 },
     ],
   },
 
