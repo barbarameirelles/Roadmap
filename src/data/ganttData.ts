@@ -222,7 +222,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Landing Page",
     tags: ["platform2"],
     planned: { start: 0, end: 2 }, executed: { start: 0, end: 2 },
-    status: "em-andamento", progress: 75,
+    status: "concluido", progress: 100,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#0891b2" },
     storyPoints: 5,
     subtasks: [
@@ -232,8 +232,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-311", title: "Ajuste de Responsividade e Visualização do Editor Beefree", status: "Done", points: 3, sprint: 38 },
       { key: "POS-3269",  title: "BUG: Erro ao criar Landing Page - Inclusão de templates", status: "Done", points: 3, sprint: 32 },
       { key: "FRONT-496", title: "Ajustar tamanho do card da LP pra ficar igual ao das demais features", status: "Done", points: 0 },
-      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "To Do", points: 0 },
-      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
     ],
   },
 
@@ -244,7 +242,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Studio",
     tags: ["platform2"],
     planned: { start: 0, end: 2 }, executed: { start: 0, end: 2 },
-    status: "em-andamento", progress: 94,
+    status: "concluido", progress: 100,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#059669" },
     storyPoints: 14,
     subtasks: [
@@ -263,7 +261,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-3704",  title: "Disponibilizar templates pré prontos no Studio", status: "Done", points: 3, sprint: 35 },
       { key: "POS-3730",  title: "Update do Template do Whatsapp em Studio não sincroniza", status: "Done", points: 3, sprint: 36 },
       { key: "FRONT-581", title: "STUDIO: Visualização dos templates criados está quebrada", status: "Done", points: 0 },
-      { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "To Do", points: 0 },
     ],
   },
 
@@ -943,13 +940,16 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Melhorias e evoluções",
     tags: ["platform2"],
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 33,
+    status: "no-prazo", progress: 17,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
       { key: "FRONT-225", title: "Setup de monitoramento e analytics", status: "Done", points: 0, sprint: 39 },
       { key: "FRONT-244", title: "Configuração de CI/CD frontend", status: "To Do", points: 0 },
       { key: "FRONT-298", title: "Documentação técnica de setup", status: "To Do", points: 0, sprint: 42 },
+      { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "To Do", points: 0 },
+      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "To Do", points: 0 },
+      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
     ],
   },
 
