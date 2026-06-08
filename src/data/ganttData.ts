@@ -513,7 +513,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-391", title: "Segmentador: Campos Custom", status: "Done", points: 0, sprint: 42 },
       { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
       { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
-      { key: "FRONT-626", title: "Trazer dados de loja física", status: "To Do", points: 0 },
       { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
     ],
   },
@@ -699,6 +698,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4173", title: "[OMS] Back: Ju cadastra a regra e irá refletir no front", status: "To Do", points: 0 },
       { key: "POS-4174", title: "[OMS] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
       { key: "FRONT-694", title: "[OMS] Front: Exibir dados OMS na visão do cliente", status: "To Do", points: 0 },
+      { key: "FRONT-626", title: "Trazer dados de loja física", status: "To Do", points: 0 },
     ],
   },
 
