@@ -2,7 +2,7 @@
 // Months are 0-indexed from Jan 2026 (month 0 = Jan 2026, month 14 = Mar 2027)
 // "Today" snapshot = May 2026 = month 4
 
-export const TODAY_MONTH = 4;
+export const TODAY_MONTH = 5;
 
 export interface Month {
   idx: number;
@@ -74,7 +74,7 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
   49: 8, 50: 9,        // Sep/Oct 2026
 };
 
-export const CURRENT_SPRINT = 41;
+export const CURRENT_SPRINT = 42;
 
 export const THIS_MONTH_SPRINTS: number[] = Object.entries(SPRINT_TO_MONTH)
   .filter(([, m]) => Number(m) === TODAY_MONTH)
@@ -352,7 +352,7 @@ export const FEATURES: Feature[] = [
     project: "cdp",
     tags: ["platform2"],
     planned: { start: 0, end: 7 }, executed: { start: 0, end: 4 },
-    status: "em-andamento", progress: 38,
+    status: "em-andamento", progress: 55,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 24,
     subtasks: [
@@ -367,11 +367,11 @@ export const FEATURES: Feature[] = [
       { key: "POS-4129", title: "Consolidar dados de Campanhas", status: "To Do", points: 0, sprint: 41 },
       { key: "POS-4130", title: "Consolidar Compras", status: "To Do", points: 0, sprint: 41 },
       { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "Done", points: 0, sprint: 41 },
-      { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "To Do", points: 0, sprint: 41 },
+      { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "In Progress", points: 0, sprint: 41 },
       { key: "POS-4161", title: "[CDP] Testar e validar contrato feito pelo Dib", status: "To Do", points: 0 },
-      { key: "POS-4162", title: "[CDP] Back: Listagem de profiles na API da CDP", status: "To Do", points: 0 },
-      { key: "POS-4163", title: "[CDP] Back: Filtros de profiles na API da CDP", status: "To Do", points: 0 },
-      { key: "POS-4164", title: "[CDP] Back: Obter eventos do profile na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4162", title: "[CDP] Back: Listagem de profiles na API da CDP", status: "Done", points: 0 },
+      { key: "POS-4163", title: "[CDP] Back: Filtros de profiles na API da CDP", status: "Done", points: 0 },
+      { key: "POS-4164", title: "[CDP] Back: Obter eventos do profile na API da CDP", status: "Done", points: 0 },
       { key: "POS-4165", title: "[CDP] Back: Excluir o profile na API da CDP", status: "To Do", points: 0 },
       { key: "POS-4166", title: "[CDP] Back: Exportar o profile na API da CDP", status: "To Do", points: 0 },
       { key: "POS-4167", title: "[CDP] Back: End-points para fornecer a CDP como API", status: "To Do", points: 0 },
@@ -450,7 +450,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-152",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 76,
+    status: "em-andamento", progress: 80,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 14,
     subtasks: [
@@ -469,19 +469,19 @@ export const FEATURES: Feature[] = [
       { key: "POS-4005", title: "Consolidação dos Dados de Redução de Preços", status: "Done", points: 5, sprint: 40 },
       { key: "POS-4006", title: "Consolidação dos Dados de Novidades", status: "Done", points: 0, sprint: 40 },
       { key: "POS-4058", title: "Segmentação Aniversário", status: "To Do", points: 0 },
-      { key: "POS-4059", title: "Consolidação Aniversário", status: "In Progress", points: 3, sprint: 41 },
+      { key: "POS-4059", title: "Consolidação Aniversário", status: "Done", points: 3, sprint: 41 },
       { key: "FRONT-534", title: "BTG - Regra de Decididos", status: "Done", points: 0, sprint: 40 },
       { key: "FRONT-376", title: "BTG - Navegação Semanal", status: "Done", points: 0, sprint: 40 },
       { key: "FRONT-535", title: "BTG - Regra Navegação Mensal", status: "Done", points: 0, sprint: 40 },
       { key: "FRONT-548", title: "BTG - Regra de Navegação", status: "Done", points: 0, sprint: 40 },
-      { key: "FRONT-150", title: "BTG - Abandono – Disparo e Conteúdo", status: "In Progress", points: 0, sprint: 39 },
+      { key: "FRONT-150", title: "BTG - Abandono – Disparo e Conteúdo", status: "Done", points: 0, sprint: 39 },
       { key: "FRONT-153", title: "BTG - Pós-Compra – Disparo e Conteúdo", status: "Done", points: 0, sprint: 40 },
-      { key: "FRONT-220", title: "BTG - Regra de Inativos", status: "In Progress", points: 0, sprint: 41 },
+      { key: "FRONT-220", title: "BTG - Regra de Inativos", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-537", title: "BTG - Regra Reconquista", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-542", title: "BTG - Regra de Indecisos", status: "Done", points: 0, sprint: 41 },
-      { key: "FRONT-544", title: "BTG - Regra de Novidades", status: "In Progress", points: 0, sprint: 41 },
+      { key: "FRONT-544", title: "BTG - Regra de Novidades", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-545", title: "BTG - Regra Redução de Preços", status: "To Do", points: 0, sprint: 41 },
-      { key: "FRONT-221", title: "BTG - Regra de Aniversário", status: "In Progress", points: 0, sprint: 42 },
+      { key: "FRONT-221", title: "BTG - Regra de Aniversário", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "To Do", points: 0, sprint: 43 },
       { key: "POS-3770",  title: "Construção das regras: Navegações e abandono de carrinho", status: "In Progress", points: 5, sprint: 37 },
       { key: "POS-3924",  title: "Segmentação de Indecisos", status: "Done", points: 3, sprint: 41 },
@@ -596,15 +596,15 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-524",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 6 }, executed: null,
-    status: "em-andamento", progress: 17,
+    status: "em-andamento", progress: 25,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 33,
     subtasks: [
       // Regras do segundo grupo (ainda não iniciadas)
-      { key: "POS-4060", title: "Segmentação Propensos a comprar", status: "To Do", points: 0 },
-      { key: "POS-4061", title: "Consolidação propensos a comprar", status: "To Do", points: 3, sprint: 41 },
+      { key: "POS-4060", title: "Segmentação Propensos a comprar", status: "Done", points: 0 },
+      { key: "POS-4061", title: "Consolidação propensos a comprar", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4062", title: "Segmentação Recorrência", status: "To Do", points: 0 },
-      { key: "POS-4063", title: "Consolidação Recorrência", status: "To Do", points: 0, sprint: 42 },
+      { key: "POS-4063", title: "Consolidação Recorrência", status: "In Progress", points: 0, sprint: 42 },
       { key: "POS-4075", title: "Segmentação Novos Cadastros", status: "To Do", points: 0 },
       { key: "POS-4076", title: "Consolidação Novos Cadastros", status: "To Do", points: 0 },
       { key: "POS-4077", title: "Segmentação Envio por Data", status: "To Do", points: 0 },
@@ -621,15 +621,15 @@ export const FEATURES: Feature[] = [
       { key: "POS-4088", title: "Consolidação Avise-me", status: "To Do", points: 0 },
       { key: "POS-4089", title: "Segmentação Fidelidade", status: "To Do", points: 0 },
       { key: "POS-4090", title: "Consolidação Fidelidade", status: "To Do", points: 0 },
-      { key: "FRONT-536", title: "BTG - Regra Propensos a Comprar", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-538", title: "BTG - Regra Recorrência", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-536", title: "BTG - Regra Propensos a Comprar", status: "Done", points: 3, sprint: 42 },
+      { key: "FRONT-538", title: "BTG - Regra Recorrência", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-539", title: "BTG - Regra Novos Cadastros", status: "In Progress", points: 3, sprint: 42 },
       { key: "FRONT-540", title: "BTG - Regra Envio por Data", status: "In Progress", points: 3, sprint: 42 },
       { key: "FRONT-541", title: "BTG - Regra de Busca", status: "In Progress", points: 3, sprint: 42 },
       { key: "FRONT-543", title: "BTG - Regra Lista de Desejos", status: "In Progress", points: 3, sprint: 42 },
       { key: "FRONT-546", title: "BTG - Regra Redução de Preços Similares", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-547", title: "BTG - Regra de Tendências", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-549", title: "BTG - Regra Avise-me", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-547", title: "BTG - Regra de Tendências", status: "Done", points: 3, sprint: 42 },
+      { key: "FRONT-549", title: "BTG - Regra Avise-me", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-550", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-570", title: "BTG - Réguas Consolidadas", status: "To Do", points: 3 },
       { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0, sprint: 37 },
@@ -644,7 +644,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 5 }, executed: { start: 3, end: 4 },
     flagged: true,
-    status: "em-andamento", progress: 75,
+    status: "em-andamento", progress: 88,
     owner: { name: "Renato Novaes", initials: "RN", color: "#9333ea" },
     storyPoints: 3,
     subtasks: [
@@ -653,7 +653,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-217", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV", status: "Done", points: 3, sprint: 39 },
       { key: "FRONT-390", title: "Visão única: Campos custom", status: "Done", points: 0, sprint: 39 },
       { key: "FRONT-585", title: "Visão Única de Clientes - Ajustar remoção de filtro", status: "Done", points: 0, sprint: 41 },
-      { key: "FRONT-636", title: "Investigar captação de leads na Visão Única de Clientes", status: "To Do", points: 0, sprint: 41 },
+      { key: "FRONT-636", title: "Investigar captação de leads na Visão Única de Clientes", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4067", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV (back)", status: "Done", points: 0, sprint: 40 },
       { key: "POS-4105", title: "Consolidar informação de LTV para exibição na Visão de Clientes", status: "To Do", points: 0, sprint: 42 },
     ],
@@ -940,7 +940,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Melhorias e evoluções",
     tags: ["platform2"],
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 17,
+    status: "no-prazo", progress: 25,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -948,7 +948,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-244", title: "Configuração de CI/CD frontend", status: "To Do", points: 0 },
       { key: "FRONT-298", title: "Documentação técnica de setup", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "To Do", points: 0 },
-      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "To Do", points: 0 },
+      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "In Progress", points: 0 },
       { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
     ],
   },
