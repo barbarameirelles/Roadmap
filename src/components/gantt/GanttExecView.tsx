@@ -148,15 +148,15 @@ export default function GanttExecView() {
           <div className="g-kpi-value blue g-tabular">{pctPlanned}%</div>
           <div className="g-kpi-sub">{plannedByToday.length} de {total} itens previstos para esta data</div>
         </div>
-        <div className="g-kpi accent-red">
-          <div className="g-kpi-label">% Entregue (fechados)</div>
-          <div className="g-kpi-value red g-tabular">{pctDelivered}%</div>
-          <div className="g-kpi-sub">{concluidosTotal} de {total} épicos 100% concluídos</div>
-        </div>
         <div className="g-kpi accent-green">
           <div className="g-kpi-label">Progresso médio</div>
           <div className="g-kpi-value green g-tabular">{avgProgressTotal}%</div>
           <div className="g-kpi-sub">média de evolução dos {total} épicos</div>
+        </div>
+        <div className="g-kpi accent-red">
+          <div className="g-kpi-label">% Entregue (fechados)</div>
+          <div className="g-kpi-value red g-tabular">{pctDelivered}%</div>
+          <div className="g-kpi-sub">{concluidosTotal} de {total} épicos 100% concluídos</div>
         </div>
         <div className="g-kpi accent-amber">
           <div className="g-kpi-label">Com atraso</div>
