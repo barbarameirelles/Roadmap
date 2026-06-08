@@ -454,7 +454,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-152",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 85,
+    status: "em-andamento", progress: 87,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 14,
     subtasks: [
@@ -490,6 +490,9 @@ export const FEATURES: Feature[] = [
       { key: "POS-3924",  title: "Segmentação de Indecisos", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4050",  title: "Segmentação dos Dados de Redução de Preços", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4051",  title: "Segmentação dos Dados de Novidades", status: "To Do", points: 3, sprint: 42 },
+      { key: "POS-4060",  title: "Segmentação Propensos a comprar", status: "Done", points: 0 },
+      { key: "POS-4061",  title: "Consolidação propensos a comprar", status: "Done", points: 3, sprint: 41 },
+      { key: "FRONT-536", title: "BTG - Regra Propensos a Comprar", status: "Done", points: 3, sprint: 42 },
     ],
   },
 
@@ -597,13 +600,11 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-524",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 6 }, executed: null,
-    status: "em-andamento", progress: 25,
+    status: "em-andamento", progress: 17,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 33,
     subtasks: [
       // Regras do segundo grupo (ainda não iniciadas)
-      { key: "POS-4060", title: "Segmentação Propensos a comprar", status: "Done", points: 0 },
-      { key: "POS-4061", title: "Consolidação propensos a comprar", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4062", title: "Segmentação Recorrência", status: "To Do", points: 0 },
       { key: "POS-4063", title: "Consolidação Recorrência", status: "In Progress", points: 0, sprint: 42 },
       { key: "POS-4075", title: "Segmentação Novos Cadastros", status: "To Do", points: 0 },
@@ -622,7 +623,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-4088", title: "Consolidação Avise-me", status: "To Do", points: 0 },
       { key: "POS-4089", title: "Segmentação Fidelidade", status: "To Do", points: 0 },
       { key: "POS-4090", title: "Consolidação Fidelidade", status: "To Do", points: 0 },
-      { key: "FRONT-536", title: "BTG - Regra Propensos a Comprar", status: "Done", points: 3, sprint: 42 },
       { key: "FRONT-538", title: "BTG - Regra Recorrência", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-539", title: "BTG - Regra Novos Cadastros", status: "In Progress", points: 3, sprint: 42 },
       { key: "FRONT-540", title: "BTG - Regra Envio por Data", status: "In Progress", points: 3, sprint: 42 },
