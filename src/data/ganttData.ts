@@ -346,6 +346,37 @@ export const FEATURES: Feature[] = [
   },
 
   {
+    id: "f10", jiraKey: "FRONT-360", jiraKeys: ["FRONT-360", "POS-3886"],
+    name: "Segmentador versão simplificada",
+    subtitle: "Segmentação básica de clientes",
+    epic: "2.0 Segmentador",
+    tags: ["platform2", "cdp"],
+    planned: { start: 1, end: 3 }, executed: { start: 1, end: 3 },
+    status: "concluido", progress: 100,
+    owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
+    storyPoints: 48,
+    subtasks: [
+      { key: "POS-3265",  title: "Discovery para viabilizar o Segmentador", status: "Done", points: 13, sprint: 33 },
+      { key: "POS-3538",  title: "Construção do back do segmentador", status: "Done", points: 13, sprint: 35 },
+      { key: "POS-3539",  title: "Estruturação de motor do segmentador - PARTE 1", status: "Done", points: 8, sprint: 35 },
+      { key: "POS-3711",  title: "Estruturação de motor do segmentador - PARTE 2", status: "Done", points: 5, sprint: 36 },
+      { key: "POS-3841",  title: "Ajustes segmentador", status: "Done", points: 0, sprint: 37 },
+      { key: "POS-3861",  title: "Ajustes adicionais segmentador", status: "Done", points: 0, sprint: 38 },
+      { key: "POS-3879",  title: "Consolidador e normalização de gêneros para o segmentador", status: "Done", points: 0, sprint: 38 },
+      { key: "POS-3885",  title: "Ajuste Segmentador - Audiência Pré Definida", status: "Done", points: 0, sprint: 38 },
+      { key: "POS-3900",  title: "Erro 400 - Segmentador", status: "Done", points: 0, sprint: 38 },
+      { key: "POS-3903",  title: "Listagem do segmentador não traz o total de clientes", status: "Done", points: 0, sprint: 38 },
+      { key: "POS-3927",  title: "Segmentador: critérios de origem com janela de tempo (back)", status: "Done", points: 5, sprint: 39 },
+      { key: "POS-3937",  title: "Segmentador - Ajustes pós validação", status: "Done", points: 3, sprint: 38 },
+      { key: "POS-4004",  title: "Segmentador - Alteração da rota de duplicação", status: "Done", points: 1, sprint: 39 },
+      { key: "POS-4023",  title: "Deploy segmentador", status: "Done", points: 0, sprint: 39 },
+      { key: "POS-4093",  title: "CDP - Erro ao estimar segmentação muito grande", status: "Done", points: 0, sprint: 40 },
+    ],
+  },
+
+
+  // ─── CDP ────────────────────────────────────────────────────────────────────
+  {
     id: "cdp-1", jiraKey: "CDP-1", jiraKeys: ["CDP-1", "FRONT-668", "POS-3304"],
     name: "Dados CDP",
     subtitle: "Estruturação e ingestão de dados na CDP",
@@ -380,34 +411,49 @@ export const FEATURES: Feature[] = [
     ],
   },
 
+
+  // ─── Q2 2026 ──────────────────────────────────────────────────────────────
   {
-    id: "f10", jiraKey: "FRONT-360", jiraKeys: ["FRONT-360", "POS-3886"],
-    name: "Segmentador versão simplificada",
-    subtitle: "Segmentação básica de clientes",
+    id: "f12", jiraKey: "FRONT-360", jiraKeys: ["FRONT-360", "POS-3886"],
+    name: "Segmentador com recursos equivalentes",
+    subtitle: "Segmentação avançada com paridade",
     epic: "2.0 Segmentador",
     tags: ["platform2", "cdp"],
-    planned: { start: 1, end: 3 }, executed: { start: 1, end: 3 },
+    planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
     status: "concluido", progress: 100,
     owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
-    storyPoints: 48,
+    storyPoints: 0,
     subtasks: [
-      { key: "POS-3265",  title: "Discovery para viabilizar o Segmentador", status: "Done", points: 13, sprint: 33 },
-      { key: "POS-3538",  title: "Construção do back do segmentador", status: "Done", points: 13, sprint: 35 },
-      { key: "POS-3539",  title: "Estruturação de motor do segmentador - PARTE 1", status: "Done", points: 8, sprint: 35 },
-      { key: "POS-3711",  title: "Estruturação de motor do segmentador - PARTE 2", status: "Done", points: 5, sprint: 36 },
-      { key: "POS-3841",  title: "Ajustes segmentador", status: "Done", points: 0, sprint: 37 },
-      { key: "POS-3861",  title: "Ajustes adicionais segmentador", status: "Done", points: 0, sprint: 38 },
-      { key: "POS-3879",  title: "Consolidador e normalização de gêneros para o segmentador", status: "Done", points: 0, sprint: 38 },
-      { key: "POS-3885",  title: "Ajuste Segmentador - Audiência Pré Definida", status: "Done", points: 0, sprint: 38 },
-      { key: "POS-3900",  title: "Erro 400 - Segmentador", status: "Done", points: 0, sprint: 38 },
-      { key: "POS-3903",  title: "Listagem do segmentador não traz o total de clientes", status: "Done", points: 0, sprint: 38 },
-      { key: "POS-3927",  title: "Segmentador: critérios de origem com janela de tempo (back)", status: "Done", points: 5, sprint: 39 },
-      { key: "POS-3937",  title: "Segmentador - Ajustes pós validação", status: "Done", points: 3, sprint: 38 },
-      { key: "POS-4004",  title: "Segmentador - Alteração da rota de duplicação", status: "Done", points: 1, sprint: 39 },
-      { key: "POS-4023",  title: "Deploy segmentador", status: "Done", points: 0, sprint: 39 },
-      { key: "POS-4093",  title: "CDP - Erro ao estimar segmentação muito grande", status: "Done", points: 0, sprint: 40 },
+      { key: "FRONT-12",  title: "Construção de Front do segmentador", status: "Done", points: 0, sprint: 35 },
+      { key: "FRONT-267", title: "Segmentador: critérios de origem com janela de tempo", status: "Done", points: 0, sprint: 39 },
+      { key: "FRONT-280", title: "Ajustes segmentador", status: "Done", points: 0, sprint: 37 },
+      { key: "FRONT-391", title: "Segmentador: Campos Custom", status: "Done", points: 0, sprint: 42 },
+      { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
+      { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
     ],
   },
+
+  {
+    id: "f13", jiraKey: "POS-3964", jiraKeys: ["POS-3964", "FRONT-361"],
+    name: "Visão de cliente com infos comportamentais",
+    subtitle: "Dados comportamentais e de compras",
+    epic: "2.0 Visão única do cliente",
+    tags: ["platform2", "cdp"],
+    planned: { start: 4, end: 5 }, executed: { start: 3, end: 4 },
+    status: "concluido", progress: 100,
+    owner: { name: "Renato Novaes", initials: "RN", color: "#9333ea" },
+    storyPoints: 3,
+    subtasks: [
+      { key: "FRONT-215", title: "Visão única do cliente: Origem do lead", status: "Done", points: 0, sprint: 38 },
+      { key: "FRONT-216", title: "Implementar aba Compras na visão do cliente", status: "Done", points: 0, sprint: 38 },
+      { key: "FRONT-217", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV", status: "Done", points: 3, sprint: 39 },
+      { key: "FRONT-390", title: "Visão única: Campos custom", status: "Done", points: 0, sprint: 39 },
+      { key: "FRONT-585", title: "Visão Única de Clientes - Ajustar remoção de filtro", status: "Done", points: 0, sprint: 41 },
+      { key: "FRONT-636", title: "Investigar captação de leads na Visão Única de Clientes", status: "Done", points: 0, sprint: 41 },
+      { key: "POS-4067", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV (back)", status: "Done", points: 0, sprint: 40 },
+    ],
+  },
+
 
   // ── BTG frente 1: Motor de recomendação ──────────────────────────────────
   {
@@ -446,7 +492,8 @@ export const FEATURES: Feature[] = [
     ],
   },
 
-  // ── BTG frente 2: Primeiro grupo de regras (prontas ou em andamento) ──────
+
+  // ── BTG frente 2: Primeiro grupo de regras ──────────────────────────────
   {
     id: "f11b", jiraKey: "FRONT-152",
     name: "BTG: Primeiro grupo de regras",
@@ -496,23 +543,49 @@ export const FEATURES: Feature[] = [
     ],
   },
 
+
+  // ── BTG frente 3: Segundo grupo de regras ───────────────────────────────
   {
-    id: "f12", jiraKey: "FRONT-360", jiraKeys: ["FRONT-360", "POS-3886"],
-    name: "Segmentador com recursos equivalentes",
-    subtitle: "Segmentação avançada com paridade",
-    epic: "2.0 Segmentador",
+    id: "f11c", jiraKey: "FRONT-524",
+    name: "BTG: Segundo grupo de regras",
+    subtitle: "Regras ainda não iniciadas",
+    epic: "2.0 BTG · FRONT-524",
     tags: ["platform2", "cdp"],
-    planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "concluido", progress: 100,
-    owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
-    storyPoints: 0,
+    planned: { start: 4, end: 6 }, executed: null,
+    status: "em-andamento", progress: 17,
+    owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
+    storyPoints: 33,
     subtasks: [
-      { key: "FRONT-12",  title: "Construção de Front do segmentador", status: "Done", points: 0, sprint: 35 },
-      { key: "FRONT-267", title: "Segmentador: critérios de origem com janela de tempo", status: "Done", points: 0, sprint: 39 },
-      { key: "FRONT-280", title: "Ajustes segmentador", status: "Done", points: 0, sprint: 37 },
-      { key: "FRONT-391", title: "Segmentador: Campos Custom", status: "Done", points: 0, sprint: 42 },
-      { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
-      { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
+      // Regras do segundo grupo (ainda não iniciadas)
+      { key: "POS-4062", title: "Segmentação Recorrência", status: "To Do", points: 0 },
+      { key: "POS-4063", title: "Consolidação Recorrência", status: "In Progress", points: 0, sprint: 42 },
+      { key: "POS-4075", title: "Segmentação Novos Cadastros", status: "To Do", points: 0 },
+      { key: "POS-4076", title: "Consolidação Novos Cadastros", status: "To Do", points: 0 },
+      { key: "POS-4077", title: "Segmentação Envio por Data", status: "To Do", points: 0 },
+      { key: "POS-4078", title: "Consolidação Envio por Data", status: "To Do", points: 0 },
+      { key: "POS-4079", title: "Segmentação Busca", status: "To Do", points: 0 },
+      { key: "POS-4080", title: "Consolidação Busca", status: "To Do", points: 0 },
+      { key: "POS-4081", title: "Segmentação Lista de Desejos", status: "To Do", points: 0 },
+      { key: "POS-4082", title: "Consolidação Lista de Desejos", status: "To Do", points: 0 },
+      { key: "POS-4083", title: "Segmentação Redução de Preços Similares", status: "To Do", points: 0 },
+      { key: "POS-4084", title: "Consolidação Redução de Preços Similares", status: "To Do", points: 0 },
+      { key: "POS-4085", title: "Segmentação Tendências", status: "To Do", points: 0 },
+      { key: "POS-4086", title: "Consolidação Tendências", status: "To Do", points: 0 },
+      { key: "POS-4087", title: "Segmentação Avise-me", status: "To Do", points: 0 },
+      { key: "POS-4088", title: "Consolidação Avise-me", status: "To Do", points: 0 },
+      { key: "POS-4089", title: "Segmentação Fidelidade", status: "To Do", points: 0 },
+      { key: "POS-4090", title: "Consolidação Fidelidade", status: "To Do", points: 0 },
+      { key: "FRONT-538", title: "BTG - Regra Recorrência", status: "To Do", points: 3, sprint: 42 },
+      { key: "FRONT-539", title: "BTG - Regra Novos Cadastros", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-540", title: "BTG - Regra Envio por Data", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-541", title: "BTG - Regra de Busca", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-543", title: "BTG - Regra Lista de Desejos", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-546", title: "BTG - Regra Redução de Preços Similares", status: "In Progress", points: 3, sprint: 42 },
+      { key: "FRONT-547", title: "BTG - Regra de Tendências", status: "Done", points: 3, sprint: 42 },
+      { key: "FRONT-549", title: "BTG - Regra Avise-me", status: "To Do", points: 3, sprint: 42 },
+      { key: "FRONT-550", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3, sprint: 42 },
+      { key: "FRONT-570", title: "BTG - Réguas Consolidadas", status: "To Do", points: 3 },
+      { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0, sprint: 37 },
     ],
   },
 
@@ -589,72 +662,8 @@ export const FEATURES: Feature[] = [
     ],
   },
 
-  // ── BTG frente 3: Segundo grupo de regras (não iniciadas) ─────────────────
-  {
-    id: "f11c", jiraKey: "FRONT-524",
-    name: "BTG: Segundo grupo de regras",
-    subtitle: "Regras ainda não iniciadas",
-    epic: "2.0 BTG · FRONT-524",
-    tags: ["platform2", "cdp"],
-    planned: { start: 4, end: 6 }, executed: null,
-    status: "em-andamento", progress: 17,
-    owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
-    storyPoints: 33,
-    subtasks: [
-      // Regras do segundo grupo (ainda não iniciadas)
-      { key: "POS-4062", title: "Segmentação Recorrência", status: "To Do", points: 0 },
-      { key: "POS-4063", title: "Consolidação Recorrência", status: "In Progress", points: 0, sprint: 42 },
-      { key: "POS-4075", title: "Segmentação Novos Cadastros", status: "To Do", points: 0 },
-      { key: "POS-4076", title: "Consolidação Novos Cadastros", status: "To Do", points: 0 },
-      { key: "POS-4077", title: "Segmentação Envio por Data", status: "To Do", points: 0 },
-      { key: "POS-4078", title: "Consolidação Envio por Data", status: "To Do", points: 0 },
-      { key: "POS-4079", title: "Segmentação Busca", status: "To Do", points: 0 },
-      { key: "POS-4080", title: "Consolidação Busca", status: "To Do", points: 0 },
-      { key: "POS-4081", title: "Segmentação Lista de Desejos", status: "To Do", points: 0 },
-      { key: "POS-4082", title: "Consolidação Lista de Desejos", status: "To Do", points: 0 },
-      { key: "POS-4083", title: "Segmentação Redução de Preços Similares", status: "To Do", points: 0 },
-      { key: "POS-4084", title: "Consolidação Redução de Preços Similares", status: "To Do", points: 0 },
-      { key: "POS-4085", title: "Segmentação Tendências", status: "To Do", points: 0 },
-      { key: "POS-4086", title: "Consolidação Tendências", status: "To Do", points: 0 },
-      { key: "POS-4087", title: "Segmentação Avise-me", status: "To Do", points: 0 },
-      { key: "POS-4088", title: "Consolidação Avise-me", status: "To Do", points: 0 },
-      { key: "POS-4089", title: "Segmentação Fidelidade", status: "To Do", points: 0 },
-      { key: "POS-4090", title: "Consolidação Fidelidade", status: "To Do", points: 0 },
-      { key: "FRONT-538", title: "BTG - Regra Recorrência", status: "To Do", points: 3, sprint: 42 },
-      { key: "FRONT-539", title: "BTG - Regra Novos Cadastros", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-540", title: "BTG - Regra Envio por Data", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-541", title: "BTG - Regra de Busca", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-543", title: "BTG - Regra Lista de Desejos", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-546", title: "BTG - Regra Redução de Preços Similares", status: "In Progress", points: 3, sprint: 42 },
-      { key: "FRONT-547", title: "BTG - Regra de Tendências", status: "Done", points: 3, sprint: 42 },
-      { key: "FRONT-549", title: "BTG - Regra Avise-me", status: "To Do", points: 3, sprint: 42 },
-      { key: "FRONT-550", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3, sprint: 42 },
-      { key: "FRONT-570", title: "BTG - Réguas Consolidadas", status: "To Do", points: 3 },
-      { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0, sprint: 37 },
-    ],
-  },
 
-  {
-    id: "f13", jiraKey: "POS-3964", jiraKeys: ["POS-3964", "FRONT-361"],
-    name: "Visão de cliente com infos comportamentais",
-    subtitle: "Dados comportamentais e de compras",
-    epic: "2.0 Visão única do cliente",
-    tags: ["platform2", "cdp"],
-    planned: { start: 4, end: 5 }, executed: { start: 3, end: 4 },
-    status: "concluido", progress: 100,
-    owner: { name: "Renato Novaes", initials: "RN", color: "#9333ea" },
-    storyPoints: 3,
-    subtasks: [
-      { key: "FRONT-215", title: "Visão única do cliente: Origem do lead", status: "Done", points: 0, sprint: 38 },
-      { key: "FRONT-216", title: "Implementar aba Compras na visão do cliente", status: "Done", points: 0, sprint: 38 },
-      { key: "FRONT-217", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV", status: "Done", points: 3, sprint: 39 },
-      { key: "FRONT-390", title: "Visão única: Campos custom", status: "Done", points: 0, sprint: 39 },
-      { key: "FRONT-585", title: "Visão Única de Clientes - Ajustar remoção de filtro", status: "Done", points: 0, sprint: 41 },
-      { key: "FRONT-636", title: "Investigar captação de leads na Visão Única de Clientes", status: "Done", points: 0, sprint: 41 },
-      { key: "POS-4067", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV (back)", status: "Done", points: 0, sprint: 40 },
-    ],
-  },
-
+  // ─── CDP – Enriquecimento ────────────────────────────────────────────────
   {
     id: "cdp-2a", jiraKey: "POS-4158", jiraKeys: ["POS-4158", "FRONT-692"],
     name: "Trazer dados do Commerce para CDP",
@@ -718,6 +727,8 @@ export const FEATURES: Feature[] = [
     ],
   },
 
+
+  // ─── Q3 2026 ──────────────────────────────────────────────────────────────
   {
     id: "f17", jiraKey: "FRONT-675", jiraKeys: ["FRONT-675", "POS-4134"],
     name: "Envio de e-mails nível equivalente (IP dedicado)",
@@ -765,7 +776,6 @@ export const FEATURES: Feature[] = [
     subtasks: [],
   },
 
-
   {
     id: "f29", jiraKey: "CDP-WAU",
     name: "Adequação da Wake U na CDP",
@@ -779,6 +789,8 @@ export const FEATURES: Feature[] = [
     subtasks: [],
   },
 
+
+  // ─── CDP – Recomendação / Base Analítica ─────────────────────────────────
   {
     id: "cdp-3", jiraKey: "CDP-3",
     name: "Disponibilizar recomendação para o commerce",
@@ -812,6 +824,8 @@ export const FEATURES: Feature[] = [
     ],
   },
 
+
+  // ─── Q4 2026 ──────────────────────────────────────────────────────────────
   {
     id: "f19", jiraKey: "FRONT-677", jiraKeys: ["FRONT-677", "POS-4121", "FRONT-627"],
     name: "Envios Transacionais",
@@ -878,6 +892,23 @@ export const FEATURES: Feature[] = [
     ],
   },
 
+
+  // ─── Audience (CDP) ── CMS ────────────────────────────────────────────────
+  {
+    id: "f31", jiraKey: "CMS-AUD",
+    name: "Audiências no CMS Commerce",
+    subtitle: "Segmentos de Audience (CDP) disponíveis no CMS",
+    epic: "CMS Commerce",
+    project: "cdp",
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
+
+  // ─── Q1 2027 ──────────────────────────────────────────────────────────────
   {
     id: "f22", jiraKey: "POS-4122", jiraKeys: ["POS-4122", "FRONT-677", "FRONT-598", "FRONT-678"],
     name: "Criação de Workflow (Marketing Automation)",
@@ -916,21 +947,7 @@ export const FEATURES: Feature[] = [
   },
 
 
-  // ─── Audience (CDP) ── CMS ────────────────────────────────────────────────
-  {
-    id: "f31", jiraKey: "CMS-AUD",
-    name: "Audiências no CMS Commerce",
-    subtitle: "Segmentos de Audience (CDP) disponíveis no CMS",
-    epic: "CMS Commerce",
-    project: "cdp",
-    planned: { start: 9, end: 11 }, executed: null,
-    status: "no-prazo", progress: 0,
-    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
-    storyPoints: 0,
-    subtasks: [],
-  },
-
-  // ─── CDP ──────────────────────────────────────────────────────────────────
+  // ─── Evoluções ───────────────────────────────────────────────────────────
   {
     id: "f30", jiraKey: "FRONT-157",
     name: "Evoluções e melhorias",
@@ -954,5 +971,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-592", title: "Tela de atributos personalizados", status: "In Progress", points: 0, sprint: 41 },
     ],
   },
+
 
 ];
