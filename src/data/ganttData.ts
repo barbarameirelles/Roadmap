@@ -555,7 +555,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-438", title: "Home - card de Receita Total e coluna Receita em Performance", status: "Done", points: 0, sprint: 42 },
       { key: "FRONT-443", title: "Receita no card Performance por Canal (E-mail e WhatsApp)", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-448", title: "Colocar receita e exportar CSV nas campanhas", status: "To Do", points: 0, sprint: 42 },
-      { key: "FRONT-592", title: "Tela de atributos personalizados", status: "In Progress", points: 0, sprint: 41 },
       { key: "FRONT-628", title: "Relatório de envios transacionais", status: "To Do", points: 0 },
       { key: "FRONT-629", title: "Relatórios de performance", status: "To Do", points: 0 },
       { key: "FRONT-630", title: "Relatório de pessoas", status: "To Do", points: 0 },
@@ -940,7 +939,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 19,
+    status: "no-prazo", progress: 22,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -952,6 +951,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
       { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
+      { key: "FRONT-592", title: "Tela de atributos personalizados", status: "In Progress", points: 0, sprint: 41 },
     ],
   },
 
