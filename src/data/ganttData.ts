@@ -643,8 +643,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Visão única do cliente",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 5 }, executed: { start: 3, end: 4 },
-    flagged: true,
-    status: "em-andamento", progress: 88,
+    status: "concluido", progress: 100,
     owner: { name: "Renato Novaes", initials: "RN", color: "#9333ea" },
     storyPoints: 3,
     subtasks: [
@@ -655,7 +654,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-585", title: "Visão Única de Clientes - Ajustar remoção de filtro", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-636", title: "Investigar captação de leads na Visão Única de Clientes", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4067", title: "Visão única de Clientes: filtros multi-seleção, colunas Origem e LTV (back)", status: "Done", points: 0, sprint: 40 },
-      { key: "POS-4105", title: "Consolidar informação de LTV para exibição na Visão de Clientes", status: "To Do", points: 0, sprint: 42 },
     ],
   },
 
@@ -678,6 +676,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4180", title: "[Commerce] Enriquecer dados de pedido buscando informações no ETL (Jimmy)", status: "To Do", points: 0 },
       { key: "POS-4181", title: "[Commerce] Consumir API de produtos do commerce (Barreto)", status: "To Do", points: 0 },
       { key: "FRONT-695", title: "[Commerce] Front: Exibir dados Commerce na visão do cliente", status: "To Do", points: 0 },
+      { key: "POS-4105",  title: "Consolidar informação de LTV para exibição na Visão de Clientes", status: "To Do", points: 0, sprint: 42 },
     ],
   },
 
