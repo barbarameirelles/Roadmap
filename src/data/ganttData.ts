@@ -107,6 +107,7 @@ export interface Feature {
   evolution?: { start: number; end: number };
   milestone?: { month: number; label: string };
   flagged?: boolean;
+  excludeFromStats?: boolean;
   status: FeatureStatus;
   progress: number;
   owner: { name: string; initials: string; color: string };
@@ -939,6 +940,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Melhorias incrementais e evoluções contínuas",
     epic: "2.0 Melhorias e evoluções",
     tags: ["platform2"],
+    excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
     status: "no-prazo", progress: 25,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },

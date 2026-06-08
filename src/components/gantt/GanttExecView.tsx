@@ -59,10 +59,13 @@ export default function GanttExecView() {
     return FEATURES;
   }, [scope]);
 
-  const total = scopeFeatures.length;
+  // Exclui épicos de melhoria contínua dos KPIs (ex: Evoluções e melhorias)
+  const statsFeatures = useMemo(() => scopeFeatures.filter(f => !f.excludeFromStats), [scopeFeatures]);
+
+  const total = statsFeatures.length;
 
   const perQ = useMemo(() => QUARTERS.map(q => {
-    const items       = scopeFeatures.filter(f => f.planned.start >= q.start && f.planned.start <= q.end);
+    const items       = statsFeatures.filter(f => f.planned.start >= q.start && f.planned.start <= q.end);
     const concluidos  = items.filter(f => f.status === "concluido").length;
     const atrasados   = items.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
     const emAndamento = items.filter(f => f.status === "em-andamento").length;
@@ -71,20 +74,20 @@ export default function GanttExecView() {
       ? Math.round(items.reduce((s, f) => s + f.progress, 0) / items.length)
       : 0;
     const tag          = qTagFor(q.start, q.end);
-    const hasMilestone = scopeFeatures.some(
+    const hasMilestone = statsFeatures.some(
       f => f.milestone && f.milestone.month >= q.start && f.milestone.month <= q.end
     );
     return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, planejados, avgProgress, tag, hasMilestone };
-  }), [scopeFeatures]);
+  }), [statsFeatures]);
 
-  const plannedByToday   = scopeFeatures.filter(f => f.planned.end <= TODAY_MONTH);
-  const concluidosTotal  = scopeFeatures.filter(f => f.status === "concluido").length;
-  const atrasadosCount   = scopeFeatures.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
-  const emAndamentoTotal = scopeFeatures.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
+  const plannedByToday   = statsFeatures.filter(f => f.planned.end <= TODAY_MONTH);
+  const concluidosTotal  = statsFeatures.filter(f => f.status === "concluido").length;
+  const atrasadosCount   = statsFeatures.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
+  const emAndamentoTotal = statsFeatures.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
   const pctPlanned       = total > 0 ? Math.round((plannedByToday.length / total) * 100) : 0;
   const pctDelivered     = total > 0 ? Math.round((concluidosTotal / total) * 100) : 0;
-  const avgProgressTotal = total > 0 ? Math.round(scopeFeatures.reduce((s, f) => s + f.progress, 0) / total) : 0;
-  const milestone        = scope !== "cdp" ? scopeFeatures.find(f => f.milestone) : undefined;
+  const avgProgressTotal = total > 0 ? Math.round(statsFeatures.reduce((s, f) => s + f.progress, 0) / total) : 0;
+  const milestone        = scope !== "cdp" ? statsFeatures.find(f => f.milestone) : undefined;
 
   const todayLabel = `${MONTHS[TODAY_MONTH].label}/${MONTHS[TODAY_MONTH].year}`;
 
