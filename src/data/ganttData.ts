@@ -728,14 +728,12 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: null,
-    status: "em-andamento", progress: 4,
+    status: "em-andamento", progress: 5,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#2563eb" },
     storyPoints: 4,
     subtasks: [
       { key: "POS-3723",  title: "Inserção de HTML externo para template de e-mail (back)", status: "To Do", points: 3, sprint: 42 },
-      { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
       { key: "POS-3263",  title: "Template de Utility do Meta", status: "To Do", points: 3, sprint: 42 },
-      { key: "POS-3138",  title: "Possibilitar envios transacionais do commerce", status: "To Do", points: 8 },
       { key: "FRONT-683", title: "Segmentos Salvos em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43 },
       { key: "FRONT-684", title: "Audiências Pré-definidas em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43 },
       { key: "FRONT-685", title: "Listas em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43 },
@@ -830,7 +828,9 @@ export const FEATURES: Feature[] = [
     status: "no-prazo", progress: 0,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#2563eb" },
     storyPoints: 2,
-    subtasks: [],
+    subtasks: [
+      { key: "POS-3138", title: "Possibilitar envios transacionais do commerce", status: "To Do", points: 8 },
+    ],
   },
 
   {
@@ -942,7 +942,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 25,
+    status: "no-prazo", progress: 21,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -952,6 +952,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "To Do", points: 0 },
       { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "In Progress", points: 0 },
       { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
+      { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
     ],
   },
 
