@@ -503,7 +503,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Segmentador",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 75,
+    status: "concluido", progress: 100,
     owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
     storyPoints: 0,
     subtasks: [
@@ -513,7 +513,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-391", title: "Segmentador: Campos Custom", status: "Done", points: 0, sprint: 42 },
       { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
       { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
-      { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
     ],
   },
 
@@ -941,7 +940,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 21,
+    status: "no-prazo", progress: 19,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -952,6 +951,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "In Progress", points: 0 },
       { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "To Do", points: 0 },
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
+      { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
     ],
   },
 
