@@ -595,8 +595,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Relatórios, receita e exportação CSV",
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
-    planned: { start: 3, end: 7 }, executed: { start: 3, end: 4 },
-    milestone: { month: 5, label: "Disponibilização de receita e exportação de dados" },
+    planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
     flagged: true,
     status: "em-andamento", progress: 31,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
@@ -656,9 +655,23 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-600", title: "Importação de XML", status: "To Do", points: 3 },
       { key: "FRONT-601", title: "Integrações via API", status: "To Do", points: 3 },
       { key: "FRONT-602", title: "Google Drive", status: "To Do", points: 3 },
-      { key: "FRONT-603", title: "Integração VTEX", status: "To Do", points: 3 },
       { key: "FRONT-604", title: "Integração Tray Commerce", status: "To Do", points: 3 },
       { key: "FRONT-605", title: "Parametrização", status: "To Do", points: 3 },
+    ],
+  },
+
+  {
+    id: "f21b", jiraKey: "FRONT-603",
+    name: "Integração com VTEX",
+    subtitle: "Conexão nativa com a plataforma VTEX",
+    epic: "2.0 Integrações",
+    tags: ["platform2"],
+    planned: { start: 6, end: 8 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
+    storyPoints: 0,
+    subtasks: [
+      { key: "FRONT-603", title: "Integração VTEX", status: "To Do", points: 3 },
     ],
   },
 
@@ -769,7 +782,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Testes de variação para campanhas e conteúdos",
     epic: "2.0 Teste A/B",
     tags: ["platform2"],
-    planned: { start: 6, end: 8 }, executed: null,
+    planned: { start: 9, end: 11 }, executed: null,
     status: "no-prazo", progress: 0,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#059669" },
     storyPoints: 0,
@@ -789,6 +802,32 @@ export const FEATURES: Feature[] = [
     subtasks: [],
   },
 
+
+  {
+    id: "f33", jiraKey: "",
+    name: "Disponibilização de receita e exportação de dados",
+    subtitle: "Receita e exportação CSV nas campanhas",
+    epic: "2.0 Dados e Relatórios",
+    tags: ["platform2"],
+    planned: { start: 6, end: 8 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
+  {
+    id: "f32", jiraKey: "",
+    name: "Integração Omni",
+    subtitle: "Integração omnichannel",
+    epic: "2.0 Integrações",
+    tags: ["platform2"],
+    planned: { start: 6, end: 8 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
 
   // ─── CDP – Recomendação / Base Analítica ─────────────────────────────────
   {
@@ -900,7 +939,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Segmentos de Audience (CDP) disponíveis no CMS",
     epic: "CMS Commerce",
     project: "cdp",
-    planned: { start: 9, end: 11 }, executed: null,
+    planned: { start: 6, end: 8 }, executed: null,
     status: "no-prazo", progress: 0,
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
