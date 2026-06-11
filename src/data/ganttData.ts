@@ -597,7 +597,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
     flagged: true,
-    status: "em-andamento", progress: 31,
+    status: "no-prazo", progress: 31,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 13,
     subtasks: [
@@ -634,7 +634,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
     flagged: true,
-    status: "em-andamento", progress: 14,
+    status: "no-prazo", progress: 14,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 6,
     subtasks: [
@@ -671,7 +671,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Ingestão de dados de Commerce na CDP",
     epic: "CDP",
     project: "cdp",
-    planned: { start: 5, end: 7 }, executed: null,
+    planned: { start: 5, end: 6 }, executed: null,
     status: "no-prazo", progress: 0,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
