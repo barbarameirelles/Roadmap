@@ -1,4 +1,4 @@
-type Tab = "roadmap" | "exec" | "kanban" | "sprint";
+type Tab = "roadmap" | "exec" | "kanban" | "sprint" | "timeline";
 
 interface Props {
   activeTab: Tab;
@@ -47,12 +47,30 @@ function SprintIcon() {
   );
 }
 
+function TimelineIcon() {
+  return (
+    <svg className="g-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <circle cx="7"  cy="12" r="2" fill="currentColor" stroke="none" />
+      <circle cx="13" cy="12" r="2" fill="currentColor" stroke="none" />
+      <circle cx="19" cy="12" r="2" fill="currentColor" stroke="none" />
+      <line x1="7"  y1="12" x2="7"  y2="7"  />
+      <line x1="13" y1="12" x2="13" y2="17" />
+      <line x1="19" y1="12" x2="19" y2="7"  />
+      <rect x="4"  y="4"  width="6" height="3" rx="1" />
+      <rect x="10" y="17" width="6" height="3" rx="1" />
+      <rect x="16" y="4"  width="6" height="3" rx="1" />
+    </svg>
+  );
+}
+
 export default function GanttTopbar({ activeTab, onTab }: Props) {
   const TABS: { id: Tab; title: string; sub: string; Icon: () => JSX.Element }[] = [
-    { id: "roadmap", title: "Roadmap",        sub: "Visualização mensal do projeto",   Icon: RoadmapIcon },
-    { id: "exec",    title: "Visão Executiva", sub: "% planejado vs % entregue",        Icon: ExecIcon    },
-    { id: "kanban",  title: "Kanban",          sub: "To do · In progress · Done",       Icon: KanbanIcon  },
-    { id: "sprint",  title: "Sprints",         sub: "Entregas por sprint",               Icon: SprintIcon  },
+    { id: "roadmap",  title: "Roadmap",        sub: "Visualização mensal do projeto",   Icon: RoadmapIcon  },
+    { id: "exec",     title: "Visão Executiva", sub: "% planejado vs % entregue",        Icon: ExecIcon     },
+    { id: "timeline", title: "Timeline",        sub: "Entregas em linha do tempo",        Icon: TimelineIcon },
+    { id: "kanban",   title: "Kanban",          sub: "To do · In progress · Done",       Icon: KanbanIcon   },
+    { id: "sprint",   title: "Sprints",         sub: "Entregas por sprint",               Icon: SprintIcon   },
   ];
 
   return (

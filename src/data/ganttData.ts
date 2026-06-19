@@ -200,7 +200,7 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f3", jiraKey: "FRONT-364",
+    id: "f3", jiraKey: "FRONT-364", jiraKeys: ["FRONT-364", "POS-2892"],
     name: "On site",
     subtitle: "Pop-ups e banners no site",
     epic: "2.0 On Site",
@@ -377,14 +377,14 @@ export const FEATURES: Feature[] = [
 
   // ─── CDP ────────────────────────────────────────────────────────────────────
   {
-    id: "cdp-1", jiraKey: "CDP-1", jiraKeys: ["CDP-1", "FRONT-668", "POS-3304"],
+    id: "cdp-1", jiraKey: "FRONT-668", jiraKeys: ["FRONT-668", "POS-3304"],
     name: "Dados CDP",
     subtitle: "Estruturação e ingestão de dados na CDP",
     epic: "CDP",
     project: "cdp",
     tags: ["platform2"],
-    planned: { start: 0, end: 7 }, executed: { start: 0, end: 4 },
-    status: "em-andamento", progress: 70,
+    planned: { start: 3, end: 6 }, executed: { start: 0, end: 4 },
+    status: "em-andamento", progress: 55,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 24,
     subtasks: [
@@ -398,7 +398,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4116", title: "Obter profile por ID", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4129", title: "Consolidar dados de Campanhas", status: "In Progress", points: 0, sprint: 41 },
       { key: "POS-4130", title: "Consolidar Compras", status: "Done", points: 0, sprint: 41 },
-      { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "Done", points: 0, sprint: 41 },
+      { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "In Progress", points: 0, sprint: 41 },
       { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "In Progress", points: 0, sprint: 41 },
       { key: "POS-4161", title: "[CDP] Testar e validar contrato feito pelo Dib", status: "To Do", points: 0 },
       { key: "POS-4162", title: "[CDP] Back: Listagem de profiles na API da CDP", status: "Done", points: 0 },
@@ -531,7 +531,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-537", title: "BTG - Regra Reconquista", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-542", title: "BTG - Regra de Indecisos", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-544", title: "BTG - Regra de Novidades", status: "Done", points: 0, sprint: 41 },
-      { key: "FRONT-545", title: "BTG - Regra Redução de Preços", status: "To Do", points: 0, sprint: 41 },
+      { key: "FRONT-545", title: "BTG - Regra Redução de Preços", status: "In Progress", points: 0, sprint: 41 },
       { key: "FRONT-221", title: "BTG - Regra de Aniversário", status: "To Do", points: 0, sprint: 42 },
       { key: "POS-3770",  title: "Construção das regras: Navegações e abandono de carrinho", status: "In Progress", points: 5, sprint: 37 },
       { key: "POS-3924",  title: "Segmentação de Indecisos", status: "Done", points: 3, sprint: 41 },
@@ -597,7 +597,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
     flagged: true,
-    status: "no-prazo", progress: 31,
+    status: "no-prazo", progress: 32,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 13,
     subtasks: [
@@ -611,7 +611,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-3300",  title: "Integração GA4 com XP", status: "Done", points: 0, sprint: 33 },
       { key: "POS-3301",  title: "Integração GA4 - Uso de dados para relatórios", status: "Done", points: 3, sprint: 33 },
       { key: "POS-4039",  title: "Criar tabela com dados de Receita das campanhas", status: "In Progress", points: 0, sprint: 39 },
-      { key: "FRONT-18",  title: "Integração GA4 (frontend)", status: "Done", points: 0, sprint: 38 },
+      { key: "FRONT-18",  title: "Integração GA4 (frontend)", status: "In Progress", points: 0, sprint: 38 },
       { key: "FRONT-367", title: "Criação de relatório de campanhas automáticas", status: "To Do", points: 0 },
       { key: "FRONT-368", title: "Criação de relatório de campanhas pontuais", status: "To Do", points: 0 },
       { key: "FRONT-382", title: "Matriz RFV", status: "To Do", points: 0 },
@@ -648,7 +648,7 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f21b", jiraKey: "FRONT-603",
+    id: "f21b", jiraKey: "",
     name: "Integração com VTEX",
     subtitle: "Conexão nativa com a plataforma VTEX",
     epic: "2.0 Integrações",
@@ -659,6 +659,7 @@ export const FEATURES: Feature[] = [
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
+      { key: "POS-3264",  title: "Discovery Integração com VTEX", status: "To Do", points: 0 },
       { key: "FRONT-603", title: "Integração VTEX", status: "To Do", points: 3 },
     ],
   },
@@ -672,7 +673,7 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 6 }, executed: null,
-    status: "no-prazo", progress: 0,
+    status: "em-andamento", progress: 0,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -680,9 +681,9 @@ export const FEATURES: Feature[] = [
       { key: "POS-4176", title: "[Commerce] Aumentar ingestão de eventos", status: "To Do", points: 0 },
       { key: "POS-4177", title: "[Commerce] Definir o que deverá ser consolidado (Sávio)", status: "To Do", points: 0 },
       { key: "POS-4178", title: "[Commerce] Back: Ju cadastra a regra e irá refletir no front", status: "To Do", points: 0 },
-      { key: "POS-4179", title: "[Commerce] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
       { key: "POS-4180", title: "[Commerce] Enriquecer dados de pedido buscando informações no ETL (Jimmy)", status: "To Do", points: 0 },
       { key: "POS-4181", title: "[Commerce] Consumir API de produtos do commerce (Barreto)", status: "To Do", points: 0 },
+      { key: "POS-4249", title: "Ingerir dados de commerce por webhook", status: "To Do", points: 0 },
       { key: "FRONT-695", title: "[Commerce] Front: Exibir dados Commerce na visão do cliente", status: "To Do", points: 0 },
       { key: "POS-4105",  title: "Consolidar informação de LTV para exibição na Visão de Clientes", status: "To Do", points: 0, sprint: 42 },
     ],
@@ -695,17 +696,18 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 6, end: 7 }, executed: null,
-    status: "no-prazo", progress: 0,
+    status: "em-andamento", progress: 12,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
-      { key: "POS-4170", title: "[OMS] Definir com Felipe quais dados serão enviados via API do Dib", status: "To Do", points: 0 },
+      { key: "POS-4170", title: "[Loja física + commerce] Definir quais dados serão enviados via API do Dib", status: "Done", points: 0 },
       { key: "POS-4171", title: "[OMS] Back: Adequação de contrato da ingestão dos dados", status: "To Do", points: 0 },
-      { key: "POS-4172", title: "[OMS] Definir o que deverá ser consolidado (Sávio)", status: "To Do", points: 0 },
-      { key: "POS-4173", title: "[OMS] Back: Ju cadastra a regra e irá refletir no front", status: "To Do", points: 0 },
+      { key: "POS-4172", title: "[OMS/Loja física] Definir o que deverá ser consolidado", status: "To Do", points: 0 },
+      { key: "POS-4173", title: "[OMS/loja física] Back: Cadastrar as regras no segmentador", status: "To Do", points: 0 },
       { key: "POS-4174", title: "[OMS] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
-      { key: "FRONT-694", title: "[OMS] Front: Exibir dados OMS na visão do cliente", status: "To Do", points: 0 },
+      { key: "FRONT-694", title: "[OMS] Front: Exibir dados loja física na visão do cliente", status: "To Do", points: 0 },
       { key: "FRONT-626", title: "Trazer dados de loja física", status: "To Do", points: 0 },
+      { key: "FRONT-726", title: "Trazer dados de loja física e do commerce para a visão do cliente", status: "In Progress", points: 0 },
     ],
   },
 
@@ -716,15 +718,16 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 5 }, executed: null,
-    status: "no-prazo", progress: 0,
+    status: "em-andamento", progress: 0,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
-      { key: "POS-4182", title: "[Segmentador Commerce] Disponibilizar tela de segmentação no admin do Commerce", status: "To Do", points: 0 },
       { key: "POS-4183", title: "[Segmentador Commerce] Definir processo de onboarding: acesso, cadastro e permissões", status: "To Do", points: 0 },
-      { key: "POS-4184", title: "[Segmentador Commerce] Definir primeiros casos de uso para primeira entrega", status: "To Do", points: 0 },
+      { key: "POS-4248", title: "Mudança de autenticação da API para usar o keycloak do commerce", status: "To Do", points: 0 },
       { key: "FRONT-696", title: "[Segmentador Commerce] Front: Implementar autenticação específica", status: "To Do", points: 0 },
       { key: "FRONT-697", title: "[Segmentador Commerce] Front: Suprimir menu e header do segmentador", status: "To Do", points: 0 },
+      { key: "FRONT-710", title: "Segmentador - Ajustar réguas automáticas", status: "In Progress", points: 0 },
+      { key: "FRONT-736", title: "Autenticação para segmentador no commerce", status: "In Progress", points: 0 },
     ],
   },
 
@@ -792,13 +795,13 @@ export const FEATURES: Feature[] = [
 
 
   {
-    id: "f33", jiraKey: "",
+    id: "f33", jiraKey: "FRONT-749",
     name: "Disponibilização de receita e exportação de dados",
     subtitle: "Receita e exportação CSV nas campanhas",
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: null,
-    status: "no-prazo", progress: 0,
+    status: "em-andamento", progress: 15,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -811,8 +814,9 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-407", title: "Exportação de Relatórios CSV: Envios Automáticos", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-419", title: "Exportação de Relatórios CSV: Segmentos", status: "To Do", points: 0, sprint: 43 },
       { key: "FRONT-438", title: "Home - card de Receita Total e coluna Receita em Performance", status: "Done", points: 0, sprint: 42 },
-      { key: "FRONT-443", title: "Receita no card Performance por Canal (E-mail e WhatsApp)", status: "To Do", points: 0, sprint: 42 },
+      { key: "FRONT-443", title: "Receita no card Performance por Canal (E-mail e WhatsApp)", status: "In Progress", points: 0, sprint: 42 },
       { key: "FRONT-448", title: "Colocar receita e exportar CSV nas campanhas", status: "To Do", points: 0, sprint: 42 },
+      { key: "FRONT-750", title: "Dados nao estao refletindo na campanha", status: "To Do", points: 0 },
       { key: "POS-4217",  title: "Home - card de Receita Total e coluna Receita em Performance de Campanhas", status: "To Do", points: 0 },
     ],
   },
@@ -823,7 +827,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Integração omnichannel",
     epic: "2.0 Integrações",
     tags: ["platform2"],
-    planned: { start: 6, end: 8 }, executed: null,
+    planned: { start: 9, end: 11 }, executed: null,
     status: "no-prazo", progress: 0,
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
@@ -867,7 +871,7 @@ export const FEATURES: Feature[] = [
 
   // ─── Q4 2026 ──────────────────────────────────────────────────────────────
   {
-    id: "f19", jiraKey: "FRONT-677", jiraKeys: ["FRONT-677", "POS-4121", "FRONT-627"],
+    id: "f19", jiraKey: "POS-4121", jiraKeys: ["POS-4121", "FRONT-627"],
     name: "Envios Transacionais",
     subtitle: "Disparos automáticos pós-evento",
     epic: "2.0 Envios Transacionais",
@@ -913,7 +917,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Automação de fluxos e envios",
     epic: "2.0 Automatizador",
     tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: null,
+    planned: { start: 12, end: 14 }, executed: null,
     status: "no-prazo", progress: 5,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#0891b2" },
     storyPoints: 8,
@@ -950,7 +954,7 @@ export const FEATURES: Feature[] = [
 
   // ─── Q1 2027 ──────────────────────────────────────────────────────────────
   {
-    id: "f22", jiraKey: "POS-4122", jiraKeys: ["POS-4122", "FRONT-677", "FRONT-598", "FRONT-678"],
+    id: "f22", jiraKey: "POS-4122", jiraKeys: ["POS-4122", "FRONT-598"],
     name: "Criação de Workflow (Marketing Automation)",
     subtitle: "Automação de jornadas de marketing",
     epic: "2.0 Workflow",
@@ -1009,6 +1013,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
       { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
       { key: "FRONT-592", title: "Tela de atributos personalizados", status: "In Progress", points: 0, sprint: 41 },
+      { key: "FRONT-725", title: "Voltar com as telas de visão de clientes para produção", status: "To Do", points: 0 },
+      { key: "FRONT-215", title: "Visão única do cliente: Origem do lead", status: "In Progress", points: 0 },
     ],
   },
 

@@ -28,7 +28,7 @@ export const CDP_EPICS: CDPEpic[] = [
     name: "Estruturação da CDP",
     planned: { start: 0, end: 3 },
     status: "em-andamento",
-    progress: 12,
+    progress: 55,
     subitems: [],
   },
   {
@@ -45,12 +45,13 @@ export const CDP_EPICS: CDPEpic[] = [
         status: "em-andamento",
         progress: 0,
       },
+
       {
         id: "cdp-2-2",
         name: "Trazer dados de Loja física",
         planned: { start: 5, end: 7 },
-        status: "no-prazo",
-        progress: 0,
+        status: "em-andamento",
+        progress: 12,
       },
     ],
   },
@@ -66,7 +67,7 @@ export const CDP_EPICS: CDPEpic[] = [
     id: "cdp-4",
     name: "Disponibilizar segmentador para o commerce",
     planned: { start: 8, end: 12 },
-    status: "no-prazo",
+    status: "em-andamento",
     progress: 0,
     subitems: [],
   },
