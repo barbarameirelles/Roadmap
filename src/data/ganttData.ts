@@ -1,6 +1,6 @@
 // Roadmap data — épicos 2.0 · Q1 2026 → Q1 2027
 // Months are 0-indexed from Jan 2026 (month 0 = Jan 2026, month 14 = Mar 2027)
-// "Today" snapshot = May 2026 = month 4
+// "Today" snapshot = Jun 2026 = month 5
 
 export const TODAY_MONTH = 5;
 
@@ -74,7 +74,7 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
   49: 8, 50: 9,        // Sep/Oct 2026
 };
 
-export const CURRENT_SPRINT = 42;
+export const CURRENT_SPRINT = 43;
 
 export const THIS_MONTH_SPRINTS: number[] = Object.entries(SPRINT_TO_MONTH)
   .filter(([, m]) => Number(m) === TODAY_MONTH)
@@ -384,7 +384,7 @@ export const FEATURES: Feature[] = [
     project: "cdp",
     tags: ["platform2"],
     planned: { start: 3, end: 6 }, executed: { start: 0, end: 4 },
-    status: "em-andamento", progress: 55,
+    status: "em-andamento", progress: 73,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 24,
     subtasks: [
@@ -398,8 +398,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-4116", title: "Obter profile por ID", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4129", title: "Consolidar dados de Campanhas", status: "In Progress", points: 0, sprint: 41 },
       { key: "POS-4130", title: "Consolidar Compras", status: "Done", points: 0, sprint: 41 },
-      { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "In Progress", points: 0, sprint: 41 },
-      { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "In Progress", points: 0, sprint: 41 },
+      { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "Done", points: 0, sprint: 41 },
+      { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4161", title: "[CDP] Testar e validar contrato feito pelo Dib", status: "To Do", points: 0 },
       { key: "POS-4162", title: "[CDP] Back: Listagem de profiles na API da CDP", status: "Done", points: 0 },
       { key: "POS-4163", title: "[CDP] Back: Filtros de profiles na API da CDP", status: "Done", points: 0 },
@@ -463,7 +463,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
     planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 80,
+    status: "em-andamento", progress: 78,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 113,
     subtasks: [
@@ -488,7 +488,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-4169",  title: "[BTG] Entender o consumo para definir limites e preços da aplicação", status: "To Do", points: 0 },
       { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "To Do", points: 0 },
       { key: "FRONT-701", title: "Integração do Editor Beefree com Templates de Produto", status: "In Progress", points: 0 },
-      { key: "FRONT-711", title: "Ligar recomendação dos produtos com disparo de campanha", status: "To Do", points: 0 },
+      { key: "POS-4238",  title: "Ligar recomendação dos produtos com disparo de campanha", status: "To Do", points: 0 },
+      { key: "POS-4260",  title: "[CDP] Validar Desempenho da Unomi em Segmentação e Atribuição de Profiles", status: "In Progress", points: 0 },
     ],
   },
 
@@ -552,7 +553,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-524",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 6 }, executed: null,
-    status: "em-andamento", progress: 16,
+    status: "em-andamento", progress: 18,
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 33,
     subtasks: [
@@ -586,6 +587,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-550", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-570", title: "BTG - Réguas Consolidadas", status: "To Do", points: 3 },
       { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0, sprint: 37 },
+      { key: "FRONT-727", title: "[UX] Revisar usabilidade de feature de pressão de comunicação", status: "Done", points: 0 },
     ],
   },
 
@@ -673,7 +675,7 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 6 }, executed: null,
-    status: "em-andamento", progress: 0,
+    status: "em-andamento", progress: 11,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -684,7 +686,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4180", title: "[Commerce] Enriquecer dados de pedido buscando informações no ETL (Jimmy)", status: "To Do", points: 0 },
       { key: "POS-4181", title: "[Commerce] Consumir API de produtos do commerce (Barreto)", status: "To Do", points: 0 },
       { key: "POS-4249", title: "Ingerir dados de commerce por webhook", status: "To Do", points: 0 },
-      { key: "FRONT-695", title: "[Commerce] Front: Exibir dados Commerce na visão do cliente", status: "To Do", points: 0 },
+      { key: "FRONT-695", title: "[Commerce] Front: Exibir dados Commerce na visão do cliente", status: "Done", points: 0 },
       { key: "POS-4105",  title: "Consolidar informação de LTV para exibição na Visão de Clientes", status: "To Do", points: 0, sprint: 42 },
     ],
   },
@@ -696,7 +698,7 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 6, end: 7 }, executed: null,
-    status: "em-andamento", progress: 12,
+    status: "em-andamento", progress: 44,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -705,8 +707,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-4172", title: "[OMS/Loja física] Definir o que deverá ser consolidado", status: "To Do", points: 0 },
       { key: "POS-4173", title: "[OMS/loja física] Back: Cadastrar as regras no segmentador", status: "To Do", points: 0 },
       { key: "POS-4174", title: "[OMS] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
-      { key: "FRONT-694", title: "[OMS] Front: Exibir dados loja física na visão do cliente", status: "To Do", points: 0 },
-      { key: "FRONT-626", title: "Trazer dados de loja física", status: "To Do", points: 0 },
+      { key: "FRONT-694", title: "[OMS] Front: Exibir dados loja física na visão do cliente", status: "Done", points: 0 },
+      { key: "FRONT-626", title: "Trazer dados de loja física", status: "Done", points: 0 },
       { key: "FRONT-726", title: "Trazer dados de loja física e do commerce para a visão do cliente", status: "In Progress", points: 0 },
     ],
   },
@@ -718,15 +720,15 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 5 }, executed: null,
-    status: "em-andamento", progress: 0,
+    status: "em-andamento", progress: 67,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
       { key: "POS-4183", title: "[Segmentador Commerce] Definir processo de onboarding: acesso, cadastro e permissões", status: "To Do", points: 0 },
-      { key: "POS-4248", title: "Mudança de autenticação da API para usar o keycloak do commerce", status: "To Do", points: 0 },
-      { key: "FRONT-696", title: "[Segmentador Commerce] Front: Implementar autenticação específica", status: "To Do", points: 0 },
-      { key: "FRONT-697", title: "[Segmentador Commerce] Front: Suprimir menu e header do segmentador", status: "To Do", points: 0 },
-      { key: "FRONT-710", title: "Segmentador - Ajustar réguas automáticas", status: "In Progress", points: 0 },
+      { key: "POS-4248", title: "Mudança de autenticação da API para usar o keycloak do commerce", status: "In Progress", points: 0 },
+      { key: "FRONT-696", title: "[Segmentador Commerce] Front: Implementar autenticação específica", status: "Done", points: 0 },
+      { key: "FRONT-697", title: "[Segmentador Commerce] Front: Suprimir menu e header do segmentador", status: "Done", points: 0 },
+      { key: "FRONT-710", title: "Segmentador - Ajustar réguas automáticas", status: "Done", points: 0 },
       { key: "FRONT-736", title: "Autenticação para segmentador no commerce", status: "In Progress", points: 0 },
     ],
   },
@@ -740,17 +742,18 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: null,
-    status: "em-andamento", progress: 7,
+    status: "em-andamento", progress: 19,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#2563eb" },
     storyPoints: 4,
     subtasks: [
-      { key: "POS-3723",  title: "Inserção de HTML externo para template de e-mail (back)", status: "To Do", points: 3, sprint: 42 },
+      { key: "POS-3723",  title: "Inserção de HTML externo para template de e-mail (back)", status: "Done", points: 3, sprint: 42 },
       { key: "POS-3263",  title: "Template de Utility do Meta", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-154", title: "Importação de HTML para E-mail e Unificação da Biblioteca de Templates", status: "In Progress", points: 0, sprint: 41 },
       { key: "FRONT-673", title: "Gestão de Opt-out (Importação em Lote e Manual)", status: "To Do", points: 0, sprint: 43 },
       { key: "POS-4056",  title: "Ajustar Status em envios pontuais e automáticos", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-703", title: "Novas Audiências no On-site Pop-up", status: "To Do", points: 0 },
       { key: "FRONT-704", title: "Alinhar componentes no On-site Pop-up", status: "To Do", points: 0 },
+      { key: "FRONT-728", title: "[UX] Revisão feature de IP dedicado", status: "To Do", points: 0 },
     ],
   },
 
@@ -764,7 +767,9 @@ export const FEATURES: Feature[] = [
     status: "no-prazo", progress: 0,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#dc2626" },
     storyPoints: 0,
-    subtasks: [],
+    subtasks: [
+      { key: "FRONT-729", title: "[UX] Feature de SMS", status: "To Do", points: 0 },
+    ],
   },
 
   {
@@ -801,7 +806,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: null,
-    status: "em-andamento", progress: 15,
+    status: "em-andamento", progress: 23,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -814,7 +819,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-407", title: "Exportação de Relatórios CSV: Envios Automáticos", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-419", title: "Exportação de Relatórios CSV: Segmentos", status: "To Do", points: 0, sprint: 43 },
       { key: "FRONT-438", title: "Home - card de Receita Total e coluna Receita em Performance", status: "Done", points: 0, sprint: 42 },
-      { key: "FRONT-443", title: "Receita no card Performance por Canal (E-mail e WhatsApp)", status: "In Progress", points: 0, sprint: 42 },
+      { key: "FRONT-443", title: "Receita no card Performance por Canal (E-mail e WhatsApp)", status: "Done", points: 0, sprint: 42 },
       { key: "FRONT-448", title: "Colocar receita e exportar CSV nas campanhas", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-750", title: "Dados nao estao refletindo na campanha", status: "To Do", points: 0 },
       { key: "POS-4217",  title: "Home - card de Receita Total e coluna Receita em Performance de Campanhas", status: "To Do", points: 0 },
@@ -1000,7 +1005,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 28,
+    status: "no-prazo", progress: 25,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -1012,9 +1017,16 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "In Progress", points: 0 },
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
       { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "To Do", points: 0 },
-      { key: "FRONT-592", title: "Tela de atributos personalizados", status: "In Progress", points: 0, sprint: 41 },
+      { key: "FRONT-592", title: "Tela de atributos personalizados", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-725", title: "Voltar com as telas de visão de clientes para produção", status: "To Do", points: 0 },
       { key: "FRONT-215", title: "Visão única do cliente: Origem do lead", status: "In Progress", points: 0 },
+      { key: "FRONT-737", title: "[UX] Revisão da parte de listas", status: "Done", points: 0 },
+      { key: "FRONT-738", title: "Paginação de visão de cliente não funciona", status: "To Do", points: 0 },
+      { key: "FRONT-739", title: "Ajuste no segmentador \"está entre\"", status: "To Do", points: 0 },
+      { key: "FRONT-740", title: "Ajuste de nomes de audiência", status: "To Do", points: 0 },
+      { key: "FRONT-741", title: "Botão excluir em lista não funciona", status: "To Do", points: 0 },
+      { key: "FRONT-742", title: "Não está aparecendo nome da lista na visão do cliente", status: "To Do", points: 0 },
+      { key: "FRONT-743", title: "Busca com espaço na visão de cliente não funciona", status: "To Do", points: 0 },
     ],
   },
 
