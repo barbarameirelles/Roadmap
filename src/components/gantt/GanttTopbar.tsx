@@ -1,4 +1,4 @@
-type Tab = "roadmap" | "exec" | "kanban" | "sprint" | "timeline";
+type Tab = "roadmap" | "exec" | "monthly" | "kanban" | "sprint" | "timeline";
 
 interface Props {
   activeTab: Tab;
@@ -20,6 +20,18 @@ function ExecIcon() {
     <svg className="g-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 17l5-5 4 4 7-9" />
       <path d="M14 7h6v6" />
+    </svg>
+  );
+}
+
+function MonthlyIcon() {
+  return (
+    <svg className="g-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 17l5-6 4 3 5-7 4 4" />
+      <path d="M3 21h18" />
+      <circle cx="8" cy="11" r="1.2" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="14" r="1.2" fill="currentColor" stroke="none" />
+      <circle cx="17" cy="7" r="1.2" fill="currentColor" stroke="none" />
     </svg>
   );
 }
@@ -68,6 +80,7 @@ export default function GanttTopbar({ activeTab, onTab }: Props) {
   const TABS: { id: Tab; title: string; sub: string; Icon: () => JSX.Element }[] = [
     { id: "roadmap",  title: "Roadmap",        sub: "Visualização mensal do projeto",   Icon: RoadmapIcon  },
     { id: "exec",     title: "Visão Executiva", sub: "% planejado vs % entregue",        Icon: ExecIcon     },
+    { id: "monthly",  title: "Evolução Mensal", sub: "Planejado vs realizado · forecast", Icon: MonthlyIcon  },
     { id: "timeline", title: "Timeline",        sub: "Entregas em linha do tempo",        Icon: TimelineIcon },
     { id: "kanban",   title: "Kanban",          sub: "To do · In progress · Done",       Icon: KanbanIcon   },
     { id: "sprint",   title: "Sprints",         sub: "Entregas por sprint",               Icon: SprintIcon   },
