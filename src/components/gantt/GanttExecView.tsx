@@ -69,6 +69,7 @@ export default function GanttExecView() {
     const concluidos  = items.filter(f => f.status === "concluido").length;
     const atrasados   = items.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
     const emAndamento = items.filter(f => f.status === "em-andamento").length;
+    const replanejados = items.filter(f => f.status === "replanejado").length;
     const planejados  = items.filter(f => f.status === "no-prazo").length;
     const avgProgress = items.length > 0
       ? Math.round(items.reduce((s, f) => s + f.progress, 0) / items.length)
@@ -77,7 +78,7 @@ export default function GanttExecView() {
     const hasMilestone = statsFeatures.some(
       f => f.milestone && f.milestone.month >= q.start && f.milestone.month <= q.end
     );
-    return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, planejados, avgProgress, tag, hasMilestone };
+    return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, replanejados, planejados, avgProgress, tag, hasMilestone };
   }), [statsFeatures]);
 
   const plannedByToday   = statsFeatures.filter(f => f.planned.end <= TODAY_MONTH);
@@ -362,6 +363,12 @@ export default function GanttExecView() {
                   <div className="g-q-stat">
                     <span className="lbl"><span className="ic" style={{ color: "var(--g-amber)" }}>↻</span>Em andamento</span>
                     <span className="v g-tabular">{q.emAndamento}</span>
+                  </div>
+                )}
+                {q.replanejados > 0 && (
+                  <div className="g-q-stat">
+                    <span className="lbl"><span className="ic" style={{ color: "#7c3aed" }}>↪</span>Replanejados</span>
+                    <span className="v g-tabular">{q.replanejados}</span>
                   </div>
                 )}
                 {q.planejados > 0 && (

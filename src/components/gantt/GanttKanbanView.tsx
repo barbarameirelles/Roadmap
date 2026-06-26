@@ -15,6 +15,7 @@ const COLUMN_CONFIG: Record<KanbanColumn, { title: string; color: string }> = {
 
 function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "concluido") return "done";
+  if (feat.status === "replanejado") return "in-progress";
   if (feat.progress >= 80) return "validation";
   if (feat.progress > 0 || feat.status === "em-andamento" || feat.status === "atrasado-em-andamento") return "in-progress";
   return "todo";
@@ -198,6 +199,7 @@ export default function GanttKanbanView() {
     { id: "em-andamento",          label: "Em andamento" },
     { id: "atrasado",              label: "Atrasados" },
     { id: "atrasado-em-andamento", label: "Atrasados · Em andamento" },
+    { id: "replanejado",           label: "Replanejados" },
   ];
 
   const COLUMNS: KanbanColumn[] = ["todo", "in-progress", "validation", "done"];

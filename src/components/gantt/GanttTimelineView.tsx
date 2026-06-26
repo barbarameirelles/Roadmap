@@ -51,6 +51,7 @@ const STATUS_STYLE: Record<string, { border: string; label: string }> = {
   "em-andamento":          { border: "#d97706", label: "Em andamento" },
   "atrasado":              { border: "#dc2626", label: "Atrasado" },
   "atrasado-em-andamento": { border: "#f97316", label: "Atrasado · Em andamento" },
+  "replanejado":           { border: "#7c3aed", label: "Replanejado" },
 };
 
 // ── Group regular (non-spanning) features by quarter ─────────────────────────

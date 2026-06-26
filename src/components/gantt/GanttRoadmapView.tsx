@@ -114,6 +114,7 @@ function GanttRow({
         ["Jira", (feat.jiraKeys ?? [feat.jiraKey]).join(", ")],
         ["Responsável", feat.owner.name],
         ["Status", STATUS_META[feat.status].label],
+        ...(feat.note ? [["Replanejamento", feat.note] as [string, string]] : []),
       ];
       progress = feat.progress;
     } else if (kind === "executed" && feat.executed) {
@@ -162,6 +163,9 @@ function GanttRow({
             </div>
             {feat.subtitle && (
               <div className="g-feat-sub">{feat.subtitle}</div>
+            )}
+            {feat.note && (
+              <div className="g-feat-replan-note">{STATUS_META.replanejado.icon} {feat.note}</div>
             )}
             {feat.subtasks.length > 0 && (() => {
               const total = feat.subtasks.length;
@@ -317,6 +321,7 @@ export default function GanttRoadmapView() {
     { id: "em-andamento",          label: "Em andamento" },
     { id: "atrasado",              label: "Atrasados" },
     { id: "atrasado-em-andamento", label: "Atrasados · Em andamento" },
+    { id: "replanejado",           label: "Replanejados" },
   ];
 
   return (

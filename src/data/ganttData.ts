@@ -50,7 +50,8 @@ export type FeatureStatus =
   | "no-prazo"
   | "em-andamento"
   | "atrasado"
-  | "atrasado-em-andamento";
+  | "atrasado-em-andamento"
+  | "replanejado";
 
 export interface Subtask {
   key: string;
@@ -108,6 +109,7 @@ export interface Feature {
   milestone?: { month: number; label: string };
   flagged?: boolean;
   excludeFromStats?: boolean;
+  note?: string;
   status: FeatureStatus;
   progress: number;
   owner: { name: string; initials: string; color: string };
@@ -124,6 +126,7 @@ export const STATUS_META: Record<
   "em-andamento":          { label: "Em andamento",           bg: "#fef3c7", fg: "#a16207", dot: "#eab308", icon: "↻" },
   "atrasado":              { label: "Atrasado",               bg: "#fee2e2", fg: "#b91c1c", dot: "#dc2626", icon: "!" },
   "atrasado-em-andamento": { label: "Atrasado · Em andamento", bg: "#ffedd5", fg: "#c2410c", dot: "#f97316", icon: "⚠" },
+  "replanejado":           { label: "Replanejado",             bg: "#ede9fe", fg: "#6d28d9", dot: "#7c3aed", icon: "↪" },
 };
 
 export const FEATURES: Feature[] = [
@@ -462,8 +465,9 @@ export const FEATURES: Feature[] = [
     subtitle: "Motor genérico de recomendação de produtos",
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
-    planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 80,
+    planned: { start: 7, end: 7 }, executed: { start: 3, end: 4 },
+    status: "replanejado", progress: 80,
+    note: "Replanejado para início de Agosto/26 — o time de back-end precisou priorizar a CDP em vez da construção das regras e do motor de recomendação.",
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 113,
     subtasks: [
@@ -501,8 +505,9 @@ export const FEATURES: Feature[] = [
     subtitle: "Regras já iniciadas ou concluídas",
     epic: "2.0 BTG · FRONT-152",
     tags: ["platform2", "cdp"],
-    planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "em-andamento", progress: 87,
+    planned: { start: 7, end: 7 }, executed: { start: 3, end: 4 },
+    status: "replanejado", progress: 87,
+    note: "Replanejado para início de Agosto/26 — o time de back-end precisou priorizar a CDP em vez da construção das regras e do motor de recomendação.",
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 14,
     subtasks: [
