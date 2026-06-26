@@ -13,25 +13,11 @@ const NAME_OVERRIDE: Record<string, string> = {
 // IDs excluded from this view
 const EXCLUDED = new Set(["f31", "cdp-3", "cdp-5", "f30"]);
 
-// IDs merged/deduplicated (drop the second occurrence)
-const MERGED_DROP = new Set<string>([]);
-
-// Features that span across quarter boundaries: rendered as a cross-quarter chip at row 0
-// startMonth/endMonth are month indices (0-based)
-const SPANNING: Record<string, { startMonth: number; endMonth: number }> = {
+// Manual span override (month indices, 0-based) for features whose real
+// timeline isn't captured by planned/executed alone.
+const SPAN_OVERRIDE: Record<string, { startMonth: number; endMonth: number }> = {
   "cdp-1": { startMonth: 3, endMonth: 6 }, // Q2 Apr → Jul (first month of Q3)
 };
-
-// Quarter IDs that need row-0 reserved (because a spanning chip crosses them)
-const SPANNING_AFFECTED: Set<string> = (() => {
-  const s = new Set<string>();
-  for (const span of Object.values(SPANNING)) {
-    for (const q of QUARTERS) {
-      if (span.startMonth <= q.end && span.endMonth >= q.start) s.add(q.id);
-    }
-  }
-  return s;
-})();
 
 // ── Layout constants ─────────────────────────────────────────────────────────
 const COL_W   = 76;
@@ -42,7 +28,6 @@ const CHIP_GAP = 5;
 const HEADER_H = 72;
 const TIMELINE_Y = HEADER_H;
 const CHIPS_TOP  = TIMELINE_Y + 28;
-const VTEX_MONTH = 8;
 
 // ── Status styles ─────────────────────────────────────────────────────────────
 const STATUS_STYLE: Record<string, { border: string; label: string }> = {
@@ -54,40 +39,45 @@ const STATUS_STYLE: Record<string, { border: string; label: string }> = {
   "replanejado":           { border: "#7c3aed", label: "Replanejado" },
 };
 
-// ── Group regular (non-spanning) features by quarter ─────────────────────────
-function groupByQuarter(features: Feature[]): Map<string, Feature[]> {
-  const map = new Map<string, Feature[]>();
-  for (const q of QUARTERS) map.set(q.id, []);
-  for (const f of features) {
-    if (SPANNING[f.id]) continue; // spanning chips rendered separately
-    const q = QUARTERS.find(q => f.planned.end >= q.start && f.planned.end <= q.end);
-    if (q) map.get(q.id)!.push(f);
-  }
-  return map;
+// ── Real timeline span of a feature, in month indices ────────────────────────
+// Starts at the earliest of execution start / planned start so that items
+// that began in a previous quarter are reflected; ends at the planned delivery
+// (or later, if execution ran past it).
+function featSpan(f: Feature): [number, number] {
+  const ov = SPAN_OVERRIDE[f.id];
+  if (ov) return [ov.startMonth, ov.endMonth];
+  const start = f.executed ? Math.min(f.executed.start, f.planned.start) : f.planned.start;
+  const end   = f.executed ? Math.max(f.planned.end, f.executed.end)     : f.planned.end;
+  return [start, end];
 }
 
-function svgHeight(byQuarter: Map<string, Feature[]>): number {
-  let max = 0;
-  byQuarter.forEach((items, qId) => {
-    const rowOffset = SPANNING_AFFECTED.has(qId) ? 1 : 0;
-    const rows = items.length + rowOffset;
-    if (rows > max) max = rows;
+// ── Greedy row packing so overlapping bars stack instead of colliding ────────
+interface Placed { feat: Feature; start: number; end: number; row: number; }
+
+function packRows(features: Feature[]): Placed[] {
+  const items = features
+    .map(f => { const [start, end] = featSpan(f); return { feat: f, start, end }; })
+    .sort((a, b) => a.start - b.start || a.end - b.end);
+  const rowEnds: number[] = []; // last occupied month per row
+  return items.map(it => {
+    let row = rowEnds.findIndex(end => end < it.start);
+    if (row === -1) { row = rowEnds.length; rowEnds.push(it.end); }
+    else rowEnds[row] = it.end;
+    return { ...it, row };
   });
-  // also account for spanning chips alone (1 row)
-  if (Object.keys(SPANNING).length > 0 && max < 1) max = 1;
-  return CHIPS_TOP + max * (CHIP_H + CHIP_GAP) + 40;
 }
 
-// ── Chip renderer (shared between regular and spanning) ───────────────────────
+// ── Chip renderer ─────────────────────────────────────────────────────────────
 function renderChip(
   feat: Feature,
   chipX: number,
   chipY: number,
   chipW: number,
+  startMonth: number,
 ) {
   const s = STATUS_STYLE[feat.status] ?? STATUS_STYLE["no-prazo"];
   const isVtex = feat.id === "f21b";
-  const isSpanning = !!SPANNING[feat.id];
+  const startedEarlier = feat.executed ? feat.executed.start < startMonth : false;
   const borderColor = isVtex ? "#f59e0b" : s.border;
 
   return (
@@ -103,17 +93,17 @@ function renderChip(
           width={(chipW - 3) * feat.progress / 100} height={3}
           rx={1} fill={borderColor} opacity={0.25} />
       )}
-      <foreignObject x={chipX + 10} y={chipY + 3} width={chipW - (feat.progress > 0 ? 42 : 16)} height={CHIP_H - 6}>
+      <foreignObject x={chipX + 10} y={chipY + 3} width={Math.max(chipW - (feat.progress > 0 ? 42 : 16), 20)} height={CHIP_H - 6}>
         <div style={{
           fontSize: 11,
-          fontWeight: isVtex || isSpanning ? 600 : 500,
+          fontWeight: isVtex ? 600 : 500,
           color: isVtex ? "#92400e" : "#334155",
           overflow: "hidden",
           whiteSpace: "nowrap",
           textOverflow: "ellipsis",
           lineHeight: "24px",
         }}>
-          {isVtex && "★ "}{feat.name}
+          {isVtex && "★ "}{startedEarlier && "↩ "}{feat.name}
         </div>
       </foreignObject>
       {feat.progress > 0 && (
@@ -130,17 +120,24 @@ function renderChip(
 export default function GanttTimelineView() {
   const features = useMemo(() =>
     FEATURES
-      .filter(f => !EXCLUDED.has(f.id) && !MERGED_DROP.has(f.id))
+      .filter(f => !EXCLUDED.has(f.id))
       .map(f => NAME_OVERRIDE[f.id] ? { ...f, name: NAME_OVERRIDE[f.id] } : f),
   []);
 
-  const byQuarter = useMemo(() => groupByQuarter(features), [features]);
-  const svgH = useMemo(() => svgHeight(byQuarter), [byQuarter]);
+  const placed = useMemo(() => packRows(features), [features]);
+  const rowCount = useMemo(() => placed.reduce((m, p) => Math.max(m, p.row + 1), 0), [placed]);
+  const svgH = CHIPS_TOP + rowCount * (CHIP_H + CHIP_GAP) + 40;
 
-  // Look up spanning features from the full (filtered) features list
-  const spanningFeatures = useMemo(() =>
-    features.filter(f => !!SPANNING[f.id]),
-  [features]);
+  // Summary cards: group by delivery quarter (planned.end)
+  const cardsByQuarter = useMemo(() => {
+    const map = new Map<string, Feature[]>();
+    for (const q of QUARTERS) map.set(q.id, []);
+    for (const f of features) {
+      const q = QUARTERS.find(q => f.planned.end >= q.start && f.planned.end <= q.end);
+      if (q) map.get(q.id)!.push(f);
+    }
+    return map;
+  }, [features]);
 
   return (
     <div style={{ padding: "28px 28px 48px", maxWidth: 1440, margin: "0 auto" }}>
@@ -151,7 +148,7 @@ export default function GanttTimelineView() {
           Linha do Tempo de Entregas
         </h2>
         <p style={{ margin: "4px 0 0", color: "#64748b", fontSize: 13 }}>
-          Visão executiva · entregas por trimestre · Jan 2026 – Mar 2027
+          Visão executiva · do início da execução até a entrega · Jan 2026 – Mar 2027
         </p>
       </div>
 
@@ -163,6 +160,10 @@ export default function GanttTimelineView() {
             {s.label}
           </div>
         ))}
+        <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "#64748b" }}>
+          <span style={{ fontSize: 13 }}>↩</span>
+          Iniciado em trimestre anterior
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 600, color: "#92400e" }}>
           <span style={{ width: 10, height: 10, background: "#f59e0b", clipPath: "polygon(50% 0%,100% 50%,50% 100%,0% 50%)", display: "inline-block" }} />
           Marco VTEX
@@ -239,26 +240,12 @@ export default function GanttTimelineView() {
             );
           })()}
 
-
-          {/* ── Spanning chips (row 0, cross-quarter) ── */}
-          {spanningFeatures.map(feat => {
-            const span = SPANNING[feat.id];
-            const chipX = span.startMonth * COL_W + 8;
-            const chipW = (span.endMonth - span.startMonth + 1) * COL_W - 16;
-            return renderChip(feat, chipX, CHIPS_TOP, chipW);
-          })}
-
-          {/* ── Regular chips (row 0 reserved in affected quarters) ── */}
-          {QUARTERS.map(q => {
-            const items = byQuarter.get(q.id) ?? [];
-            const rowOffset = SPANNING_AFFECTED.has(q.id) ? 1 : 0;
-            const qX = q.start * COL_W;
-            const chipW = Q_W - 16;
-
-            return items.map((feat, i) => {
-              const chipY = CHIPS_TOP + (i + rowOffset) * (CHIP_H + CHIP_GAP);
-              return renderChip(feat, qX + 8, chipY, chipW);
-            });
+          {/* ── Feature bars (positioned by real time span, row-packed) ── */}
+          {placed.map(p => {
+            const chipX = p.start * COL_W + 8;
+            const chipW = (p.end - p.start + 1) * COL_W - 16;
+            const chipY = CHIPS_TOP + p.row * (CHIP_H + CHIP_GAP);
+            return renderChip(p.feat, chipX, chipY, chipW, p.start);
           })}
 
         </svg>
@@ -267,12 +254,7 @@ export default function GanttTimelineView() {
       {/* Summary cards */}
       <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
         {QUARTERS.map(q => {
-          const regular = byQuarter.get(q.id) ?? [];
-          const spanning = spanningFeatures.filter(f => {
-            const s = SPANNING[f.id];
-            return s.startMonth <= q.end && s.endMonth >= q.start;
-          });
-          const items = [...spanning, ...regular];
+          const items = cardsByQuarter.get(q.id) ?? [];
           const done = items.filter(f => f.status === "concluido").length;
           return (
             <div key={q.id} style={{
