@@ -52,8 +52,23 @@ const C_REAL = "#16a34a";
 const C_FCST = "#7c3aed";
 
 export default function GanttMonthlyView() {
-  const features = useMemo(() => FEATURES.filter(f => !f.excludeFromStats), []);
+  // Escopo 2.0: tem tag platform2 E não é projeto CDP. Segmentadores e BTG
+  // (tag dupla, project vazio) ficam na 2.0; Dados CDP (project: cdp) sai.
+  const isPlatform2 = (f: Feature) => (f.tags?.includes("platform2") ?? false) && f.project !== "cdp";
+  const features = useMemo(() => FEATURES.filter(f => !f.excludeFromStats && isPlatform2(f)), []);
   const T = features.length;
+
+  // Interrupção: módulo Audience (CDP) — tudo que não é 2.0 (inclui Dados CDP).
+  const interruption = useMemo(() => FEATURES.filter(f => !f.excludeFromStats && !isPlatform2(f)), []);
+  // "Em execução" = push recente de CDP que puxou o time (Mai–Jun), não a fundação
+  // Dados CDP, que roda em paralelo desde jan sem travar a 2.0.
+  const cdpActiveMonth = (m: number) => interruption.some(f => f.executed && f.executed.start >= TODAY_MONTH - 1 && m >= f.executed.start && m <= f.executed.end);
+  // Próxima janela de CDP planejada (futuro) — risco de nova interrupção.
+  const cdpFutureMonths = useMemo(() => {
+    const set = new Set<number>();
+    interruption.forEach(f => { if (f.planned.start > TODAY_MONTH) for (let m = f.planned.start; m <= f.planned.end; m++) set.add(m); });
+    return set;
+  }, [interruption]);
 
   // Cumulative weighted series (in %)
   const series = useMemo(() => MONTHS.map(m => {
@@ -88,7 +103,7 @@ export default function GanttMonthlyView() {
           Evolução Mensal
         </h2>
         <p style={{ margin: "4px 0 0", color: "#64748b", fontSize: 13 }}>
-          Planejado vs. realizado (progresso ponderado) mês a mês · forecast por confiança · Jan 2026 – Mar 2027
+          Escopo: {T} épicos da Plataforma 2.0 · progresso ponderado mês a mês · forecast por confiança · Jan 2026 – Mar 2027
         </p>
       </div>
 
@@ -96,7 +111,7 @@ export default function GanttMonthlyView() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
         {[
           { lbl: "Planejado até hoje", val: `${Math.round(todayRow.planned)}%`, sub: "posição esperada pelo plano", color: C_PLAN },
-          { lbl: "Realizado até hoje", val: `${Math.round(todayRow.realized ?? 0)}%`, sub: "progresso médio das 36 features", color: C_REAL },
+          { lbl: "Realizado até hoje", val: `${Math.round(todayRow.realized ?? 0)}%`, sub: `progresso médio dos ${T} épicos 2.0`, color: C_REAL },
           { lbl: "Variação", val: `${(todayRow.realized ?? 0) - todayRow.planned >= 0 ? "+" : ""}${Math.round((todayRow.realized ?? 0) - todayRow.planned)} pts`, sub: "realizado − planejado", color: (todayRow.realized ?? 0) >= todayRow.planned ? C_REAL : "#dc2626" },
           { lbl: "Forecast fim do período", val: `${Math.round(endForecast)}%`, sub: "projeção Mar/27 por confiança", color: C_FCST },
         ].map(k => (
@@ -117,8 +132,32 @@ export default function GanttMonthlyView() {
               {lbl}
             </div>
           ))}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748b" }}>
+            <span style={{ width: 14, height: 12, background: "#fff7ed", border: "1px solid #fed7aa", display: "inline-block", borderRadius: 2 }} />
+            Interrupção CDP (em execução)
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748b" }}>
+            <span style={{ width: 14, height: 12, background: "#faf5ff", border: "1px solid #e9d5ff", display: "inline-block", borderRadius: 2 }} />
+            Janela CDP planejada
+          </div>
         </div>
         <svg width={SVG_W} height={SVG_H} style={{ display: "block" }}>
+          {/* Interrupção CDP — bandas de fundo */}
+          {MONTHS.map(m => {
+            const past = m.idx <= TODAY_MONTH && cdpActiveMonth(m.idx);
+            const future = cdpFutureMonths.has(m.idx);
+            if (!past && !future) return null;
+            return (
+              <rect key={"cdp" + m.idx} x={PAD_L + m.idx * COL} y={PAD_T} width={COL} height={PLOT_H}
+                fill={past ? "#fff7ed" : "#faf5ff"} />
+            );
+          })}
+          {(() => {
+            const firstPast = MONTHS.find(m => m.idx <= TODAY_MONTH && cdpActiveMonth(m.idx));
+            return firstPast ? (
+              <text x={PAD_L + firstPast.idx * COL + 4} y={PAD_T + 12} fontSize={9} fontWeight={700} fill="#c2410c">↯ CDP</text>
+            ) : null;
+          })()}
           {/* Y gridlines */}
           {[0, 25, 50, 75, 100].map(p => (
             <g key={p}>
@@ -149,9 +188,12 @@ export default function GanttMonthlyView() {
 
       {/* Forecast de Julho */}
       <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, padding: "18px 20px", marginBottom: 20 }}>
-        <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", margin: "0 0 4px" }}>Forecast de Julho</h3>
-        <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 14px" }}>Entregas planejadas para Jul/26 e a confiança com base no progresso atual.</p>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a", margin: "0 0 4px" }}>Forecast de Julho · 2.0</h3>
+        <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 14px" }}>Entregas 2.0 planejadas para Jul/26 e a confiança pelo progresso atual. Itens de CDP não contam como entrega 2.0 (são interrupção).</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {julyFeats.length === 0 && (
+            <div style={{ fontSize: 12, color: "#94a3b8" }}>Nenhuma entrega 2.0 com data em Jul/26.</div>
+          )}
           {julyFeats.map(f => {
             const behind = isBehind(f);
             return (
