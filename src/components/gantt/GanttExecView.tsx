@@ -4,6 +4,12 @@ import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH, type Feature } from "@/data/ga
 type QTag  = "past" | "current" | "future";
 type Scope = "all" | "platform2" | "cdp";
 
+// Posição planejada ponderada (0..1): rampa linear ao longo da janela planejada.
+function plannedFrac(f: Feature, m: number): number {
+  const span = Math.max(f.planned.end - f.planned.start + 1, 1);
+  return Math.min(Math.max((m - f.planned.start + 1) / span, 0), 1);
+}
+
 function qTagFor(qStart: number, qEnd: number): QTag {
   if (qEnd < TODAY_MONTH)                          return "past";
   if (qStart <= TODAY_MONTH && TODAY_MONTH <= qEnd) return "current";
@@ -81,11 +87,10 @@ export default function GanttExecView() {
     return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, replanejados, planejados, avgProgress, tag, hasMilestone };
   }), [statsFeatures]);
 
-  const plannedByToday   = statsFeatures.filter(f => f.planned.end <= TODAY_MONTH);
   const concluidosTotal  = statsFeatures.filter(f => f.status === "concluido").length;
   const atrasadosCount   = statsFeatures.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
   const emAndamentoTotal = statsFeatures.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
-  const pctPlanned       = total > 0 ? Math.round((plannedByToday.length / total) * 100) : 0;
+  const pctPlanned       = total > 0 ? Math.round(statsFeatures.reduce((s, f) => s + plannedFrac(f, TODAY_MONTH), 0) / total * 100) : 0;
   const pctDelivered     = total > 0 ? Math.round((concluidosTotal / total) * 100) : 0;
   const avgProgressTotal = total > 0 ? Math.round(statsFeatures.reduce((s, f) => s + f.progress, 0) / total) : 0;
   const milestone        = scope !== "cdp" ? statsFeatures.find(f => f.milestone) : undefined;
@@ -147,7 +152,7 @@ export default function GanttExecView() {
         <div className="g-kpi accent-blue">
           <div className="g-kpi-label">% Planejado até hoje</div>
           <div className="g-kpi-value blue g-tabular">{pctPlanned}%</div>
-          <div className="g-kpi-sub">{plannedByToday.length} de {total} itens previstos para esta data</div>
+          <div className="g-kpi-sub">posição ponderada esperada pelo plano</div>
         </div>
         <div className="g-kpi accent-green">
           <div className="g-kpi-label">Progresso médio</div>

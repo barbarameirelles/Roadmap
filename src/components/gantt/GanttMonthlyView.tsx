@@ -52,9 +52,8 @@ const C_REAL = "#16a34a";
 const C_FCST = "#7c3aed";
 
 export default function GanttMonthlyView() {
-  // Escopo 2.0: tem tag platform2 E não é projeto CDP. Segmentadores e BTG
-  // (tag dupla, project vazio) ficam na 2.0; Dados CDP (project: cdp) sai.
-  const isPlatform2 = (f: Feature) => (f.tags?.includes("platform2") ?? false) && f.project !== "cdp";
+  // Escopo 2.0: tag platform2 (Dados CDP perdeu a tag e foi para o módulo CDP).
+  const isPlatform2 = (f: Feature) => f.tags?.includes("platform2") ?? false;
   const features = useMemo(() => FEATURES.filter(f => !f.excludeFromStats && isPlatform2(f)), []);
   const T = features.length;
 

@@ -385,7 +385,7 @@ export const FEATURES: Feature[] = [
     subtitle: "Estruturação e ingestão de dados na CDP",
     epic: "CDP",
     project: "cdp",
-    tags: ["platform2"],
+    tags: ["cdp"],
     planned: { start: 3, end: 6 }, executed: { start: 0, end: 4 },
     status: "em-andamento", progress: 73,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
