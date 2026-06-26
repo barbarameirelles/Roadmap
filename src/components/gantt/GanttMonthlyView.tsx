@@ -28,14 +28,29 @@ function isBehind(f: Feature): boolean {
   return f.progress / 100 < plannedFrac(f, TODAY_MONTH) * 0.7;
 }
 
-// Forecast progress (0..1) for months after today. Behind features slip ~40%
-// of their duration before reaching 100%.
+// Velocidade do forecast por mês, refletindo a interrupção contínua da CDP no
+// 2º semestre (janela Jul–Dez): julho levemente contido e Ago–Dez a ~30%. O
+// Q1/27 (após o fim da interrupção) é tratado à parte, no "squeeze" da série.
+const AUG_MONTH = 7;
+const POST_AUG_DRAG = 0.3;
+const JUL_DRAG = 0.7;
+function monthVel(mm: number): number {
+  if (mm >= AUG_MONTH) return POST_AUG_DRAG;
+  return mm === 6 ? JUL_DRAG : 1;
+}
+
+// Forecast progress (0..1) for months after today. Behind features slip ~60%
+// of their duration; ganho mensal sofre drag conforme monthVel.
 function forecastFrac(f: Feature, m: number): number {
   if (f.progress >= 100) return 1;
   const span = f.planned.end - f.planned.start + 1;
-  const due = f.planned.end + (isBehind(f) ? Math.ceil(0.4 * span) : 0);
-  const base = f.progress / 100;
-  return clamp(base + (1 - base) * clamp((m - TODAY_MONTH) / Math.max(due - TODAY_MONTH, 1), 0, 1), 0, 1);
+  const due = f.planned.end + (isBehind(f) ? Math.ceil(0.6 * span) : 0);
+  const nominal = (1 - f.progress / 100) / Math.max(due - TODAY_MONTH, 1);
+  let prog = f.progress / 100;
+  for (let mm = TODAY_MONTH + 1; mm <= m; mm++) {
+    prog = clamp(prog + nominal * monthVel(mm), 0, 1);
+  }
+  return prog;
 }
 
 // ── Layout constants ───────────────────────────────────────────────────────────
@@ -70,16 +85,30 @@ export default function GanttMonthlyView() {
   }, [interruption]);
 
   // Cumulative weighted series (in %)
-  const series = useMemo(() => MONTHS.map(m => {
-    const planned = features.reduce((s, f) => s + plannedFrac(f, m.idx), 0) / T * 100;
-    const realized = m.idx <= TODAY_MONTH
-      ? features.reduce((s, f) => s + realizedFrac(f, m.idx), 0) / T * 100
-      : null;
-    const forecast = m.idx >= TODAY_MONTH
-      ? features.reduce((s, f) => s + (m.idx === TODAY_MONTH ? realizedFrac(f, m.idx) : forecastFrac(f, m.idx)), 0) / T * 100
-      : null;
-    return { idx: m.idx, label: m.label, year: m.year, planned, realized, forecast };
-  }), [features, T]);
+  const series = useMemo(() => {
+    const rows = MONTHS.map(m => {
+      const planned = features.reduce((s, f) => s + plannedFrac(f, m.idx), 0) / T * 100;
+      const realized = m.idx <= TODAY_MONTH
+        ? features.reduce((s, f) => s + realizedFrac(f, m.idx), 0) / T * 100
+        : null;
+      const forecast = m.idx >= TODAY_MONTH
+        ? features.reduce((s, f) => s + (m.idx === TODAY_MONTH ? realizedFrac(f, m.idx) : forecastFrac(f, m.idx)), 0) / T * 100
+        : null;
+      return { idx: m.idx, label: m.label, year: m.year, planned, realized, forecast };
+    });
+    // Q1/27 (Jan–Mar) não tem mais itens de CDP: o time volta full para a 2.0 e
+    // espreme o restante para fechar 100% em Mar/27. Recupera linearmente a
+    // partir do valor (pessimista) de Dez/26.
+    const Q1_START = 12, END = MONTHS.length - 1;
+    const dec = rows[Q1_START - 1].forecast ?? 0;
+    rows.forEach(r => {
+      if (r.idx >= Q1_START) {
+        const t = (r.idx - (Q1_START - 1)) / (END - (Q1_START - 1));
+        r.forecast = dec + (100 - dec) * t;
+      }
+    });
+    return rows;
+  }, [features, T]);
 
   const todayRow = series[TODAY_MONTH];
   const endForecast = series[MONTHS.length - 1].forecast ?? 0;
@@ -251,7 +280,7 @@ export default function GanttMonthlyView() {
             })}
           </tbody>
         </table>
-        <div style={{ fontSize: 11, color: "#94a3b8", padding: "6px 12px 4px" }}>* meses futuros são forecast (projeção por confiança).</div>
+        <div style={{ fontSize: 11, color: "#94a3b8", padding: "6px 12px 4px" }}>* forecast por confiança: velocidade reduzida (~30%) Ago–Dez pela interrupção da CDP; sem CDP no Q1/27, o time recupera e fecha 100% em Mar/27.</div>
       </div>
 
     </div>
