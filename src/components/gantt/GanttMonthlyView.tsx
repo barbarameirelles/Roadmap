@@ -32,8 +32,8 @@ function isBehind(f: Feature): boolean {
 // 2º semestre (janela Jul–Dez): julho levemente contido e Ago–Dez a ~30%. O
 // Q1/27 (após o fim da interrupção) é tratado à parte, no "squeeze" da série.
 const AUG_MONTH = 7;
-const POST_AUG_DRAG = 0.3;
-const JUL_DRAG = 0.7;
+const POST_AUG_DRAG = 0.25;
+const JUL_DRAG = 0.3;
 function monthVel(mm: number): number {
   if (mm >= AUG_MONTH) return POST_AUG_DRAG;
   return mm === 6 ? JUL_DRAG : 1;
@@ -280,7 +280,7 @@ export default function GanttMonthlyView() {
             })}
           </tbody>
         </table>
-        <div style={{ fontSize: 11, color: "#94a3b8", padding: "6px 12px 4px" }}>* forecast por confiança: velocidade reduzida (~30%) Ago–Dez pela interrupção da CDP; sem CDP no Q1/27, o time recupera e fecha 100% em Mar/27.</div>
+        <div style={{ fontSize: 11, color: "#94a3b8", padding: "6px 12px 4px" }}>* forecast por confiança: velocidade fortemente reduzida Jul–Dez pela interrupção da CDP (Jul ~30%, Ago–Dez ~25%); sem CDP no Q1/27, o time recupera e fecha 100% em Mar/27.</div>
       </div>
 
     </div>
