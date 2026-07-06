@@ -1,8 +1,8 @@
 // Roadmap data — épicos 2.0 · Q1 2026 → Q1 2027
 // Months are 0-indexed from Jan 2026 (month 0 = Jan 2026, month 14 = Mar 2027)
-// "Today" snapshot = Jun 2026 = month 5
+// "Today" snapshot = Jul 2026 = month 6
 
-export const TODAY_MONTH = 5;
+export const TODAY_MONTH = 6;
 
 export interface Month {
   idx: number;
@@ -61,7 +61,7 @@ export interface Subtask {
   sprint?: number;
 }
 
-// Sprint number → month index (0 = Jan 2026). Sprint 41 = May 19–Jun 1.
+// Sprint number → month index (0 = Jan 2026). Sprint 44 = Jul 1–14.
 export const SPRINT_TO_MONTH: Record<number, number> = {
   31: 0, 32: 0,        // Jan 2026
   33: 0, 34: 1,        // Jan/Feb 2026
@@ -75,7 +75,7 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
   49: 8, 50: 9,        // Sep/Oct 2026
 };
 
-export const CURRENT_SPRINT = 43;
+export const CURRENT_SPRINT = 44;
 
 export const THIS_MONTH_SPRINTS: number[] = Object.entries(SPRINT_TO_MONTH)
   .filter(([, m]) => Number(m) === TODAY_MONTH)
@@ -92,6 +92,7 @@ export const SPRINT_DATES: Record<number, { start: string; end: string }> = {
   41: { start: "19/mai", end: "01/jun" },
   42: { start: "02/jun", end: "15/jun" },
   43: { start: "16/jun", end: "30/jun" },
+  44: { start: "01/jul", end: "14/jul" },
 };
 
 export interface Feature {
@@ -487,10 +488,10 @@ export const FEATURES: Feature[] = [
       { key: "POS-4041", title: "Discovery: como puxar dados de produtos direto do commerce", status: "Done", points: 0, sprint: 40 },
       { key: "POS-4046", title: "BTG - Alterações nas regras", status: "Done", points: 3, sprint: 40 },
       { key: "POS-4074", title: "Criar endpoint de campanhas ativas por tipo e canal", status: "Done", points: 3, sprint: 40 },
-      { key: "FRONT-591", title: "BTG: Feature de template de produto", status: "Done", points: 0, sprint: 41 },
+      { key: "FRONT-591", title: "BTG: Feature de template de produto", status: "In Progress", points: 0, sprint: 41 },
       { key: "POS-4168",  title: "[BTG] Teste de carga da aplicação", status: "To Do", points: 0 },
       { key: "POS-4169",  title: "[BTG] Entender o consumo para definir limites e preços da aplicação", status: "To Do", points: 0 },
-      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "To Do", points: 0 },
+      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "In Progress", points: 0 },
       { key: "FRONT-701", title: "Integração do Editor Beefree com Templates de Produto", status: "Done", points: 0 },
       { key: "POS-4238",  title: "Ligar recomendação dos produtos com disparo de campanha", status: "To Do", points: 0 },
       { key: "POS-4260",  title: "[CDP] Validar Desempenho da Unomi em Segmentação e Atribuição de Profiles", status: "In Progress", points: 0 },
@@ -703,14 +704,14 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 6, end: 7 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 56,
+    status: "em-andamento", progress: 63,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
       { key: "POS-4170", title: "[Loja física + commerce] Definir quais dados serão enviados via API do Dib", status: "Done", points: 0 },
       { key: "POS-4171", title: "[OMS] Back: Adequação de contrato da ingestão dos dados", status: "To Do", points: 0 },
       { key: "POS-4172", title: "[OMS/Loja física] Definir o que deverá ser consolidado", status: "To Do", points: 0 },
-      { key: "POS-4173", title: "[OMS/loja física] Back: Cadastrar as regras no segmentador", status: "In Progress", points: 0 },
+      { key: "POS-4173", title: "[OMS/loja física] Back: Cadastrar as regras no segmentador", status: "Done", points: 0 },
       { key: "POS-4174", title: "[OMS] Definir o que vai ser exibido na visão do cliente", status: "To Do", points: 0 },
       { key: "FRONT-694", title: "[OMS] Front: Exibir dados loja física na visão do cliente", status: "Done", points: 0 },
       { key: "FRONT-626", title: "Trazer dados de loja física", status: "Done", points: 0 },
@@ -747,7 +748,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 25,
+    status: "em-andamento", progress: 38,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#2563eb" },
     storyPoints: 4,
     subtasks: [
@@ -756,8 +757,8 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-154", title: "Importação de HTML para E-mail e Unificação da Biblioteca de Templates", status: "In Progress", points: 0, sprint: 41 },
       { key: "FRONT-673", title: "Gestão de Opt-out (Importação em Lote e Manual)", status: "To Do", points: 0, sprint: 43 },
       { key: "POS-4056",  title: "Ajustar Status em envios pontuais e automáticos", status: "To Do", points: 0, sprint: 42 },
-      { key: "FRONT-703", title: "Novas Audiências no On-site Pop-up", status: "To Do", points: 0 },
-      { key: "FRONT-704", title: "Alinhar componentes no On-site Pop-up", status: "To Do", points: 0 },
+      { key: "FRONT-703", title: "Novas Audiências no On-site Pop-up", status: "In Progress", points: 0 },
+      { key: "FRONT-704", title: "Alinhar componentes no On-site Pop-up", status: "In Progress", points: 0 },
       { key: "FRONT-728", title: "[UX] Revisão feature de IP dedicado", status: "In Progress", points: 0 },
     ],
   },
@@ -1010,7 +1011,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "em-andamento", progress: 56,
+    status: "em-andamento", progress: 55,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -1018,8 +1019,8 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-244", title: "Configuração de CI/CD frontend", status: "To Do", points: 0 },
       { key: "FRONT-298", title: "Documentação técnica de setup", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "To Do", points: 0 },
-      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "In Progress", points: 0 },
-      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "In Progress", points: 0 },
+      { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "Done", points: 0 },
+      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "Done", points: 0 },
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
       { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "Done", points: 0 },
       { key: "FRONT-592", title: "Tela de atributos personalizados", status: "Done", points: 0, sprint: 41 },
@@ -1028,10 +1029,14 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-737", title: "[UX] Revisão da parte de listas", status: "Done", points: 0 },
       { key: "FRONT-738", title: "Paginação de visão de cliente não funciona", status: "In Progress", points: 0 },
       { key: "FRONT-739", title: "Ajuste no segmentador \"está entre\"", status: "In Progress", points: 0 },
-      { key: "FRONT-740", title: "Ajuste de nomes de audiência", status: "In Progress", points: 0 },
-      { key: "FRONT-741", title: "Botão excluir em lista não funciona", status: "In Progress", points: 0 },
+      { key: "FRONT-740", title: "Ajuste de nomes de audiência", status: "Done", points: 0 },
+      { key: "FRONT-741", title: "Botão excluir em lista não funciona", status: "Done", points: 0 },
       { key: "FRONT-742", title: "Não está aparecendo nome da lista na visão do cliente", status: "In Progress", points: 0 },
       { key: "FRONT-743", title: "Busca com espaço na visão de cliente não funciona", status: "In Progress", points: 0 },
+      { key: "FRONT-156", title: "Editor de templates WhatsApp – múltiplos tipos de botão", status: "To Do", points: 0 },
+      { key: "FRONT-241", title: "Bloquear edição de templates de WhatsApp com status pendente", status: "To Do", points: 0 },
+      { key: "FRONT-266", title: "Landing Pages: visualizar cadastros (leads) por LP, com perfil na CDP", status: "To Do", points: 0 },
+      { key: "FRONT-277", title: "Filtro e categorização de templates no Studio (E-mail e WhatsApp)", status: "To Do", points: 0 },
     ],
   },
 
