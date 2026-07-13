@@ -727,11 +727,11 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 5 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 83,
+    status: "concluido", progress: 100,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
-      { key: "POS-4183", title: "[Segmentador Commerce] Definir processo de onboarding: acesso, cadastro e permissões", status: "To Do", points: 0 },
+      { key: "POS-4183", title: "[Segmentador Commerce] Definir processo de onboarding: acesso, cadastro e permissões", status: "Done", points: 0 },
       { key: "POS-4248", title: "Mudança de autenticação da API para usar o keycloak do commerce", status: "Done", points: 0 },
       { key: "FRONT-696", title: "[Segmentador Commerce] Front: Implementar autenticação específica", status: "Done", points: 0 },
       { key: "FRONT-697", title: "[Segmentador Commerce] Front: Suprimir menu e header do segmentador", status: "Done", points: 0 },
