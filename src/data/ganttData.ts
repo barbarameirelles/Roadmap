@@ -507,7 +507,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG · FRONT-152",
     tags: ["platform2", "cdp"],
     planned: { start: 7, end: 7 }, executed: { start: 3, end: 4 },
-    status: "replanejado", progress: 87,
+    status: "replanejado", progress: 88,
     note: "Replanejado para início de Agosto/26 — o time de back-end precisou priorizar a CDP em vez da construção das regras e do motor de recomendação.",
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 14,
@@ -643,7 +643,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
     flagged: true,
-    status: "no-prazo", progress: 14,
+    status: "no-prazo", progress: 17,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 6,
     subtasks: [
