@@ -1005,7 +1005,7 @@ export const FEATURES: Feature[] = [
 
   // ─── Evoluções ───────────────────────────────────────────────────────────
   {
-    id: "f30", jiraKey: "FRONT-157",
+    id: "f30", jiraKey: "FRONT-157", jiraKeys: ["FRONT-157", "FRONT-783", "POS-4351"],
     name: "Evoluções e melhorias",
     subtitle: "Melhorias incrementais e evoluções contínuas",
     epic: "2.0 Melhorias e evoluções",
