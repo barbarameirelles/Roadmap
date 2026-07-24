@@ -702,7 +702,7 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 6, end: 7 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 63,
+    status: "em-andamento", progress: 62,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
