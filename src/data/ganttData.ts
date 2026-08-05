@@ -1051,7 +1051,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "em-andamento", progress: 66,
+    status: "em-andamento", progress: 57,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -1086,6 +1086,11 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-769", title: "Erro ao pausar segmentação", status: "Done", points: 0, sprint: 44 },
       { key: "FRONT-764", title: "[UX] Visão do cliente: Tela de pedidos e sessões", status: "Done", points: 0, sprint: 43 },
       { key: "FRONT-771", title: "[UX] Visão do cliente: Ajustes de UI", status: "Done", points: 0, sprint: 44 },
+      { key: "FRONT-828", title: "Erro ao despublicar LP", status: "To Do", points: 0, sprint: 46 },
+      { key: "FRONT-829", title: "Ao submeter um form na Landing Page, o botão não funciona", status: "To Do", points: 0, sprint: 46 },
+      { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do", points: 0, sprint: 46 },
+      { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "To Do", points: 0, sprint: 46 },
+      { key: "FRONT-813", title: "Discovery - Autenticação para fora do commerce", status: "To Do", points: 0, sprint: 46 },
     ],
   },
 
