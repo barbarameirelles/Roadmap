@@ -19,7 +19,7 @@ const COLUMN_CONFIG: Record<KanbanColumn, { title: string; color: string }> = {
 
 function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "concluido") return "done";
-  if (feat.status === "replanejado") return "blocked";      // despriorizado
+  if (feat.status === "replanejado" || feat.status === "despriorizado") return "blocked";      // despriorizado
   if (activeBlocked(feat) > 0) return "blocked";            // bloqueio ativo no Jira
   if (feat.progress >= 80) return "validation";
   if (feat.progress > 0 || feat.status === "em-andamento" || feat.status === "atrasado-em-andamento") return "in-progress";
@@ -199,6 +199,7 @@ export default function GanttKanbanView() {
     { id: "atrasado",              label: "Atrasados" },
     { id: "atrasado-em-andamento", label: "Atrasados · Em andamento" },
     { id: "replanejado",           label: "Replanejados" },
+    { id: "despriorizado",         label: "Despriorizados" },
   ];
 
   const COLUMNS: KanbanColumn[] = ["todo", "in-progress", "blocked", "validation", "done"];

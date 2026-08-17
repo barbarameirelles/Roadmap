@@ -51,7 +51,8 @@ export type FeatureStatus =
   | "em-andamento"
   | "atrasado"
   | "atrasado-em-andamento"
-  | "replanejado";
+  | "replanejado"
+  | "despriorizado";
 
 export interface Subtask {
   key: string;
@@ -86,7 +87,8 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f2: ["evolucao", "cdp"], f37: ["evolucao", "cdp"],
   f39: ["migracao", "cdp"],
   // Evolução da 2.0 (melhorias contínuas + evoluções pós-migração)
-  f30: ["evolucao"], f34: ["evolucao"], f36: ["evolucao"],
+  f30: ["evolucao"], f34: ["evolucao"],
+  f36: ["evolucao", "migracao"],
   f35: ["evolucao", "cdp"],
   // Capacidades futuras da plataforma → migração
   f22: ["migracao"], f26: ["migracao"], f27: ["migracao"], f28: ["migracao"],
@@ -94,7 +96,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f11: ["migracao"],
   // Audience + CDP
   "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-3": ["cdp"], "cdp-4": ["cdp"], f38: ["cdp"],
-  f29: ["cdp"],
+  f29: ["cdp", "migracao"],
   // Omni + dados de loja física: integração da plataforma alimentando a CDP
   "cdp-2b": ["migracao", "cdp"],
 };
@@ -177,6 +179,7 @@ export const STATUS_META: Record<
   "atrasado":              { label: "Atrasado",               bg: "#fee2e2", fg: "#b91c1c", dot: "#dc2626", icon: "!" },
   "atrasado-em-andamento": { label: "Atrasado · Em andamento", bg: "#ffedd5", fg: "#c2410c", dot: "#f97316", icon: "⚠" },
   "replanejado":           { label: "Replanejado",             bg: "#ede9fe", fg: "#6d28d9", dot: "#7c3aed", icon: "↪" },
+  "despriorizado":         { label: "Despriorizado",           bg: "#f1f5f9", fg: "#475569", dot: "#94a3b8", icon: "⏸" },
 };
 
 export const FEATURES: Feature[] = [
@@ -519,7 +522,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 7 }, executed: { start: 3, end: 4 },
-    status: "replanejado", progress: 62,
+    status: "despriorizado", progress: 62,
     note: "Épico unificado (motor + grupos de regras). Replanejado para início de Agosto/26 — o back-end precisou priorizar a CDP. POS-3770 e POS-4063 bloqueadas no Jira.",
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 160,
@@ -677,7 +680,7 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f21b", jiraKey: "",
+    id: "f21b", jiraKey: "POS-4476",
     name: "Integração com VTEX",
     subtitle: "Conexão nativa com a plataforma VTEX",
     epic: "2.0 Integrações",
@@ -771,7 +774,7 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f38", jiraKey: "POS-4166",
+    id: "f38", jiraKey: "POS-4477",
     name: "API de Consulta de Dados da CDP",
     subtitle: "Perfil unificado acessível via API para CRMs, ERPs e BI",
     epic: "CDP · API",
@@ -787,7 +790,7 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f39", jiraKey: "",
+    id: "f39", jiraKey: "FRONT-814", jiraKeys: ["FRONT-814", "POS-4478"],
     name: "Matriz RFV (RFM)",
     subtitle: "Segmentação automática por Recência, Frequência e Valor de compra",
     epic: "2.0 Matriz RFV",
@@ -796,7 +799,9 @@ export const FEATURES: Feature[] = [
     status: "no-prazo", progress: 0,
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
-    subtasks: [],
+    subtasks: [
+      { key: "FRONT-732", title: "[UX] Matriz RFV", status: "To Do", points: 0 },
+    ],
   },
 
   {
@@ -1027,13 +1032,13 @@ export const FEATURES: Feature[] = [
 
 
   {
-    id: "f33", jiraKey: "FRONT-749",
+    id: "f33", jiraKey: "FRONT-749", jiraKeys: ["FRONT-749", "POS-4479"],
     name: "Disponibilização de receita e exportação de dados",
     subtitle: "Receita e exportação CSV nas campanhas",
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: { start: 5, end: 5 },
-    status: "em-andamento", progress: 54,
+    status: "em-andamento", progress: 58,
     note: "FRONT-310, FRONT-407, FRONT-419 e FRONT-448 bloqueadas no Jira (exportações CSV e receita).",
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
@@ -1042,7 +1047,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-3929",  title: "Dados de receita - Gerar arquivo de download", status: "Done", points: 0, sprint: 39 },
       { key: "POS-3973",  title: "Implementação do Sistema de Notificação de Downloads", status: "Done", points: 0, sprint: 39 },
       { key: "FRONT-310", title: "Exportação de Relatórios CSV: Envios Pontuais", status: "To Do", points: 0, sprint: 38, blocked: true },
-      { key: "FRONT-369", title: "Exibição de receita dentro das campanhas", status: "To Do", points: 0 },
       { key: "FRONT-370", title: "Disponibilizar CSV com dados das campanhas para download", status: "Done", points: 0 },
       { key: "FRONT-407", title: "Exportação de Relatórios CSV: Envios Automáticos", status: "To Do", points: 0, sprint: 42, blocked: true },
       { key: "FRONT-419", title: "Exportação de Relatórios CSV: Segmentos", status: "To Do", points: 0, sprint: 43, blocked: true },
