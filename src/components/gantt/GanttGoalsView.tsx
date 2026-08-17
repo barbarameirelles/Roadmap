@@ -51,17 +51,46 @@ function GoalCard({ goal, stats }: { goal: MonthlyGoal; stats: GoalStats }) {
       background: "#fff", border: "1px solid #e2e8f0", borderTop: `3px solid ${meta.color}`,
       borderRadius: 12, padding: "16px 18px", display: "flex", flexDirection: "column", gap: 10,
     }}>
-      <span style={{
-        alignSelf: "flex-start", fontSize: 11, fontWeight: 700, letterSpacing: 0.3,
-        textTransform: "uppercase", color: meta.color, background: meta.bg,
-        borderRadius: 999, padding: "3px 10px",
-      }}>
-        {meta.short}
-      </span>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+        <span style={{
+          fontSize: 11, fontWeight: 700, letterSpacing: 0.3,
+          textTransform: "uppercase", color: meta.color, background: meta.bg,
+          borderRadius: 999, padding: "3px 10px",
+        }}>
+          {goal.label ?? meta.short}
+        </span>
+        {goal.eta && (
+          <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b", whiteSpace: "nowrap" }}>
+            Previsão: {goal.eta}
+          </span>
+        )}
+      </div>
       <div>
         <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a", marginBottom: 4 }}>{goal.title}</div>
         <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.5 }}>{goal.description}</div>
       </div>
+
+      {goal.deliveries && goal.deliveries.length > 0 && (
+        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+          {goal.deliveries.map((d, i) => (
+            <li key={i} style={{ display: "flex", gap: 8, alignItems: "baseline", fontSize: 12.5, lineHeight: 1.45 }}>
+              <span style={{ color: d.pending ? "#d97706" : "#16a34a", fontWeight: 700, flexShrink: 0 }}>
+                {d.pending ? "↻" : "✓"}
+              </span>
+              <span style={{ color: "#334155", flex: 1 }}>
+                {d.text}
+                {d.pending && <em style={{ color: "#d97706", fontStyle: "normal", fontWeight: 600 }}> · em andamento</em>}
+              </span>
+              <span style={{
+                flexShrink: 0, fontSize: 10.5, fontWeight: 600, color: "#64748b",
+                background: "#f1f5f9", borderRadius: 999, padding: "2px 8px", whiteSpace: "nowrap",
+              }}>
+                {d.epic}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div style={{ marginTop: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
@@ -103,7 +132,7 @@ export default function GanttGoalsView() {
       if (!map.has(g.month)) map.set(g.month, []);
       map.get(g.month)!.push(g);
     }
-    return [...map.entries()].sort((a, b) => b[0] - a[0]); // mais recente primeiro
+    return [...map.entries()].sort((a, b) => a[0] - b[0]); // mês atual (entregas) antes do planejamento
   }, []);
 
   const TRACK_ORDER: Track[] = ["migracao", "evolucao", "cdp"];
@@ -126,10 +155,10 @@ export default function GanttGoalsView() {
       {byMonth.map(([month, goals]) => {
         const isNext = month === TODAY_MONTH + 1;
         const isCurrent = month === TODAY_MONTH;
-        const badge = isNext ? "Mês seguinte" : isCurrent ? "Mês atual" : null;
-        const sorted = TRACK_ORDER
-          .map(t => goals.find(g => g.track === t))
-          .filter((g): g is MonthlyGoal => !!g);
+        const badge = isNext ? "Planejamento" : isCurrent ? "Mês atual · entregas" : null;
+        const sorted = [...goals].sort(
+          (a, b) => TRACK_ORDER.indexOf(a.track) - TRACK_ORDER.indexOf(b.track)
+        );
         return (
           <section key={month} style={{ marginBottom: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
