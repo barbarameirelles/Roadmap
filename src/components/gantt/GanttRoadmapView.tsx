@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import {
   FEATURES, MONTHS, QUARTERS, STATUS_META, TODAY_MONTH, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
-  type FeatureStatus, type Feature,
+  isBacklog, type FeatureStatus, type Feature,
 } from "@/data/ganttData";
 
 function pct(start: number, end: number): [number, number] {
@@ -297,6 +297,9 @@ export default function GanttRoadmapView() {
     });
   }, [statusFilter, quarterFilter, projectFilter]);
 
+  const timeline = useMemo(() => filtered.filter(f => !isBacklog(f)), [filtered]);
+  const backlog  = useMemo(() => filtered.filter(isBacklog), [filtered]);
+
   const toggle = (id: string) => setExpanded(p => ({ ...p, [id]: !p[id] }));
 
   const toggleStatus = (id: FeatureStatus) =>
@@ -441,7 +444,7 @@ export default function GanttRoadmapView() {
         </div>
 
         {/* Rows */}
-        {filtered.map(f => (
+        {timeline.map(f => (
           <GanttRow
             key={f.id}
             feat={f}
@@ -450,12 +453,48 @@ export default function GanttRoadmapView() {
             setTooltip={setTooltip}
           />
         ))}
-        {filtered.length === 0 && (
+        {timeline.length === 0 && (
           <div style={{ padding: 40, textAlign: "center", color: "var(--g-ink-3)" }}>
             Nenhuma feature encontrada com esses filtros.
           </div>
         )}
       </div>
+
+      {backlog.length > 0 && (
+        <div style={{ marginTop: 28 }}>
+          <h2 className="g-q-section-title">
+            Backlog · {backlog.length} épicos ainda não iniciados
+          </h2>
+          <p style={{ fontSize: 13, color: "var(--g-ink-3)", margin: "0 0 12px" }}>
+            Fora da linha do tempo até o início da execução. O trimestre indicado é a previsão de planejamento.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 10 }}>
+            {backlog.map(f => {
+              const q = QUARTERS.find(q => f.planned.start >= q.start && f.planned.start <= q.end);
+              return (
+                <div key={f.id} style={{
+                  background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10,
+                  padding: "12px 14px", display: "flex", flexDirection: "column", gap: 6,
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: "#0f172a" }}>{f.name}</span>
+                    <span style={{
+                      fontSize: 11, fontWeight: 600, whiteSpace: "nowrap",
+                      background: "#f1f5f9", color: "#475569", borderRadius: 999, padding: "2px 10px",
+                    }}>
+                      {q ? q.label : "Sem previsão"}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 12, color: "var(--g-ink-3)" }}>{f.epic}</span>
+                    <span style={{ fontSize: 12, color: "var(--g-ink-3)" }}>{f.owner.name}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <Tooltip data={tooltip} />
     </div>

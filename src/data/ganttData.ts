@@ -121,6 +121,11 @@ export interface Feature {
   subtasks: Subtask[];
 }
 
+// Épico ainda não iniciado (sem execução e sem progresso) → fica no backlog,
+// fora da linha do tempo, independente do trimestre planejado.
+export const isBacklog = (f: Feature): boolean =>
+  f.executed === null && f.progress === 0;
+
 export const STATUS_META: Record<
   FeatureStatus,
   { label: string; bg: string; fg: string; dot: string; icon: string }

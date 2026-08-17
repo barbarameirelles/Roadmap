@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import {
   FEATURES, MONTHS, QUARTERS, TODAY_MONTH,
-  type Feature,
+  isBacklog, type Feature,
 } from "@/data/ganttData";
 
 // ── Display-name overrides (this view only) ──────────────────────────────────
@@ -120,7 +120,7 @@ function renderChip(
 export default function GanttTimelineView() {
   const features = useMemo(() =>
     FEATURES
-      .filter(f => !EXCLUDED.has(f.id))
+      .filter(f => !EXCLUDED.has(f.id) && !isBacklog(f))
       .map(f => NAME_OVERRIDE[f.id] ? { ...f, name: NAME_OVERRIDE[f.id] } : f),
   []);
 
