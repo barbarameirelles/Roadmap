@@ -44,10 +44,9 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
     title: "Segmentação e atributos mais ricos",
     description:
       "Segmentador com segmentos pré-definidos, atributos personalizados de ponta a ponta e dados de localidade.",
-    jiraKeys: ["FRONT-876", "FRONT-872", "POS-4296", "FRONT-592", "POS-3261", "POS-3205", "POS-4131"],
+    jiraKeys: ["FRONT-876", "FRONT-872", "FRONT-592", "POS-3261", "POS-3205", "POS-4131"],
     deliveries: [
       { text: "Aba de segmentos pré-definidos no segmentador", epic: "Pente fino / Ajustes 2.0" },
-      { text: "Início da migração do sistema de disparo de e-mail", epic: "Evolução - IP dedicado", pending: true },
       { text: "Atributos personalizados: tela de cadastro, segmentador e subida de lista", epic: "Relatórios e Exportações" },
       { text: "Campos de localidade (cidade e estado) no segmentador", epic: "Dados CDP" },
       { text: "Exclusão manual de cliente", epic: "Evoluções e melhorias" },
@@ -59,9 +58,10 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
     label: "Apenas XP",
     title: "Evoluções da plataforma",
     description:
-      "Melhorias nas Landing Pages, visão de cliente, modais on-site e templates de e-mail.",
-    jiraKeys: ["FRONT-388", "FRONT-389", "FRONT-703", "FRONT-704", "FRONT-154", "FRONT-591", "FRONT-739", "FRONT-740"],
+      "Melhorias nas Landing Pages, visão de cliente, modais on-site, templates de e-mail e início da migração do disparo.",
+    jiraKeys: ["FRONT-388", "FRONT-389", "FRONT-703", "FRONT-704", "FRONT-154", "FRONT-591", "FRONT-739", "FRONT-740", "POS-4296"],
     deliveries: [
+      { text: "Início da migração do sistema de disparo de e-mail", epic: "Evolução - IP dedicado", pending: true },
       { text: "Landing Page: redirect após cadastro, modal de agradecimento e mudança de URL", epic: "Evoluções e melhorias" },
       { text: "Visão de cliente: ajustes na ordenação", epic: "Evoluções e melhorias" },
       { text: "Mudança da tela de SDK", epic: "Evoluções e melhorias" },
@@ -69,6 +69,15 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
       { text: "Importação de HTML para e-mail", epic: "Gestão de Campanhas - Fase 2" },
       { text: "Template de produto para o e-mail (parte do BTG)", epic: "BTG" },
     ],
+  },
+
+  {
+    month: 7,
+    track: "evolucao",
+    title: "Pente fino da plataforma 2.0",
+    description:
+      "Rodada de refinamento das telas já migradas: Landing Pages, On-Site, Studio, Home e Segmentador — correções de UX e consistência antes da ampliação da base de clientes.",
+    jiraKeys: ["FRONT-851", "FRONT-855", "FRONT-857", "FRONT-873"],
   },
 
   // ── Setembro/2026 — planejamento ───────────────────────────────────────────
