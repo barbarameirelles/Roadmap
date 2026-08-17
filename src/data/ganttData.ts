@@ -79,7 +79,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f6: ["migracao"], f8: ["migracao"], f9: ["migracao"], f14: ["migracao"],
   f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
   f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
-  f40: ["migracao"], f41: ["migracao"],
+  f40: ["migracao"], f41: ["migracao"], f42: ["migracao"], f43: ["migracao"],
   // Telas de paridade com componente CDP/Audience
   f10: ["migracao", "cdp"], f12: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
@@ -824,6 +824,32 @@ export const FEATURES: Feature[] = [
     planned: { start: 12, end: 14 }, executed: null,
     status: "no-prazo", progress: 0,
     note: "Despriorizado — foco será em Wake Commerce.",
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
+  {
+    id: "f42", jiraKey: "",
+    name: "Gestão de Pressão de Comunicação",
+    subtitle: "Controle de frequência de contatos por cliente",
+    epic: "2.0 Pressão de Comunicação",
+    tags: ["platform2"],
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
+  {
+    id: "f43", jiraKey: "",
+    name: "Relatórios de Performance",
+    subtitle: "Envio, interação, transacionais, performance geral e automáticos, reputação de provedores, on-site/web push",
+    epic: "2.0 Relatórios de Performance",
+    tags: ["platform2"],
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
     subtasks: [],
