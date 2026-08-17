@@ -79,7 +79,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f6: ["migracao"], f8: ["migracao"], f9: ["migracao"], f14: ["migracao"],
   f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
   f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
-  f40: ["migracao"], f41: ["migracao"], f42: ["migracao"], f43: ["migracao"],
+  f40: ["migracao"], f41: ["migracao"], f42: ["migracao"],
   // Telas de paridade com componente CDP/Audience
   f10: ["migracao", "cdp"], f12: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
@@ -519,7 +519,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
     planned: { start: 4, end: 7 }, executed: { start: 3, end: 4 },
-    status: "replanejado", progress: 63,
+    status: "replanejado", progress: 62,
     note: "Épico unificado (motor + grupos de regras). Replanejado para início de Agosto/26 — o back-end precisou priorizar a CDP. POS-3770 e POS-4063 bloqueadas no Jira.",
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
     storyPoints: 160,
@@ -543,7 +543,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-591", title: "BTG: Feature de template de produto", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4168",  title: "[BTG] Teste de carga da aplicação", status: "To Do", points: 0 },
       { key: "POS-4169",  title: "[BTG] Entender o consumo para definir limites e preços da aplicação", status: "To Do", points: 0 },
-      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "Done", points: 0 },
       { key: "FRONT-701", title: "Integração do Editor Beefree com Templates de Produto", status: "Done", points: 0 },
       { key: "POS-4238",  title: "Ligar recomendação dos produtos com disparo de campanha", status: "To Do", points: 0 },
       { key: "POS-4260",  title: "[CDP] Validar Desempenho da Unomi em Segmentação e Atribuição de Profiles", status: "Done", points: 0 },
@@ -610,7 +609,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-550", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-570", title: "BTG - Réguas Consolidadas", status: "To Do", points: 3 },
       { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0, sprint: 37 },
-      { key: "FRONT-727", title: "[UX] Revisar usabilidade de feature de pressão de comunicação", status: "Done", points: 0 },
     ],
   },
 
@@ -620,8 +618,8 @@ export const FEATURES: Feature[] = [
   // ── BTG frente 3: Segundo grupo de regras ───────────────────────────────
   {
     id: "f14", jiraKey: "POS-3889", jiraKeys: ["POS-3889", "FRONT-366", "FRONT-595"],
-    name: "Relatórios e Exportações",
-    subtitle: "Relatórios, receita e exportação CSV",
+    name: "Relatórios de Performance",
+    subtitle: "Relatórios de envio, interação, transacionais, performance geral e automáticos, reputação e on-site/web push",
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
     planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
@@ -830,29 +828,21 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f42", jiraKey: "",
+    id: "f42", jiraKey: "",  // épico Jira ainda não criado — tarefas vinculadas por nome
     name: "Gestão de Pressão de Comunicação",
     subtitle: "Controle de frequência de contatos por cliente",
     epic: "2.0 Pressão de Comunicação",
     tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: null,
-    status: "no-prazo", progress: 0,
+    planned: { start: 9, end: 11 }, executed: { start: 6, end: 7 },
+    status: "em-andamento", progress: 50,
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
-    subtasks: [],
-  },
-
-  {
-    id: "f43", jiraKey: "",
-    name: "Relatórios de Performance",
-    subtitle: "Envio, interação, transacionais, performance geral e automáticos, reputação de provedores, on-site/web push",
-    epic: "2.0 Relatórios de Performance",
-    tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: null,
-    status: "no-prazo", progress: 0,
-    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
-    storyPoints: 0,
-    subtasks: [],
+    subtasks: [
+      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "Done", points: 0 },
+      { key: "FRONT-727", title: "[UX] Revisar usabilidade de feature de pressão de comunicação", status: "Done", points: 0 },
+      { key: "FRONT-843", title: "[UX] Pressão de Comunicação e consumo de SMS", status: "To Do", points: 0 },
+      { key: "POS-4302", title: "BACK: Pressão de comunicação", status: "To Do", points: 0 },
+    ],
   },
 
   {

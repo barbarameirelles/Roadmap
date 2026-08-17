@@ -760,12 +760,6 @@
   border-radius: 999px;
 }
 
-.kb-col-sp {
-  font-size: 11px;
-  color: var(--g-ink-4);
-  font-weight: 500;
-}
-
 .kb-col-body {
   padding: 12px;
   display: flex;
@@ -814,14 +808,12 @@
   min-width: 0;
 }
 
-.kb-owner-avatar {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  display: grid; place-items: center;
-  font-size: 10px; font-weight: 700;
-  color: #fff;
-  flex: 0 0 26px;
-  letter-spacing: 0;
+.kb-track-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 .kb-card-name {

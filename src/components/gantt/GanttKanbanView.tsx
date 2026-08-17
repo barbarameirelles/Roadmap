@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import {
   FEATURES, QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
-  TRACK_META, hasTrack, type FeatureStatus, type Feature, type Track,
+  TRACK_META, hasTrack, tracksOf, type FeatureStatus, type Feature, type Track,
 } from "@/data/ganttData";
 
 const activeBlocked = (f: Feature) =>
@@ -31,14 +31,6 @@ function monthLabel(idx: number) {
   return `${m.label}/${String(m.year).slice(2)}`;
 }
 
-function OwnerAvatar({ owner }: { owner: Feature["owner"] }) {
-  return (
-    <div className="kb-owner-avatar" title={owner.name} style={{ background: owner.color }}>
-      {owner.initials}
-    </div>
-  );
-}
-
 function StatusBadge({ status }: { status: FeatureStatus }) {
   const m = STATUS_META[status];
   return (
@@ -49,23 +41,25 @@ function StatusBadge({ status }: { status: FeatureStatus }) {
   );
 }
 
-function KanbanCard({ feat }: { feat: Feature }) {
+function KanbanCard({ feat, showDates = true }: { feat: Feature; showDates?: boolean }) {
   const total = feat.subtasks.length;
   const done  = feat.subtasks.filter(s => s.status === "Done").length;
   const inp   = feat.subtasks.filter(s => s.status === "In Progress").length;
   const inpPct = total > 0 ? Math.min(Math.round((inp / total) * 100), 100 - feat.progress) : 0;
+
+  const tracks = tracksOf(feat);
 
   return (
     <div className="kb-card">
       <div className="kb-card-top">
         <div className="kb-card-tags">
           <span className="g-jira-key">{feat.jiraKey}</span>
-          {feat.tags?.includes("platform2") && <span className="g-p2-tag">2.0</span>}
-          {(feat.project === "cdp" || feat.tags?.includes("cdp")) && (
-            <span className="g-cdp-tag">CDP</span>
-          )}
+          {tracks.map(t => (
+            <span key={t} className="kb-track-tag" style={{ background: TRACK_META[t].bg, color: TRACK_META[t].color }}>
+              {TRACK_META[t].short}
+            </span>
+          ))}
         </div>
-        <OwnerAvatar owner={feat.owner} />
       </div>
 
       <div className="kb-card-name">
@@ -77,9 +71,11 @@ function KanbanCard({ feat }: { feat: Feature }) {
 
       <div className="kb-card-meta">
         <span className="kb-epic-tag">{feat.epic}</span>
-        <span className="kb-quarter-tag">
-          {monthLabel(feat.planned.start)} → {monthLabel(feat.planned.end)}
-        </span>
+        {showDates && (
+          <span className="kb-quarter-tag">
+            {monthLabel(feat.planned.start)} → {monthLabel(feat.planned.end)}
+          </span>
+        )}
       </div>
 
       <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
@@ -102,7 +98,7 @@ function KanbanCard({ feat }: { feat: Feature }) {
           </div>
           <div className="kb-progress-foot">
             <span>{feat.progress}% concluído</span>
-            <span>{done}/{total} tarefas · {feat.storyPoints} SP</span>
+            <span>{done}/{total} tarefas</span>
           </div>
         </div>
       )}
@@ -130,7 +126,6 @@ function KanbanCard({ feat }: { feat: Feature }) {
 
 function KanbanCol({ col, features }: { col: KanbanColumn; features: Feature[] }) {
   const cfg = COLUMN_CONFIG[col];
-  const totalSP = features.reduce((a, f) => a + f.storyPoints, 0);
 
   return (
     <div className="kb-col">
@@ -139,10 +134,9 @@ function KanbanCol({ col, features }: { col: KanbanColumn; features: Feature[] }
           <span className="kb-col-title" style={{ color: cfg.color }}>{cfg.title}</span>
           <span className="kb-col-count">{features.length}</span>
         </div>
-        <span className="kb-col-sp">{totalSP} SP</span>
       </div>
       <div className="kb-col-body">
-        {features.map(f => <KanbanCard key={f.id} feat={f} />)}
+        {features.map(f => <KanbanCard key={f.id} feat={f} showDates={col !== "todo"} />)}
         {features.length === 0 && (
           <div className="kb-empty">Nenhuma feature</div>
         )}
