@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
-import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH, type Feature } from "@/data/ganttData";
+import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH, TRACK_META, trackOf, isBacklog, type Feature, type Track } from "@/data/ganttData";
+import GanttMonthlyView from "./GanttMonthlyView";
 
 type QTag  = "past" | "current" | "future";
-type Scope = "all" | "platform2" | "cdp";
+type Scope = "all" | Track;
 
 // Posição planejada ponderada (0..1): rampa linear ao longo da janela planejada.
 function plannedFrac(f: Feature, m: number): number {
@@ -14,10 +15,6 @@ function qTagFor(qStart: number, qEnd: number): QTag {
   if (qEnd < TODAY_MONTH)                          return "past";
   if (qStart <= TODAY_MONTH && TODAY_MONTH <= qEnd) return "current";
   return "future";
-}
-
-function qLabelFor(tag: QTag) {
-  return tag === "past" ? "Passado" : tag === "current" ? "Atual" : "Futuro";
 }
 
 function riskOf(
@@ -56,14 +53,24 @@ function riskOf(
 export default function GanttExecView() {
   const [scope, setScope] = useState<Scope>("all");
 
-  const isCdp      = (f: Feature) => f.project === "cdp" || (f.tags?.includes("cdp") ?? false);
-  const isPlatform2 = (f: Feature) => f.tags?.includes("platform2") ?? false;
-
   const scopeFeatures = useMemo(() => {
-    if (scope === "cdp")      return FEATURES.filter(isCdp);
-    if (scope === "platform2") return FEATURES.filter(isPlatform2);
-    return FEATURES;
+    if (scope === "all") return FEATURES;
+    return FEATURES.filter(f => trackOf(f) === scope);
   }, [scope]);
+
+  // Resumo por objetivo estratégico. Épicos de backlog (não iniciados) contam
+  // à parte para não diluir a média; f30 (excludeFromStats) entra no seu track.
+  const trackStats = useMemo(() => (Object.keys(TRACK_META) as Track[]).map(t => {
+    const feats   = FEATURES.filter(f => trackOf(f) === t);
+    const ativos  = feats.filter(f => !isBacklog(f));
+    const backlog = feats.length - ativos.length;
+    const n = ativos.length;
+    const entregues = ativos.filter(f => f.status === "concluido").length;
+    const avg = n > 0 ? Math.round(ativos.reduce((s, f) => s + f.progress, 0) / n) : 0;
+    const plan = n > 0 ? Math.round(ativos.reduce((s, f) => s + plannedFrac(f, TODAY_MONTH), 0) / n * 100) : 0;
+    const bloqueios = feats.flatMap(f => f.subtasks).filter(s => s.blocked && s.status !== "Done").length;
+    return { track: t, n, backlog, entregues, avg, plan, bloqueios };
+  }), []);
 
   // Exclui épicos de melhoria contínua dos KPIs (ex: Evoluções e melhorias)
   const statsFeatures = useMemo(() => scopeFeatures.filter(f => !f.excludeFromStats), [scopeFeatures]);
@@ -87,20 +94,15 @@ export default function GanttExecView() {
     return { ...q, items, total: items.length, concluidos, atrasados, emAndamento, replanejados, planejados, avgProgress, tag, hasMilestone };
   }), [statsFeatures]);
 
-  const concluidosTotal  = statsFeatures.filter(f => f.status === "concluido").length;
-  const atrasadosCount   = statsFeatures.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
-  const emAndamentoTotal = statsFeatures.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
-  const pctPlanned       = total > 0 ? Math.round(statsFeatures.reduce((s, f) => s + plannedFrac(f, TODAY_MONTH), 0) / total * 100) : 0;
-  const pctDelivered     = total > 0 ? Math.round((concluidosTotal / total) * 100) : 0;
-  const avgProgressTotal = total > 0 ? Math.round(statsFeatures.reduce((s, f) => s + f.progress, 0) / total) : 0;
-  const milestone        = scope !== "cdp" ? statsFeatures.find(f => f.milestone) : undefined;
+  const milestone = scope !== "cdp" ? statsFeatures.find(f => f.milestone) : undefined;
 
   const todayLabel = `${MONTHS[TODAY_MONTH].label}/${MONTHS[TODAY_MONTH].year}`;
 
   const scopeLabels: Record<Scope, string> = {
-    all:       "Geral",
-    platform2: "Plataforma 2.0",
-    cdp:       "Audience (CDP)",
+    all:      "Geral",
+    migracao: "Migração 1.0 → 2.0",
+    evolucao: "Evolução 2.0",
+    cdp:      "Audience + CDP",
   };
 
   return (
@@ -118,7 +120,7 @@ export default function GanttExecView() {
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           {/* Scope toggle */}
           <div className="g-exec-scope-toggle">
-            {(["all", "platform2", "cdp"] as Scope[]).map(s => (
+            {(["all", "migracao", "evolucao", "cdp"] as Scope[]).map(s => (
               <button
                 key={s}
                 className={
@@ -141,34 +143,46 @@ export default function GanttExecView() {
       {/* Scope subtitle */}
       {scope !== "all" && (
         <div className="g-exec-scope-note">
-          {scope === "platform2"
-            ? `Exibindo ${total} épicos da migração Plataforma 2.0`
-            : `Exibindo ${total} épicos relacionados à Audience (CDP)`}
+          Exibindo {total} épicos · {scopeLabels[scope]}
         </div>
       )}
 
-      {/* KPIs */}
-      <div className="g-kpi-grid">
-        <div className="g-kpi accent-blue">
-          <div className="g-kpi-label">% Planejado até hoje</div>
-          <div className="g-kpi-value blue g-tabular">{pctPlanned}%</div>
-          <div className="g-kpi-sub">posição ponderada esperada pelo plano</div>
-        </div>
-        <div className="g-kpi accent-green">
-          <div className="g-kpi-label">Progresso médio</div>
-          <div className="g-kpi-value green g-tabular">{avgProgressTotal}%</div>
-          <div className="g-kpi-sub">média de evolução dos {total} épicos</div>
-        </div>
-        <div className="g-kpi accent-red">
-          <div className="g-kpi-label">% Entregue (fechados)</div>
-          <div className="g-kpi-value red g-tabular">{pctDelivered}%</div>
-          <div className="g-kpi-sub">{concluidosTotal} de {total} épicos 100% concluídos</div>
-        </div>
-        <div className="g-kpi accent-amber">
-          <div className="g-kpi-label">Com atraso</div>
-          <div className="g-kpi-value amber g-tabular">{atrasadosCount}</div>
-          <div className="g-kpi-sub">{emAndamentoTotal} itens em andamento no total</div>
-        </div>
+      {/* Os 3 objetivos estratégicos */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 24 }}>
+        {trackStats.map(ts => {
+          const meta = TRACK_META[ts.track];
+          const delta = ts.avg - ts.plan;
+          return (
+            <button
+              key={ts.track}
+              onClick={() => setScope(scope === ts.track ? "all" : ts.track)}
+              style={{
+                textAlign: "left", cursor: "pointer", background: "#fff",
+                border: scope === ts.track ? `2px solid ${meta.color}` : "1px solid #e2e8f0",
+                borderTop: `3px solid ${meta.color}`,
+                borderRadius: 12, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8,
+              }}
+            >
+              <span style={{ fontSize: 12, fontWeight: 700, color: meta.color }}>{meta.label}</span>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                <span style={{ fontSize: 28, fontWeight: 800, color: "#0f172a" }} className="g-tabular">{ts.avg}%</span>
+                <span style={{ fontSize: 12, color: delta >= 0 ? "#15803d" : "#b91c1c", fontWeight: 600 }}>
+                  {delta >= 0 ? "▲" : "▼"} {Math.abs(delta)}pp vs plano ({ts.plan}%)
+                </span>
+              </div>
+              <div style={{ height: 8, background: "#f1f5f9", borderRadius: 999, overflow: "hidden", position: "relative" }}>
+                <div style={{ width: `${Math.max(ts.avg, 2)}%`, height: "100%", background: meta.color, borderRadius: 999 }} />
+                <div style={{ position: "absolute", top: -2, bottom: -2, left: `${ts.plan}%`, width: 2, background: "#0f172a", opacity: 0.5 }} />
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#64748b" }}>
+                <span>{ts.entregues} de {ts.n} épicos entregues{ts.backlog > 0 ? ` · ${ts.backlog} no backlog` : ""}</span>
+                <span style={{ color: ts.bloqueios > 0 ? "#b91c1c" : "#15803d", fontWeight: 600 }}>
+                  {ts.bloqueios > 0 ? `⚠ ${ts.bloqueios} bloqueios` : "✓ sem bloqueios"}
+                </span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Risk strip */}
@@ -336,88 +350,9 @@ export default function GanttExecView() {
         </div>
       </div>
 
-      {/* Quarter cards */}
-      <h2 className="g-q-section-title">Progresso por trimestre</h2>
-      <div className="g-q-cards">
-        {perQ.map(q => {
-          const ratio     = q.total > 0 ? q.concluidos / q.total : 0;
-          const conclusao = Math.round(ratio * 100);
-          const barColor  = conclusao >= 80 ? "var(--g-green)" : conclusao >= 50 ? "var(--g-orange)" : conclusao > 0 ? "var(--g-red)" : "#94a3b8";
-          const valClass  = conclusao >= 80 ? "green" : conclusao >= 50 ? "amber" : conclusao > 0 ? "red" : "gray";
-
-          return (
-            <div key={q.id} className={"g-q-card" + (q.tag === "current" ? " is-current" : "")}>
-              <div className="g-q-card-head">
-                <span className="g-q-card-title">{q.label}</span>
-                <span className={"g-q-card-tag " + q.tag}>{qLabelFor(q.tag)}</span>
-              </div>
-              <div className="g-q-stats">
-                {q.concluidos > 0 && (
-                  <div className="g-q-stat">
-                    <span className="lbl"><span className="ic" style={{ color: "var(--g-green)" }}>✓</span>Concluídos</span>
-                    <span className="v g-tabular">{q.concluidos}</span>
-                  </div>
-                )}
-                {q.atrasados > 0 && (
-                  <div className="g-q-stat">
-                    <span className="lbl"><span className="ic" style={{ color: "var(--g-orange)" }}>⚠</span>Atrasados</span>
-                    <span className="v g-tabular">{q.atrasados}</span>
-                  </div>
-                )}
-                {q.emAndamento > 0 && (
-                  <div className="g-q-stat">
-                    <span className="lbl"><span className="ic" style={{ color: "var(--g-amber)" }}>↻</span>Em andamento</span>
-                    <span className="v g-tabular">{q.emAndamento}</span>
-                  </div>
-                )}
-                {q.replanejados > 0 && (
-                  <div className="g-q-stat">
-                    <span className="lbl"><span className="ic" style={{ color: "#7c3aed" }}>↪</span>Replanejados</span>
-                    <span className="v g-tabular">{q.replanejados}</span>
-                  </div>
-                )}
-                {q.planejados > 0 && (
-                  <div className="g-q-stat">
-                    <span className="lbl"><span className="ic" style={{ color: "var(--g-ink-4)" }}>→</span>Planejados</span>
-                    <span className="v g-tabular">{q.planejados}</span>
-                  </div>
-                )}
-                {q.total === 0 && (
-                  <div className="g-q-stat">
-                    <span className="lbl" style={{ color: "var(--g-ink-4)" }}>Nenhum épico neste escopo</span>
-                  </div>
-                )}
-              </div>
-              {q.total > 0 && (q.tag !== "future" || q.concluidos > 0 || q.avgProgress > 0) && (
-                <div className="g-q-conclusao">
-                  <div className="row">
-                    <span style={{ color: "var(--g-ink-3)" }}>Fechados</span>
-                    <span className={"v g-tabular " + valClass}>{conclusao}%</span>
-                  </div>
-                  <div style={{ height: 6, background: "#e2e8f0", borderRadius: 999, overflow: "hidden", marginBottom: 8 }}>
-                    <div style={{ width: Math.max(conclusao, 2) + "%", height: "100%", borderRadius: 999, background: barColor }} />
-                  </div>
-                  {(() => {
-                    const avgColor = q.avgProgress >= 80 ? "var(--g-green)" : q.avgProgress >= 50 ? "var(--g-orange)" : q.avgProgress > 0 ? "var(--g-red)" : "#94a3b8";
-                    const avgClass = q.avgProgress >= 80 ? "green" : q.avgProgress >= 50 ? "amber" : q.avgProgress > 0 ? "red" : "gray";
-                    return (
-                      <>
-                        <div className="row">
-                          <span style={{ color: "var(--g-ink-3)" }}>Progresso médio</span>
-                          <span className={"v g-tabular " + avgClass}>{q.avgProgress}%</span>
-                        </div>
-                        <div style={{ height: 6, background: "#e2e8f0", borderRadius: 999, overflow: "hidden" }}>
-                          <div style={{ width: Math.max(q.avgProgress, 2) + "%", height: "100%", borderRadius: 999, background: avgColor }} />
-                        </div>
-                      </>
-                    );
-                  })()}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      {/* Evolução mensal (planejado vs realizado + forecast) */}
+      <h2 className="g-q-section-title" style={{ marginTop: 28 }}>Evolução mensal</h2>
+      <GanttMonthlyView embedded />
     </div>
   );
 }

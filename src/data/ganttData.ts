@@ -59,7 +59,34 @@ export interface Subtask {
   status: "Done" | "In Progress" | "To Do";
   points: number;
   sprint?: number;
+  blocked?: boolean; // BLOQUEADO/BLOCKED no Jira — atualizado no sync semanal
 }
+
+// ─── Objetivos estratégicos (tracks) ─────────────────────────────────────────
+export type Track = "migracao" | "evolucao" | "cdp";
+
+export const TRACK_META: Record<Track, { label: string; short: string; color: string; bg: string }> = {
+  migracao: { label: "Migração da plataforma 1.0 → 2.0", short: "Migração 1.0 → 2.0", color: "#2563eb", bg: "#eff6ff" },
+  evolucao: { label: "Evolução da plataforma 2.0",       short: "Evolução 2.0",       color: "#7c3aed", bg: "#f5f3ff" },
+  cdp:      { label: "Audience + CDP",                   short: "Audience + CDP",     color: "#0d9488", bg: "#f0fdfa" },
+};
+
+// Track de cada feature — mapa explícito para facilitar ajustes
+export const TRACK_BY_ID: Record<string, Track> = {
+  // Migração 1.0 → 2.0 (paridade)
+  f1: "migracao", f2: "migracao", f3: "migracao", f4: "migracao", f5: "migracao",
+  f6: "migracao", f8: "migracao", f9: "migracao", f10: "migracao", f12: "migracao",
+  f13: "migracao", f14: "migracao", f17: "migracao", f19: "migracao", f20: "migracao",
+  f21: "migracao", f21b: "migracao", f24: "migracao", f25: "migracao", f32: "migracao",
+  f33: "migracao",
+  // Evolução da 2.0 (capacidades novas + melhorias contínuas)
+  f30: "evolucao", f22: "evolucao", f26: "evolucao", f27: "evolucao", f28: "evolucao",
+  // Audience + CDP (inclui BTG, construído sobre a CDP)
+  "cdp-1": "cdp", "cdp-2a": "cdp", "cdp-2b": "cdp", "cdp-3": "cdp", "cdp-4": "cdp",
+  "cdp-5": "cdp", f29: "cdp", f31: "cdp", f11: "cdp", f11b: "cdp", f11c: "cdp",
+};
+
+export const trackOf = (f: Feature): Track => TRACK_BY_ID[f.id] ?? "migracao";
 
 // Sprint number → month index (0 = Jan 2026). Sprint 44 = Jul 1–14.
 export const SPRINT_TO_MONTH: Record<number, number> = {
@@ -409,7 +436,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4109", title: "Estruturação de Consumo - Catálogo de produtos Commerce", status: "Done", points: 0, sprint: 42 },
       { key: "POS-4115", title: "[CDP] Unificação dos SDKs: Unificar SDK de plug-ins dentro da SDK nova criada", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4116", title: "Obter profile por ID", status: "Done", points: 3, sprint: 41 },
-      { key: "POS-4129", title: "Consolidar dados de Campanhas", status: "To Do", points: 0, sprint: 41 },
+      { key: "POS-4129", title: "Consolidar dados de Campanhas", status: "To Do", points: 0, sprint: 41, blocked: true },
       { key: "POS-4130", title: "Consolidar Compras", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4131", title: "Consolidar Cidade e Estado", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4132", title: "Segmentador não deve buscar dados em eventos", status: "Done", points: 0, sprint: 41 },
@@ -553,7 +580,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-544", title: "BTG - Regra de Novidades", status: "Done", points: 0, sprint: 41 },
       { key: "FRONT-545", title: "BTG - Regra Redução de Preços", status: "In Progress", points: 0, sprint: 41 },
       { key: "FRONT-221", title: "BTG - Regra de Aniversário", status: "To Do", points: 0, sprint: 42 },
-      { key: "POS-3770",  title: "Construção das regras: Navegações e abandono de carrinho", status: "To Do", points: 5, sprint: 37 },
+      { key: "POS-3770",  title: "Construção das regras: Navegações e abandono de carrinho", status: "To Do", points: 5, sprint: 37, blocked: true },
       { key: "POS-3924",  title: "Segmentação de Indecisos", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4050",  title: "Segmentação dos Dados de Redução de Preços", status: "Done", points: 3, sprint: 41 },
       { key: "POS-4051",  title: "Segmentação dos Dados de Novidades", status: "To Do", points: 3, sprint: 42 },
@@ -579,7 +606,7 @@ export const FEATURES: Feature[] = [
     subtasks: [
       // Regras do segundo grupo (ainda não iniciadas)
       { key: "POS-4062", title: "Segmentação Recorrência", status: "To Do", points: 0 },
-      { key: "POS-4063", title: "Consolidação Recorrência", status: "To Do", points: 0, sprint: 42 },
+      { key: "POS-4063", title: "Consolidação Recorrência", status: "To Do", points: 0, sprint: 42, blocked: true },
       { key: "POS-4075", title: "Segmentação Novos Cadastros", status: "To Do", points: 0 },
       { key: "POS-4076", title: "Consolidação Novos Cadastros", status: "To Do", points: 0 },
       { key: "POS-4077", title: "Segmentação Envio por Data", status: "To Do", points: 0 },
@@ -715,9 +742,9 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-807", title: "Visão de Clientes - Corrigir Visualização", status: "Done", points: 0 },
       { key: "FRONT-811", title: "Segmentador - Forma de pagamento", status: "To Do", points: 0 },
       { key: "POS-4399",  title: "Consolidar Carrinho", status: "To Do", points: 0 },
-      { key: "FRONT-770", title: "Incluir campo de UF no segmentador", status: "To Do", points: 0 },
-      { key: "FRONT-774", title: "Front Segmentador: Interesse e navegação", status: "To Do", points: 0 },
-      { key: "FRONT-779", title: "Segmentador: Canal / Loja: carregar lojas e site via API", status: "To Do", points: 0 },
+      { key: "FRONT-770", title: "Incluir campo de UF no segmentador", status: "To Do", points: 0, blocked: true },
+      { key: "FRONT-774", title: "Front Segmentador: Interesse e navegação", status: "To Do", points: 0, blocked: true },
+      { key: "FRONT-779", title: "Segmentador: Canal / Loja: carregar lojas e site via API", status: "To Do", points: 0, blocked: true },
       { key: "FRONT-780", title: "Segmentador: Comprou: carregar produtos via API no Segmentador", status: "To Do", points: 0 },
       { key: "FRONT-854", title: "Pente Fino: Clientes (Listagem + Visão Única)", status: "To Do", points: 0, sprint: 47 },
       { key: "FRONT-872", title: "Tirar dados Mocados Segmentos pré definidos", status: "Done", points: 0, sprint: 47 },
@@ -807,7 +834,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-728", title: "[UX] Revisão feature de IP dedicado", status: "Done", points: 0 },
       { key: "POS-4417",  title: "Estudo de réguas para campanhas", status: "Done", points: 0, sprint: 46 },
       { key: "POS-4424",  title: "Cadastrar novas regras dentro do Unomi", status: "Done", points: 0, sprint: 46 },
-      { key: "FRONT-809", title: "IP Dedicado e Entregabilidade de E-mail", status: "To Do", points: 0, sprint: 46 },
+      { key: "FRONT-809", title: "IP Dedicado e Entregabilidade de E-mail", status: "To Do", points: 0, sprint: 46, blocked: true },
       { key: "FRONT-826", title: "Problema no template na hora de criar a campanha", status: "To Do", points: 0, sprint: 46 },
       { key: "FRONT-830", title: "Ajustes para lançamento de campanhas", status: "In Progress", points: 0, sprint: 46 },
       { key: "POS-4401",  title: "Envios automáticos - Agendamento de Frequência de Envio (Listas e Segmentos)", status: "To Do", points: 0, sprint: 46 },
@@ -876,17 +903,17 @@ export const FEATURES: Feature[] = [
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
-      { key: "POS-3928",  title: "Dados de receita - Fazer deploy e testes", status: "Done", points: 0, sprint: 39 },
+      { key: "POS-3928",  title: "Dados de receita - Fazer deploy e testes", status: "Done", points: 0, sprint: 39, blocked: true },
       { key: "POS-3929",  title: "Dados de receita - Gerar arquivo de download", status: "Done", points: 0, sprint: 39 },
       { key: "POS-3973",  title: "Implementação do Sistema de Notificação de Downloads", status: "Done", points: 0, sprint: 39 },
-      { key: "FRONT-310", title: "Exportação de Relatórios CSV: Envios Pontuais", status: "To Do", points: 0, sprint: 38 },
+      { key: "FRONT-310", title: "Exportação de Relatórios CSV: Envios Pontuais", status: "To Do", points: 0, sprint: 38, blocked: true },
       { key: "FRONT-369", title: "Exibição de receita dentro das campanhas", status: "To Do", points: 0 },
       { key: "FRONT-370", title: "Disponibilizar CSV com dados das campanhas para download", status: "Done", points: 0 },
-      { key: "FRONT-407", title: "Exportação de Relatórios CSV: Envios Automáticos", status: "To Do", points: 0, sprint: 42 },
-      { key: "FRONT-419", title: "Exportação de Relatórios CSV: Segmentos", status: "To Do", points: 0, sprint: 43 },
+      { key: "FRONT-407", title: "Exportação de Relatórios CSV: Envios Automáticos", status: "To Do", points: 0, sprint: 42, blocked: true },
+      { key: "FRONT-419", title: "Exportação de Relatórios CSV: Segmentos", status: "To Do", points: 0, sprint: 43, blocked: true },
       { key: "FRONT-438", title: "Home - card de Receita Total e coluna Receita em Performance", status: "Done", points: 0, sprint: 42 },
       { key: "FRONT-443", title: "Receita no card Performance por Canal (E-mail e WhatsApp)", status: "Done", points: 0, sprint: 42 },
-      { key: "FRONT-448", title: "Colocar receita e exportar CSV nas campanhas", status: "To Do", points: 0, sprint: 42 },
+      { key: "FRONT-448", title: "Colocar receita e exportar CSV nas campanhas", status: "To Do", points: 0, sprint: 42, blocked: true },
       { key: "FRONT-750", title: "Dados nao estao refletindo na campanha", status: "Done", points: 0 },
       { key: "POS-4217",  title: "Home - card de Receita Total e coluna Receita em Performance de Campanhas", status: "To Do", points: 0 },
     ],
@@ -994,9 +1021,9 @@ export const FEATURES: Feature[] = [
     owner: { name: "isabela.beatriz", initials: "IB", color: "#0891b2" },
     storyPoints: 8,
     subtasks: [
-      { key: "FRONT-683", title: "Segmentos Salvos em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43 },
+      { key: "FRONT-683", title: "Segmentos Salvos em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43, blocked: true },
       { key: "FRONT-684", title: "Audiências Pré-definidas em Campanhas Automáticas", status: "Done", points: 0, sprint: 43 },
-      { key: "FRONT-685", title: "Listas em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43 },
+      { key: "FRONT-685", title: "Listas em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43, blocked: true },
       { key: "FRONT-618", title: "Subir lista no FTP", status: "To Do", points: 3 },
       { key: "FRONT-619", title: "Subir lista no Google Drive", status: "To Do", points: 3 },
       { key: "FRONT-620", title: "Subir lista S3 Amazon", status: "To Do", points: 3 },
@@ -1103,7 +1130,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-828", title: "Erro ao despublicar LP", status: "Done", points: 0, sprint: 46 },
       { key: "FRONT-829", title: "Ao submeter um form na Landing Page, o botão não funciona", status: "In Progress", points: 0, sprint: 46 },
       { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do", points: 0, sprint: 46 },
-      { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "To Do", points: 0, sprint: 46 },
+      { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "To Do", points: 0, sprint: 46, blocked: true },
       { key: "FRONT-813", title: "Discovery - Autenticação para fora do commerce", status: "Done", points: 0, sprint: 46 },
       { key: "FRONT-851", title: "Pente Fino: Landing Pages e On-Site Pop-up", status: "In Progress", points: 0, sprint: 47 },
       { key: "FRONT-855", title: "Pente Fino: Studio", status: "To Do", points: 0, sprint: 47 },

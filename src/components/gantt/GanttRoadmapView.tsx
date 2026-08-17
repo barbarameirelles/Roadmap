@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import {
   FEATURES, MONTHS, QUARTERS, STATUS_META, TODAY_MONTH, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
-  isBacklog, type FeatureStatus, type Feature,
+  isBacklog, TRACK_META, trackOf, type FeatureStatus, type Feature, type Track,
 } from "@/data/ganttData";
 
 function pct(start: number, end: number): [number, number] {
@@ -169,7 +169,6 @@ function GanttRow({
             )}
             {feat.subtasks.length > 0 && (() => {
               const total = feat.subtasks.length;
-              const done  = feat.subtasks.filter(s => s.status === "Done").length;
               const inp   = feat.subtasks.filter(s => s.status === "In Progress").length;
               const donePct = feat.progress;
               const inpPct  = Math.min(Math.round((inp / total) * 100), 100 - donePct);
@@ -261,30 +260,20 @@ function GanttRow({
 export default function GanttRoadmapView() {
   const [statusFilter, setStatusFilter] = useState<Set<FeatureStatus>>(new Set());
   const [quarterFilter, setQuarterFilter] = useState<Set<string>>(new Set());
-  const [projectFilter, setProjectFilter] = useState<"all" | "platform" | "cdp">("all");
+  const [trackFilter, setTrackFilter] = useState<"all" | Track>("all");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
 
-  const isCdp = (f: { project?: string; tags?: string[] }) =>
-    f.project === "cdp" || f.tags?.includes("cdp");
-
-  const isPlatform2 = (f: { tags?: string[] }) => f.tags?.includes("platform2") ?? false;
-
   const counts = useMemo(() => {
-    const base = projectFilter === "all"
-      ? FEATURES
-      : projectFilter === "cdp"
-        ? FEATURES.filter(isCdp)
-        : FEATURES.filter(isPlatform2);
+    const base = trackFilter === "all" ? FEATURES : FEATURES.filter(f => trackOf(f) === trackFilter);
     const c: Record<string, number> = { all: base.length };
     base.forEach(f => { c[f.status] = (c[f.status] || 0) + 1; });
     return c;
-  }, [projectFilter]);
+  }, [trackFilter]);
 
   const filtered = useMemo(() => {
     return FEATURES.filter(f => {
-      if (projectFilter === "cdp"      && !isCdp(f))       return false;
-      if (projectFilter === "platform" && !isPlatform2(f)) return false;
+      if (trackFilter !== "all" && trackOf(f) !== trackFilter) return false;
       if (statusFilter.size > 0 && !statusFilter.has(f.status)) return false;
       if (quarterFilter.size > 0) {
         const matchesAny = [...quarterFilter].some(qId => {
@@ -295,7 +284,7 @@ export default function GanttRoadmapView() {
       }
       return true;
     });
-  }, [statusFilter, quarterFilter, projectFilter]);
+  }, [statusFilter, quarterFilter, trackFilter]);
 
   const timeline = useMemo(() => filtered.filter(f => !isBacklog(f)), [filtered]);
   const backlog  = useMemo(() => filtered.filter(isBacklog), [filtered]);
@@ -308,15 +297,6 @@ export default function GanttRoadmapView() {
   const toggleQuarter = (id: string) =>
     setQuarterFilter(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
 
-  const projectFiltered = useMemo(() => {
-    if (projectFilter === "cdp")      return FEATURES.filter(isCdp);
-    if (projectFilter === "platform") return FEATURES.filter(isPlatform2);
-    return FEATURES;
-  }, [projectFilter]);
-
-  const totalConcluidos   = projectFiltered.filter(f => f.status === "concluido").length;
-  const totalEmAndamento  = projectFiltered.filter(f => f.status === "em-andamento" || f.status === "atrasado-em-andamento").length;
-  const totalAtrasados    = projectFiltered.filter(f => f.status === "atrasado" || f.status === "atrasado-em-andamento").length;
 
   const statusPills: { id: FeatureStatus; label: string }[] = [
     { id: "concluido",             label: "Concluídos" },
@@ -334,35 +314,17 @@ export default function GanttRoadmapView() {
         <p className="g-page-sub">Acompanhamento de entregas · Planejado vs. Executado</p>
       </div>
 
-      <div className="g-kpi-grid">
-        <div className="g-kpi">
-          <div className="g-kpi-label">Total de Itens</div>
-          <div className="g-kpi-value g-tabular">{projectFiltered.length}</div>
-        </div>
-        <div className="g-kpi accent-green">
-          <div className="g-kpi-label">Concluídos</div>
-          <div className="g-kpi-value green g-tabular">{totalConcluidos}</div>
-        </div>
-        <div className="g-kpi accent-amber">
-          <div className="g-kpi-label">Em Andamento</div>
-          <div className="g-kpi-value amber g-tabular">{totalEmAndamento}</div>
-        </div>
-        <div className="g-kpi accent-red">
-          <div className="g-kpi-label">Atrasados</div>
-          <div className="g-kpi-value red g-tabular">{totalAtrasados}</div>
-        </div>
-      </div>
-
       <div className="g-filters">
         <div className="g-filter-group">
-          <span className="g-filter-label">Filtrar por Projeto:</span>
-          {(["all", "platform", "cdp"] as const).map(p => (
+          <span className="g-filter-label">Filtrar por Objetivo:</span>
+          {(["all", "migracao", "evolucao", "cdp"] as const).map(p => (
             <button
               key={p}
-              className={"g-pill" + (projectFilter === p ? " active" : "") + (p === "cdp" ? " cdp-pill" : "")}
-              onClick={() => setProjectFilter(p)}
+              className={"g-pill" + (trackFilter === p ? " active" : "")}
+              style={p !== "all" && trackFilter === p ? { background: TRACK_META[p].color, borderColor: TRACK_META[p].color } : undefined}
+              onClick={() => setTrackFilter(p)}
             >
-              {p === "all" ? "Todos" : p === "platform" ? "Plataforma 2.0" : "Audience (CDP)"}
+              {p === "all" ? "Todos" : TRACK_META[p].short}
             </button>
           ))}
         </div>
@@ -443,16 +405,36 @@ export default function GanttRoadmapView() {
           </div>
         </div>
 
-        {/* Rows */}
-        {timeline.map(f => (
-          <GanttRow
-            key={f.id}
-            feat={f}
-            expanded={!!expanded[f.id]}
-            onToggle={toggle}
-            setTooltip={setTooltip}
-          />
-        ))}
+        {/* Rows agrupadas por objetivo */}
+        {(["migracao", "evolucao", "cdp"] as Track[]).map(t => {
+          const rows = timeline.filter(f => trackOf(f) === t);
+          if (rows.length === 0) return null;
+          const meta = TRACK_META[t];
+          return (
+            <div key={t}>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8,
+                padding: "10px 16px", background: meta.bg,
+                borderTop: "1px solid #e2e8f0", borderBottom: "1px solid #e2e8f0",
+              }}>
+                <span style={{ width: 8, height: 8, borderRadius: 999, background: meta.color }} />
+                <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.4, color: meta.color }}>
+                  {meta.label}
+                </span>
+                <span style={{ fontSize: 12, color: "#64748b" }}>· {rows.length} épicos</span>
+              </div>
+              {rows.map(f => (
+                <GanttRow
+                  key={f.id}
+                  feat={f}
+                  expanded={!!expanded[f.id]}
+                  onToggle={toggle}
+                  setTooltip={setTooltip}
+                />
+              ))}
+            </div>
+          );
+        })}
         {timeline.length === 0 && (
           <div style={{ padding: 40, textAlign: "center", color: "var(--g-ink-3)" }}>
             Nenhuma feature encontrada com esses filtros.

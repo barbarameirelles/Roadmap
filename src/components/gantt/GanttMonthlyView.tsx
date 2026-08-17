@@ -66,7 +66,7 @@ const C_PLAN = "#2563eb";
 const C_REAL = "#16a34a";
 const C_FCST = "#7c3aed";
 
-export default function GanttMonthlyView() {
+export default function GanttMonthlyView({ embedded = false }: { embedded?: boolean } = {}) {
   // Escopo 2.0: tag platform2 (Dados CDP perdeu a tag e foi para o módulo CDP).
   const isPlatform2 = (f: Feature) => f.tags?.includes("platform2") ?? false;
   const features = useMemo(() => FEATURES.filter(f => !f.excludeFromStats && isPlatform2(f)), []);
@@ -123,9 +123,10 @@ export default function GanttMonthlyView() {
     series.filter(s => s[key] !== null).map(s => `${x(s.idx)},${y(s[key] as number)}`).join(" ");
 
   return (
-    <div style={{ padding: "28px 28px 48px", maxWidth: 1440, margin: "0 auto" }}>
+    <div style={embedded ? {} : { padding: "28px 28px 48px", maxWidth: 1440, margin: "0 auto" }}>
 
       {/* Header */}
+      {!embedded && (
       <div style={{ marginBottom: 16 }}>
         <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0f172a", margin: 0 }}>
           Evolução Mensal
@@ -134,6 +135,7 @@ export default function GanttMonthlyView() {
           Escopo: {T} épicos da Plataforma 2.0 · progresso ponderado mês a mês · forecast por confiança · Jan 2026 – Mar 2027
         </p>
       </div>
+      )}
 
       {/* KPI strip */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
