@@ -78,8 +78,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f1: ["migracao"], f3: ["migracao"], f4: ["migracao"], f5: ["migracao"],
   f6: ["migracao"], f8: ["migracao"], f9: ["migracao"], f14: ["migracao"],
   f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
-  f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f32: ["migracao"],
-  f33: ["migracao"],
+  f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
   // Telas de paridade com componente CDP/Audience
   f2: ["migracao", "cdp"], f10: ["migracao", "cdp"], f12: ["migracao", "cdp"],
   f13: ["migracao", "cdp"],
@@ -87,10 +86,12 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f30: ["evolucao"], f22: ["evolucao"], f26: ["evolucao"], f27: ["evolucao"],
   f28: ["evolucao"],
   // BTG: capacidade nova construída sobre a CDP
-  f11: ["evolucao", "cdp"], f11b: ["evolucao", "cdp"], f11c: ["evolucao", "cdp"],
+  f11: ["evolucao", "cdp"],
   // Audience + CDP
-  "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-2b": ["cdp"], "cdp-3": ["cdp"],
-  "cdp-4": ["cdp"], "cdp-5": ["cdp"], f29: ["cdp"], f31: ["cdp"],
+  "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-3": ["cdp"], "cdp-4": ["cdp"],
+  f29: ["cdp"],
+  // Omni + dados de loja física: integração da plataforma alimentando a CDP
+  "cdp-2b": ["migracao", "cdp"],
 };
 
 export const tracksOf = (f: Feature): Track[] => TRACKS_BY_ID[f.id] ?? ["migracao"];
@@ -509,16 +510,16 @@ export const FEATURES: Feature[] = [
 
   // ── BTG frente 1: Motor de recomendação ──────────────────────────────────
   {
-    id: "f11", jiraKey: "POS-3696",
-    name: "BTG: Estruturação de motor de recomendação",
-    subtitle: "Motor genérico de recomendação de produtos",
+    id: "f11", jiraKey: "POS-3696", jiraKeys: ["POS-3696", "FRONT-152", "FRONT-524"],
+    name: "BTG: Motor de recomendação e regras",
+    subtitle: "Motor de recomendação + grupos de regras",
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
-    planned: { start: 7, end: 7 }, executed: { start: 3, end: 4 },
-    status: "replanejado", progress: 87,
-    note: "Replanejado para início de Agosto/26 — o time de back-end precisou priorizar a CDP em vez da construção das regras e do motor de recomendação.",
+    planned: { start: 4, end: 7 }, executed: { start: 3, end: 4 },
+    status: "replanejado", progress: 63,
+    note: "Épico unificado (motor + grupos de regras). Replanejado para início de Agosto/26 — o back-end precisou priorizar a CDP. POS-3770 e POS-4063 bloqueadas no Jira.",
     owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
-    storyPoints: 113,
+    storyPoints: 160,
     subtasks: [
       { key: "POS-3397", title: "Discovery para trazer BTG para nova estrutura", status: "Done", points: 8, sprint: 34 },
       { key: "POS-3558", title: "Estruturação/criação de motor do XML", status: "Done", points: 13, sprint: 35 },
@@ -543,24 +544,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-701", title: "Integração do Editor Beefree com Templates de Produto", status: "Done", points: 0 },
       { key: "POS-4238",  title: "Ligar recomendação dos produtos com disparo de campanha", status: "To Do", points: 0 },
       { key: "POS-4260",  title: "[CDP] Validar Desempenho da Unomi em Segmentação e Atribuição de Profiles", status: "Done", points: 0 },
-    ],
-  },
-
-
-  // ── BTG frente 2: Primeiro grupo de regras ──────────────────────────────
-  {
-    id: "f11b", jiraKey: "FRONT-152",
-    name: "BTG: Primeiro grupo de regras",
-    subtitle: "Regras já iniciadas ou concluídas",
-    epic: "2.0 BTG · FRONT-152",
-    tags: ["platform2", "cdp"],
-    planned: { start: 7, end: 7 }, executed: { start: 3, end: 4 },
-    status: "replanejado", progress: 87,
-    note: "Replanejado para início de Agosto/26 — o time de back-end precisou priorizar a CDP em vez da construção das regras e do motor de recomendação. POS-3770 bloqueada no Jira.",
-    owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
-    storyPoints: 14,
-    subtasks: [
-      // Regras do primeiro grupo (em andamento ou próximas)
       { key: "POS-3833", title: "Criação da Regra de Pós Compra", status: "Done", points: 5, sprint: 38 },
       { key: "POS-3834", title: "Criação da Regra de Decididos", status: "Done", points: 5, sprint: 38 },
       { key: "POS-3835", title: "Criação do Service de Consolidação de Navegação Semanal", status: "Done", points: 0, sprint: 38 },
@@ -595,24 +578,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-4060",  title: "Segmentação Propensos a comprar", status: "Done", points: 0 },
       { key: "POS-4061",  title: "Consolidação propensos a comprar", status: "Done", points: 3, sprint: 41 },
       { key: "FRONT-536", title: "BTG - Regra Propensos a Comprar", status: "Done", points: 3, sprint: 42 },
-    ],
-  },
-
-
-  // ── BTG frente 3: Segundo grupo de regras ───────────────────────────────
-  {
-    id: "f11c", jiraKey: "FRONT-524",
-    name: "BTG: Segundo grupo de regras",
-    subtitle: "Regras ainda não iniciadas",
-    epic: "2.0 BTG · FRONT-524",
-    tags: ["platform2", "cdp"],
-    planned: { start: 4, end: 6 }, executed: null,
-    status: "em-andamento", progress: 17,
-    note: "POS-4063 (Consolidação Recorrência) bloqueada no Jira.",
-    owner: { name: "Ricardo Barretto", initials: "RB", color: "#dc2626" },
-    storyPoints: 33,
-    subtasks: [
-      // Regras do segundo grupo (ainda não iniciadas)
       { key: "POS-4062", title: "Segmentação Recorrência", status: "To Do", points: 0 },
       { key: "POS-4063", title: "Consolidação Recorrência", status: "To Do", points: 0, sprint: 42, blocked: true },
       { key: "POS-4075", title: "Segmentação Novos Cadastros", status: "To Do", points: 0 },
@@ -646,6 +611,10 @@ export const FEATURES: Feature[] = [
     ],
   },
 
+
+  // ── BTG frente 2: Primeiro grupo de regras ──────────────────────────────
+
+  // ── BTG frente 3: Segundo grupo de regras ───────────────────────────────
   {
     id: "f14", jiraKey: "POS-3889", jiraKeys: ["POS-3889", "FRONT-366", "FRONT-595"],
     name: "Relatórios e Exportações",
@@ -761,8 +730,8 @@ export const FEATURES: Feature[] = [
 
   {
     id: "cdp-2b", jiraKey: "POS-4157", jiraKeys: ["POS-4157", "FRONT-691"],
-    name: "Trazer dados de Loja física para CDP",
-    subtitle: "Ingestão de dados de Loja física na CDP",
+    name: "Integração Omni · Dados de Loja física na CDP",
+    subtitle: "Integração omnichannel: dados de loja física ingeridos na CDP",
     epic: "CDP",
     project: "cdp",
     planned: { start: 6, end: 7 }, executed: { start: 4, end: 5 },
@@ -863,12 +832,11 @@ export const FEATURES: Feature[] = [
     subtitle: "Canal de envio via SMS",
     epic: "2.0 SMS",
     tags: ["platform2"],
-    planned: { start: 6, end: 8 }, executed: { start: 6, end: 7 },
-    status: "concluido", progress: 100,
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#dc2626" },
     storyPoints: 0,
     subtasks: [
-      { key: "FRONT-729", title: "[UX] Feature de SMS", status: "Done", points: 0 },
     ],
   },
 
@@ -927,19 +895,6 @@ export const FEATURES: Feature[] = [
     ],
   },
 
-  {
-    id: "f32", jiraKey: "",
-    name: "Integração Omni",
-    subtitle: "Integração omnichannel",
-    epic: "2.0 Integrações",
-    tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: null,
-    status: "no-prazo", progress: 0,
-    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
-    storyPoints: 0,
-    subtasks: [],
-  },
-
   // ─── CDP – Recomendação / Base Analítica ─────────────────────────────────
   {
     id: "cdp-3", jiraKey: "CDP-3",
@@ -952,26 +907,6 @@ export const FEATURES: Feature[] = [
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [],
-  },
-
-  {
-    id: "cdp-5", jiraKey: "POS-4160",
-    name: "Base Analítica",
-    subtitle: "Base analítica de eventos para BI e governança de dados",
-    epic: "CDP",
-    project: "cdp",
-    planned: { start: 9, end: 11 }, executed: null,
-    status: "no-prazo", progress: 0,
-    owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
-    storyPoints: 0,
-    subtasks: [
-      { key: "POS-4185", title: "[Base Analítica] Base analítica de eventos pelo BI (Herbert)", status: "To Do", points: 0 },
-      { key: "POS-4186", title: "[Base Analítica] Provisionar a base analítica", status: "To Do", points: 0 },
-      { key: "POS-4187", title: "[Base Analítica] Ingerir dados na base analítica", status: "To Do", points: 0 },
-      { key: "POS-4188", title: "[Base Analítica] Estruturação da governança da ingestão dos dados", status: "To Do", points: 0 },
-      { key: "POS-4189", title: "[Base Analítica] Back-up dos dados — definir estratégia com Doni e Bryan", status: "To Do", points: 0 },
-      { key: "POS-4190", title: "[Base Analítica] Definir por quanto tempo os dados serão retidos", status: "To Do", points: 0 },
-    ],
   },
 
 
@@ -1045,19 +980,6 @@ export const FEATURES: Feature[] = [
 
 
   // ─── Audience (CDP) ── CMS ────────────────────────────────────────────────
-  {
-    id: "f31", jiraKey: "CMS-AUD",
-    name: "Audiências no CMS Commerce",
-    subtitle: "Segmentos de Audience (CDP) disponíveis no CMS",
-    epic: "CMS Commerce",
-    project: "cdp",
-    planned: { start: 6, end: 8 }, executed: null,
-    status: "no-prazo", progress: 0,
-    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
-    storyPoints: 0,
-    subtasks: [],
-  },
-
 
   // ─── Q1 2027 ──────────────────────────────────────────────────────────────
   {
@@ -1107,7 +1029,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "em-andamento", progress: 64,
+    status: "em-andamento", progress: 65,
     note: "FRONT-744 bloqueada no Jira.",
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
@@ -1144,6 +1066,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-855", title: "Pente Fino: Studio", status: "To Do", points: 0, sprint: 47 },
       { key: "FRONT-857", title: "Pente Fino: Início (Home) e Evolução de Contatos", status: "To Do", points: 0, sprint: 47 },
       { key: "FRONT-873", title: "Pente Fino: Segmentador", status: "To Do", points: 0, sprint: 47 },
+      { key: "FRONT-729", title: "[UX] Feature de SMS", status: "Done", points: 0 },
     ],
   },
 
