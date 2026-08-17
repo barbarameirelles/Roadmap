@@ -79,6 +79,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f6: ["migracao"], f8: ["migracao"], f9: ["migracao"], f14: ["migracao"],
   f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
   f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
+  f40: ["migracao"], f41: ["migracao"],
   // Telas de paridade com componente CDP/Audience
   f10: ["migracao", "cdp"], f12: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
@@ -686,6 +687,7 @@ export const FEATURES: Feature[] = [
     planned: { start: 6, end: 8 }, executed: null,
     milestone: { month: 8, label: "Marco: Standalone + VTEX (Set/26)" },
     status: "no-prazo", progress: 0,
+    note: "Despriorizado — foco será em Wake Commerce.",
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -794,6 +796,34 @@ export const FEATURES: Feature[] = [
     tags: ["platform2", "cdp"],
     planned: { start: 9, end: 11 }, executed: null,
     status: "no-prazo", progress: 0,
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
+  {
+    id: "f40", jiraKey: "",
+    name: "App Push",
+    subtitle: "Notificações push em aplicativos mobile — disparos pontuais e automáticos",
+    epic: "2.0 App Push",
+    tags: ["platform2"],
+    planned: { start: 12, end: 14 }, executed: null,
+    status: "no-prazo", progress: 0,
+    note: "A avaliar.",
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
+  },
+
+  {
+    id: "f41", jiraKey: "",
+    name: "Acesso Independente de Plataforma de E-commerce",
+    subtitle: "Uso da plataforma sem vínculo com Wake Commerce (VTEX, Shopify, Magento…)",
+    epic: "2.0 Acesso Independente",
+    tags: ["platform2"],
+    planned: { start: 12, end: 14 }, executed: null,
+    status: "no-prazo", progress: 0,
+    note: "Despriorizado — foco será em Wake Commerce.",
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
     subtasks: [],
