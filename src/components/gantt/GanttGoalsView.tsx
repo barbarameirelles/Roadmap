@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   FEATURES, MONTHS, TODAY_MONTH, TRACK_META,
   type Track, type Subtask,
@@ -125,6 +125,8 @@ function GoalCard({ goal, stats }: { goal: MonthlyGoal; stats: GoalStats }) {
 
 export default function GanttGoalsView() {
   const index = useSubtaskIndex();
+  // Meses passados nascem recolhidos; mês atual e planejamento, abertos.
+  const [open, setOpen] = useState<Record<number, boolean>>({});
 
   const byMonth = useMemo(() => {
     const map = new Map<number, MonthlyGoal[]>();
@@ -159,9 +161,25 @@ export default function GanttGoalsView() {
         const sorted = [...goals].sort(
           (a, b) => TRACK_ORDER.indexOf(a.track) - TRACK_ORDER.indexOf(b.track)
         );
+        const isOpen = open[month] ?? (isCurrent || isNext);
+        const allStats = sorted.map(g => computeStats(g, index));
+        const totalBlockers = allStats.reduce((s, st) => s + st.blockedKeys.length, 0);
         return (
-          <section key={month} style={{ marginBottom: 32 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <section key={month} style={{ marginBottom: 20 }}>
+            <button
+              onClick={() => setOpen(p => ({ ...p, [month]: !isOpen }))}
+              style={{
+                width: "100%", display: "flex", alignItems: "center", gap: 10,
+                background: isOpen ? "transparent" : "#fff",
+                border: isOpen ? "none" : "1px solid #e2e8f0", borderRadius: 10,
+                padding: isOpen ? "0 0 12px" : "12px 14px", cursor: "pointer", textAlign: "left",
+              }}
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#64748b" strokeWidth="2.4"
+                strokeLinecap="round" strokeLinejoin="round"
+                style={{ transform: isOpen ? "rotate(90deg)" : "none", transition: "transform .15s", flexShrink: 0 }}>
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0f172a", margin: 0 }}>{monthName(month)}</h2>
               {badge && (
                 <span style={{
@@ -173,12 +191,34 @@ export default function GanttGoalsView() {
                   {badge}
                 </span>
               )}
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14 }}>
-              {sorted.map(g => (
-                <GoalCard key={`${g.month}-${g.track}`} goal={g} stats={computeStats(g, index)} />
-              ))}
-            </div>
+              {!isOpen && (
+                <span style={{ display: "flex", gap: 8, alignItems: "center", marginLeft: "auto", flexWrap: "wrap" }}>
+                  {sorted.map((g, i) => {
+                    const meta = TRACK_META[g.track];
+                    return (
+                      <span key={i} style={{
+                        fontSize: 11, fontWeight: 600, color: meta.color, background: meta.bg,
+                        borderRadius: 999, padding: "3px 10px", whiteSpace: "nowrap",
+                      }}>
+                        {(g.label ?? g.title).slice(0, 28)} · {allStats[i].progress}%
+                      </span>
+                    );
+                  })}
+                  {totalBlockers > 0 && (
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#b91c1c", whiteSpace: "nowrap" }}>
+                      ⚠ {totalBlockers}
+                    </span>
+                  )}
+                </span>
+              )}
+            </button>
+            {isOpen && (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 14 }}>
+                {sorted.map((g, i) => (
+                  <GoalCard key={`${g.month}-${g.track}-${i}`} goal={g} stats={allStats[i]} />
+                ))}
+              </div>
+            )}
           </section>
         );
       })}
