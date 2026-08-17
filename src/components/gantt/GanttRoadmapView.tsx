@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import {
   FEATURES, MONTHS, QUARTERS, STATUS_META, TODAY_MONTH, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
-  isBacklog, TRACK_META, trackOf, type FeatureStatus, type Feature, type Track,
+  isBacklog, TRACK_META, hasTrack, type FeatureStatus, type Feature, type Track,
 } from "@/data/ganttData";
 
 function pct(start: number, end: number): [number, number] {
@@ -265,7 +265,7 @@ export default function GanttRoadmapView() {
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
 
   const counts = useMemo(() => {
-    const base = trackFilter === "all" ? FEATURES : FEATURES.filter(f => trackOf(f) === trackFilter);
+    const base = trackFilter === "all" ? FEATURES : FEATURES.filter(f => hasTrack(f, trackFilter));
     const c: Record<string, number> = { all: base.length };
     base.forEach(f => { c[f.status] = (c[f.status] || 0) + 1; });
     return c;
@@ -273,7 +273,7 @@ export default function GanttRoadmapView() {
 
   const filtered = useMemo(() => {
     return FEATURES.filter(f => {
-      if (trackFilter !== "all" && trackOf(f) !== trackFilter) return false;
+      if (trackFilter !== "all" && !hasTrack(f, trackFilter)) return false;
       if (statusFilter.size > 0 && !statusFilter.has(f.status)) return false;
       if (quarterFilter.size > 0) {
         const matchesAny = [...quarterFilter].some(qId => {
@@ -407,7 +407,7 @@ export default function GanttRoadmapView() {
 
         {/* Rows agrupadas por objetivo */}
         {(["migracao", "evolucao", "cdp"] as Track[]).map(t => {
-          const rows = timeline.filter(f => trackOf(f) === t);
+          const rows = timeline.filter(f => hasTrack(f, t));
           if (rows.length === 0) return null;
           const meta = TRACK_META[t];
           return (

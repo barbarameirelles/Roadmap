@@ -1,21 +1,26 @@
 import { useState, useMemo } from "react";
 import {
   FEATURES, QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
-  type FeatureStatus, type Feature,
+  TRACK_META, hasTrack, type FeatureStatus, type Feature, type Track,
 } from "@/data/ganttData";
 
-type KanbanColumn = "todo" | "in-progress" | "validation" | "done";
+const activeBlocked = (f: Feature) =>
+  f.subtasks.filter(s => s.blocked && s.status !== "Done").length;
+
+type KanbanColumn = "todo" | "in-progress" | "blocked" | "validation" | "done";
 
 const COLUMN_CONFIG: Record<KanbanColumn, { title: string; color: string }> = {
-  "todo":        { title: "To do",       color: "#64748b" },
-  "in-progress": { title: "In progress", color: "#2563eb" },
-  "validation":  { title: "Validation",  color: "#7c3aed" },
-  "done":        { title: "Done",        color: "#16a34a" },
+  "todo":        { title: "To do",                    color: "#64748b" },
+  "in-progress": { title: "In progress",              color: "#2563eb" },
+  "blocked":     { title: "Bloqueado/Despriorizado",  color: "#dc2626" },
+  "validation":  { title: "Validation",               color: "#7c3aed" },
+  "done":        { title: "Done",                     color: "#16a34a" },
 };
 
 function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "concluido") return "done";
-  if (feat.status === "replanejado") return "in-progress";
+  if (feat.status === "replanejado") return "blocked";      // despriorizado
+  if (activeBlocked(feat) > 0) return "blocked";            // bloqueio ativo no Jira
   if (feat.progress >= 80) return "validation";
   if (feat.progress > 0 || feat.status === "em-andamento" || feat.status === "atrasado-em-andamento") return "in-progress";
   return "todo";
@@ -77,7 +82,17 @@ function KanbanCard({ feat }: { feat: Feature }) {
         </span>
       </div>
 
-      <StatusBadge status={feat.status} />
+      <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+        <StatusBadge status={feat.status} />
+        {activeBlocked(feat) > 0 && (
+          <span style={{
+            fontSize: 11, fontWeight: 700, color: "#b91c1c", background: "#fef2f2",
+            border: "1px solid #fecaca", borderRadius: 999, padding: "2px 8px",
+          }}>
+            ⚠ {activeBlocked(feat)} bloqueada{activeBlocked(feat) > 1 ? "s" : ""}
+          </span>
+        )}
+      </div>
 
       {total > 0 && (
         <div className="kb-card-progress">
@@ -139,27 +154,18 @@ function KanbanCol({ col, features }: { col: KanbanColumn; features: Feature[] }
 export default function GanttKanbanView() {
   const [statusFilter,  setStatusFilter]  = useState<Set<FeatureStatus>>(new Set());
   const [quarterFilter, setQuarterFilter] = useState<Set<string>>(new Set());
-  const [projectFilter, setProjectFilter] = useState<"all" | "platform" | "cdp">("all");
-
-  const isCdp       = (f: { project?: string; tags?: string[] }) =>
-    f.project === "cdp" || f.tags?.includes("cdp");
-  const isPlatform2 = (f: { tags?: string[] }) => f.tags?.includes("platform2") ?? false;
+  const [trackFilter, setTrackFilter] = useState<"all" | Track>("all");
 
   const counts = useMemo(() => {
-    const base = projectFilter === "all"
-      ? FEATURES
-      : projectFilter === "cdp"
-        ? FEATURES.filter(isCdp)
-        : FEATURES.filter(isPlatform2);
+    const base = trackFilter === "all" ? FEATURES : FEATURES.filter(f => hasTrack(f, trackFilter));
     const c: Record<string, number> = { all: base.length };
     base.forEach(f => { c[f.status] = (c[f.status] || 0) + 1; });
     return c;
-  }, [projectFilter]);
+  }, [trackFilter]);
 
   const filtered = useMemo(() => {
     return FEATURES.filter(f => {
-      if (projectFilter === "cdp"      && !isCdp(f))       return false;
-      if (projectFilter === "platform" && !isPlatform2(f)) return false;
+      if (trackFilter !== "all" && !hasTrack(f, trackFilter)) return false;
       if (statusFilter.size > 0 && !statusFilter.has(f.status)) return false;
       if (quarterFilter.size > 0) {
         const matchesAny = [...quarterFilter].some(qId => {
@@ -170,16 +176,15 @@ export default function GanttKanbanView() {
       }
       return true;
     });
-  }, [statusFilter, quarterFilter, projectFilter]);
+  }, [statusFilter, quarterFilter, trackFilter]);
 
   const projectFiltered = useMemo(() => {
-    if (projectFilter === "cdp")      return FEATURES.filter(isCdp);
-    if (projectFilter === "platform") return FEATURES.filter(isPlatform2);
-    return FEATURES;
-  }, [projectFilter]);
+    if (trackFilter === "all") return FEATURES;
+    return FEATURES.filter(f => hasTrack(f, trackFilter));
+  }, [trackFilter]);
 
   const byColumn = useMemo(() => {
-    const map: Record<KanbanColumn, Feature[]> = { "todo": [], "in-progress": [], "validation": [], "done": [] };
+    const map: Record<KanbanColumn, Feature[]> = { "todo": [], "in-progress": [], "blocked": [], "validation": [], "done": [] };
     filtered.forEach(f => map[getKanbanColumn(f)].push(f));
     return map;
   }, [filtered]);
@@ -202,7 +207,7 @@ export default function GanttKanbanView() {
     { id: "replanejado",           label: "Replanejados" },
   ];
 
-  const COLUMNS: KanbanColumn[] = ["todo", "in-progress", "validation", "done"];
+  const COLUMNS: KanbanColumn[] = ["todo", "in-progress", "blocked", "validation", "done"];
 
   return (
     <div className="g-page">
@@ -232,14 +237,15 @@ export default function GanttKanbanView() {
 
       <div className="g-filters">
         <div className="g-filter-group">
-          <span className="g-filter-label">Filtrar por Projeto:</span>
-          {(["all", "platform", "cdp"] as const).map(p => (
+          <span className="g-filter-label">Filtrar por Objetivo:</span>
+          {(["all", "migracao", "evolucao", "cdp"] as const).map(p => (
             <button
               key={p}
-              className={"g-pill" + (projectFilter === p ? " active" : "") + (p === "cdp" ? " cdp-pill" : "")}
-              onClick={() => setProjectFilter(p)}
+              className={"g-pill" + (trackFilter === p ? " active" : "")}
+              style={p !== "all" && trackFilter === p ? { background: TRACK_META[p].color, borderColor: TRACK_META[p].color } : undefined}
+              onClick={() => setTrackFilter(p)}
             >
-              {p === "all" ? "Todos" : p === "platform" ? "Plataforma 2.0" : "Audience (CDP)"}
+              {p === "all" ? "Todos" : TRACK_META[p].short}
             </button>
           ))}
         </div>

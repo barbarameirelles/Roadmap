@@ -71,22 +71,30 @@ export const TRACK_META: Record<Track, { label: string; short: string; color: st
   cdp:      { label: "Audience + CDP",                   short: "Audience + CDP",     color: "#0d9488", bg: "#f0fdfa" },
 };
 
-// Track de cada feature — mapa explícito para facilitar ajustes
-export const TRACK_BY_ID: Record<string, Track> = {
+// Objetivos de cada feature (tags) — um épico pode pertencer a mais de um
+// objetivo, e os % de conclusão por objetivo consideram todos os seus épicos.
+export const TRACKS_BY_ID: Record<string, Track[]> = {
   // Migração 1.0 → 2.0 (paridade)
-  f1: "migracao", f2: "migracao", f3: "migracao", f4: "migracao", f5: "migracao",
-  f6: "migracao", f8: "migracao", f9: "migracao", f10: "migracao", f12: "migracao",
-  f13: "migracao", f14: "migracao", f17: "migracao", f19: "migracao", f20: "migracao",
-  f21: "migracao", f21b: "migracao", f24: "migracao", f25: "migracao", f32: "migracao",
-  f33: "migracao",
+  f1: ["migracao"], f3: ["migracao"], f4: ["migracao"], f5: ["migracao"],
+  f6: ["migracao"], f8: ["migracao"], f9: ["migracao"], f14: ["migracao"],
+  f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
+  f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f32: ["migracao"],
+  f33: ["migracao"],
+  // Telas de paridade com componente CDP/Audience
+  f2: ["migracao", "cdp"], f10: ["migracao", "cdp"], f12: ["migracao", "cdp"],
+  f13: ["migracao", "cdp"],
   // Evolução da 2.0 (capacidades novas + melhorias contínuas)
-  f30: "evolucao", f22: "evolucao", f26: "evolucao", f27: "evolucao", f28: "evolucao",
-  // Audience + CDP (inclui BTG, construído sobre a CDP)
-  "cdp-1": "cdp", "cdp-2a": "cdp", "cdp-2b": "cdp", "cdp-3": "cdp", "cdp-4": "cdp",
-  "cdp-5": "cdp", f29: "cdp", f31: "cdp", f11: "cdp", f11b: "cdp", f11c: "cdp",
+  f30: ["evolucao"], f22: ["evolucao"], f26: ["evolucao"], f27: ["evolucao"],
+  f28: ["evolucao"],
+  // BTG: capacidade nova construída sobre a CDP
+  f11: ["evolucao", "cdp"], f11b: ["evolucao", "cdp"], f11c: ["evolucao", "cdp"],
+  // Audience + CDP
+  "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-2b": ["cdp"], "cdp-3": ["cdp"],
+  "cdp-4": ["cdp"], "cdp-5": ["cdp"], f29: ["cdp"], f31: ["cdp"],
 };
 
-export const trackOf = (f: Feature): Track => TRACK_BY_ID[f.id] ?? "migracao";
+export const tracksOf = (f: Feature): Track[] => TRACKS_BY_ID[f.id] ?? ["migracao"];
+export const hasTrack = (f: Feature, t: Track): boolean => tracksOf(f).includes(t);
 
 // Sprint number → month index (0 = Jan 2026). Sprint 44 = Jul 1–14.
 export const SPRINT_TO_MONTH: Record<number, number> = {

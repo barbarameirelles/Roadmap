@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH, TRACK_META, trackOf, isBacklog, type Feature, type Track } from "@/data/ganttData";
+import { FEATURES, MONTHS, QUARTERS, TODAY_MONTH, TRACK_META, hasTrack, isBacklog, type Feature, type Track } from "@/data/ganttData";
 import GanttMonthlyView from "./GanttMonthlyView";
 
 type QTag  = "past" | "current" | "future";
@@ -55,13 +55,13 @@ export default function GanttExecView() {
 
   const scopeFeatures = useMemo(() => {
     if (scope === "all") return FEATURES;
-    return FEATURES.filter(f => trackOf(f) === scope);
+    return FEATURES.filter(f => hasTrack(f, scope));
   }, [scope]);
 
   // Resumo por objetivo estratégico. Épicos de backlog (não iniciados) contam
   // à parte para não diluir a média; f30 (excludeFromStats) entra no seu track.
   const trackStats = useMemo(() => (Object.keys(TRACK_META) as Track[]).map(t => {
-    const feats   = FEATURES.filter(f => trackOf(f) === t);
+    const feats   = FEATURES.filter(f => hasTrack(f, t));
     const ativos  = feats.filter(f => !isBacklog(f));
     const backlog = feats.length - ativos.length;
     const n = ativos.length;
