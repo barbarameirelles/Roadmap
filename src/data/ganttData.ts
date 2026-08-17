@@ -82,7 +82,8 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   // Telas de paridade com componente CDP/Audience
   f10: ["migracao", "cdp"], f12: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
-  f2: ["evolucao", "cdp"],
+  f2: ["evolucao", "cdp"], f37: ["evolucao", "cdp"],
+  f39: ["migracao", "cdp"],
   // Evolução da 2.0 (melhorias contínuas + evoluções pós-migração)
   f30: ["evolucao"], f34: ["evolucao"], f36: ["evolucao"],
   f35: ["evolucao", "cdp"],
@@ -91,7 +92,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   // BTG
   f11: ["migracao"],
   // Audience + CDP
-  "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-3": ["cdp"], "cdp-4": ["cdp"],
+  "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-3": ["cdp"], "cdp-4": ["cdp"], f38: ["cdp"],
   f29: ["cdp"],
   // Omni + dados de loja física: integração da plataforma alimentando a CDP
   "cdp-2b": ["migracao", "cdp"],
@@ -435,7 +436,7 @@ export const FEATURES: Feature[] = [
     project: "cdp",
     tags: ["cdp"],
     planned: { start: 3, end: 6 }, executed: { start: 0, end: 4 },
-    status: "em-andamento", progress: 75,
+    status: "em-andamento", progress: 82,
     note: "POS-4129 (Consolidar dados de Campanhas) bloqueada no Jira.",
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 24,
@@ -457,8 +458,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-4163", title: "[CDP] Back: Filtros de profiles na API da CDP", status: "Done", points: 0 },
       { key: "POS-4164", title: "[CDP] Back: Obter eventos do profile na API da CDP", status: "Done", points: 0 },
       { key: "POS-4165", title: "[CDP] Back: Excluir o profile na API da CDP", status: "Done", points: 0 },
-      { key: "POS-4166", title: "[CDP] Back: Exportar o profile na API da CDP", status: "To Do", points: 0 },
-      { key: "POS-4167", title: "[CDP] Back: End-points para fornecer a CDP como API", status: "To Do", points: 0 },
       { key: "POS-4195", title: "[CDP] Alterar um endpoint específico para disponibilizar segmentos criados pelo cliente", status: "Done", points: 0, sprint: 41 },
       { key: "POS-4402", title: "Provisionamento nova conta de cliente", status: "Done", points: 0, sprint: 46 },
       { key: "POS-4412", title: "Problema na entrada de leads de landing page", status: "To Do", points: 0, sprint: 46 },
@@ -514,7 +513,7 @@ export const FEATURES: Feature[] = [
   // ── BTG frente 1: Motor de recomendação ──────────────────────────────────
   {
     id: "f11", jiraKey: "POS-3696", jiraKeys: ["POS-3696", "FRONT-152", "FRONT-524"],
-    name: "BTG: Motor de recomendação e regras",
+    name: "Envios comportamentais (BTG)",
     subtitle: "Motor de recomendação + grupos de regras",
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
@@ -732,12 +731,13 @@ export const FEATURES: Feature[] = [
 
   {
     id: "cdp-2b", jiraKey: "POS-4157", jiraKeys: ["POS-4157", "FRONT-691"],
-    name: "Integração Omni · Dados de Loja física na CDP",
-    subtitle: "Integração omnichannel: dados de loja física ingeridos na CDP",
+    name: "Integração ERPs Loja Física",
+    subtitle: "LINX Microvix, LINX POS, TOTVS Moda + API aberta para dados de loja física na CDP",
     epic: "CDP",
     project: "cdp",
-    planned: { start: 6, end: 7 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 62,
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
+    note: "Backlog — ainda não iniciado; tarefas herdadas da fase Omni/Loja física serão revisadas.",
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -750,6 +750,53 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-626", title: "Trazer dados de loja física", status: "Done", points: 0 },
       { key: "FRONT-726", title: "Trazer dados de loja física e do commerce para a visão do cliente", status: "Done", points: 0 },
     ],
+  },
+
+  {
+    id: "f37", jiraKey: "FRONT-744",
+    name: "Nova página de perfil de clientes",
+    subtitle: "Visão única do cliente com dados de pedido: pagamento, entrega etc.",
+    epic: "2.0 Perfil de Clientes",
+    tags: ["platform2", "cdp"],
+    planned: { start: 8, end: 8 }, executed: { start: 7, end: 7 },
+    status: "no-prazo", progress: 33,
+    note: "Previsão: final de setembro. FRONT-744 bloqueada no Jira.",
+    owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
+    storyPoints: 0,
+    subtasks: [
+      { key: "FRONT-764", title: "[UX] Visão do cliente: Tela de pedidos e sessões", status: "Done", points: 0, sprint: 43 },
+      { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "To Do", points: 0, sprint: 46, blocked: true },
+      { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do", points: 0, sprint: 46 },
+    ],
+  },
+
+  {
+    id: "f38", jiraKey: "POS-4166",
+    name: "API de Consulta de Dados da CDP",
+    subtitle: "Perfil unificado acessível via API para CRMs, ERPs e BI",
+    epic: "CDP · API",
+    project: "cdp",
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
+    storyPoints: 0,
+    subtasks: [
+      { key: "POS-4166", title: "[CDP] Back: Exportar o profile na API da CDP", status: "To Do", points: 0 },
+      { key: "POS-4167", title: "[CDP] Back: End-points para fornecer a CDP como API", status: "To Do", points: 0 },
+    ],
+  },
+
+  {
+    id: "f39", jiraKey: "",
+    name: "Matriz RFV (RFM)",
+    subtitle: "Segmentação automática por Recência, Frequência e Valor de compra",
+    epic: "2.0 Matriz RFV",
+    tags: ["platform2", "cdp"],
+    planned: { start: 9, end: 11 }, executed: null,
+    status: "no-prazo", progress: 0,
+    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
+    storyPoints: 0,
+    subtasks: [],
   },
 
   {
@@ -921,7 +968,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f29", jiraKey: "CDP-WAU",
-    name: "Adequação da Wake U na CDP",
+    name: "Wake U — Agenda do Vendedor",
     subtitle: "Integração Wake U com a CDP",
     epic: "CDP · Wake U",
     project: "cdp",
@@ -1095,7 +1142,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "em-andamento", progress: 72,
+    status: "em-andamento", progress: 77,
     note: "FRONT-744 bloqueada no Jira.",
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
@@ -1121,12 +1168,9 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-266", title: "Landing Pages: visualizar cadastros (leads) por LP, com perfil na CDP", status: "To Do", points: 0 },
       { key: "FRONT-277", title: "Filtro e categorização de templates no Studio (E-mail e WhatsApp)", status: "To Do", points: 0 },
       { key: "FRONT-769", title: "Erro ao pausar segmentação", status: "Done", points: 0, sprint: 44 },
-      { key: "FRONT-764", title: "[UX] Visão do cliente: Tela de pedidos e sessões", status: "Done", points: 0, sprint: 43 },
       { key: "FRONT-771", title: "[UX] Visão do cliente: Ajustes de UI", status: "Done", points: 0, sprint: 44 },
       { key: "FRONT-828", title: "Erro ao despublicar LP", status: "Done", points: 0, sprint: 46 },
       { key: "FRONT-829", title: "Ao submeter um form na Landing Page, o botão não funciona", status: "In Progress", points: 0, sprint: 46 },
-      { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do", points: 0, sprint: 46 },
-      { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "To Do", points: 0, sprint: 46, blocked: true },
       { key: "FRONT-813", title: "Discovery - Autenticação para fora do commerce", status: "Done", points: 0, sprint: 46 },
       { key: "FRONT-729", title: "[UX] Feature de SMS", status: "Done", points: 0 },
     ],
