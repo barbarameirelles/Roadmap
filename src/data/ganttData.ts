@@ -80,13 +80,15 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
   f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
   // Telas de paridade com componente CDP/Audience
-  f2: ["migracao", "cdp"], f10: ["migracao", "cdp"], f12: ["migracao", "cdp"],
-  f13: ["migracao", "cdp"],
-  // Evolução da 2.0 (capacidades novas + melhorias contínuas)
-  f30: ["evolucao"], f22: ["evolucao"], f26: ["evolucao"], f27: ["evolucao"],
-  f28: ["evolucao"],
-  // BTG: capacidade nova construída sobre a CDP
-  f11: ["evolucao", "cdp"],
+  f10: ["migracao", "cdp"], f12: ["migracao", "cdp"], f13: ["migracao", "cdp"],
+  // Visão resumida dos clientes: evolução + CDP
+  f2: ["evolucao", "cdp"],
+  // Evolução da 2.0 (melhorias contínuas)
+  f30: ["evolucao"],
+  // Capacidades futuras da plataforma → migração
+  f22: ["migracao"], f26: ["migracao"], f27: ["migracao"], f28: ["migracao"],
+  // BTG
+  f11: ["migracao"],
   // Audience + CDP
   "cdp-1": ["cdp"], "cdp-2a": ["cdp"], "cdp-3": ["cdp"], "cdp-4": ["cdp"],
   f29: ["cdp"],
