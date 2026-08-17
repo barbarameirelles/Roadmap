@@ -75,7 +75,7 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
   49: 8, 50: 9,        // Sep/Oct 2026
 };
 
-export const CURRENT_SPRINT = 46;
+export const CURRENT_SPRINT = 47;
 
 export const THIS_MONTH_SPRINTS: number[] = Object.entries(SPRINT_TO_MONTH)
   .filter(([, m]) => Number(m) === TODAY_MONTH)
