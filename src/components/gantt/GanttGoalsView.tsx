@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import {
   FEATURES, MONTHS, TODAY_MONTH, TRACK_META,
-  type Track, type Subtask,
+  type Feature, type Track, type Subtask,
 } from "@/data/ganttData";
+import { taskProgress } from "@/data/ganttUtils";
 import { MONTHLY_GOALS, type MonthlyGoal } from "@/data/monthlyGoals";
 
 // Índice global key → subtask (status + blocked), alimentado pelo sync semanal
@@ -14,6 +15,25 @@ function useSubtaskIndex(): Map<string, Subtask> {
   }, []);
 }
 
+// Épico pai com mais jiraKeys em comum com a meta mensal
+function findPrimaryFeature(goal: MonthlyGoal): Feature | null {
+  const counts = new Map<string, number>();
+  for (const key of goal.jiraKeys) {
+    for (const f of FEATURES) {
+      if (f.subtasks.some(s => s.key === key)) {
+        counts.set(f.id, (counts.get(f.id) ?? 0) + 1);
+        break;
+      }
+    }
+  }
+  let best: Feature | null = null;
+  let bestN = 0;
+  for (const [fid, n] of counts) {
+    if (n > bestN) { bestN = n; best = FEATURES.find(f => f.id === fid) ?? null; }
+  }
+  return best;
+}
+
 interface GoalStats {
   progress: number;
   done: number;
@@ -22,19 +42,19 @@ interface GoalStats {
   missingKeys: string[];
 }
 
+// Usa taskProgress() do épico pai — mesma fórmula do Kanban e da Visão Executiva
 function computeStats(goal: MonthlyGoal, index: Map<string, Subtask>): GoalStats {
-  let done = 0, ip = 0, total = 0;
   const blockedKeys: { key: string; title: string }[] = [];
   const missingKeys: string[] = [];
   for (const key of goal.jiraKeys) {
     const s = index.get(key);
     if (!s) { missingKeys.push(key); continue; }
-    total++;
-    if (s.status === "Done") done++;
-    else if (s.status === "In Progress") ip++;
     if (s.blocked && s.status !== "Done") blockedKeys.push({ key: s.key, title: s.title });
   }
-  const progress = total > 0 ? Math.round(((done + 0.5 * ip) / total) * 100) : 0;
+  const feat = findPrimaryFeature(goal);
+  const total = feat?.subtasks.length ?? 0;
+  const done  = feat ? feat.subtasks.filter(s => s.status === "Done").length : 0;
+  const progress = feat ? taskProgress(feat) : 0;
   return { progress, done, total, blockedKeys, missingKeys };
 }
 
@@ -80,12 +100,6 @@ function GoalCard({ goal, stats }: { goal: MonthlyGoal; stats: GoalStats }) {
               <span style={{ color: "#334155", flex: 1 }}>
                 {d.text}
                 {d.pending && <em style={{ color: "#d97706", fontStyle: "normal", fontWeight: 600 }}> · em andamento</em>}
-              </span>
-              <span style={{
-                flexShrink: 0, fontSize: 10.5, fontWeight: 600, color: "#64748b",
-                background: "#f1f5f9", borderRadius: 999, padding: "2px 8px", whiteSpace: "nowrap",
-              }}>
-                {d.epic}
               </span>
             </li>
           ))}
