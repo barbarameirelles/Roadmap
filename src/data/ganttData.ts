@@ -467,6 +467,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4412", title: "Problema na entrada de leads de landing page", status: "To Do", points: 0, sprint: 46 },
       { key: "POS-4420", title: "Problema landing page", status: "To Do", points: 0, sprint: 46 },
       { key: "POS-4216",  title: "Segmentador: Campos Custom", status: "Done", points: 0 },
+      { key: "POS-4346", title: "Validar carga do segmentador commerce", status: "To Do", points: 0, sprint: 45 },
     ],
   },
 
@@ -868,7 +869,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-697", title: "[Segmentador Commerce] Front: Suprimir menu e header do segmentador", status: "Done", points: 0 },
       { key: "FRONT-710", title: "Segmentador - Ajustar réguas automáticas", status: "Done", points: 0 },
       { key: "FRONT-736", title: "Autenticação para segmentador no commerce", status: "Done", points: 0 },
-      { key: "POS-4346", title: "TO DOS Para Liberação: Validar carga", status: "To Do", points: 0, sprint: 45 },
       { key: "POS-4347", title: "TO DOS Para Liberação: Ajustar Segmentador", status: "Done", points: 0, sprint: 45 },
       { key: "POS-4348", title: "TO DOS Para Liberação: Fornecer IDs", status: "Done", points: 0, sprint: 45 },
       { key: "POS-4349", title: "TO DOS Para Liberação: Atualizar Documentação", status: "Done", points: 0, sprint: 45 },
@@ -881,7 +881,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-4383", title: "PRIORITÁRIO: Nome das audiências em Inglês", status: "Done", points: 0, sprint: 45 },
       { key: "POS-4384", title: "PRIORITÁRIO: Filtros de visão de cliente não funcionam", status: "Done", points: 0, sprint: 45 },
       { key: "POS-4397", title: "Ajustar Busca por CPF", status: "Done", points: 0, sprint: 46 },
-      { key: "POS-4396", title: "Corrigir Duplicidade de cadastro", status: "To Do", points: 0, sprint: 46 },
       { key: "POS-4398", title: "Redefinir quais status serão utilizados na LTV", status: "Done", points: 0, sprint: 46 },
     ],
   },
@@ -945,6 +944,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4437", title: "Adicionar indicação do tipo de template (Beefree ou HTML) nos endpoints de templates", status: "To Do", points: 0 },
       { key: "POS-4438", title: "Erro ao tentar despublicar Landing Page", status: "In Progress", points: 0, sprint: 47 },
       { key: "POS-4450", title: "Erro ao subir lista", status: "To Do", points: 0 },
+      { key: "POS-4396", title: "Corrigir Duplicidade de cadastro", status: "To Do", points: 0, sprint: 46 },
     ],
   },
 
