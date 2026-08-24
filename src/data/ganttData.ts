@@ -139,6 +139,7 @@ export const SPRINT_DATES: Record<number, { start: string; end: string }> = {
   45: { start: "15/jul", end: "28/jul" },
   46: { start: "29/jul", end: "11/ago" },
   47: { start: "12/ago", end: "25/ago" },
+  48: { start: "26/ago", end: "08/set" },
 };
 
 export interface Feature {
@@ -857,9 +858,8 @@ export const FEATURES: Feature[] = [
     subtitle: "Segmentos CDP disponíveis no commerce",
     epic: "CDP",
     project: "cdp",
-    planned: { start: 5, end: 5 }, executed: { start: 4, end: 6 },
-    status: "em-andamento", progress: 90,
-    note: "Reaberto em Jul/26 — 13 issues novas no Jira (TO DOs para liberação + prioritárias) após a conclusão do escopo original.",
+    planned: { start: 5, end: 5 }, executed: { start: 4, end: 7 },
+    status: "concluido", progress: 100,
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
@@ -889,8 +889,8 @@ export const FEATURES: Feature[] = [
   // ─── Q3 2026 ──────────────────────────────────────────────────────────────
   {
     id: "f17", jiraKey: "FRONT-675", jiraKeys: ["FRONT-675", "POS-4134"],
-    name: "Envio de e-mails nível equivalente (IP dedicado)",
-    subtitle: "E-mails com IP dedicado",
+    name: "Evolução de campanhas",
+    subtitle: "Campanhas avançadas com IP dedicado",
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: { start: 4, end: 5 },
@@ -925,7 +925,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Pente fino/Ajustes",
     tags: ["platform2"],
     planned: { start: 7, end: 9 }, executed: { start: 7, end: 7 },
-    status: "em-andamento", progress: 27,
+    status: "em-andamento", progress: 38,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -943,8 +943,8 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-889", title: "Bug criação de campanha com repique", status: "To Do", points: 0, sprint: 47 },
       { key: "POS-4437", title: "Adicionar indicação do tipo de template (Beefree ou HTML) nos endpoints de templates", status: "To Do", points: 0 },
       { key: "POS-4438", title: "Erro ao tentar despublicar Landing Page", status: "In Progress", points: 0, sprint: 47 },
-      { key: "POS-4450", title: "Erro ao subir lista", status: "To Do", points: 0 },
-      { key: "POS-4396", title: "Corrigir Duplicidade de cadastro", status: "To Do", points: 0, sprint: 46 },
+      { key: "POS-4450", title: "Erro ao subir lista", status: "In Progress", points: 0 },
+      { key: "POS-4396", title: "Corrigir Duplicidade de cadastro", status: "In Progress", points: 0, sprint: 46 },
     ],
   },
 
@@ -1202,7 +1202,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-298", title: "Documentação técnica de setup", status: "To Do", points: 0, sprint: 42 },
       { key: "FRONT-278", title: "Padronização de duplicação de templates no Studio", status: "Done", points: 0 },
       { key: "FRONT-388", title: "Landing Page - redirect do botão", status: "Done", points: 0 },
-      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "In Progress", points: 0 },
+      { key: "FRONT-389", title: "Landing Page e On Site - Modal de agradecimento", status: "In Progress", points: 0, sprint: 47 },
       { key: "FRONT-725", title: "Voltar com as telas de visão de clientes para produção", status: "Done", points: 0 },
       { key: "FRONT-215", title: "Visão única do cliente: Origem do lead", status: "Done", points: 0 },
       { key: "FRONT-737", title: "[UX] Revisão da parte de listas", status: "Done", points: 0 },
