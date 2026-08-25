@@ -1,0 +1,258 @@
+import type { Track } from "./ganttData";
+
+export type HypothesisStatus = "backlog" | "a-avaliar" | "planejado";
+
+export interface HypothesisItem {
+  id: string;
+  title: string;
+  description: string;
+  type: Track[];
+  status: HypothesisStatus;
+  previsao?: string;
+  clienteTags?: string[];
+  subitems?: string[];
+}
+
+export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: string; bg: string }> = {
+  "backlog":   { label: "Backlog",   color: "#475569", bg: "#f1f5f9" },
+  "a-avaliar": { label: "A avaliar", color: "#b45309", bg: "#fef3c7" },
+  "planejado": { label: "Planejado", color: "#1d4ed8", bg: "#eff6ff" },
+};
+
+export const HYPOTHESES: HypothesisItem[] = [
+  {
+    id: "h1",
+    title: "Expansão dos Critérios do Segmentador",
+    description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
+    type: ["migracao", "evolucao", "cdp"],
+    status: "a-avaliar",
+    subitems: [
+      "LTV",
+      "Ticket médio",
+      "Produtos comprados",
+      "UF",
+      "Produtos visualizados",
+      "Categorias visualizadas",
+      "Forma de pagamento",
+      "Canal da compra (loja física ou e-commerce)",
+    ],
+  },
+  {
+    id: "h2",
+    title: "IP Dedicado para E-mail",
+    description: "Infraestrutura de envio de e-mail com IP dedicado, garantindo maior reputação e entregabilidade para os disparos da plataforma.",
+    type: ["evolucao"],
+    status: "planejado",
+    previsao: "Final de setembro",
+  },
+  {
+    id: "h3",
+    title: "Nova página de perfil de clientes",
+    description: "Refatoração da tela de visão única de cliente trazendo mais dados relativos ao pedido, como forma de pagamento, entrega etc.",
+    type: ["migracao", "evolucao", "cdp"],
+    status: "planejado",
+    previsao: "Final de setembro",
+  },
+  {
+    id: "h4",
+    title: "Integração com ERPs — Loja Física",
+    description: "Integração nativa com ERPs de varejo para captura e envio automático de dados de loja física diretamente para a CDP da Wake Experience 2.0. Para clientes com outros sistemas, também será disponibilizada uma API aberta.",
+    type: ["evolucao"],
+    status: "a-avaliar",
+    subitems: ["LINX Microvix", "LINX POS", "TOTVS Moda"],
+  },
+  {
+    id: "h5",
+    title: "API de Consulta de Dados da CDP",
+    description: "API para consulta de dados diretamente na CDP da Wake Experience 2.0, permitindo que sistemas externos acessem o perfil unificado dos clientes de forma programática.",
+    type: ["evolucao", "cdp"],
+    status: "a-avaliar",
+    clienteTags: ["Ybera", "Shoulder"],
+    subitems: [
+      "Consulta de dados de clientes e atributos armazenados na CDP",
+      "Integração com sistemas externos como CRMs, ERPs e ferramentas de BI",
+      "Acesso via autenticação segura por token",
+    ],
+  },
+  {
+    id: "h6",
+    title: "Envios comportamentais",
+    description: "A partir do comportamento do cliente são enviados os produtos com que ele interagiu + recomendações baseadas em inteligência.",
+    type: ["migracao"],
+    status: "a-avaliar",
+    subitems: [
+      "Abandonou o Carrinho e Não Comprou Nada",
+      "Abandonou o Carrinho e Não Levou o Item",
+      "Aniversário",
+      "Assinou a Newsletter",
+      "Avise-me",
+      "Buscou um Produto e Não Comprou",
+      "Clientes que nunca compraram",
+      "Decididos: Visitou o Mesmo Produto Várias Vezes",
+      "Deixou de Acessar o Site por 7 Dias",
+      "Fidelidade: Clientes fiéis",
+      "Inativos: Parou de Abrir Campanhas",
+      "Indecisos: Navegou em Vários Produtos sem Comprar",
+      "Navegou na Última Hora",
+      "Navegou na Última Semana",
+      "Navegou no Último Mês",
+      "Novidades na Lista de Desejos",
+      "Novidades: Novos Produtos na Loja",
+      "Novos Cadastros",
+      "Pessoas ativas: Acessou o Site nos Últimos 120 Dias",
+      "Pessoas engajadas: Acessou o Site nos Últimos 7 Dias",
+      "Pessoas inativas: Deixou de Acessar o Site por 120 Dias",
+      "Pessoas que compraram há 7 dias",
+      "Pós Compra",
+      "Reconquista: parou de comprar",
+      "Recorrência: Comprou um Produto de Uso Contínuo",
+      "Redução de Preços Similares: Navegou em uma Categoria que Baixou de Preço",
+      "Redução de Preços: Visualizou um Produto que Baixou de Preço",
+      "Tendências: Navegou em uma Categoria com Produtos em Alta",
+    ],
+  },
+  {
+    id: "h7",
+    title: "Relatórios de Performance",
+    description: "Conjunto completo de relatórios para acompanhamento da performance das comunicações enviadas pela plataforma.",
+    type: ["migracao"],
+    status: "a-avaliar",
+    subitems: [
+      "Relatórios de Envio — e-mail, WhatsApp, SMS, Push, Web Push, App Push, On-site, Lightbox e Repiques",
+      "Relatórios de Interação — ranking de assuntos, fidelidade de abertura, Teste A/B",
+      "Relatórios Transacionais — Workflow e API",
+      "Relatório de Performance Geral — receita gerada pelas campanhas",
+      "Relatório de Performance de Envios Automáticos — réguas automáticas ativas",
+      "Reputação de Provedores — Gmail, Hotmail",
+      "Relatório de On-site e Web Push — métricas por campanha",
+    ],
+  },
+  {
+    id: "h8",
+    title: "SMS",
+    description: "Novo canal de envio via SMS, permitindo disparos pontuais e automáticos para a base de clientes.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h9",
+    title: "Wake U — Agenda do Vendedor",
+    description: "Sistema de oportunidades de venda direcionadas ao time de loja física, permitindo contatos ativos com clientes com base em dados da CDP — como aniversariantes, clientes inativos ou compradores recentes.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h10",
+    title: "Matriz RFV (RFM)",
+    description: "Segmentação automática da base de clientes com base nos critérios de Recência, Frequência e Valor de compra, identificando perfis mais valiosos e criando estratégias personalizadas para cada grupo.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h11",
+    title: "Gestão de Pressão de Comunicação",
+    description: "Controle de frequência de comunicação por cliente, evitando excesso de contatos e melhorando a experiência do usuário final.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h12",
+    title: "Teste A/B",
+    description: "Criação e análise de testes de variação para campanhas e conteúdos, permitindo otimizar assuntos, templates e audiências.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h13",
+    title: "Envios Transacionais",
+    description: "Disparos automáticos de e-mail e WhatsApp baseados em eventos transacionais, como confirmação de pedido, nota fiscal e atualizações de status.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h14",
+    title: "Web Push",
+    description: "Notificações push no navegador para engajamento de clientes mesmo fora do site, sem necessidade de app instalado.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h15",
+    title: "E-mail Inteligente",
+    description: "Templates de e-mail com personalização dinâmica baseada em IA, adaptando conteúdo e recomendações ao perfil de cada cliente.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h16",
+    title: "Workflow",
+    description: "Criação de jornadas de comunicação automatizadas e multicanal, baseadas no engajamento e comportamento do usuário.",
+    type: ["migracao"],
+    status: "a-avaliar",
+    subitems: [
+      "Criação de jornadas com múltiplos passos, canais e condições",
+      "Gatilhos baseados em comportamento e engajamento do usuário (abertura, clique, compra, etc.)",
+      "Ramificações condicionais para personalização da jornada por perfil de resposta",
+      "Suporte a e-mail e WhatsApp na mesma jornada",
+    ],
+  },
+  {
+    id: "h17",
+    title: "App Push",
+    description: "Novo canal de notificação via push em aplicativos mobile, permitindo disparos pontuais e automáticos diretamente para o app da loja.",
+    type: ["migracao"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h21",
+    title: "Adaptação do SDK para Aplicativos Mobile",
+    description: "Desenvolvimento e adaptação do SDK para instalação em aplicativos mobile, permitindo que clientes que operam com app próprio possam capturar navegação, eventos e dados dos seus clientes diretamente do aplicativo e enviá-los à CDP da Wake Experience 2.0.",
+    type: ["evolucao", "cdp"],
+    status: "a-avaliar",
+    subitems: [
+      "SDK compatível com aplicativos mobile (iOS e Android)",
+      "Captura de eventos de navegação e comportamento dentro do app",
+      "Envio de dados de clientes do app para a CDP",
+      "Unificação do perfil do cliente entre web e app",
+    ],
+  },
+  {
+    id: "h20",
+    title: "Relatório de Segmento",
+    description: "Área dedicada dentro do Segmentador para visualização detalhada de qualquer segmento — predefinido ou criado pelo usuário. Permite monitorar o tamanho da audiência, sua evolução ao longo do tempo e quem são os clientes dentro daquele segmento.",
+    type: ["evolucao"],
+    status: "a-avaliar",
+    subitems: [
+      "Visão do total de pessoas dentro de um segmento",
+      "Evolução histórica do segmento (crescimento ou queda)",
+      "Lista de clientes que compõem o segmento",
+      "Suporte a segmentos predefinidos e segmentos criados pelo usuário",
+    ],
+  },
+  {
+    id: "h19",
+    title: "Captação de Device e Sistema Operacional pelo SDK",
+    description: "O SDK deve captar e armazenar o device e sistema operacional do cliente, tornando esse dado um critério segmentável e visível no perfil de cada cliente. Permite saber de onde a compra veio e onde ele navegou, habilitando promoções e condições de pagamento específicas por canal e sistema operacional.",
+    type: ["evolucao", "cdp"],
+    status: "a-avaliar",
+    clienteTags: ["Ybera"],
+    subitems: [
+      "Captação de device (mobile, desktop, tablet) e sistema operacional via SDK",
+      "Dado disponível como critério de segmentação no Segmentador",
+      "Exibição no perfil único do cliente (canal de navegação e canal de compra)",
+      "Viabilizar promoções e condições de pagamento específicas por canal e SO",
+    ],
+  },
+  {
+    id: "h18",
+    title: "Acesso Independente de Plataforma de E-commerce",
+    description: "Foco será em Wake Commerce. Clientes com outras plataformas (VTEX, Shopify, Magento) poderiam utilizar a plataforma de forma independente, sem necessidade de vínculo com o Wake Commerce.",
+    type: ["evolucao"],
+    status: "a-avaliar",
+    subitems: [
+      "Cadastro e acesso à plataforma sem integração com Wake Commerce",
+      "Compatibilidade com as principais plataformas de e-commerce do mercado",
+      "Mesmas funcionalidades disponíveis para todos os clientes, independente da plataforma utilizada",
+    ],
+  },
+];
