@@ -57,8 +57,8 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
     groups: [
       {
         feature: "Evoluções",
-        description: "Novas funcionalidades na plataforma 2.0: atributos personalizados de ponta a ponta, audiências pré-definidas, integração BTG, feature de SMS e configuração de domínio de e-mail.",
-        context: "Com essas evoluções, as lojas ganham ferramentas mais ricas para segmentar e se comunicar com os clientes — desde atributos criados pela própria loja até novos canais como SMS e e-mail personalizado por domínio. Mais recursos disponíveis significa mais possibilidades de campanhas sem precisar de integrações externas.",
+        description: "Entregas de agosto em duas frentes. XP + Audience: segmentos pré-definidos no segmentador; atributos personalizados de ponta a ponta (tela de cadastro, segmentador e subida de lista); campos de localidade (cidade e estado) no segmentador; exclusão manual de cliente; e início da migração do sistema de disparo de e-mail. Apenas XP: Landing Pages (redirect pós-cadastro, modal de agradecimento e mudança de URL); ajustes na ordenação da visão de cliente; nova tela de SDK; modais on-site por audiência/segmento e de agradecimento; importação de HTML para e-mail; e template de produto para e-mail (BTG).",
+        context: "Com atributos personalizados, campos de localidade e segmentos pré-definidos, as lojas passam a criar audiências muito mais precisas — por perfil de cliente, cidade, estado ou comportamento. As evoluções de Landing Pages, modais on-site e templates de e-mail ampliam as possibilidades de comunicação sem precisar de integrações externas, entregando mais ferramentas para campanhas segmentadas diretamente na plataforma.",
         issues: [
           { key: "FRONT-154", title: "Importação de HTML para E-mail e Unificação da Biblioteca de Templates", status: "Done" },
           { key: "FRONT-591", title: "BTG: Feature de template de produto", status: "Done" },
