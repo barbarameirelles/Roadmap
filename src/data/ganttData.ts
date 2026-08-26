@@ -118,7 +118,7 @@ export const SPRINT_TO_MONTH: Record<number, number> = {
   49: 8, 50: 9,        // Sep/Oct 2026
 };
 
-export const CURRENT_SPRINT = 47;
+export const CURRENT_SPRINT = 48;
 
 export const THIS_MONTH_SPRINTS: number[] = Object.entries(SPRINT_TO_MONTH)
   .filter(([, m]) => Number(m) === TODAY_MONTH)
@@ -708,7 +708,7 @@ export const FEATURES: Feature[] = [
     epic: "CDP",
     project: "cdp",
     planned: { start: 5, end: 6 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 53,
+    status: "em-andamento", progress: 54,
     note: "FRONT-770, FRONT-774 e FRONT-779 bloqueadas no Jira (segmentador: UF, interesse/navegação, lojas via API).",
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
@@ -732,6 +732,11 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-779", title: "Segmentador: Canal / Loja: carregar lojas e site via API", status: "To Do", points: 0, blocked: true },
       { key: "FRONT-780", title: "Segmentador: Comprou: carregar produtos via API no Segmentador", status: "To Do", points: 0 },
       { key: "POS-4493",  title: "[Audiences] Provisionamento de lojas e regras de retenção de dados do SDK", status: "To Do", points: 0, sprint: 47 },
+      { key: "FRONT-803", title: "Visão de clientes - Ajuste da ordenação", status: "Done", points: 0, sprint: 48 },
+      { key: "FRONT-804", title: "Ajuste SMS/WhatsAPP", status: "Done", points: 0, sprint: 48 },
+      { key: "FRONT-805", title: "Ajustes: Segmentador, Visão única de cliente, Gestão de listas", status: "Done", points: 0, sprint: 48 },
+      { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "To Do", points: 0, sprint: 48 },
+      { key: "POS-4444",  title: "Implementar exportação CSV da audiência/segmento", status: "To Do", points: 0, sprint: 48 },
     ],
   },
 
@@ -895,7 +900,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: { start: 4, end: 5 },
-    status: "em-andamento", progress: 66,
+    status: "em-andamento", progress: 62,
     note: "FRONT-809 (IP Dedicado e Entregabilidade) bloqueada no Jira.",
     owner: { name: "isabela.beatriz", initials: "IB", color: "#2563eb" },
     storyPoints: 4,
@@ -916,6 +921,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4421",  title: "Erro de envio de teste", status: "Done", points: 0, sprint: 46 },
       { key: "POS-4422",  title: "Corrigir validação de campanhas automáticas para audiências do tipo Segmento", status: "In Progress", points: 0, sprint: 46 },
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
+      { key: "POS-4343",  title: "IP Dedicado: Adequação do disparador", status: "To Do", points: 0, sprint: 48 },
     ],
   },
 
@@ -926,7 +932,7 @@ export const FEATURES: Feature[] = [
     epic: "2.0 Pente fino/Ajustes",
     tags: ["platform2"],
     planned: { start: 7, end: 9 }, executed: { start: 7, end: 7 },
-    status: "em-andamento", progress: 42,
+    status: "em-andamento", progress: 45,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
     subtasks: [
@@ -940,14 +946,15 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-872", title: "Tirar dados Mocados Segmentos pré definidos", status: "Done", points: 0, sprint: 47 },
       { key: "FRONT-873", title: "Pente Fino: Segmentador", status: "To Do", points: 0, sprint: 47 },
       { key: "FRONT-876", title: "Padronização de Segmentos Pré-definidos e Exibição de Listas em Envios Automáticos", status: "Done", points: 0, sprint: 47 },
-      { key: "FRONT-877", title: "Ajuste - Filtro de Tipos em Envios Automáticos", status: "To Do", points: 0, sprint: 47 },
-      { key: "FRONT-889", title: "Bug criação de campanha com repique", status: "To Do", points: 0, sprint: 47 },
+      { key: "FRONT-877", title: "Ajuste - Filtro de Tipos em Envios Automáticos", status: "In Progress", points: 0, sprint: 47 },
+      { key: "FRONT-889", title: "Bug criação de campanha com repique", status: "In Progress", points: 0, sprint: 47 },
       { key: "POS-4437", title: "Adicionar indicação do tipo de template (Beefree ou HTML) nos endpoints de templates", status: "In Progress", points: 0, sprint: 47 },
       { key: "POS-4438", title: "Erro ao tentar despublicar Landing Page", status: "In Progress", points: 0, sprint: 47 },
       { key: "POS-4450", title: "Erro ao subir lista", status: "In Progress", points: 0 },
       { key: "POS-4396", title: "Corrigir Duplicidade de cadastro", status: "Done", points: 0, sprint: 46 },
       { key: "POS-4447", title: "Ajustes pós deploy", status: "In Progress", points: 0, sprint: 47 },
       { key: "POS-4472", title: "Padronizar endpoints de Segmentos Pré-definidos", status: "To Do", points: 0, sprint: 47 },
+      { key: "POS-4446", title: "Origem do Lead - Rodar script retroativos", status: "To Do", points: 0, sprint: 48 },
     ],
   },
 
@@ -1046,7 +1053,7 @@ export const FEATURES: Feature[] = [
     owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
     storyPoints: 0,
     subtasks: [
-      { key: "POS-3928",  title: "Dados de receita - Fazer deploy e testes", status: "Done", points: 0, sprint: 39, blocked: true },
+      { key: "POS-3928",  title: "Dados de receita - Fazer deploy e testes", status: "Done", points: 0, sprint: 39 },
       { key: "POS-3929",  title: "Dados de receita - Gerar arquivo de download", status: "Done", points: 0, sprint: 39 },
       { key: "POS-3973",  title: "Implementação do Sistema de Notificação de Downloads", status: "Done", points: 0, sprint: 39 },
       { key: "FRONT-310", title: "Exportação de Relatórios CSV: Envios Pontuais", status: "To Do", points: 0, sprint: 38, blocked: true },
@@ -1195,7 +1202,7 @@ export const FEATURES: Feature[] = [
     tags: ["platform2"],
     excludeFromStats: true,
     planned: { start: 12, end: 14 }, executed: null,
-    status: "em-andamento", progress: 76,
+    status: "em-andamento", progress: 77,
     note: "POS-4453 (Segmentação com atributos personalizado) bloqueada no Jira.",
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 0,
@@ -1227,6 +1234,11 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-813", title: "Discovery - Autenticação para fora do commerce", status: "Done", points: 0, sprint: 46 },
       { key: "FRONT-729", title: "[UX] Feature de SMS", status: "Done", points: 0 },
       { key: "POS-4453",  title: "Segmentação com atributos personalizado", status: "To Do", points: 0, sprint: 47, blocked: true },
+      { key: "FRONT-748", title: "Mudança de url de landing page", status: "Done", points: 0, sprint: 48 },
+      { key: "FRONT-760", title: "Inclusão do Clarity na plataforma 2.0", status: "In Progress", points: 0, sprint: 48 },
+      { key: "FRONT-776", title: "Atualizar SDK", status: "In Progress", points: 0, sprint: 48 },
+      { key: "POS-4403",  title: "Integração do relatório de receita por campanha com endpoint de downloads", status: "Done", points: 0, sprint: 48 },
+      { key: "POS-4413",  title: "Criação/adaptação de end-point para nomes dos clientes segmentados", status: "Done", points: 0, sprint: 48 },
     ],
   },
 
