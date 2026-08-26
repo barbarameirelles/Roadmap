@@ -99,7 +99,7 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
           <h2 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", margin: "0 0 6px" }}>
             {meta.label}
           </h2>
-          <p style={{ fontSize: 13.5, color: "#64748b", margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13.5, color: "#64748b", margin: 0, lineHeight: 1.6, whiteSpace: "pre-line" }}>
             {group.description}
           </p>
         </div>
@@ -244,7 +244,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
       </div>
 
       {/* Descrição */}
-      <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.55 }}>
+      <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.55, whiteSpace: "pre-line" }}>
         {group.description}
       </div>
 
