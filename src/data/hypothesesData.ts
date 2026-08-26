@@ -204,6 +204,20 @@ export const HYPOTHESES: HypothesisItem[] = [
     status: "a-avaliar",
   },
   {
+    id: "h22",
+    title: "Receita e exportações CSV nas campanhas",
+    description: "Concluir a disponibilização de receita por campanha e as exportações de relatórios CSV (envios pontuais, automáticos e segmentos) via central de notificações.",
+    type: ["migracao"],
+    status: "planejado",
+    subitems: [
+      "Receita por campanha disponível nos relatórios",
+      "Exportação CSV de envios pontuais",
+      "Exportação CSV de envios automáticos",
+      "Exportação CSV de segmentos",
+      "Distribuição via central de notificações",
+    ],
+  },
+  {
     id: "h21",
     title: "Adaptação do SDK para Aplicativos Mobile",
     description: "Desenvolvimento e adaptação do SDK para instalação em aplicativos mobile, permitindo que clientes que operam com app próprio possam capturar navegação, eventos e dados dos seus clientes diretamente do aplicativo e enviá-los à CDP da Wake Experience 2.0.",

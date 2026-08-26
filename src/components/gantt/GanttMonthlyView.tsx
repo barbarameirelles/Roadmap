@@ -1,57 +1,6 @@
 import { useMemo } from "react";
 import { FEATURES, MONTHS, TODAY_MONTH, type Feature } from "@/data/ganttData";
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
-
-// Where the plan says a feature *should* be (0..1) by month m — ramps linearly
-// across its planned window.
-function plannedFrac(f: Feature, m: number): number {
-  const span = Math.max(f.planned.end - f.planned.start + 1, 1);
-  return clamp((m - f.planned.start + 1) / span, 0, 1);
-}
-
-// Actual progress (0..1) attributed up to month m, spread over the execution
-// window. Orphan progress (no executed window) lands at "today".
-function realizedFrac(f: Feature, m: number): number {
-  const p = f.progress / 100;
-  if (f.executed) {
-    const span = Math.max(f.executed.end - f.executed.start + 1, 1);
-    return p * clamp((m - f.executed.start + 1) / span, 0, 1);
-  }
-  return m >= TODAY_MONTH ? p : 0;
-}
-
-// Is the feature meaningfully behind where the plan expects it to be?
-function isBehind(f: Feature): boolean {
-  if (f.progress >= 100) return false;
-  return f.progress / 100 < plannedFrac(f, TODAY_MONTH) * 0.7;
-}
-
-// Velocidade do forecast por mês, refletindo a interrupção contínua da CDP no
-// 2º semestre (janela Jul–Dez): julho levemente contido e Ago–Dez a ~30%. O
-// Q1/27 (após o fim da interrupção) é tratado à parte, no "squeeze" da série.
-const AUG_MONTH = 7;
-const POST_AUG_DRAG = 0.25;
-const JUL_DRAG = 0.3;
-function monthVel(mm: number): number {
-  if (mm >= AUG_MONTH) return POST_AUG_DRAG;
-  return mm === 6 ? JUL_DRAG : 1;
-}
-
-// Forecast progress (0..1) for months after today. Behind features slip ~60%
-// of their duration; ganho mensal sofre drag conforme monthVel.
-function forecastFrac(f: Feature, m: number): number {
-  if (f.progress >= 100) return 1;
-  const span = f.planned.end - f.planned.start + 1;
-  const due = f.planned.end + (isBehind(f) ? Math.ceil(0.6 * span) : 0);
-  const nominal = (1 - f.progress / 100) / Math.max(due - TODAY_MONTH, 1);
-  let prog = f.progress / 100;
-  for (let mm = TODAY_MONTH + 1; mm <= m; mm++) {
-    prog = clamp(prog + nominal * monthVel(mm), 0, 1);
-  }
-  return prog;
-}
+import { plannedFrac, taskProgress, realizedFrac, forecastFrac } from "@/data/ganttUtils";
 
 // ── Layout constants ───────────────────────────────────────────────────────────
 const PAD_L = 44;
@@ -66,10 +15,18 @@ const C_PLAN = "#2563eb";
 const C_REAL = "#16a34a";
 const C_FCST = "#7c3aed";
 
-export default function GanttMonthlyView({ embedded = false }: { embedded?: boolean } = {}) {
-  // Escopo 2.0: tag platform2 (Dados CDP perdeu a tag e foi para o módulo CDP).
+export default function GanttMonthlyView({
+  embedded = false,
+  features: featuresProp,
+}: { embedded?: boolean; features?: Feature[] } = {}) {
+  // Quando chamado da Visão Executiva recebe as features já filtradas pelo escopo.
+  // Na view autônoma usa a tag platform2 como antes.
   const isPlatform2 = (f: Feature) => f.tags?.includes("platform2") ?? false;
-  const features = useMemo(() => FEATURES.filter(f => !f.excludeFromStats && isPlatform2(f)), []);
+  const defaultFeatures = useMemo(
+    () => FEATURES.filter(f => !f.excludeFromStats && isPlatform2(f)),
+    [],
+  );
+  const features = featuresProp ?? defaultFeatures;
   const T = features.length;
 
   // Interrupção: módulo Audience (CDP) — tudo que não é 2.0 (inclui Dados CDP).
@@ -137,21 +94,23 @@ export default function GanttMonthlyView({ embedded = false }: { embedded?: bool
       </div>
       )}
 
-      {/* KPI strip */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
-        {[
-          { lbl: "Planejado até hoje", val: `${Math.round(todayRow.planned)}%`, sub: "posição esperada pelo plano", color: C_PLAN },
-          { lbl: "Realizado até hoje", val: `${Math.round(todayRow.realized ?? 0)}%`, sub: `progresso médio dos ${T} épicos 2.0`, color: C_REAL },
-          { lbl: "Variação", val: `${(todayRow.realized ?? 0) - todayRow.planned >= 0 ? "+" : ""}${Math.round((todayRow.realized ?? 0) - todayRow.planned)} pts`, sub: "realizado − planejado", color: (todayRow.realized ?? 0) >= todayRow.planned ? C_REAL : "#dc2626" },
-          { lbl: "Forecast fim do período", val: `${Math.round(endForecast)}%`, sub: "projeção Mar/27 por confiança", color: C_FCST },
-        ].map(k => (
-          <div key={k.lbl} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, padding: "14px 16px" }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", letterSpacing: "0.04em", textTransform: "uppercase" }}>{k.lbl}</div>
-            <div style={{ fontSize: 26, fontWeight: 700, color: k.color, marginTop: 4, lineHeight: 1 }}>{k.val}</div>
-            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>{k.sub}</div>
-          </div>
-        ))}
-      </div>
+      {/* KPI strip — apenas na view autônoma; na exec view os tiles ficam no topo */}
+      {!embedded && (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+          {[
+            { lbl: "Planejado até hoje", val: `${Math.round(todayRow.planned)}%`, sub: "posição esperada pelo plano", color: C_PLAN },
+            { lbl: "Realizado até hoje", val: `${Math.round(todayRow.realized ?? 0)}%`, sub: `progresso médio dos ${T} épicos 2.0`, color: C_REAL },
+            { lbl: "Variação", val: `${(todayRow.realized ?? 0) - todayRow.planned >= 0 ? "+" : ""}${Math.round((todayRow.realized ?? 0) - todayRow.planned)} pts`, sub: "realizado − planejado", color: (todayRow.realized ?? 0) >= todayRow.planned ? C_REAL : "#dc2626" },
+            { lbl: "Forecast fim do período", val: `${Math.round(endForecast)}%`, sub: "projeção Mar/27 por confiança", color: C_FCST },
+          ].map(k => (
+            <div key={k.lbl} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, padding: "14px 16px" }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", letterSpacing: "0.04em", textTransform: "uppercase" }}>{k.lbl}</div>
+              <div style={{ fontSize: 26, fontWeight: 700, color: k.color, marginTop: 4, lineHeight: 1 }}>{k.val}</div>
+              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>{k.sub}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* S-curve */}
       <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, padding: "16px 16px 8px", boxShadow: "0 1px 4px rgba(15,23,42,0.06)", marginBottom: 20, overflowX: "auto" }}>
@@ -225,7 +184,8 @@ export default function GanttMonthlyView({ embedded = false }: { embedded?: bool
             <div style={{ fontSize: 12, color: "#94a3b8" }}>Nenhuma entrega 2.0 com data em Jul/26.</div>
           )}
           {julyFeats.map(f => {
-            const behind = isBehind(f);
+            const _tp = taskProgress(f);
+            const behind = _tp < 100 && _tp / 100 < plannedFrac(f, TODAY_MONTH) * 0.7;
             return (
               <div key={f.id} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ flex: "0 0 18px", fontSize: 14 }}>{behind ? "⚠️" : "✅"}</div>
