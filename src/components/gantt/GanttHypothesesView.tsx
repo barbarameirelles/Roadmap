@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import type React from "react";
 import { TRACK_META, type Track } from "@/data/ganttData";
 import {
   HYPOTHESES, HYPO_STATUS_META,
@@ -92,98 +93,100 @@ function HypothesisModal({ item, onClose }: { item: HypothesisItem; onClose: () 
   );
 }
 
-// ── Card ──────────────────────────────────────────────────────────────────────
+// ── Table Row ─────────────────────────────────────────────────────────────────
 
-function HypCard({ item, onOpen }: { item: HypothesisItem; onOpen: () => void }) {
+function HypRow({ item, onOpen }: { item: HypothesisItem; onOpen: () => void }) {
   return (
-    <div
+    <tr
       onClick={onOpen}
-      style={{
-        background: "var(--g-card, #fff)",
-        border: "1px solid var(--g-border, #e2e8f0)",
-        borderRadius: 10,
-        padding: "14px 16px",
-        cursor: "pointer",
-        transition: "box-shadow 0.15s, border-color 0.15s",
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
-        (e.currentTarget as HTMLDivElement).style.borderColor = "#cbd5e1";
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
-        (e.currentTarget as HTMLDivElement).style.borderColor = "var(--g-border, #e2e8f0)";
-      }}
+      style={{ cursor: "pointer", borderBottom: "1px solid var(--g-border, #e2e8f0)" }}
+      onMouseEnter={e => { (e.currentTarget as HTMLTableRowElement).style.background = "var(--g-surface, #f8fafc)"; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.background = ""; }}
     >
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
-        {item.type.map(t => (
-          <span key={t} className="kb-track-tag" style={{ background: TRACK_META[t].bg, color: TRACK_META[t].color }}>
-            {TRACK_META[t].short}
-          </span>
-        ))}
-        {item.clienteTags?.map(c => (
-          <span key={c} style={{
-            fontSize: 11, fontWeight: 700, color: "#92400e",
-            background: "#fef3c7", borderRadius: 999, padding: "2px 8px",
-            border: "1px solid #fcd34d",
-          }}>⭐ {c}</span>
-        ))}
-        {item.status !== "backlog" && (
-          <span style={{
-            fontSize: 11, fontWeight: 600,
-            color: HYPO_STATUS_META[item.status].color,
-            background: HYPO_STATUS_META[item.status].bg,
-            borderRadius: 999, padding: "2px 8px",
-          }}>{HYPO_STATUS_META[item.status].label}</span>
+      <td style={{ padding: "10px 12px 10px 16px", verticalAlign: "middle" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--g-ink, #0f172a)", lineHeight: 1.35, marginBottom: 2 }}>
+          {item.title}
+        </div>
+        {item.subitems && item.subitems.length > 0 && (
+          <div style={{ fontSize: 11, color: "var(--g-muted, #64748b)" }}>
+            +{item.subitems.length} itens
+          </div>
         )}
+      </td>
+      <td style={{ padding: "10px 12px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+          {item.type.map(t => (
+            <span key={t} className="kb-track-tag" style={{ background: TRACK_META[t].bg, color: TRACK_META[t].color }}>
+              {TRACK_META[t].short}
+            </span>
+          ))}
+        </div>
+      </td>
+      <td style={{ padding: "10px 12px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+        <span style={{
+          fontSize: 11, fontWeight: 600,
+          color: HYPO_STATUS_META[item.status].color,
+          background: HYPO_STATUS_META[item.status].bg,
+          borderRadius: 999, padding: "2px 8px",
+        }}>{HYPO_STATUS_META[item.status].label}</span>
         {item.previsao && (
           <span style={{
-            fontSize: 11, fontWeight: 600, color: "#1d4ed8",
+            marginLeft: 6, fontSize: 11, fontWeight: 600, color: "#1d4ed8",
             background: "#eff6ff", borderRadius: 999, padding: "2px 8px",
           }}>📅 {item.previsao}</span>
         )}
-      </div>
-
-      <div style={{
-        fontSize: 14, fontWeight: 700, color: "var(--g-ink, #0f172a)",
-        marginBottom: 6, lineHeight: 1.35,
-      }}>
-        {item.title}
-      </div>
-
-      <div style={{
-        fontSize: 12, color: "var(--g-muted, #64748b)", lineHeight: 1.5,
-        display: "-webkit-box", WebkitLineClamp: 2,
-        WebkitBoxOrient: "vertical", overflow: "hidden",
-      }}>
-        {item.description}
-      </div>
-
-      {item.subitems && item.subitems.length > 0 && (
-        <div style={{ marginTop: 8, fontSize: 11, color: "var(--g-muted, #64748b)" }}>
-          +{item.subitems.length} itens — clique para ver
+      </td>
+      <td style={{ padding: "10px 0 10px 12px", verticalAlign: "middle" }}>
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+          {item.clienteTags?.map(c => (
+            <span key={c} style={{
+              fontSize: 11, fontWeight: 700, color: "#92400e",
+              background: "#fef3c7", borderRadius: 999, padding: "2px 8px",
+              border: "1px solid #fcd34d", whiteSpace: "nowrap",
+            }}>⭐ {c}</span>
+          ))}
         </div>
-      )}
-    </div>
+      </td>
+    </tr>
   );
 }
 
 // ── Main View ─────────────────────────────────────────────────────────────────
+
+type SortCol = "title" | "status" | "objetivo";
+type SortDir = "asc" | "desc";
 
 export default function GanttHypothesesView() {
   const [trackFilter, setTrackFilter] = useState<Track | "all">("all");
   const [statusFilter, setStatusFilter] = useState<HypothesisStatus | "all">("all");
   const [clienteOnly, setClienteOnly] = useState(false);
   const [selected, setSelected] = useState<HypothesisItem | null>(null);
+  const [sortCol, setSortCol] = useState<SortCol>("title");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  function handleSort(col: SortCol) {
+    if (sortCol === col) setSortDir(d => d === "asc" ? "desc" : "asc");
+    else { setSortCol(col); setSortDir("asc"); }
+  }
 
   const filtered = useMemo(() => {
-    return HYPOTHESES.filter(item => {
-      if (trackFilter !== "all" && !item.type.includes(trackFilter)) return false;
-      if (statusFilter !== "all" && item.status !== statusFilter) return false;
-      if (clienteOnly && !item.clienteTags) return false;
-      return true;
-    });
-  }, [trackFilter, statusFilter, clienteOnly]);
+    const STATUS_ORDER: Record<HypothesisStatus, number> = { "planejado": 0, "a-avaliar": 1 };
+
+    return HYPOTHESES
+      .filter(item => {
+        if (trackFilter !== "all" && !item.type.includes(trackFilter)) return false;
+        if (statusFilter !== "all" && item.status !== statusFilter) return false;
+        if (clienteOnly && !item.clienteTags) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        let cmp = 0;
+        if (sortCol === "title")   cmp = a.title.localeCompare(b.title, "pt");
+        if (sortCol === "status")  cmp = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
+        if (sortCol === "objetivo") cmp = a.type[0].localeCompare(b.type[0]);
+        return sortDir === "asc" ? cmp : -cmp;
+      });
+  }, [trackFilter, statusFilter, clienteOnly, sortCol, sortDir]);
 
   const counts = useMemo(() => ({
     total:    HYPOTHESES.length,
@@ -251,21 +254,58 @@ export default function GanttHypothesesView() {
       </div>
 
       <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        gap: 12,
+        background: "var(--g-card, #fff)",
+        border: "1px solid var(--g-border, #e2e8f0)",
+        borderRadius: 12,
+        overflow: "hidden",
       }}>
-        {filtered.map(item => (
-          <HypCard key={item.id} item={item} onOpen={() => setSelected(item)} />
-        ))}
-        {filtered.length === 0 && (
-          <div style={{
-            gridColumn: "1 / -1", textAlign: "center",
-            color: "var(--g-muted, #64748b)", padding: "48px 0", fontSize: 14,
-          }}>
-            Nenhum item encontrado com os filtros selecionados
-          </div>
-        )}
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <thead style={{ background: "var(--g-surface, #f8fafc)" }}>
+              <tr style={{ borderBottom: "1px solid var(--g-border, #e2e8f0)" }}>
+                {([
+                  { col: "title",   label: "Item",     style: { paddingLeft: 16 } },
+                  { col: "objetivo",label: "Objetivo",  style: { width: 260 } },
+                  { col: "status",  label: "Status",    style: { width: 200 } },
+                  { col: null,      label: "Cliente",   style: { width: 160, paddingRight: 16 } },
+                ] as { col: SortCol | null; label: string; style: React.CSSProperties }[]).map(({ col, label, style }) => (
+                  <th
+                    key={label}
+                    onClick={col ? () => handleSort(col) : undefined}
+                    style={{
+                      textAlign: "left",
+                      padding: "10px 12px",
+                      color: "var(--g-muted, #64748b)",
+                      fontWeight: 600, fontSize: 11,
+                      textTransform: "uppercase", letterSpacing: "0.05em",
+                      cursor: col ? "pointer" : "default",
+                      userSelect: "none",
+                      whiteSpace: "nowrap",
+                      ...style,
+                    }}
+                  >
+                    {label}
+                    {col && (
+                      <span style={{ marginLeft: 4, opacity: sortCol === col ? 1 : 0.3 }}>
+                        {sortCol === col ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
+                      </span>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(item => (
+                <HypRow key={item.id} item={item} onOpen={() => setSelected(item)} />
+              ))}
+            </tbody>
+          </table>
+          {filtered.length === 0 && (
+            <div style={{ textAlign: "center", color: "var(--g-muted, #64748b)", padding: "48px 0", fontSize: 14 }}>
+              Nenhum item encontrado com os filtros selecionados
+            </div>
+          )}
+        </div>
       </div>
 
       {selected && (

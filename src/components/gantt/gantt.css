@@ -82,6 +82,21 @@
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
   flex-shrink: 0;
 }
+.g-brand-back {
+  background: none;
+  border: 1px solid var(--g-border);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--g-ink-3);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.g-brand-back:hover {
+  background: var(--g-bg);
+  color: var(--g-ink);
+  border-color: var(--g-border-strong);
+}
 .g-tabs { display: flex; gap: 4px; }
 .g-tab {
   display: flex; gap: 12px; align-items: center;

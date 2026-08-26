@@ -3,6 +3,7 @@ type Tab = "goals" | "exec" | "kanban" | "hypotheses";
 interface Props {
   activeTab: Tab;
   onTab: (tab: Tab) => void;
+  onHome?: () => void;
 }
 
 function GoalsIcon() {
@@ -44,7 +45,7 @@ function HypothesesIcon() {
   );
 }
 
-export default function GanttTopbar({ activeTab, onTab }: Props) {
+export default function GanttTopbar({ activeTab, onTab, onHome }: Props) {
   const TABS: { id: Tab; title: string; sub: string; Icon: () => JSX.Element }[] = [
     { id: "hypotheses",  title: "Hipóteses",       sub: "Backlog · pedidos de clientes",    Icon: HypothesesIcon  },
     { id: "goals",       title: "Entrega do Mês",  sub: "Objetivo mensal por frente",       Icon: GoalsIcon       },
@@ -56,8 +57,19 @@ export default function GanttTopbar({ activeTab, onTab }: Props) {
     <div className="g-topbar">
       <div className="g-topbar-inner">
         <div className="g-brand">
-          <div className="g-brand-logo">R</div>
-          <span>Roadmap</span>
+          {onHome ? (
+            <button
+              className="g-brand-logo g-brand-back"
+              onClick={onHome}
+              title="Voltar à tela inicial"
+              aria-label="Voltar à tela inicial"
+            >
+              ←
+            </button>
+          ) : (
+            <div className="g-brand-logo">R</div>
+          )}
+          <span>Wake XP + Audience</span>
         </div>
         <div className="g-tabs">
           {TABS.map(({ id, title, sub, Icon }) => (

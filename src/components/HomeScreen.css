@@ -1,0 +1,181 @@
+/* ── HomeScreen ─────────────────────────────────────────── */
+.hs-page {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px 60px;
+  font-family: "Inter", "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  gap: 0;
+}
+
+/* Top bar */
+.hs-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 32px;
+  border-bottom: 1px solid #F0EBF7;
+  background: #fff;
+  z-index: 10;
+}
+
+.hs-header-sep {
+  width: 1px;
+  height: 20px;
+  background: #E0D8EC;
+}
+
+.hs-header-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9E9E9E;
+  letter-spacing: 0.01em;
+}
+
+/* Hero */
+.hs-hero {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.hs-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Row of cards */
+.hs-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+/* Card base */
+.hs-card {
+  flex: 1;
+  min-width: 0;
+  max-width: 230px;
+  border: 1.5px solid #EDEDED;
+  border-radius: 16px;
+  padding: 24px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  cursor: default;
+  min-height: 140px;
+}
+
+.hs-card--active {
+  cursor: pointer;
+  border-color: #E8D6F9;
+}
+
+.hs-card--active:hover {
+  border-color: #C505F2;
+  box-shadow: 0 4px 20px rgba(197, 5, 242, 0.12);
+  transform: translateY(-2px);
+}
+
+.hs-card--active:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.hs-card--soon {
+  background: #FAFAFA;
+  border-color: #F0F0F0;
+}
+
+/* Logo inside card */
+.hs-card-logo {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Product label "// product" */
+.hs-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hs-product-line {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.hs-product-line--sub {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+/* OMS specific */
+.hs-logo-oms {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hs-oms-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 2px 7px;
+  border: 1.5px solid;
+  border-radius: 5px;
+  line-height: 1.4;
+}
+
+/* Ü character */
+.hs-u-char {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  margin-top: 2px;
+  letter-spacing: -0.5px;
+}
+
+/* Card footer */
+.hs-card-footer {
+  display: flex;
+  align-items: center;
+}
+
+.hs-cta {
+  font-size: 12px;
+  font-weight: 600;
+  color: #C505F2;
+  letter-spacing: 0.01em;
+  transition: letter-spacing 0.15s;
+}
+
+.hs-card--active:hover .hs-cta {
+  letter-spacing: 0.04em;
+}
+
+.hs-soon {
+  font-size: 11px;
+  font-weight: 500;
+  color: #BDBDBD;
+  background: #F5F5F5;
+  border-radius: 20px;
+  padding: 3px 10px;
+}

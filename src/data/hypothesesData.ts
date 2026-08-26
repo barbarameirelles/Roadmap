@@ -204,6 +204,30 @@ export const HYPOTHESES: HypothesisItem[] = [
     status: "a-avaliar",
   },
   {
+    id: "h24",
+    title: "Novos Filtros na Tela de Visão de Clientes",
+    description: "Evolução da tela de visão de clientes com novos critérios de filtragem, permitindo que o usuário faça combinações mais precisas para segmentar e analisar sua base diretamente na tela.",
+    type: ["evolucao", "cdp"],
+    status: "a-avaliar",
+    subitems: [
+      "Filtro por ticket médio",
+      "Filtro por LTV",
+      "Filtro por audiência",
+    ],
+  },
+  {
+    id: "h23",
+    title: "Córtex para Segmentos",
+    description: "Refinamento e finalização do Córtex aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Córtex para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
+    type: ["evolucao", "cdp"],
+    status: "a-avaliar",
+    subitems: [
+      "Substituição dos dados mocados por dados reais na integração com o Córtex",
+      "Refinamento da experiência e dos resultados gerados pelo Córtex no Segmentador",
+      "Evolução das capacidades analíticas do Córtex para segmentos",
+    ],
+  },
+  {
     id: "h22",
     title: "Receita e exportações CSV nas campanhas",
     description: "Concluir a disponibilização de receita por campanha e as exportações de relatórios CSV (envios pontuais, automáticos e segmentos) via central de notificações.",
