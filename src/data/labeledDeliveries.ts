@@ -43,6 +43,7 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "IPDedicado":          { label: "IP Dedicado",              color: "#dc2626", bg: "#fee2e2" },
   "Ipdedicado":          { label: "IP Dedicado",              color: "#dc2626", bg: "#fee2e2" },
   "Novavisãocliente":    { label: "Nova Visão de Cliente",    color: "#4f46e5", bg: "#eef2ff" },
+  "segmentador":         { label: "Segmentador",              color: "#16a34a", bg: "#f0fdf4" },
 };
 
 export const DEFAULT_FEATURE_META = { label: "Outros", color: "#64748b", bg: "#f8fafc" };
@@ -115,9 +116,9 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "FRONT-830", title: "Ajustes para lançamento de campanhas", status: "Done" },
           { key: "FRONT-850", title: "Pente Fino: Envios Pontuais e Automáticos", status: "In Progress" },
           { key: "FRONT-851", title: "Pente Fino: Landing Pages e On-Site Pop-up", status: "In Progress" },
-          { key: "FRONT-852", title: "Pente Fino: Gestão de Listas + Atributos Personalizados", status: "In Progress" },
+          { key: "FRONT-852", title: "Pente Fino: Gestão de Listas + Atributos Personalizados", status: "Blocked", blocked: true },
           { key: "FRONT-854", title: "Pente Fino: Clientes (Listagem + Visão Única)", status: "To Do" },
-          { key: "FRONT-855", title: "Pente Fino: Studio", status: "In Progress" },
+          { key: "FRONT-855", title: "Pente Fino: Studio", status: "Done" },
           { key: "FRONT-857", title: "Pente Fino: Início (Home) e Evolução de Contatos", status: "To Do" },
           { key: "FRONT-872", title: "Tirar dados Mocados Segmentos pré definidos", status: "Done" },
           { key: "FRONT-873", title: "Pente Fino: Segmentador", status: "To Do" },
@@ -125,7 +126,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "FRONT-877", title: "Ajuste - Filtro de Tipos em Envios Automáticos", status: "In Progress" },
           { key: "FRONT-889", title: "Bug criação de campanha com repique", status: "In Progress" },
           { key: "FRONT-901", title: "Dificuldade em conectar com a conta do Google Analytics", status: "Done" },
-          { key: "FRONT-903", title: "Chave incorreta no payload do channelData para WhatsApp", status: "To Do" },
+          { key: "FRONT-903", title: "Chave incorreta no payload do channelData para WhatsApp", status: "In Progress" },
           { key: "POS-4340",  title: "Validar fluxo completo, paridade e cutover em homologação", status: "Done" },
           { key: "POS-4352",  title: "TO DOS Para Liberação: Visualizar lista arquivada", status: "Done" },
           { key: "POS-4380",  title: "Landing page nao abre", status: "Done" },
@@ -140,6 +141,12 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "POS-4447",  title: "Ajustes pós deploy", status: "In Progress" },
           { key: "POS-4450",  title: "Ajustes Lista", status: "In Progress" },
           { key: "POS-4468",  title: "Erro ao submeter formulário LP", status: "Done" },
+          { key: "FRONT-908", title: "BUG - Mapeamento incorreto dos campos \"Nome\" e \"Telefone\" na importação de lista", status: "In Progress" },
+          { key: "POS-4422",  title: "Corrigir validação de campanhas automáticas para audiências do tipo Segmento", status: "In Progress" },
+          { key: "POS-4453",  title: "Segmentação com atributos personalizado", status: "Blocked", blocked: true },
+          { key: "POS-4471",  title: "Boquear a criação de LP com URL já existente", status: "Done" },
+          { key: "POS-4472",  title: "Padronizar endpoints de Segmentos Pré-definidos", status: "To Do" },
+          { key: "POS-4482",  title: "Redirecionamento pré-maturo oculta mensagem de agradecimento", status: "Done" },
         ],
       },
       {
@@ -200,6 +207,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "FRONT-419", title: "Exportação de Relatórios CSV: Segmentos (Via Central de Notificações)", status: "Blocked", blocked: true },
           { key: "FRONT-448", title: "Colocar receita e exportar CSV nas campanhas pontuais e automaticas", status: "Blocked", blocked: true },
           { key: "FRONT-812", title: "Home - card de Receita Total e coluna Receita em Performance de Campanhas", status: "To Do" },
+          { key: "POS-4444",  title: "Implementar exportação CSV da audiência/segmento", status: "To Do" },
         ],
       },
       {
@@ -211,6 +219,28 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "FRONT-764", title: "[UX] Visão do cliente: Tela de pedidos e sessões", status: "Done" },
           { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "Blocked", blocked: true },
           { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do" },
+          { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "To Do" },
+        ],
+      },
+      {
+        feature: "segmentador",
+        description: "Evoluções do segmentador: campo de UF, interesses e navegação, e métricas de LTV — ampliando o poder de segmentação por atributos geográficos e comportamentais.",
+        context: "Com o campo de UF e os dados de interesse e navegação no segmentador, as lojas passam a criar audiências muito mais precisas — filtrando por estado e por comportamento de navegação real do cliente na plataforma. Isso abre campanhas regionais e personalizadas sem depender de integrações externas.",
+        eta: "Final de setembro",
+        issues: [
+          { key: "FRONT-770", title: "Incluir campo de UF no segmentador", status: "Blocked", blocked: true },
+          { key: "FRONT-774", title: "Front Segmentador: Interesse e navegação", status: "Blocked", blocked: true },
+          { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "To Do" },
+        ],
+      },
+      {
+        feature: "Importaçãopedidos",
+        description: "Provisionamento e validação da carga de pedidos históricos e regras de retenção de dados do SDK para novos clientes Audience em setembro.",
+        context: "Com a expansão da base Audience, garantir que cada nova loja tenha seus dados de pedidos históricos carregados corretamente é essencial para que o time de marketing possa criar segmentos baseados em comportamento de compra desde o primeiro dia.",
+        eta: "Final de setembro",
+        issues: [
+          { key: "POS-4346", title: "TO DOS Para Liberação: Validar carga", status: "To Do" },
+          { key: "POS-4493", title: "[Audiences] Provisionamento de lojas e regras de retenção de dados do SDK", status: "To Do" },
         ],
       },
     ],
