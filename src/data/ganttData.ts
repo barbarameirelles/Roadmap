@@ -656,6 +656,7 @@ export const FEATURES: Feature[] = [
     storyPoints: 0,
     subtasks: [
       { key: "POS-3264",  title: "Discovery Integração com VTEX", status: "To Do", points: 0 },
+      { key: "FRONT-813", title: "Discovery - Autenticação para fora do commerce", status: "Done", points: 0, sprint: 46 },
     ],
   },
 
@@ -1180,7 +1181,6 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-156", title: "Editor de templates WhatsApp – múltiplos tipos de botão", status: "To Do", points: 0 },
       { key: "FRONT-266", title: "Landing Pages: visualizar cadastros (leads) por LP, com perfil na CDP", status: "To Do", points: 0 },
       { key: "FRONT-277", title: "Filtro e categorização de templates no Studio (E-mail e WhatsApp)", status: "To Do", points: 0 },
-      { key: "FRONT-813", title: "Discovery - Autenticação para fora do commerce", status: "Done", points: 0, sprint: 46 },
       { key: "FRONT-776", title: "Atualizar SDK", status: "Done", points: 0, sprint: 48 },
       { key: "FRONT-703", title: "Novas Audiências no On-site Pop-up", status: "Done", points: 0 },
     ],
