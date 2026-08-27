@@ -155,7 +155,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         context: "Com o histórico de compras disponível na CDP, o time de marketing passa a criar segmentos baseados em comportamento real de compra — quem comprou X vezes, gastou acima de determinado valor ou adquiriu produtos de uma categoria específica. Sem esse dado, as campanhas operam sem visibilidade transacional.",
         issues: [
           { key: "POS-4249", title: "Ingerir dados de commerce por webhook", status: "Blocked", blocked: true },
-          { key: "POS-4345", title: "Organizar importação de pedidos históricos", status: "Blocked", blocked: true },
+          { key: "POS-4345", title: "TO DOS Para Liberação: Organizar importação", status: "Blocked", blocked: true },
         ],
       },
     ],
