@@ -195,6 +195,13 @@
   color: var(--g-ink);
 }
 .g-page-sub { color: var(--g-ink-3); font-size: 14px; margin: 0; }
+.g-page-note {
+  margin: 8px 0 0; padding: 8px 12px; font-size: 12.5px; line-height: 1.45;
+  color: var(--g-ink-2); background: var(--g-bg);
+  border: 1px solid var(--g-border); border-left: 3px solid #2563eb; border-radius: 6px;
+  max-width: 720px;
+}
+.g-page-note strong { color: var(--g-ink); }
 
 /* ── KPI cards ────────────────────────────────────────────────────────── */
 .g-kpi-grid {

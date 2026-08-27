@@ -433,6 +433,9 @@ export default function GanttGoalsView() {
         <p className="g-page-sub">
           Objetivo mensal por frente de trabalho · % de conclusão calculado ao vivo do Jira · clique em um card para ver as issues
         </p>
+        <p className="g-page-note">
+          Agrupado por <strong>etiqueta do Jira</strong> (tema) — pode abranger vários épicos, então o % difere da visão por épico do Kanban e da Visão Executiva.
+        </p>
       </div>
 
       {sorted.length === 0 && (
