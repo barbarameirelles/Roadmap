@@ -84,7 +84,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   // Telas de paridade com componente CDP/Audience
   f10: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
-  f2: ["evolucao", "cdp"], f37: ["evolucao", "cdp"],
+  f2: ["evolucao", "cdp"],
   f39: ["migracao", "cdp"],
   // Evolução da 2.0 (melhorias contínuas + evoluções pós-migração)
   f30: ["evolucao"], f34: ["evolucao"],
@@ -720,21 +720,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-4173", title: "[OMS/loja física] Back: Cadastrar as regras no segmentador", status: "Done", points: 0 },
       { key: "FRONT-694", title: "[OMS] Front: Exibir dados loja física na visão do cliente", status: "Done", points: 0 },
       { key: "FRONT-626", title: "Trazer dados de loja física", status: "Done", points: 0 },
-    ],
-  },
-
-  {
-    id: "f37", jiraKey: "FRONT-744",
-    name: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos",
-    subtitle: "Visão única do cliente com dados de pedido: pagamento, entrega etc.",
-    epic: "2.0 Perfil de Clientes",
-    tags: ["platform2", "cdp"],
-    planned: { start: 8, end: 8 }, executed: { start: 7, end: 7 },
-    status: "no-prazo", progress: 33,
-    note: "Previsão: final de setembro. FRONT-744 bloqueada no Jira.",
-    owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
-    storyPoints: 0,
-    subtasks: [
     ],
   },
 
