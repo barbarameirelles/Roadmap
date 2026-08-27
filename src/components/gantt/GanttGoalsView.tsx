@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { TODAY_MONTH } from "@/data/ganttData";
 import {
-  MONTH_DELIVERIES,
   FEATURE_META,
   DEFAULT_FEATURE_META,
   type MonthDelivery,
   type FeatureGroup,
   type IssueStatus,
 } from "@/data/labeledDeliveries";
+import { useRoadmap } from "@/lib/RoadmapContext";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -420,9 +420,10 @@ function MonthSection({ delivery }: { delivery: MonthDelivery }) {
 // ── Main view ─────────────────────────────────────────────────────────────────
 
 export default function GanttGoalsView() {
+  const { deliveries } = useRoadmap();
   const sorted = useMemo(
-    () => [...MONTH_DELIVERIES].sort((a, b) => a.monthIdx - b.monthIdx),
-    [],
+    () => [...deliveries].sort((a, b) => a.monthIdx - b.monthIdx),
+    [deliveries],
   );
 
   return (

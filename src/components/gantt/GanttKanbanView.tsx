@@ -1,9 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
 import {
-  FEATURES, QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
+  QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
   TRACK_META, hasTrack, tracksOf, type FeatureStatus, type Feature, type Track, type Subtask,
 } from "@/data/ganttData";
 import { taskProgress } from "@/data/ganttUtils";
+import { useRoadmap } from "@/lib/RoadmapContext";
 
 const activeBlocked = (f: Feature) =>
   f.subtasks.filter(s => s.blocked && s.status !== "Done").length;
@@ -381,13 +382,14 @@ export default function GanttKanbanView() {
   const [quarterFilter, setQuarterFilter] = useState<Set<string>>(new Set());
   const [trackFilter, setTrackFilter] = useState<"all" | Track>("all");
   const [selectedFeat, setSelectedFeat] = useState<Feature | null>(null);
+  const { features: FEATURES } = useRoadmap();
 
   const counts = useMemo(() => {
     const base = trackFilter === "all" ? FEATURES : FEATURES.filter(f => hasTrack(f, trackFilter));
     const c: Record<string, number> = { all: base.length };
     base.forEach(f => { c[f.status] = (c[f.status] || 0) + 1; });
     return c;
-  }, [trackFilter]);
+  }, [trackFilter, FEATURES]);
 
   const filtered = useMemo(() => {
     return FEATURES.filter(f => {
@@ -402,12 +404,12 @@ export default function GanttKanbanView() {
       }
       return true;
     });
-  }, [statusFilter, quarterFilter, trackFilter]);
+  }, [statusFilter, quarterFilter, trackFilter, FEATURES]);
 
   const projectFiltered = useMemo(() => {
     if (trackFilter === "all") return FEATURES;
     return FEATURES.filter(f => hasTrack(f, trackFilter));
-  }, [trackFilter]);
+  }, [trackFilter, FEATURES]);
 
   const byColumn = useMemo(() => {
     const map: Record<KanbanColumn, Feature[]> = { "todo": [], "in-progress": [], "blocked": [], "validation": [], "done": [] };

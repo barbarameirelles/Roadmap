@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
-import { FEATURES, MONTHS, TODAY_MONTH, hasTrack, type Feature, type Track } from "@/data/ganttData";
+import { MONTHS, TODAY_MONTH, hasTrack, type Feature, type Track } from "@/data/ganttData";
 import { plannedFrac, taskProgress, realizedFrac, forecastFrac } from "@/data/ganttUtils";
+import { useRoadmap } from "@/lib/RoadmapContext";
 import GanttMonthlyView from "./GanttMonthlyView";
 
 type Scope = "all" | Track;
@@ -15,11 +16,12 @@ function monthHealthColor(concluidos: number, total: number): string {
 
 export default function GanttExecView() {
   const [scope, setScope] = useState<Scope>("all");
+  const { features: FEATURES } = useRoadmap();
 
   const scopeFeatures = useMemo(() => {
     if (scope === "all") return FEATURES;
     return FEATURES.filter(f => hasTrack(f, scope));
-  }, [scope]);
+  }, [scope, FEATURES]);
 
   const statsFeatures = useMemo(
     () => scopeFeatures.filter(f => !f.excludeFromStats),

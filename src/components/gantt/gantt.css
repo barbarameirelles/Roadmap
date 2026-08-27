@@ -97,6 +97,20 @@
   color: var(--g-ink);
   border-color: var(--g-border-strong);
 }
+.g-sync { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.g-sync-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--g-ink);
+  background: var(--g-card); border: 1px solid var(--g-border);
+  border-radius: 8px; padding: 7px 12px; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.g-sync-btn:hover:not(:disabled) { background: var(--g-bg); border-color: var(--g-border-strong); }
+.g-sync-btn:disabled { opacity: 0.6; cursor: default; }
+.g-sync-icon { width: 15px; height: 15px; }
+.g-sync-icon.spin { animation: g-spin 0.9s linear infinite; }
+@keyframes g-spin { to { transform: rotate(360deg); } }
+.g-sync-meta { font-size: 11px; color: var(--g-ink-3); }
 .g-tabs { display: flex; gap: 4px; }
 .g-tab {
   display: flex; gap: 12px; align-items: center;
