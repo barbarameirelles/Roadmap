@@ -83,14 +83,15 @@ const UNITS = [
   { id: "commerce", Logo: CommerceLogo, active: false },
   { id: "oms",      Logo: OMSLogo,      active: false },
   { id: "u",        Logo: ULogo,        active: false },
-  { id: "pdv",      Logo: PDVLogo,      active: false },
+  { id: "pdv",      Logo: PDVLogo,      active: true  },
 ];
 
 interface Props {
   onEnterXP: () => void;
+  onEnterPDV: () => void;
 }
 
-export default function HomeScreen({ onEnterXP }: Props) {
+export default function HomeScreen({ onEnterXP, onEnterPDV }: Props) {
   return (
     <div className="hs-page">
       <header className="hs-header">
@@ -100,18 +101,21 @@ export default function HomeScreen({ onEnterXP }: Props) {
       </header>
 
       <div className="hs-hero">
-        <h1 className="hs-title">Selecione uma unidade de negócio</h1>
+        <h1 className="hs-title">Escolha o produto para visualizar o roadmap</h1>
       </div>
 
       <div className="hs-row">
-        {UNITS.map(({ id, Logo, active }) => (
+        {UNITS.map(({ id, Logo, active }) => {
+          const enter =
+            id === "xp" ? onEnterXP : id === "pdv" ? onEnterPDV : undefined;
+          return (
           <div
             key={id}
             className={`hs-card ${active ? "hs-card--active" : "hs-card--soon"}`}
-            onClick={active && id === "xp" ? onEnterXP : undefined}
+            onClick={active ? enter : undefined}
             role={active ? "button" : undefined}
             tabIndex={active ? 0 : undefined}
-            onKeyDown={active ? (e) => e.key === "Enter" && id === "xp" && onEnterXP() : undefined}
+            onKeyDown={active ? (e) => e.key === "Enter" && enter?.() : undefined}
           >
             <div className="hs-card-logo">
               <Logo muted={!active} />
@@ -123,7 +127,8 @@ export default function HomeScreen({ onEnterXP }: Props) {
               }
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
