@@ -22,13 +22,14 @@ const COLUMN_CONFIG: Record<KanbanColumn, { title: string; color: string }> = {
 function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "concluido") return "done";
   if (feat.status === "replanejado" || feat.status === "despriorizado") return "blocked";
-  if (activeBlocked(feat) > 0) return "blocked";
+  // REGRA: se existe ao menos UMA subtask em andamento (qualquer status ativo do
+  // Jira — Em Andamento, Validation, Homologation, Code Review, QA…, todos
+  // mapeados para "In Progress"), o épico está SEMPRE em "Em andamento". Isso tem
+  // prioridade sobre validation e bloqueado (o card ainda sinaliza os bloqueios).
+  if (feat.subtasks.some(s => s.status === "In Progress")) return "in-progress";
   const tp = taskProgress(feat);
   if (tp >= 80) return "validation";
-  const hasSprintWork = feat.subtasks.some(
-    s => THIS_MONTH_SPRINTS.includes(s.sprint ?? -1) && s.status === "In Progress",
-  );
-  if (hasSprintWork) return "in-progress";
+  if (activeBlocked(feat) > 0) return "blocked";
   return "todo";
 }
 
