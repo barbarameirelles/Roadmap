@@ -2,15 +2,18 @@
 -- Fase 1: schema + RLS + seed de hipóteses
 -- Gerado em 2026-08-27. Fórmula única de % = Done/total (aplicada na Edge Function).
 
--- ── Snapshot derivado do Jira (Entrega do Mês + Kanban/Exec) ──────────────────
+-- ── Snapshot de status do Jira ───────────────────────────────────────────────
+-- Guarda APENAS o mapa de status por issue: { "FRONT-123": {"status":"Done","blocked":false}, ... }.
+-- A estrutura (épicos, descrições, agrupamentos, tracks) continua no código; o
+-- front sobrepõe este mapa e calcula % = Done/total num único lugar (acaba a divergência).
 create table if not exists public.roadmap_snapshot (
   id         uuid        primary key default gen_random_uuid(),
-  deliveries jsonb       not null default '[]'::jsonb,   -- MONTH_DELIVERIES (labels: mês + feature)
-  features   jsonb       not null default '[]'::jsonb,   -- FEATURES (épicos + subtasks, % = Done/total)
+  statuses   jsonb       not null default '{}'::jsonb,   -- { key: { status, blocked } }
+  summary    jsonb       not null default '{}'::jsonb,   -- contadores do sync (done/ip/todo/blocked/total)
   synced_at  timestamptz not null default now(),
   synced_by  text
 );
-comment on table public.roadmap_snapshot is 'Último sync do Jira. A app lê o registro mais recente (order by synced_at desc limit 1).';
+comment on table public.roadmap_snapshot is 'Último sync do Jira (mapa de status). A app lê o registro mais recente: order by synced_at desc limit 1.';
 
 -- ── Hipóteses (independente do Jira, editável) ───────────────────────────────
 create table if not exists public.hypotheses (
@@ -37,12 +40,11 @@ create policy roadmap_snapshot_read on public.roadmap_snapshot for select using 
 drop policy if exists hypotheses_read on public.hypotheses;
 create policy hypotheses_read on public.hypotheses for select using (true);
 
--- escrita de hipóteses: usuários autenticados (edição no app).
--- OBS: se o app não tiver login, trocar 'authenticated' por 'anon' OU manter escrita só via Supabase Table Editor.
--- roadmap_snapshot NÃO tem policy de escrita → só a Edge Function (service_role) grava, pois service_role ignora RLS.
+-- Escrita de hipóteses: NÃO há policy de escrita para o navegador (app sem login).
+-- → visitantes só leem; a edição é feita pelo Supabase Table Editor (dashboard usa
+--   service_role, que ignora RLS). Assim ninguém pela URL pública altera as hipóteses.
+-- roadmap_snapshot também não tem policy de escrita → só a Edge Function (service_role) grava.
 drop policy if exists hypotheses_write on public.hypotheses;
-create policy hypotheses_write on public.hypotheses
-  for all to authenticated using (true) with check (true);
 
 -- ── Seed das hipóteses (idempotente) ─────────────────────────────────────────
 insert into public.hypotheses (id, title, description, type, status, previsao, cliente_tags, subitems, sort_order) values ('h1', 'Expansão dos Critérios do Segmentador', 'Novos critérios de segmentação para enriquecer a construção de audiências.', array['migracao','evolucao','cdp']::text[], 'a-avaliar', null, null, array['LTV','Ticket médio','Produtos comprados','UF','Produtos visualizados','Categorias visualizadas','Forma de pagamento','Canal da compra (loja física ou e-commerce)']::text[], 0) on conflict (id) do nothing;
