@@ -698,7 +698,7 @@ export const FEATURES: Feature[] = [
   // ─── CDP – Enriquecimento ────────────────────────────────────────────────
   {
     id: "cdp-2a", jiraKey: "POS-4158", jiraKeys: ["POS-4158", "FRONT-692"],
-    name: "Importação de pedidos",
+    name: "2.0 Audience: Enriquecimento de dados Commerce",
     subtitle: "Pedidos do Commerce ingeridos na CDP (Audience)",
     epic: "CDP",
     project: "cdp",
