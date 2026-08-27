@@ -77,12 +77,12 @@ export const TRACK_META: Record<Track, { label: string; short: string; color: st
 export const TRACKS_BY_ID: Record<string, Track[]> = {
   // Migração 1.0 → 2.0 (paridade)
   f1: ["migracao"], f3: ["migracao"], f4: ["migracao"], f5: ["migracao"],
-  f6: ["migracao"], f8: ["migracao"], f9: ["migracao"], f14: ["migracao"],
-  f17: ["migracao"], f19: ["migracao"], f20: ["migracao"], f21: ["migracao"],
+  f6: ["migracao"], f8: ["migracao"], f9: ["migracao"],
+  f17: ["migracao"], f19: ["migracao"], f20: ["migracao"],
   f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
   f40: ["migracao"], f41: ["migracao"], f42: ["migracao"],
   // Telas de paridade com componente CDP/Audience
-  f10: ["migracao", "cdp"], f12: ["migracao", "cdp"], f13: ["migracao", "cdp"],
+  f10: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
   f2: ["evolucao", "cdp"], f37: ["evolucao", "cdp"],
   f39: ["migracao", "cdp"],
@@ -188,7 +188,7 @@ export const FEATURES: Feature[] = [
   // ─── Q1 2026 ──────────────────────────────────────────────────────────────
   {
     id: "f1", jiraKey: "FRONT-362", jiraKeys: ["FRONT-362", "POS-3888"],
-    name: "Envio de e-mail e WhatsApp (IP compartilhado)",
+    name: "2.0 Campanhas",
     subtitle: "Campanhas por e-mail e WhatsApp",
     epic: "2.0 Campanhas",
     tags: ["platform2"],
@@ -240,7 +240,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f2", jiraKey: "POS-3964", jiraKeys: ["POS-3964", "FRONT-361"],
-    name: "Visão resumida dos clientes",
+    name: "2.0 Visão do cliente — resumida",
     subtitle: "Perfil resumido de cada cliente",
     epic: "2.0 Visão do cliente",
     tags: ["platform2", "cdp"],
@@ -258,7 +258,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f3", jiraKey: "FRONT-364", jiraKeys: ["FRONT-364", "POS-2892"],
-    name: "On site",
+    name: "2.0 On Site",
     subtitle: "Pop-ups e banners no site",
     epic: "2.0 On Site",
     tags: ["platform2"],
@@ -275,7 +275,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f4", jiraKey: "FRONT-365", jiraKeys: ["POS-3887", "FRONT-365"],
-    name: "Landing Pages",
+    name: "2.0 Landing Page",
     subtitle: "Páginas de captura e conversão",
     epic: "2.0 Landing Page",
     tags: ["platform2"],
@@ -295,7 +295,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f5", jiraKey: "FRONT-363", jiraKeys: ["FRONT-363", "POS-3894"],
-    name: "Studio",
+    name: "2.0 Studio",
     subtitle: "Editor de templates e-mail e WhatsApp",
     epic: "2.0 Studio",
     tags: ["platform2"],
@@ -323,12 +323,12 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f6", jiraKey: "POS-3889", jiraKeys: ["POS-3889"],
-    name: "Evolução de base",
+    id: "f6", jiraKey: "POS-3889", jiraKeys: ["POS-3889", "FRONT-366", "FRONT-595"],
+    name: "2.0 Dados e Relatórios",
     subtitle: "Infraestrutura e ajustes técnicos",
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
-    planned: { start: 0, end: 2 }, executed: { start: 0, end: 2 },
+    planned: { start: 0, end: 11 }, executed: { start: 0, end: 4 },
     status: "concluido", progress: 100,
     owner: { name: "Renato Novaes", initials: "RN", color: "#7c3aed" },
     storyPoints: 4,
@@ -337,12 +337,36 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-158", title: "Ajustes pós pente fino: SECUNDÁRIOS", status: "Done", points: 3, sprint: 36 },
       { key: "FRONT-213", title: "Ajustes pós pente fino: PRIORITÁRIOS", status: "Done", points: 3, sprint: 36 },
       { key: "FRONT-487", title: "Rotação de chaves AWS - API e NiFi", status: "Done", points: 3, sprint: 39 },
+      { key: "POS-3122",  title: "Discovery: criação de novas propriedades dentro do Unomi", status: "Done", points: 0 },
+      { key: "POS-3128",  title: "Tela de evolução de base (back)", status: "Done", points: 0 },
+      { key: "POS-3139",  title: "Integração com GA4 (back)", status: "Done", points: 0 },
+      { key: "POS-3182",  title: "Tela de evolução de base (front)", status: "Done", points: 0 },
+      { key: "POS-3195",  title: "Tela de Relatórios (back)", status: "To Do", points: 0 },
+      { key: "POS-3205",  title: "Permitir que campos das LPs e On Site virem atributo do cliente", status: "Done", points: 5 },
+      { key: "POS-3261",  title: "Permitir que qualquer campo de lista vire atributo do cliente", status: "Done", points: 5, sprint: 42 },
+      { key: "POS-3300",  title: "Integração GA4 com XP", status: "Done", points: 0, sprint: 33 },
+      { key: "POS-3301",  title: "Integração GA4 - Uso de dados para relatórios", status: "Done", points: 3, sprint: 33 },
+      { key: "POS-4039",  title: "Criar tabela com dados de Receita das campanhas", status: "Done", points: 0, sprint: 39 },
+      { key: "FRONT-18",  title: "Integração GA4 (frontend)", status: "Done", points: 0, sprint: 38 },
+      { key: "FRONT-367", title: "Criação de relatório de campanhas automáticas", status: "To Do", points: 0 },
+      { key: "FRONT-368", title: "Criação de relatório de campanhas pontuais", status: "To Do", points: 0 },
+      { key: "FRONT-382", title: "Matriz RFV", status: "Done", points: 0 },
+      { key: "FRONT-383", title: "Mostrar alteração de volume de um segmento", status: "Done", points: 0 },
+      { key: "FRONT-628", title: "Relatório de envios transacionais", status: "To Do", points: 0 },
+      { key: "FRONT-629", title: "Relatórios de performance", status: "To Do", points: 0 },
+      { key: "FRONT-630", title: "Relatório de pessoas", status: "To Do", points: 0 },
+      { key: "FRONT-631", title: "Relatório de provedores", status: "To Do", points: 0 },
+      { key: "FRONT-632", title: "Relatório de On site", status: "To Do", points: 0 },
+      { key: "FRONT-633", title: "Relatório de Web Push", status: "To Do", points: 0 },
+      { key: "FRONT-674", title: "Relatório de Opt-out", status: "To Do", points: 0, sprint: 43 },
+      { key: "FRONT-761", title: "UX Revisão feature de opt-out", status: "To Do", points: 0, sprint: 43 },
+      { key: "FRONT-592", title: "Tela de atributos personalizados", status: "Done", points: 0, sprint: 41 },
     ],
   },
 
   {
     id: "f8", jiraKey: "POS-3967",
-    name: "Gestão de listas",
+    name: "2.0 Listas",
     subtitle: "Importação e gerenciamento de listas",
     epic: "2.0 Listas",
     tags: ["platform2"],
@@ -363,12 +387,12 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f9", jiraKey: "POS-912", jiraKeys: ["POS-912", "FRONT-125", "FRONT-371", "POS-3966"],
-    name: "Integrações e setup",
+    id: "f9", jiraKey: "POS-912", jiraKeys: ["POS-912", "FRONT-125", "FRONT-371", "POS-3966", "FRONT-596", "POS-3965"],
+    name: "2.0 Integrações",
     subtitle: "Configuração inicial da plataforma",
     epic: "2.0 Setup inicial",
     tags: ["platform2"],
-    planned: { start: 0, end: 2 }, executed: { start: 0, end: 2 },
+    planned: { start: 0, end: 11 }, executed: { start: 0, end: 4 },
     status: "concluido", progress: 100,
     owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
     storyPoints: 20,
@@ -399,16 +423,22 @@ export const FEATURES: Feature[] = [
       { key: "POS-3423",  title: "Atualização do sidebar", status: "Done", points: 2, sprint: 33 },
       { key: "POS-3603",  title: "Tornar a criação de Customer idempotente para múltiplos envios", status: "Done", points: 3, sprint: 35 },
       { key: "POS-3604",  title: "Configuração de multi-tenant no BFF", status: "Done", points: 0, sprint: 35 },
+      { key: "FRONT-6",   title: "Tela do SDK", status: "Done", points: 0, sprint: 34 },
+      { key: "FRONT-600", title: "Importação de XML", status: "To Do", points: 3 },
+      { key: "FRONT-601", title: "Integrações via API", status: "To Do", points: 3 },
+      { key: "FRONT-602", title: "Google Drive", status: "To Do", points: 3 },
+      { key: "FRONT-604", title: "Integração Tray Commerce", status: "To Do", points: 3 },
+      { key: "FRONT-605", title: "Parametrização", status: "To Do", points: 3 },
     ],
   },
 
   {
     id: "f10", jiraKey: "FRONT-360", jiraKeys: ["FRONT-360", "POS-3886"],
-    name: "Segmentador versão simplificada",
+    name: "2.0 Segmentador",
     subtitle: "Segmentação básica de clientes",
     epic: "2.0 Segmentador",
     tags: ["platform2", "cdp"],
-    planned: { start: 1, end: 3 }, executed: { start: 1, end: 3 },
+    planned: { start: 1, end: 5 }, executed: { start: 1, end: 4 },
     status: "concluido", progress: 100,
     owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
     storyPoints: 48,
@@ -428,6 +458,11 @@ export const FEATURES: Feature[] = [
       { key: "POS-4004",  title: "Segmentador - Alteração da rota de duplicação", status: "Done", points: 1, sprint: 39 },
       { key: "POS-4023",  title: "Deploy segmentador", status: "Done", points: 0, sprint: 39 },
       { key: "POS-4093",  title: "CDP - Erro ao estimar segmentação muito grande", status: "Done", points: 0, sprint: 40 },
+      { key: "FRONT-12",  title: "Construção de Front do segmentador", status: "Done", points: 0, sprint: 35 },
+      { key: "FRONT-267", title: "Segmentador: critérios de origem com janela de tempo", status: "Done", points: 0, sprint: 39 },
+      { key: "FRONT-280", title: "Ajustes segmentador", status: "Done", points: 0, sprint: 37 },
+      { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
+      { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
     ],
   },
 
@@ -435,7 +470,7 @@ export const FEATURES: Feature[] = [
   // ─── CDP ────────────────────────────────────────────────────────────────────
   {
     id: "cdp-1", jiraKey: "FRONT-668", jiraKeys: ["FRONT-668", "POS-3304"],
-    name: "Dados CDP",
+    name: "2.0 Dados CDP",
     subtitle: "Estruturação e ingestão de dados na CDP",
     epic: "CDP",
     project: "cdp",
@@ -472,27 +507,8 @@ export const FEATURES: Feature[] = [
 
   // ─── Q2 2026 ──────────────────────────────────────────────────────────────
   {
-    id: "f12", jiraKey: "FRONT-360", jiraKeys: ["FRONT-360", "POS-3886"],
-    name: "Segmentador com recursos equivalentes",
-    subtitle: "Segmentação avançada com paridade",
-    epic: "2.0 Segmentador",
-    tags: ["platform2", "cdp"],
-    planned: { start: 3, end: 5 }, executed: { start: 3, end: 4 },
-    status: "concluido", progress: 100,
-    owner: { name: "Renato Novaes", initials: "RN", color: "#059669" },
-    storyPoints: 0,
-    subtasks: [
-      { key: "FRONT-12",  title: "Construção de Front do segmentador", status: "Done", points: 0, sprint: 35 },
-      { key: "FRONT-267", title: "Segmentador: critérios de origem com janela de tempo", status: "Done", points: 0, sprint: 39 },
-      { key: "FRONT-280", title: "Ajustes segmentador", status: "Done", points: 0, sprint: 37 },
-      { key: "FRONT-458", title: "Segmentador - Ajustes pós validação", status: "Done", points: 0, sprint: 38 },
-      { key: "FRONT-509", title: "Segmentador - Modal de Configuração ao Duplicar Segmento", status: "Done", points: 0, sprint: 39 },
-    ],
-  },
-
-  {
     id: "f13", jiraKey: "POS-3964", jiraKeys: ["POS-3964", "FRONT-361"],
-    name: "Visão de cliente com infos comportamentais",
+    name: "2.0 Visão do cliente — comportamental",
     subtitle: "Dados comportamentais e de compras",
     epic: "2.0 Visão única do cliente",
     tags: ["platform2", "cdp"],
@@ -515,7 +531,7 @@ export const FEATURES: Feature[] = [
   // ── BTG frente 1: Motor de recomendação ──────────────────────────────────
   {
     id: "f11", jiraKey: "POS-3696", jiraKeys: ["POS-3696", "FRONT-152", "FRONT-524"],
-    name: "Envios comportamentais (BTG)",
+    name: "2.0 BTG",
     subtitle: "Motor de recomendação + grupos de regras",
     epic: "2.0 BTG",
     tags: ["platform2", "cdp"],
@@ -617,68 +633,8 @@ export const FEATURES: Feature[] = [
 
   // ── BTG frente 3: Segundo grupo de regras ───────────────────────────────
   {
-    id: "f14", jiraKey: "POS-3889", jiraKeys: ["POS-3889", "FRONT-366", "FRONT-595"],
-    name: "Relatórios de Performance",
-    subtitle: "Relatórios de envio, interação, transacionais, performance geral e automáticos, reputação e on-site/web push",
-    epic: "2.0 Dados e Relatórios",
-    tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
-    flagged: true,
-    status: "no-prazo", progress: 54,
-    owner: { name: "Pedro Dib", initials: "PD", color: "#0891b2" },
-    storyPoints: 13,
-    subtasks: [
-      { key: "POS-3122",  title: "Discovery: criação de novas propriedades dentro do Unomi", status: "Done", points: 0 },
-      { key: "POS-3128",  title: "Tela de evolução de base (back)", status: "Done", points: 0 },
-      { key: "POS-3139",  title: "Integração com GA4 (back)", status: "Done", points: 0 },
-      { key: "POS-3182",  title: "Tela de evolução de base (front)", status: "Done", points: 0 },
-      { key: "POS-3195",  title: "Tela de Relatórios (back)", status: "To Do", points: 0 },
-      { key: "POS-3205",  title: "Permitir que campos das LPs e On Site virem atributo do cliente", status: "Done", points: 5 },
-      { key: "POS-3261",  title: "Permitir que qualquer campo de lista vire atributo do cliente", status: "Done", points: 5, sprint: 42 },
-      { key: "POS-3300",  title: "Integração GA4 com XP", status: "Done", points: 0, sprint: 33 },
-      { key: "POS-3301",  title: "Integração GA4 - Uso de dados para relatórios", status: "Done", points: 3, sprint: 33 },
-      { key: "POS-4039",  title: "Criar tabela com dados de Receita das campanhas", status: "Done", points: 0, sprint: 39 },
-      { key: "FRONT-18",  title: "Integração GA4 (frontend)", status: "Done", points: 0, sprint: 38 },
-      { key: "FRONT-367", title: "Criação de relatório de campanhas automáticas", status: "To Do", points: 0 },
-      { key: "FRONT-368", title: "Criação de relatório de campanhas pontuais", status: "To Do", points: 0 },
-      { key: "FRONT-382", title: "Matriz RFV", status: "Done", points: 0 },
-      { key: "FRONT-383", title: "Mostrar alteração de volume de um segmento", status: "Done", points: 0 },
-      { key: "FRONT-628", title: "Relatório de envios transacionais", status: "To Do", points: 0 },
-      { key: "FRONT-629", title: "Relatórios de performance", status: "To Do", points: 0 },
-      { key: "FRONT-630", title: "Relatório de pessoas", status: "To Do", points: 0 },
-      { key: "FRONT-631", title: "Relatório de provedores", status: "To Do", points: 0 },
-      { key: "FRONT-632", title: "Relatório de On site", status: "To Do", points: 0 },
-      { key: "FRONT-633", title: "Relatório de Web Push", status: "To Do", points: 0 },
-      { key: "FRONT-674", title: "Relatório de Opt-out", status: "To Do", points: 0, sprint: 43 },
-      { key: "FRONT-761", title: "UX Revisão feature de opt-out", status: "To Do", points: 0, sprint: 43 },
-      { key: "FRONT-592", title: "Tela de atributos personalizados", status: "Done", points: 0, sprint: 41 },
-    ],
-  },
-
-  {
-    id: "f21", jiraKey: "FRONT-596", jiraKeys: ["FRONT-596", "POS-3965", "FRONT-371"],
-    name: "Integrações",
-    subtitle: "Conexões com plataformas externas",
-    epic: "2.0 Integrações",
-    tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: { start: 3, end: 4 },
-    flagged: true,
-    status: "no-prazo", progress: 17,
-    owner: { name: "isabela.beatriz", initials: "IB", color: "#7c3aed" },
-    storyPoints: 6,
-    subtasks: [
-      { key: "FRONT-6",   title: "Tela do SDK", status: "Done", points: 0, sprint: 34 },
-      { key: "FRONT-600", title: "Importação de XML", status: "To Do", points: 3 },
-      { key: "FRONT-601", title: "Integrações via API", status: "To Do", points: 3 },
-      { key: "FRONT-602", title: "Google Drive", status: "To Do", points: 3 },
-      { key: "FRONT-604", title: "Integração Tray Commerce", status: "To Do", points: 3 },
-      { key: "FRONT-605", title: "Parametrização", status: "To Do", points: 3 },
-    ],
-  },
-
-  {
     id: "f21b", jiraKey: "POS-4476",
-    name: "Integração com VTEX",
+    name: "2.0 Integração VTEX",
     subtitle: "Conexão nativa com a plataforma VTEX",
     epic: "2.0 Integrações",
     tags: ["platform2"],
@@ -736,7 +692,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "cdp-2b", jiraKey: "POS-4157", jiraKeys: ["POS-4157", "FRONT-691"],
-    name: "Integração ERPs Loja Física",
+    name: "2.0 Audience: Enriquecimento de dados loja física",
     subtitle: "LINX Microvix, LINX POS, TOTVS Moda + API aberta para dados de loja física na CDP",
     epic: "CDP",
     project: "cdp",
@@ -757,7 +713,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f37", jiraKey: "FRONT-744",
-    name: "Nova página de perfil de clientes",
+    name: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos",
     subtitle: "Visão única do cliente com dados de pedido: pagamento, entrega etc.",
     epic: "2.0 Perfil de Clientes",
     tags: ["platform2", "cdp"],
@@ -775,7 +731,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f38", jiraKey: "POS-4477",
-    name: "API de Consulta de Dados da CDP",
+    name: "2.0 API na CDP",
     subtitle: "Perfil unificado acessível via API para CRMs, ERPs e BI",
     epic: "CDP · API",
     project: "cdp",
@@ -791,7 +747,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f39", jiraKey: "FRONT-814", jiraKeys: ["FRONT-814", "POS-4478"],
-    name: "Matriz RFV (RFM)",
+    name: "2.0 Matriz RFV",
     subtitle: "Segmentação automática por Recência, Frequência e Valor de compra",
     epic: "2.0 Matriz RFV",
     tags: ["platform2", "cdp"],
@@ -852,7 +808,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "cdp-4", jiraKey: "POS-4159", jiraKeys: ["POS-4159", "FRONT-693"],
-    name: "Disponibilizar segmentador para o commerce",
+    name: "2.0 Audience: Segmentador no Commerce",
     subtitle: "Segmentos CDP disponíveis no commerce",
     epic: "CDP",
     project: "cdp",
@@ -887,7 +843,7 @@ export const FEATURES: Feature[] = [
   // ─── Q3 2026 ──────────────────────────────────────────────────────────────
   {
     id: "f17", jiraKey: "FRONT-675", jiraKeys: ["FRONT-675", "POS-4134"],
-    name: "Evolução de campanhas",
+    name: "2.0 Gestão de Campanhas - Fase 2",
     subtitle: "Campanhas avançadas com IP dedicado",
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
@@ -919,7 +875,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f34", jiraKey: "FRONT-896", jiraKeys: ["FRONT-896", "POS-4473"],
-    name: "Pente fino / Ajustes 2.0",
+    name: "2.0 Pente fino/Ajustes",
     subtitle: "Refinamento contínuo das telas migradas",
     epic: "2.0 Pente fino/Ajustes",
     tags: ["platform2"],
@@ -952,7 +908,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f35", jiraKey: "FRONT-897",
-    name: "Evolução - Audiências",
+    name: "2.0 Evolução - Audiências",
     subtitle: "Acompanhamento de crescimento e queda de segmentos",
     epic: "2.0 Evolução - Audiências",
     tags: ["platform2", "cdp"],
@@ -967,7 +923,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f36", jiraKey: "FRONT-898", jiraKeys: ["FRONT-898", "POS-4475"],
-    name: "Evolução - IP dedicado",
+    name: "2.0 Evolução - IP dedicado",
     subtitle: "Domínio próprio, remetentes e disparo via SES",
     epic: "2.0 Evolução - IP dedicado",
     tags: ["platform2"],
@@ -994,7 +950,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f20", jiraKey: "FRONT-593",
-    name: "SMS",
+    name: "2.0 SMS",
     subtitle: "Canal de envio via SMS",
     epic: "2.0 SMS",
     tags: ["platform2"],
@@ -1008,7 +964,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f28", jiraKey: "FRONT-599",
-    name: "Teste A/B",
+    name: "2.0 Teste A/B",
     subtitle: "Testes de variação para campanhas e conteúdos",
     epic: "2.0 Teste A/B",
     tags: ["platform2"],
@@ -1035,7 +991,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f33", jiraKey: "FRONT-749", jiraKeys: ["FRONT-749", "POS-4479"],
-    name: "Disponibilização de receita e exportação de dados",
+    name: "2.0 Disponibilização de receita e exportação de dados",
     subtitle: "Receita e exportação CSV nas campanhas",
     epic: "2.0 Dados e Relatórios",
     tags: ["platform2"],
@@ -1076,7 +1032,7 @@ export const FEATURES: Feature[] = [
   // ─── Q4 2026 ──────────────────────────────────────────────────────────────
   {
     id: "f19", jiraKey: "POS-4121", jiraKeys: ["POS-4121", "FRONT-627"],
-    name: "Envios Transacionais",
+    name: "2.0 Envios Transacionais",
     subtitle: "Disparos automáticos pós-evento",
     epic: "2.0 Envios Transacionais",
     tags: ["platform2"],
@@ -1091,7 +1047,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f26", jiraKey: "FRONT-594",
-    name: "Web Push",
+    name: "2.0 WebPush",
     subtitle: "Notificações push no navegador",
     epic: "2.0 WebPush",
     tags: ["platform2"],
@@ -1104,7 +1060,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f27", jiraKey: "FRONT-634",
-    name: "E-mail inteligente",
+    name: "2.0 E-mail inteligente",
     subtitle: "E-mails personalizados com IA",
     epic: "2.0 E-mail inteligente",
     tags: ["platform2"],
@@ -1117,7 +1073,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f24", jiraKey: "FRONT-597",
-    name: "Automatizador",
+    name: "2.0 Automatizador",
     subtitle: "Automação de fluxos e envios",
     epic: "2.0 Automatizador",
     tags: ["platform2"],
@@ -1147,7 +1103,7 @@ export const FEATURES: Feature[] = [
   // ─── Q1 2027 ──────────────────────────────────────────────────────────────
   {
     id: "f22", jiraKey: "POS-4122", jiraKeys: ["POS-4122", "FRONT-598"],
-    name: "Criação de Workflow (Marketing Automation)",
+    name: "2.0 Workflow",
     subtitle: "Automação de jornadas de marketing",
     epic: "2.0 Workflow",
     tags: ["platform2"],
@@ -1160,7 +1116,7 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f25", jiraKey: "FRONT-606",
-    name: "Conta",
+    name: "2.0 Conta",
     subtitle: "Configurações de conta e usuários",
     epic: "2.0 Conta",
     tags: ["platform2"],
@@ -1186,7 +1142,7 @@ export const FEATURES: Feature[] = [
   // ─── Evoluções ───────────────────────────────────────────────────────────
   {
     id: "f30", jiraKey: "FRONT-157", jiraKeys: ["FRONT-157", "FRONT-783", "POS-4351"],
-    name: "Evoluções e melhorias",
+    name: "2.0 Melhorias e evoluções",
     subtitle: "Melhorias incrementais e evoluções contínuas",
     epic: "2.0 Melhorias e evoluções",
     tags: ["platform2"],

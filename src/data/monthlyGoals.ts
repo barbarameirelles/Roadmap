@@ -51,7 +51,7 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
     context:
       "Expande o que é possível segmentar: além de dados cadastrais, a plataforma passa a suportar atributos personalizados criados pela própria loja e filtros de localidade (cidade e estado). Resultado: campanhas hiper-segmentadas por região e perfil de cliente sem precisar de integrações externas.",
     jiraKeys: ["FRONT-592", "POS-3261", "POS-3205", "POS-4131"],
-    excludeFeatureIds: ["f6", "f14"], // Relatórios de Performance (POS-3889) não é entrega de ago/26
+    excludeFeatureIds: ["f6"], // Dados e Relatórios (f14 foi unificado em f6) não é entrega de ago/26
     deliveries: [
       { text: "Aba de segmentos pré-definidos no segmentador", epic: "Pente fino / Ajustes 2.0" },
       { text: "Atributos personalizados: tela de cadastro, segmentador e subida de lista", epic: "Relatórios e Exportações" },
