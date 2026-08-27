@@ -11,6 +11,9 @@ export function plannedFrac(f: Feature, m: number): number {
 // Sem tasks: usa o campo progress manual (sync Jira).
 export function taskProgress(f: Feature): number {
   if (f.status === "concluido") return 100;
+  // Backlog parkado (executed:null + progress:0, ex.: cdp-2b): mantém o campo
+  // (0), mesmo tendo subtasks Done herdadas — consistente com Kanban/overlay.
+  if (f.executed === null && f.progress === 0) return f.progress;
   const n = f.subtasks.length;
   if (n === 0) return f.progress;
   return Math.round(f.subtasks.filter(t => t.status === "Done").length / n * 100);
