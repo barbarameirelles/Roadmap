@@ -170,7 +170,7 @@ export default function GanttHypothesesView() {
   }
 
   const filtered = useMemo(() => {
-    const STATUS_ORDER: Record<HypothesisStatus, number> = { "planejado": 0, "a-avaliar": 1 };
+    const STATUS_ORDER: Record<HypothesisStatus, number> = { "planejado": 0, "a-avaliar": 1, "backlog": 2 };
 
     return HYPOTHESES
       .filter(item => {

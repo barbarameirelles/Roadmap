@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { MONTHS, TODAY_MONTH, hasTrack, type Feature, type Track } from "@/data/ganttData";
-import { plannedFrac, taskProgress, realizedFrac, forecastFrac } from "@/data/ganttUtils";
+import { MONTHS, TODAY_MONTH, hasTrack, type Track } from "@/data/ganttData";
+import { plannedFrac, realizedFrac, forecastFrac } from "@/data/ganttUtils";
 import { useRoadmap } from "@/lib/RoadmapContext";
 import GanttMonthlyView from "./GanttMonthlyView";
 
