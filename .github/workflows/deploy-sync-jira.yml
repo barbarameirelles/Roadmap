@@ -1,0 +1,29 @@
+name: Deploy sync-jira (Supabase Edge Function)
+
+# Faz deploy automático da Edge Function sempre que o keys.json ou o código
+# da função mudarem na main. Assim, adicionar/remover épicos no ganttData.ts
+# (e regenerar o keys.json) já reflete no sync ao vivo sem passo manual.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/sync-jira/**"
+  workflow_dispatch: {} # permite rodar manualmente pela aba Actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_REF: mluvrpmjsgmaluuzilgg
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instala o CLI do Supabase
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy da função sync-jira
+        run: supabase functions deploy sync-jira --project-ref "$PROJECT_REF"
