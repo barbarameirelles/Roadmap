@@ -80,7 +80,7 @@ export const TRACKS_BY_ID: Record<string, Track[]> = {
   f6: ["migracao"], f8: ["migracao"], f9: ["migracao"],
   f17: ["migracao"], f19: ["migracao"], f20: ["migracao"],
   f21b: ["migracao"], f24: ["migracao"], f25: ["migracao"], f33: ["migracao"],
-  f40: ["migracao"], f41: ["migracao"], f42: ["migracao"],
+  f40: ["migracao"],
   // Telas de paridade com componente CDP/Audience
   f10: ["migracao", "cdp"], f13: ["migracao", "cdp"],
   // Visão resumida dos clientes: evolução + CDP
@@ -755,46 +755,17 @@ export const FEATURES: Feature[] = [
   },
 
   {
-    id: "f40", jiraKey: "",
-    name: "App Push",
+    id: "f40", jiraKey: "FRONT-919", jiraKeys: ["FRONT-919", "POS-4496"],
+    name: "2.0 App Push",
     subtitle: "Notificações push em aplicativos mobile — disparos pontuais e automáticos",
     epic: "2.0 App Push",
     tags: ["platform2"],
     planned: { start: 12, end: 14 }, executed: null,
     status: "no-prazo", progress: 0,
-    note: "A avaliar.",
+    note: "Épico recém-criado no Jira (FRONT/POS) — ainda sem histórias vinculadas.",
     owner: { name: "A definir", initials: "AD", color: "#6366f1" },
     storyPoints: 0,
     subtasks: [],
-  },
-
-  {
-    id: "f41", jiraKey: "",
-    name: "Acesso Independente de Plataforma de E-commerce",
-    subtitle: "Uso da plataforma sem vínculo com Wake Commerce (VTEX, Shopify, Magento…)",
-    epic: "2.0 Acesso Independente",
-    tags: ["platform2"],
-    planned: { start: 12, end: 14 }, executed: null,
-    status: "no-prazo", progress: 0,
-    note: "Despriorizado — foco será em Wake Commerce.",
-    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
-    storyPoints: 0,
-    subtasks: [],
-  },
-
-  {
-    id: "f42", jiraKey: "",  // épico Jira ainda não criado — tarefas vinculadas por nome
-    name: "Gestão de Pressão de Comunicação",
-    subtitle: "Controle de frequência de contatos por cliente",
-    epic: "2.0 Pressão de Comunicação",
-    tags: ["platform2"],
-    planned: { start: 9, end: 11 }, executed: { start: 6, end: 7 },
-    status: "em-andamento", progress: 50,
-    owner: { name: "A definir", initials: "AD", color: "#6366f1" },
-    storyPoints: 0,
-    subtasks: [
-      { key: "FRONT-843", title: "[UX] Pressão de Comunicação e consumo de SMS", status: "To Do", points: 0 },
-    ],
   },
 
   {
@@ -867,6 +838,7 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-551", title: "Voltar com repique para as campanhas (E-mail e Whatsapp)", status: "Done", points: 0, sprint: 40 },
       { key: "FRONT-674", title: "Relatório de Opt-out", status: "To Do", points: 0, sprint: 43 },
       { key: "POS-4302", title: "BACK: Pressão de comunicação", status: "To Do", points: 0 },
+      { key: "FRONT-843", title: "[UX] Pressão de Comunicação e consumo de SMS", status: "To Do", points: 0 },
       { key: "FRONT-683", title: "Segmentos Salvos em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43, blocked: true },
       { key: "FRONT-685", title: "Listas em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43, blocked: true },
     ],
