@@ -14,7 +14,7 @@ interface Milestone {
 const MILESTONES: Milestone[] = [
   {
     id: "m1",
-    date: "1ª quinzena · Out/26",
+    date: "Out/26",
     color: "#16a34a",
     colorSoft: "#dcfce7",
     tag: "M1",
@@ -30,7 +30,7 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: "m2",
-    date: "1ª quinzena · Dez/26",
+    date: "Dez/26",
     color: "#C505F2",
     colorSoft: "#f6dbfd",
     tag: "M2",
