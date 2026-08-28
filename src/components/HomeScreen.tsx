@@ -78,9 +78,16 @@ function PDVLogo({ muted }: { muted?: boolean }) {
   );
 }
 
-const UNITS = [
+interface Unit {
+  id: string;
+  Logo: (props: { muted?: boolean }) => JSX.Element;
+  active: boolean;
+  href?: string; // quando presente, o card abre um link externo em nova aba
+}
+
+const UNITS: Unit[] = [
   { id: "xp",       Logo: XPLogo,       active: true  },
-  { id: "commerce", Logo: CommerceLogo, active: false },
+  { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.commerce-wake.tech/" },
   { id: "oms",      Logo: OMSLogo,      active: false },
   { id: "u",        Logo: ULogo,        active: false },
   { id: "pdv",      Logo: PDVLogo,      active: true  },
@@ -105,9 +112,13 @@ export default function HomeScreen({ onEnterXP, onEnterPDV }: Props) {
       </div>
 
       <div className="hs-row">
-        {UNITS.map(({ id, Logo, active }) => {
+        {UNITS.map(({ id, Logo, active, href }) => {
+          const openExternal = href
+            ? () => window.open(href, "_blank", "noopener,noreferrer")
+            : undefined;
           const enter =
-            id === "xp" ? onEnterXP : id === "pdv" ? onEnterPDV : undefined;
+            openExternal ??
+            (id === "xp" ? onEnterXP : id === "pdv" ? onEnterPDV : undefined);
           return (
           <div
             key={id}
@@ -122,7 +133,7 @@ export default function HomeScreen({ onEnterXP, onEnterPDV }: Props) {
             </div>
             <div className="hs-card-footer">
               {active
-                ? <span className="hs-cta">Ver roadmap →</span>
+                ? <span className="hs-cta">{href ? "Ver roadmap ↗" : "Ver roadmap →"}</span>
                 : <span className="hs-soon">Em breve</span>
               }
             </div>
