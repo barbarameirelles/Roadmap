@@ -159,7 +159,7 @@ export default function PdvRoadmapView() {
         </div>
         <div className="pdv-banner">
           <span className="dot" />
-          Teste interno · Ambiente controlado · Sem loja real
+          Teste interno · Ambiente controlado · Loja Showroom Shoulder
         </div>
         <div className="pdv-detail-grid">
           {M1_DETAILS.map((d) => (
