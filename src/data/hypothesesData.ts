@@ -291,6 +291,18 @@ export const HYPOTHESES: HypothesisItem[] = [
     ],
   },
   {
+    id: "h25",
+    title: "Responsividade do Segmentador",
+    description: "O componente de criação de segmentos quebra visualmente em resoluções menores que 1920x1080, comprometendo a experiência em 1366x768 (segunda resolução mais acessada na plataforma) e 1280x720. Tornar o componente responsivo resolve ambas as resoluções.",
+    type: ["evolucao"],
+    status: "a-avaliar",
+    previsao: "Outubro",
+    subitems: [
+      "Adaptar layout do Segmentador para 1366x768",
+      "Adaptar layout do Segmentador para 1280x720",
+    ],
+  },
+  {
     id: "h18",
     title: "Acesso Independente de Plataforma de E-commerce",
     description: "Foco será em Wake Commerce. Clientes com outras plataformas (VTEX, Shopify, Magento) poderiam utilizar a plataforma de forma independente, sem necessidade de vínculo com o Wake Commerce.",
