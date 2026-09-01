@@ -1,6 +1,6 @@
 import type { Track } from "./ganttData";
 
-export type HypothesisStatus = "backlog" | "a-avaliar" | "planejado";
+export type HypothesisStatus = "backlog" | "a-avaliar" | "planejado" | "em-andamento";
 
 export interface HypothesisItem {
   id: string;
@@ -15,9 +15,10 @@ export interface HypothesisItem {
 }
 
 export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: string; bg: string }> = {
-  "backlog":   { label: "Backlog",   color: "#475569", bg: "#f1f5f9" },
-  "a-avaliar": { label: "A avaliar", color: "#b45309", bg: "#fef3c7" },
-  "planejado": { label: "Planejado", color: "#1d4ed8", bg: "#eff6ff" },
+  "backlog":      { label: "Backlog",      color: "#475569", bg: "#f1f5f9" },
+  "a-avaliar":    { label: "A avaliar",    color: "#b45309", bg: "#fef3c7" },
+  "planejado":    { label: "Planejado",    color: "#1d4ed8", bg: "#eff6ff" },
+  "em-andamento": { label: "Em andamento", color: "#047857", bg: "#ecfdf5" },
 };
 
 export const HYPOTHESES: HypothesisItem[] = [
@@ -26,7 +27,8 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Expansão dos Critérios do Segmentador",
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
-    status: "a-avaliar",
+    status: "em-andamento",
+    previsao: "Final de setembro",
     priority: true,
     subitems: [
       "LTV",
@@ -44,7 +46,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "IP Dedicado para E-mail",
     description: "Infraestrutura de envio de e-mail com IP dedicado, garantindo maior reputação e entregabilidade para os disparos da plataforma.",
     type: ["evolucao"],
-    status: "planejado",
+    status: "em-andamento",
     previsao: "Final de setembro",
   },
   {
@@ -52,7 +54,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Nova página de perfil de clientes",
     description: "Refatoração da tela de visão única de cliente trazendo mais dados relativos ao pedido, como forma de pagamento, entrega etc.",
     type: ["migracao", "evolucao", "cdp"],
-    status: "planejado",
+    status: "em-andamento",
     previsao: "Final de setembro",
   },
   {
@@ -237,7 +239,8 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Receita e exportações CSV nas campanhas",
     description: "Concluir a disponibilização de receita por campanha e as exportações de relatórios CSV (envios pontuais, automáticos e segmentos) via central de notificações.",
     type: ["migracao"],
-    status: "planejado",
+    status: "em-andamento",
+    previsao: "Final de setembro",
     subitems: [
       "Receita por campanha disponível nos relatórios",
       "Exportação CSV de envios pontuais",

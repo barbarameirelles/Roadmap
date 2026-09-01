@@ -186,7 +186,7 @@ export default function GanttHypothesesView() {
   }
 
   const filtered = useMemo(() => {
-    const STATUS_ORDER: Record<HypothesisStatus, number> = { "planejado": 0, "a-avaliar": 1, "backlog": 2 };
+    const STATUS_ORDER: Record<HypothesisStatus, number> = { "em-andamento": 0, "planejado": 1, "a-avaliar": 2, "backlog": 3 };
 
     return HYPOTHESES
       .filter(item => {
@@ -213,9 +213,10 @@ export default function GanttHypothesesView() {
   }), []);
 
   const STATUSES: { id: HypothesisStatus | "all"; label: string }[] = [
-    { id: "all",       label: "Todos" },
-    { id: "planejado", label: "Planejado" },
-    { id: "a-avaliar", label: "A avaliar" },
+    { id: "all",          label: "Todos" },
+    { id: "em-andamento", label: "Em andamento" },
+    { id: "planejado",    label: "Planejado" },
+    { id: "a-avaliar",    label: "A avaliar" },
   ];
 
   return (
