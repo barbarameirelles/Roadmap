@@ -294,7 +294,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     id: "h25",
     title: "Responsividade do Segmentador",
     description: "O componente de criação de segmentos quebra visualmente em resoluções menores que 1920x1080, comprometendo a experiência em 1366x768 (segunda resolução mais acessada na plataforma) e 1280x720. Tornar o componente responsivo resolve ambas as resoluções.",
-    type: ["evolucao"],
+    type: ["evolucao", "cdp"],
     status: "a-avaliar",
     previsao: "Outubro",
     subitems: [
