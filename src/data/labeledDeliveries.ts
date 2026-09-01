@@ -171,7 +171,6 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         feature: "Ipdedicado",
         description: "Migração do sistema de disparo de e-mail para Amazon SES com IP dedicado, garantindo maior reputação e entregabilidade para os disparos da plataforma.",
         context: "E-mails enviados por IPs compartilhados têm reputação instável — um único cliente mal configurado prejudica a entregabilidade de todos. Com IP dedicado, a Wake controla a reputação do próprio domínio de envio, o que é pré-requisito para escalar o volume de campanhas sem cair em spam.",
-        eta: "Final de setembro",
         issues: [
           { key: "POS-4342",  title: "IP Dedicado: Alterações na API", status: "Done" },
           { key: "FRONT-809", title: "IP Dedicado e Entregabilidade de E-mail", status: "Blocked", blocked: true },
@@ -190,10 +189,18 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
+        feature: "Importaçãopedidos",
+        description: "Provisionamento e validação da carga de pedidos históricos e regras de retenção de dados do SDK para novos clientes Audience em setembro.",
+        context: "Com a expansão da base Audience, garantir que cada nova loja tenha seus dados de pedidos históricos carregados corretamente é essencial para que o time de marketing possa criar segmentos baseados em comportamento de compra desde o primeiro dia.",
+        issues: [
+          { key: "POS-4346", title: "TO DOS Para Liberação: Validar carga", status: "To Do" },
+          { key: "POS-4493", title: "[Audiences] Provisionamento de lojas e regras de retenção de dados do SDK", status: "To Do" },
+        ],
+      },
+      {
         feature: "ExportaçãoRelatório",
         description: "Disponibilização de receita por campanha e exportações CSV de envios pontuais, automáticos e segmentos via central de notificações.",
         context: "Fecha uma lacuna crítica da migração: o time de marketing ainda não consegue ver a receita gerada por cada campanha, nem exportar os dados de envio para análise. Essas funcionalidades existiam na 1.0 e estão sendo reativadas — sem elas, é difícil provar o ROI das campanhas e justificar investimento em comunicação.",
-        eta: "Final de setembro",
         issues: [
           { key: "POS-3928",  title: "Dados de receita - Fazer deploy e testes", status: "Done" },
           { key: "POS-4403",  title: "Integração do relatório de receita por campanha com endpoint de downloads", status: "Done" },
@@ -211,22 +218,9 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
-        feature: "Novavisãocliente",
-        description: "Refatoração completa da tela de perfil do cliente com histórico de pedidos, forma de pagamento, eventos e filtros avançados.",
-        context: "A tela atual mostra dados cadastrais limitados. A nova versão reúne em um só lugar histórico de pedidos, forma de pagamento, dados de entrega e eventos de comportamento — facilitando o atendimento ao cliente e dando mais contexto para decisões comerciais e de CS.",
-        eta: "Final de setembro",
-        issues: [
-          { key: "FRONT-764", title: "[UX] Visão do cliente: Tela de pedidos e sessões", status: "Done" },
-          { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "Blocked", blocked: true },
-          { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do" },
-          { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "In Progress" },
-        ],
-      },
-      {
         feature: "segmentador",
         description: "Evoluções do segmentador: campo de UF, interesses e navegação, e métricas de LTV — ampliando o poder de segmentação por atributos geográficos e comportamentais.",
         context: "Com o campo de UF e os dados de interesse e navegação no segmentador, as lojas passam a criar audiências muito mais precisas — filtrando por estado e por comportamento de navegação real do cliente na plataforma. Isso abre campanhas regionais e personalizadas sem depender de integrações externas.",
-        eta: "Final de setembro",
         issues: [
           { key: "FRONT-770", title: "Incluir campo de UF no segmentador", status: "Blocked", blocked: true },
           { key: "FRONT-774", title: "Front Segmentador: Interesse e navegação", status: "Blocked", blocked: true },
@@ -234,13 +228,14 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
-        feature: "Importaçãopedidos",
-        description: "Provisionamento e validação da carga de pedidos históricos e regras de retenção de dados do SDK para novos clientes Audience em setembro.",
-        context: "Com a expansão da base Audience, garantir que cada nova loja tenha seus dados de pedidos históricos carregados corretamente é essencial para que o time de marketing possa criar segmentos baseados em comportamento de compra desde o primeiro dia.",
-        eta: "Final de setembro",
+        feature: "Novavisãocliente",
+        description: "Refatoração completa da tela de perfil do cliente com histórico de pedidos, forma de pagamento, eventos e filtros avançados.",
+        context: "A tela atual mostra dados cadastrais limitados. A nova versão reúne em um só lugar histórico de pedidos, forma de pagamento, dados de entrega e eventos de comportamento — facilitando o atendimento ao cliente e dando mais contexto para decisões comerciais e de CS.",
         issues: [
-          { key: "POS-4346", title: "TO DOS Para Liberação: Validar carga", status: "To Do" },
-          { key: "POS-4493", title: "[Audiences] Provisionamento de lojas e regras de retenção de dados do SDK", status: "To Do" },
+          { key: "FRONT-764", title: "[UX] Visão do cliente: Tela de pedidos e sessões", status: "Done" },
+          { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "Blocked", blocked: true },
+          { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do" },
+          { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "In Progress" },
         ],
       },
     ],

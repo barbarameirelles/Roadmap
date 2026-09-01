@@ -32,6 +32,13 @@ function HypothesisModal({ item, onClose }: { item: HypothesisItem; onClose: () 
           <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
+                {item.priority && (
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, color: "#7c3aed",
+                    background: "#f5f3ff", borderRadius: 999, padding: "2px 10px",
+                    border: "1px solid #ddd6fe",
+                  }}>⚡ Alta prioridade</span>
+                )}
                 {item.type.map(t => (
                   <span key={t} className="kb-track-tag" style={{ background: TRACK_META[t].bg, color: TRACK_META[t].color }}>
                     {TRACK_META[t].short}
@@ -134,6 +141,15 @@ function HypRow({ item, onOpen }: { item: HypothesisItem; onOpen: () => void }) 
             marginLeft: 6, fontSize: 11, fontWeight: 600, color: "#1d4ed8",
             background: "#eff6ff", borderRadius: 999, padding: "2px 8px",
           }}>📅 {item.previsao}</span>
+        )}
+      </td>
+      <td style={{ padding: "10px 12px", verticalAlign: "middle" }}>
+        {item.priority && (
+          <span style={{
+            fontSize: 11, fontWeight: 700, color: "#7c3aed",
+            background: "#f5f3ff", borderRadius: 999, padding: "2px 10px",
+            border: "1px solid #ddd6fe", whiteSpace: "nowrap",
+          }}>⚡ Alta</span>
         )}
       </td>
       <td style={{ padding: "10px 0 10px 12px", verticalAlign: "middle" }}>
@@ -264,10 +280,11 @@ export default function GanttHypothesesView() {
             <thead style={{ background: "var(--g-surface, #f8fafc)" }}>
               <tr style={{ borderBottom: "1px solid var(--g-border, #e2e8f0)" }}>
                 {([
-                  { col: "title",   label: "Item",     style: { paddingLeft: 16 } },
-                  { col: "objetivo",label: "Objetivo",  style: { width: 260 } },
-                  { col: "status",  label: "Status",    style: { width: 200 } },
-                  { col: null,      label: "Cliente",   style: { width: 160, paddingRight: 16 } },
+                  { col: "title",   label: "Item",       style: { paddingLeft: 16 } },
+                  { col: "objetivo",label: "Objetivo",   style: { width: 260 } },
+                  { col: "status",  label: "Status",     style: { width: 200 } },
+                  { col: null,      label: "Prioridade", style: { width: 110 } },
+                  { col: null,      label: "Cliente",    style: { width: 160, paddingRight: 16 } },
                 ] as { col: SortCol | null; label: string; style: React.CSSProperties }[]).map(({ col, label, style }) => (
                   <th
                     key={label}

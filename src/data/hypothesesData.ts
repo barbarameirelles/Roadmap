@@ -11,6 +11,7 @@ export interface HypothesisItem {
   previsao?: string;
   clienteTags?: string[];
   subitems?: string[];
+  priority?: boolean;
 }
 
 export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: string; bg: string }> = {
@@ -26,6 +27,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
     status: "a-avaliar",
+    priority: true,
     subitems: [
       "LTV",
       "Ticket médio",
@@ -59,6 +61,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Integração nativa com ERPs de varejo para captura e envio automático de dados de loja física diretamente para a CDP da Wake Experience 2.0. Para clientes com outros sistemas, também será disponibilizada uma API aberta.",
     type: ["evolucao"],
     status: "a-avaliar",
+    priority: true,
     subitems: ["LINX Microvix", "LINX POS", "TOTVS Moda"],
   },
   {
@@ -67,6 +70,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "API para consulta de dados diretamente na CDP da Wake Experience 2.0, permitindo que sistemas externos acessem o perfil unificado dos clientes de forma programática.",
     type: ["evolucao", "cdp"],
     status: "a-avaliar",
+    priority: true,
     clienteTags: ["Ybera", "Shoulder"],
     subitems: [
       "Consulta de dados de clientes e atributos armazenados na CDP",
@@ -221,6 +225,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Refinamento e finalização do Córtex aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Córtex para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
     type: ["evolucao", "cdp"],
     status: "a-avaliar",
+    priority: true,
     subitems: [
       "Substituição dos dados mocados por dados reais na integração com o Córtex",
       "Refinamento da experiência e dos resultados gerados pelo Córtex no Segmentador",
@@ -260,6 +265,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Área dedicada dentro do Segmentador para visualização detalhada de qualquer segmento — predefinido ou criado pelo usuário. Permite monitorar o tamanho da audiência, sua evolução ao longo do tempo e quem são os clientes dentro daquele segmento.",
     type: ["evolucao"],
     status: "a-avaliar",
+    priority: true,
     subitems: [
       "Visão do total de pessoas dentro de um segmento",
       "Evolução histórica do segmento (crescimento ou queda)",
