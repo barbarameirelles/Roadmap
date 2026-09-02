@@ -1,8 +1,8 @@
 // Roadmap data — épicos 2.0 · Q1 2026 → Q1 2027
 // Months are 0-indexed from Jan 2026 (month 0 = Jan 2026, month 14 = Mar 2027)
-// "Today" snapshot = Ago 2026 = month 7
+// "Today" snapshot = Set 2026 = month 8
 
-export const TODAY_MONTH = 7;
+export const TODAY_MONTH = 8;
 
 export interface Month {
   idx: number;
