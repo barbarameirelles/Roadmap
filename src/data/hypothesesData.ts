@@ -311,6 +311,13 @@ export const HYPOTHESES: HypothesisItem[] = [
     ],
   },
   {
+    id: "h26",
+    title: "Limitação de Usuários Únicos na Plataforma",
+    description: "Criação de um mecanismo de limitação de usuários únicos processados pela plataforma. Cada plano contratado terá uma cota definida de usuários únicos — quando o limite é atingido, a plataforma bloqueia ou alerta o cliente, possibilitando upgrade de plano. Isso viabiliza um modelo de precificação baseado em volume de clientes únicos e dá à Wake controle sobre o consumo de infraestrutura por conta.",
+    type: ["cdp"],
+    status: "a-avaliar",
+  },
+  {
     id: "h18",
     title: "Acesso Independente de Plataforma de E-commerce",
     description: "Foco será em Wake Commerce. Clientes com outras plataformas (VTEX, Shopify, Magento) poderiam utilizar a plataforma de forma independente, sem necessidade de vínculo com o Wake Commerce.",
