@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import {
   fetchLatestSnapshot, triggerSync,
   featuresWithStatuses, deliveriesWithStatuses,
-  type StatusMap,
+  type StatusMap, type DiscoveredMap,
 } from "./roadmapSync";
 import type { Feature } from "@/data/ganttData";
 import type { MonthDelivery } from "@/data/labeledDeliveries";
@@ -24,6 +24,7 @@ const Ctx = createContext<RoadmapCtx | null>(null);
 
 export function RoadmapProvider({ children }: { children: ReactNode }) {
   const [map, setMap] = useState<StatusMap | null>(null);
+  const [discovered, setDiscovered] = useState<DiscoveredMap | null>(null);
   const [syncedAt, setSyncedAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
@@ -31,7 +32,7 @@ export function RoadmapProvider({ children }: { children: ReactNode }) {
 
   const load = useCallback(async () => {
     const snap = await fetchLatestSnapshot();
-    if (snap) { setMap(snap.statuses); setSyncedAt(snap.synced_at); }
+    if (snap) { setMap(snap.statuses); setDiscovered(snap.discovered ?? null); setSyncedAt(snap.synced_at); }
     setLoading(false);
   }, []);
 
@@ -50,7 +51,7 @@ export function RoadmapProvider({ children }: { children: ReactNode }) {
   }, [load]);
 
   const features = useMemo(() => featuresWithStatuses(map), [map]);
-  const deliveries = useMemo(() => deliveriesWithStatuses(map), [map]);
+  const deliveries = useMemo(() => deliveriesWithStatuses(map, discovered), [map, discovered]);
 
   const value: RoadmapCtx = {
     features, deliveries, syncedAt, loading, syncing, message, live: map !== null, sync,

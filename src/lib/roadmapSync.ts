@@ -9,10 +9,14 @@ import { MONTH_DELIVERIES, type MonthDelivery, type IssueStatus } from "@/data/l
 export type SnapshotStatus = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
 export type StatusMap = Record<string, SnapshotStatus>;
 
+export type DiscoveredIssue = { key: string; title: string };
+export type DiscoveredMap = Record<string, DiscoveredIssue[]>; // "Setembro/segmentador" → issues
+
 export interface Snapshot {
   statuses: StatusMap;
   summary: Record<string, number>;
   synced_at: string;
+  discovered?: DiscoveredMap;
 }
 
 // ── Fórmula única ─────────────────────────────────────────────────────────────
@@ -26,7 +30,7 @@ export function progressPct(subs: { status: string }[]): number {
 export async function fetchLatestSnapshot(): Promise<Snapshot | null> {
   try {
     const res = await fetch(
-      `${REST_URL}/roadmap_snapshot?select=statuses,summary,synced_at&order=synced_at.desc&limit=1`,
+      `${REST_URL}/roadmap_snapshot?select=statuses,summary,synced_at,discovered&order=synced_at.desc&limit=1`,
       { headers: supabaseHeaders },
     );
     if (!res.ok) return null;
@@ -78,18 +82,37 @@ export function featuresWithStatuses(map: StatusMap | null): Feature[] {
   });
 }
 
-export function deliveriesWithStatuses(map: StatusMap | null): MonthDelivery[] {
-  if (!map) return MONTH_DELIVERIES;
+export function deliveriesWithStatuses(
+  map: StatusMap | null,
+  discovered?: DiscoveredMap | null,
+): MonthDelivery[] {
   return MONTH_DELIVERIES.map(md => ({
     ...md,
-    groups: md.groups.map(g => ({
-      ...g,
-      issues: g.issues.map(i => {
+    groups: md.groups.map(g => {
+      // Atualiza status das issues estáticas
+      const existingIssues = g.issues.map(i => {
+        if (!map) return i;
         const m = map[i.key];
         if (!m) return i;
         const status: IssueStatus = m.blocked ? "Blocked" : m.status;
         return { ...i, status, blocked: m.blocked };
-      }),
-    })),
+      });
+
+      // Mescla issues descobertas via label (evita duplicatas por key)
+      if (discovered) {
+        const groupKey = `${md.monthLabel}/${g.feature}`;
+        const newIssues = (discovered[groupKey] ?? [])
+          .filter(d => !existingIssues.find(e => e.key === d.key))
+          .map(d => {
+            const m = map?.[d.key];
+            const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
+            const blocked = m?.blocked ?? false;
+            return { key: d.key, title: d.title, status, blocked };
+          });
+        if (newIssues.length) return { ...g, issues: [...existingIssues, ...newIssues] };
+      }
+
+      return { ...g, issues: existingIssues };
+    }),
   }));
 }

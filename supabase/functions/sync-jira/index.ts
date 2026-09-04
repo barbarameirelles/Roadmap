@@ -1,23 +1,23 @@
 // Supabase Edge Function: sync-jira
 // ----------------------------------------------------------------------------
-// Consulta o status atual de cada issue no Jira e grava um "mapa de status"
-// { key: { status, blocked } } na tabela roadmap_snapshot. O front-end sobrepõe
-// esse mapa na estrutura (que vive no código) e calcula % = Done/total.
+// 1. Discovery: consulta o Jira via JQL por label (mês × feature) e descobre
+//    issues novas sem precisar adicioná-las manualmente ao código.
+// 2. Status: atualiza o mapa { key → {status, blocked} } de TODAS as issues
+//    (estáticas de keys.json + recém-descobertas).
 //
 // Secrets necessários (Supabase → Edge Functions → Secrets):
-//   JIRA_EMAIL     e-mail da conta Atlassian (dona do token)
-//   JIRA_TOKEN     API token do Jira (id.atlassian.com → Security → API tokens)
+//   JIRA_EMAIL     e-mail da conta Atlassian
+//   JIRA_TOKEN     API token do Jira
 //   JIRA_BASE_URL  https://wake-experience.atlassian.net
-// (SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY são injetados automaticamente.)
 //
-// Segurança: sem login. A função só LÊ do Jira e grava o snapshot (idempotente,
-// não-destrutivo). Trava de rajada: ignora chamadas < MIN_INTERVAL_S do último sync.
+// Trava de rajada: ignora chamadas < MIN_INTERVAL_S do último sync.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import KEYS from "./keys.json" with { type: "json" };
+import LABEL_CONFIG from "./label-config.json" with { type: "json" };
 
-const MIN_INTERVAL_S = 60; // trava anti-rajada / rate-limit do Jira
-const BATCH = 90;          // keys por consulta JQL
+const MIN_INTERVAL_S = 60;
+const BATCH = 90;
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -26,6 +26,8 @@ const cors = {
 };
 
 type Mapped = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
+type DiscoveredIssue = { key: string; title: string };
+type DiscoveredMap = Record<string, DiscoveredIssue[]>; // "Setembro/segmentador" → issues
 
 function mapStatus(name: string): Mapped {
   const n = (name ?? "").trim().toUpperCase();
@@ -35,7 +37,6 @@ function mapStatus(name: string): Mapped {
     return { status: "To Do", blocked: true };
   if (n === "TAREFA PENDENTE" || n === "TAREFAS PENDENTES")
     return { status: "To Do", blocked: false };
-  // EM ANDAMENTO, VALIDATION, HOMOLOGATION, CODE REVIEW, QA IN PROGRESS, etc.
   return { status: "In Progress", blocked: false };
 }
 
@@ -50,10 +51,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
 
   const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-  const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-  const JIRA_EMAIL = Deno.env.get("JIRA_EMAIL");
-  const JIRA_TOKEN = Deno.env.get("JIRA_TOKEN");
-  const JIRA_BASE = Deno.env.get("JIRA_BASE_URL");
+  const SERVICE_KEY  = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const JIRA_EMAIL   = Deno.env.get("JIRA_EMAIL");
+  const JIRA_TOKEN   = Deno.env.get("JIRA_TOKEN");
+  const JIRA_BASE    = Deno.env.get("JIRA_BASE_URL");
 
   if (!JIRA_EMAIL || !JIRA_TOKEN || !JIRA_BASE) {
     return json({ error: "Faltam secrets: JIRA_EMAIL, JIRA_TOKEN, JIRA_BASE_URL" }, 500);
@@ -81,17 +82,60 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ── consulta o Jira em lotes ───────────────────────────────────────────────
   const auth = "Basic " + btoa(`${JIRA_EMAIL}:${JIRA_TOKEN}`);
   const statuses: Record<string, Mapped> = {};
   const missing: string[] = [];
-  const keys: string[] = KEYS as string[];
 
+  // ── Fase 1: Discovery por label ────────────────────────────────────────────
+  // Para cada mês configurado, busca todas as issues que também têm um label de feature.
+  // Resultado: mapa "Setembro/segmentador" → [{ key, title }]
+  const discovered: DiscoveredMap = {};
+  const months: string[]   = (LABEL_CONFIG as { months: string[]; features: string[] }).months;
+  const features: string[] = (LABEL_CONFIG as { months: string[]; features: string[] }).features;
+
+  if (months.length && features.length) {
+    const featureClause = features.map(f => `"${f}"`).join(",");
+    for (const month of months) {
+      try {
+        const jql = `labels = "${month}" AND labels in (${featureClause}) ORDER BY key ASC`;
+        let nextPageToken: string | undefined;
+        do {
+          const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
+            method: "POST",
+            headers: { Authorization: auth, "content-type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ jql, fields: ["summary", "status", "labels"], maxResults: 200, nextPageToken }),
+          });
+          if (!res.ok) break; // discovery não bloqueia o sync de status
+          const data = await res.json();
+
+          for (const issue of data.issues ?? []) {
+            const issueLabels: string[] = issue.fields?.labels ?? [];
+            const featureLabel = issueLabels.find((l: string) => features.includes(l));
+            if (!featureLabel) continue;
+
+            const groupKey = `${month}/${featureLabel}`;
+            (discovered[groupKey] ??= []).push({
+              key: issue.key,
+              title: issue.fields?.summary ?? issue.key,
+            });
+
+            // garante que a issue descoberta também entra no sync de status
+            statuses[issue.key] = mapStatus(issue.fields?.status?.name ?? "");
+          }
+          nextPageToken = data.isLast === false ? data.nextPageToken : undefined;
+        } while (nextPageToken);
+      } catch {
+        // discovery de um mês falhou → segue para o próximo sem travar o sync
+      }
+    }
+  }
+
+  // ── Fase 2: Status das issues estáticas (keys.json) ───────────────────────
+  const keys: string[] = (KEYS as string[]).filter(k => !(k in statuses)); // pula já descobertas
   for (let i = 0; i < keys.length; i += BATCH) {
     const batch = keys.slice(i, i + BATCH);
     const jql = `key in (${batch.join(",")})`;
-    let nextPageToken: string | undefined = undefined;
-
+    let nextPageToken: string | undefined;
     do {
       const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
         method: "POST",
@@ -110,25 +154,28 @@ Deno.serve(async (req) => {
     } while (nextPageToken);
   }
 
-  // keys que o Jira não retornou (deletadas/movidas) — o front mantém o último status conhecido
-  for (const k of keys) if (!(k in statuses)) missing.push(k);
+  // keys que o Jira não retornou
+  for (const k of (KEYS as string[])) if (!(k in statuses)) missing.push(k);
 
-  // ── contadores ─────────────────────────────────────────────────────────────
+  // ── Contadores ─────────────────────────────────────────────────────────────
   const vals = Object.values(statuses);
+  const discoveredCount = Object.values(discovered).reduce((s, g) => s + g.length, 0);
   const summary = {
-    total: vals.length,
-    done: vals.filter((v) => v.status === "Done").length,
-    in_progress: vals.filter((v) => v.status === "In Progress").length,
-    to_do: vals.filter((v) => v.status === "To Do" && !v.blocked).length,
-    blocked: vals.filter((v) => v.blocked).length,
-    missing: missing.length,
+    total:      vals.length,
+    done:       vals.filter(v => v.status === "Done").length,
+    in_progress:vals.filter(v => v.status === "In Progress").length,
+    to_do:      vals.filter(v => v.status === "To Do" && !v.blocked).length,
+    blocked:    vals.filter(v => v.blocked).length,
+    missing:    missing.length,
+    discovered: discoveredCount,
   };
 
-  const synced_by =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "app";
+  const synced_by = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "app";
+  const { error } = await db
+    .from("roadmap_snapshot")
+    .insert({ statuses, summary, synced_by, discovered });
 
-  const { error } = await db.from("roadmap_snapshot").insert({ statuses, summary, synced_by });
   if (error) return json({ error: "Falha ao gravar snapshot", detail: error.message }, 500);
 
-  return json({ ok: true, synced_at: new Date().toISOString(), summary, missing });
+  return json({ ok: true, synced_at: new Date().toISOString(), summary, missing, discovered });
 });
