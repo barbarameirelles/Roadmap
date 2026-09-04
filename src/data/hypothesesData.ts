@@ -1,6 +1,7 @@
 import type { Track } from "./ganttData";
 
-export type HypothesisStatus = "backlog" | "a-avaliar" | "planejado" | "em-andamento";
+export type HypothesisStatus   = "backlog" | "a-avaliar" | "planejado" | "em-andamento";
+export type HypothesisPriority = "baixa" | "media" | "alta" | "urgente";
 
 export interface HypothesisItem {
   id: string;
@@ -11,8 +12,15 @@ export interface HypothesisItem {
   previsao?: string;
   clienteTags?: string[];
   subitems?: string[];
-  priority?: boolean;
+  priority?: HypothesisPriority;
 }
+
+export const PRIORITY_META: Record<HypothesisPriority, { label: string; color: string; bg: string; border: string; icon: string }> = {
+  urgente: { label: "Urgente", color: "#b91c1c", bg: "#fef2f2", border: "#fca5a5", icon: "🚨" },
+  alta:    { label: "Alta",    color: "#7c3aed", bg: "#f5f3ff", border: "#ddd6fe", icon: "⚡" },
+  media:   { label: "Média",   color: "#1d4ed8", bg: "#eff6ff", border: "#bfdbfe", icon: "🔵" },
+  baixa:   { label: "Baixa",   color: "#475569", bg: "#f1f5f9", border: "#cbd5e1", icon: "↓" },
+};
 
 export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: string; bg: string }> = {
   "backlog":      { label: "Backlog",      color: "#475569", bg: "#f1f5f9" },
@@ -29,7 +37,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     type: ["migracao", "evolucao", "cdp"],
     status: "em-andamento",
     previsao: "Final de setembro",
-    priority: true,
+    priority: "alta",
     subitems: [
       "LTV",
       "Ticket médio",
@@ -63,7 +71,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Integração nativa com ERPs de varejo para captura e envio automático de dados de loja física diretamente para a CDP da Wake Experience 2.0. Para clientes com outros sistemas, também será disponibilizada uma API aberta.",
     type: ["evolucao"],
     status: "a-avaliar",
-    priority: true,
+    priority: "alta",
     subitems: ["LINX Microvix", "LINX POS", "TOTVS Moda"],
   },
   {
@@ -72,7 +80,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "API para consulta de dados diretamente na CDP da Wake Experience 2.0, permitindo que sistemas externos acessem o perfil unificado dos clientes de forma programática.",
     type: ["evolucao", "cdp"],
     status: "a-avaliar",
-    priority: true,
+    priority: "alta",
     clienteTags: ["Ybera", "Shoulder"],
     subitems: [
       "Consulta de dados de clientes e atributos armazenados na CDP",
@@ -227,7 +235,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Refinamento e finalização do Córtex aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Córtex para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
     type: ["evolucao", "cdp"],
     status: "a-avaliar",
-    priority: true,
+    priority: "alta",
     subitems: [
       "Substituição dos dados mocados por dados reais na integração com o Córtex",
       "Refinamento da experiência e dos resultados gerados pelo Córtex no Segmentador",
@@ -268,7 +276,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Área dedicada dentro do Segmentador para visualização detalhada de qualquer segmento — predefinido ou criado pelo usuário. Permite monitorar o tamanho da audiência, sua evolução ao longo do tempo e quem são os clientes dentro daquele segmento.",
     type: ["evolucao"],
     status: "a-avaliar",
-    priority: true,
+    priority: "alta",
     subitems: [
       "Visão do total de pessoas dentro de um segmento",
       "Evolução histórica do segmento (crescimento ou queda)",

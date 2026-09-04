@@ -1,14 +1,82 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type React from "react";
 import { TRACK_META, type Track } from "@/data/ganttData";
 import {
-  HYPOTHESES, HYPO_STATUS_META,
-  type HypothesisStatus, type HypothesisItem,
+  HYPOTHESES, HYPO_STATUS_META, PRIORITY_META,
+  type HypothesisStatus, type HypothesisItem, type HypothesisPriority,
 } from "@/data/hypothesesData";
+import { fetchPriorities, upsertPriority, type PriorityMap } from "@/lib/hypothesisPriorities";
+
+// ── Priority Dropdown ─────────────────────────────────────────────────────────
+
+const PRIORITY_ORDER: (HypothesisPriority | null)[] = [null, "baixa", "media", "alta", "urgente"];
+
+function PriorityDropdown({
+  current, onSelect,
+}: {
+  current: HypothesisPriority | null;
+  onSelect: (p: HypothesisPriority | null) => void;
+}) {
+  return (
+    <div style={{
+      position: "absolute", top: "calc(100% + 2px)", left: 0, zIndex: 300,
+      background: "var(--g-card, #fff)",
+      border: "1px solid var(--g-border, #e2e8f0)",
+      borderRadius: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.14)",
+      minWidth: 148, overflow: "hidden",
+    }}>
+      {PRIORITY_ORDER.map(p => {
+        const meta = p ? PRIORITY_META[p] : null;
+        const active = current === p;
+        return (
+          <button
+            key={p ?? "none"}
+            onClick={e => { e.stopPropagation(); onSelect(p); }}
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              width: "100%", padding: "7px 12px",
+              background: active ? "var(--g-surface, #f8fafc)" : "none",
+              border: "none", cursor: "pointer", textAlign: "left",
+              fontSize: 12, fontWeight: active ? 700 : 400,
+              color: meta ? meta.color : "var(--g-muted, #64748b)",
+            }}
+          >
+            <span style={{ width: 14, textAlign: "center", flexShrink: 0 }}>
+              {meta ? meta.icon : "—"}
+            </span>
+            {meta ? meta.label : "Nenhuma"}
+            {active && <span style={{ marginLeft: "auto", opacity: 0.5, fontSize: 11 }}>✓</span>}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Priority Badge ─────────────────────────────────────────────────────────────
+
+function PriorityBadge({ p }: { p: HypothesisPriority }) {
+  const m = PRIORITY_META[p];
+  return (
+    <span style={{
+      fontSize: 11, fontWeight: 700, color: m.color,
+      background: m.bg, borderRadius: 999, padding: "2px 10px",
+      border: `1px solid ${m.border}`, whiteSpace: "nowrap",
+    }}>
+      {m.icon} {m.label}
+    </span>
+  );
+}
 
 // ── Detail Modal ──────────────────────────────────────────────────────────────
 
-function HypothesisModal({ item, onClose }: { item: HypothesisItem; onClose: () => void }) {
+function HypothesisModal({
+  item, priority, onClose,
+}: {
+  item: HypothesisItem;
+  priority: HypothesisPriority | null;
+  onClose: () => void;
+}) {
   return (
     <div
       style={{
@@ -32,13 +100,7 @@ function HypothesisModal({ item, onClose }: { item: HypothesisItem; onClose: () 
           <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
-                {item.priority && (
-                  <span style={{
-                    fontSize: 11, fontWeight: 700, color: "#7c3aed",
-                    background: "#f5f3ff", borderRadius: 999, padding: "2px 10px",
-                    border: "1px solid #ddd6fe",
-                  }}>⚡ Alta prioridade</span>
-                )}
+                {priority && <PriorityBadge p={priority} />}
                 {item.type.map(t => (
                   <span key={t} className="kb-track-tag" style={{ background: TRACK_META[t].bg, color: TRACK_META[t].color }}>
                     {TRACK_META[t].short}
@@ -102,7 +164,16 @@ function HypothesisModal({ item, onClose }: { item: HypothesisItem; onClose: () 
 
 // ── Table Row ─────────────────────────────────────────────────────────────────
 
-function HypRow({ item, onOpen }: { item: HypothesisItem; onOpen: () => void }) {
+function HypRow({
+  item, priority, isDropdownOpen, onOpen, onToggleDropdown, onSetPriority,
+}: {
+  item: HypothesisItem;
+  priority: HypothesisPriority | null;
+  isDropdownOpen: boolean;
+  onOpen: () => void;
+  onToggleDropdown: (e: React.MouseEvent) => void;
+  onSetPriority: (p: HypothesisPriority | null) => void;
+}) {
   return (
     <tr
       onClick={onOpen}
@@ -143,15 +214,28 @@ function HypRow({ item, onOpen }: { item: HypothesisItem; onOpen: () => void }) 
           }}>📅 {item.previsao}</span>
         )}
       </td>
-      <td style={{ padding: "10px 12px", verticalAlign: "middle" }}>
-        {item.priority && (
+
+      {/* ── Priority cell ── */}
+      <td
+        style={{ padding: "10px 12px", verticalAlign: "middle", position: "relative" }}
+        onClick={onToggleDropdown}
+      >
+        {priority ? (
+          <PriorityBadge p={priority} />
+        ) : (
           <span style={{
-            fontSize: 11, fontWeight: 700, color: "#7c3aed",
-            background: "#f5f3ff", borderRadius: 999, padding: "2px 10px",
-            border: "1px solid #ddd6fe", whiteSpace: "nowrap",
-          }}>⚡ Alta</span>
+            fontSize: 11, color: "var(--g-muted, #94a3b8)",
+            cursor: "pointer", userSelect: "none",
+          }}>— definir</span>
+        )}
+        {isDropdownOpen && (
+          <PriorityDropdown
+            current={priority}
+            onSelect={p => { onSetPriority(p); }}
+          />
         )}
       </td>
+
       <td style={{ padding: "10px 0 10px 12px", verticalAlign: "middle" }}>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
           {item.clienteTags?.map(c => (
@@ -169,40 +253,72 @@ function HypRow({ item, onOpen }: { item: HypothesisItem; onOpen: () => void }) 
 
 // ── Main View ─────────────────────────────────────────────────────────────────
 
-type SortCol = "title" | "status" | "objetivo";
+type SortCol = "title" | "status" | "objetivo" | "priority";
 type SortDir = "asc" | "desc";
 
+const PRIORITY_SORT: Record<string, number> = { urgente: 0, alta: 1, media: 2, baixa: 3 };
+
 export default function GanttHypothesesView() {
-  const [trackFilter, setTrackFilter] = useState<Track | "all">("all");
-  const [statusFilter, setStatusFilter] = useState<HypothesisStatus | "all">("all");
-  const [clienteOnly, setClienteOnly] = useState(false);
-  const [selected, setSelected] = useState<HypothesisItem | null>(null);
-  const [sortCol, setSortCol] = useState<SortCol>("title");
-  const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const [trackFilter,    setTrackFilter]    = useState<Track | "all">("all");
+  const [statusFilter,   setStatusFilter]   = useState<HypothesisStatus | "all">("all");
+  const [priorityFilter, setPriorityFilter] = useState<HypothesisPriority | "all">("all");
+  const [clienteOnly,    setClienteOnly]    = useState(false);
+  const [selected,       setSelected]       = useState<HypothesisItem | null>(null);
+  const [sortCol,        setSortCol]        = useState<SortCol>("title");
+  const [sortDir,        setSortDir]        = useState<SortDir>("asc");
+  const [openDropdown,   setOpenDropdown]   = useState<string | null>(null);
+  const [overrides,      setOverrides]      = useState<PriorityMap>({});
+
+  useEffect(() => { fetchPriorities().then(setOverrides); }, []);
+
+  function effectivePriority(item: HypothesisItem): HypothesisPriority | null {
+    return overrides[item.id] ?? item.priority ?? null;
+  }
+
+  function setPriority(id: string, p: HypothesisPriority | null) {
+    // atualiza UI imediatamente (otimista), persiste no Supabase em background
+    setOverrides(prev => {
+      const next = { ...prev };
+      if (p === null) delete next[id]; else next[id] = p;
+      return next;
+    });
+    upsertPriority(id, p);
+    setOpenDropdown(null);
+  }
 
   function handleSort(col: SortCol) {
     if (sortCol === col) setSortDir(d => d === "asc" ? "desc" : "asc");
     else { setSortCol(col); setSortDir("asc"); }
   }
 
-  const filtered = useMemo(() => {
-    const STATUS_ORDER: Record<HypothesisStatus, number> = { "em-andamento": 0, "planejado": 1, "a-avaliar": 2, "backlog": 3 };
+  const STATUS_ORDER: Record<HypothesisStatus, number> = { "em-andamento": 0, "planejado": 1, "a-avaliar": 2, "backlog": 3 };
 
+  const filtered = useMemo(() => {
     return HYPOTHESES
       .filter(item => {
         if (trackFilter !== "all" && !item.type.includes(trackFilter)) return false;
         if (statusFilter !== "all" && item.status !== statusFilter) return false;
         if (clienteOnly && !item.clienteTags) return false;
+        if (priorityFilter !== "all") {
+          const p = overrides[item.id] ?? item.priority ?? null;
+          if (p !== priorityFilter) return false;
+        }
         return true;
       })
       .sort((a, b) => {
         let cmp = 0;
-        if (sortCol === "title")   cmp = a.title.localeCompare(b.title, "pt");
-        if (sortCol === "status")  cmp = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
+        if (sortCol === "title")    cmp = a.title.localeCompare(b.title, "pt");
+        if (sortCol === "status")   cmp = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
         if (sortCol === "objetivo") cmp = a.type[0].localeCompare(b.type[0]);
+        if (sortCol === "priority") {
+          const pa = PRIORITY_SORT[effectivePriority(a) ?? ""] ?? 99;
+          const pb = PRIORITY_SORT[effectivePriority(b) ?? ""] ?? 99;
+          cmp = pa - pb;
+        }
         return sortDir === "asc" ? cmp : -cmp;
       });
-  }, [trackFilter, statusFilter, clienteOnly, sortCol, sortDir]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trackFilter, statusFilter, priorityFilter, clienteOnly, sortCol, sortDir, overrides]);
 
   const counts = useMemo(() => ({
     total:    HYPOTHESES.length,
@@ -219,8 +335,24 @@ export default function GanttHypothesesView() {
     { id: "a-avaliar",    label: "A avaliar" },
   ];
 
+  const PRIORITIES: { id: HypothesisPriority | "all"; label: string }[] = [
+    { id: "all",     label: "Todas" },
+    { id: "urgente", label: "🚨 Urgente" },
+    { id: "alta",    label: "⚡ Alta" },
+    { id: "media",   label: "🔵 Média" },
+    { id: "baixa",   label: "↓ Baixa" },
+  ];
+
   return (
-    <div className="g-page">
+    <div className="g-page" onClick={() => setOpenDropdown(null)}>
+      {/* Overlay para fechar dropdown ao clicar fora */}
+      {openDropdown && (
+        <div
+          style={{ position: "fixed", inset: 0, zIndex: 200 }}
+          onClick={e => { e.stopPropagation(); setOpenDropdown(null); }}
+        />
+      )}
+
       <div className="g-page-head">
         <h1 className="g-page-title">Hipóteses · Próxima Sprint</h1>
         <p className="g-page-sub">Backlog de itens e pedidos de clientes para priorização futura</p>
@@ -259,6 +391,19 @@ export default function GanttHypothesesView() {
         </div>
 
         <div className="g-filter-group">
+          <span className="g-filter-label">Prioridade:</span>
+          {PRIORITIES.map(({ id, label }) => (
+            <button
+              key={id}
+              className={"g-pill" + (priorityFilter === id ? " active" : "")}
+              onClick={() => setPriorityFilter(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="g-filter-group">
           <span className="g-filter-label">Cliente:</span>
           <button
             className={"g-pill" + (clienteOnly ? " active" : "")}
@@ -281,24 +426,22 @@ export default function GanttHypothesesView() {
             <thead style={{ background: "var(--g-surface, #f8fafc)" }}>
               <tr style={{ borderBottom: "1px solid var(--g-border, #e2e8f0)" }}>
                 {([
-                  { col: "title",   label: "Item",       style: { paddingLeft: 16 } },
-                  { col: "objetivo",label: "Objetivo",   style: { width: 260 } },
-                  { col: "status",  label: "Status",     style: { width: 200 } },
-                  { col: null,      label: "Prioridade", style: { width: 110 } },
-                  { col: null,      label: "Cliente",    style: { width: 160, paddingRight: 16 } },
+                  { col: "title",    label: "Item",       style: { paddingLeft: 16 } },
+                  { col: "objetivo", label: "Objetivo",   style: { width: 260 } },
+                  { col: "status",   label: "Status",     style: { width: 200 } },
+                  { col: "priority", label: "Prioridade", style: { width: 130 } },
+                  { col: null,       label: "Cliente",    style: { width: 160, paddingRight: 16 } },
                 ] as { col: SortCol | null; label: string; style: React.CSSProperties }[]).map(({ col, label, style }) => (
                   <th
                     key={label}
                     onClick={col ? () => handleSort(col) : undefined}
                     style={{
-                      textAlign: "left",
-                      padding: "10px 12px",
+                      textAlign: "left", padding: "10px 12px",
                       color: "var(--g-muted, #64748b)",
                       fontWeight: 600, fontSize: 11,
                       textTransform: "uppercase", letterSpacing: "0.05em",
                       cursor: col ? "pointer" : "default",
-                      userSelect: "none",
-                      whiteSpace: "nowrap",
+                      userSelect: "none", whiteSpace: "nowrap",
                       ...style,
                     }}
                   >
@@ -314,7 +457,18 @@ export default function GanttHypothesesView() {
             </thead>
             <tbody>
               {filtered.map(item => (
-                <HypRow key={item.id} item={item} onOpen={() => setSelected(item)} />
+                <HypRow
+                  key={item.id}
+                  item={item}
+                  priority={effectivePriority(item)}
+                  isDropdownOpen={openDropdown === item.id}
+                  onOpen={() => { if (!openDropdown) setSelected(item); }}
+                  onToggleDropdown={e => {
+                    e.stopPropagation();
+                    setOpenDropdown(prev => prev === item.id ? null : item.id);
+                  }}
+                  onSetPriority={p => setPriority(item.id, p)}
+                />
               ))}
             </tbody>
           </table>
@@ -327,7 +481,11 @@ export default function GanttHypothesesView() {
       </div>
 
       {selected && (
-        <HypothesisModal item={selected} onClose={() => setSelected(null)} />
+        <HypothesisModal
+          item={selected}
+          priority={effectivePriority(selected)}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );
