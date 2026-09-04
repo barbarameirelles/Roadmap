@@ -31,7 +31,7 @@ type DiscoveredMap = Record<string, DiscoveredIssue[]>; // "Setembro/segmentador
 
 function mapStatus(name: string): Mapped {
   const n = (name ?? "").trim().toUpperCase();
-  if (n === "CONCLUÍDO" || n === "CANCELADO" || n === "READY TO DEPLOY")
+  if (n === "CONCLUÍDO" || n === "CANCELADO" || n === "VALIDATION")
     return { status: "Done", blocked: false };
   if (n === "BLOQUEADO" || n === "BLOCKED")
     return { status: "To Do", blocked: true };
