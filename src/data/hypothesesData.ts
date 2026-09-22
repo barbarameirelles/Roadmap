@@ -33,7 +33,7 @@ export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: 
 export const HYPOTHESES: HypothesisItem[] = [
   {
     id: "h1",
-    title: "Expansão dos Critérios do Segmentador",
+    title: "Segmentador — Critérios de Valor",
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
     status: "em-andamento",
@@ -46,7 +46,7 @@ export const HYPOTHESES: HypothesisItem[] = [
   },
   {
     id: "h28",
-    title: "Expansão dos Critérios do Segmentador",
+    title: "Segmentador — Critérios de Comportamento e Commerce",
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
     status: "em-andamento",
