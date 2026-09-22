@@ -809,7 +809,7 @@ export const FEATURES: Feature[] = [
   {
     id: "f17", jiraKey: "FRONT-675", jiraKeys: ["FRONT-675", "POS-4134"],
     name: "2.0 Gestão de Campanhas - Fase 2",
-    subtitle: "Campanhas avançadas com IP dedicado",
+    subtitle: "Campanhas avançadas com migração para SES",
     epic: "2.0 Gestão de Campanhas - Fase 2",
     tags: ["platform2"],
     planned: { start: 6, end: 8 }, executed: { start: 4, end: 5 },
@@ -895,9 +895,9 @@ export const FEATURES: Feature[] = [
 
   {
     id: "f36", jiraKey: "FRONT-898", jiraKeys: ["FRONT-898", "POS-4475"],
-    name: "2.0 Evolução - IP dedicado",
+    name: "2.0 Evolução - Migração para SES",
     subtitle: "Domínio próprio, remetentes e disparo via SES",
-    epic: "2.0 Evolução - IP dedicado",
+    epic: "2.0 Evolução - Migração para SES",
     tags: ["platform2"],
     planned: { start: 7, end: 10 }, executed: { start: 7, end: 7 },
     status: "em-andamento", progress: 19,

@@ -95,16 +95,16 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
   {
     month: 8,
     track: "evolucao",
-    title: "IP Dedicado para E-mail",
+    title: "Migração de Disparo de E-mail para SES",
     eta: "Final de setembro",
     description:
-      "Infraestrutura de envio de e-mail com IP dedicado, garantindo maior reputação e entregabilidade para os disparos da plataforma.",
+      "Migração da infraestrutura de disparo de e-mail para o Amazon SES (Simple Email Service), garantindo maior escalabilidade, reputação de entregabilidade e controle sobre os envios da plataforma.",
     context:
-      "E-mails enviados por IPs compartilhados têm reputação instável — um único cliente mal configurado prejudica a entregabilidade de todos. Com IP dedicado, a Wake controla a reputação do próprio domínio de envio, o que é pré-requisito para escalar o volume de campanhas sem cair em spam.",
+      "E-mails enviados por IPs compartilhados têm reputação instável — um único cliente mal configurado prejudica a entregabilidade de todos. Com a migração para o SES, a Wake controla a reputação do próprio domínio de envio, o que é pré-requisito para escalar o volume de campanhas sem cair em spam.",
     jiraKeys: ["FRONT-871", "FRONT-703", "FRONT-704", "FRONT-154", "POS-4296", "POS-4342", "POS-4456", "POS-4457", "POS-4458", "POS-4459", "POS-4460", "POS-4461", "POS-4462", "POS-4463", "POS-4464", "POS-4465"],
     excludeFeatureIds: ["f17"], // Evolução de campanhas (FRONT-675) não é entrega de set/26
     deliveries: [
-      { text: "Início da migração do sistema de disparo de e-mail", epic: "Evolução - IP dedicado", pending: true },
+      { text: "Início da migração do sistema de disparo de e-mail", epic: "Evolução - Migração para SES", pending: true },
     ],
   },
   {

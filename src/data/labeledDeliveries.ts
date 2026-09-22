@@ -40,8 +40,8 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "Pentefino":           { label: "Pente Fino",               color: "#2563eb", bg: "#eff6ff" },
   "ExportaçãoRelatório": { label: "Exportação de Relatórios", color: "#0d9488", bg: "#f0fdfa" },
   "Importaçãopedidos":   { label: "Configuração para beta testers de audiência", color: "#d97706", bg: "#fef3c7" },
-  "IPDedicado":          { label: "IP Dedicado",              color: "#dc2626", bg: "#fee2e2" },
-  "Ipdedicado":          { label: "IP Dedicado",              color: "#dc2626", bg: "#fee2e2" },
+  "IPDedicado":          { label: "Migração para SES",        color: "#dc2626", bg: "#fee2e2" },
+  "Ipdedicado":          { label: "Migração para SES",        color: "#dc2626", bg: "#fee2e2" },
   "Novavisãocliente":    { label: "Nova Visão de Cliente",    color: "#4f46e5", bg: "#eef2ff" },
   "segmentador":         { label: "Segmentador",              color: "#16a34a", bg: "#f0fdf4" },
 };
