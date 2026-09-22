@@ -12,6 +12,7 @@ export interface HypothesisItem {
   previsao?: string;
   clienteTags?: string[];
   subitems?: string[];
+  notDoing?: string[];
   priority?: HypothesisPriority;
 }
 

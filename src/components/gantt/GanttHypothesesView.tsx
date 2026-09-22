@@ -148,13 +148,30 @@ function HypothesisModal({
             {item.description}
           </p>
           {item.subitems && item.subitems.length > 0 && (
-            <ul style={{ margin: 0, padding: "0 0 0 20px", listStyle: "disc" }}>
+            <ul style={{ margin: "0 0 16px", padding: "0 0 0 20px", listStyle: "disc" }}>
               {item.subitems.map((sub, i) => (
                 <li key={i} style={{ fontSize: 13, color: "var(--g-ink-2, #334155)", marginBottom: 6, lineHeight: 1.5 }}>
                   {sub}
                 </li>
               ))}
             </ul>
+          )}
+          {item.notDoing && item.notDoing.length > 0 && (
+            <div style={{
+              background: "#fffbeb", border: "1px solid #fde68a",
+              borderRadius: 8, padding: "12px 16px",
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#92400e", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>
+                ⚠️ O que não faremos
+              </div>
+              <ul style={{ margin: 0, padding: "0 0 0 16px", listStyle: "disc" }}>
+                {item.notDoing.map((nd, i) => (
+                  <li key={i} style={{ fontSize: 13, color: "#78350f", marginBottom: 4, lineHeight: 1.5 }}>
+                    {nd}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       </div>
@@ -236,7 +253,7 @@ function HypRow({
         )}
       </td>
 
-      <td style={{ padding: "10px 0 10px 12px", verticalAlign: "middle" }}>
+      <td style={{ padding: "10px 12px", verticalAlign: "middle" }}>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
           {item.clienteTags?.map(c => (
             <span key={c} style={{
@@ -246,6 +263,17 @@ function HypRow({
             }}>⭐ {c}</span>
           ))}
         </div>
+      </td>
+      <td style={{ padding: "10px 16px 10px 12px", verticalAlign: "middle" }}>
+        {item.notDoing && item.notDoing.length > 0 && (
+          <span style={{
+            fontSize: 11, fontWeight: 600, color: "#92400e",
+            background: "#fffbeb", borderRadius: 999, padding: "2px 10px",
+            border: "1px solid #fde68a", whiteSpace: "nowrap",
+          }}>
+            ⚠️ {item.notDoing.length} {item.notDoing.length === 1 ? "ponto" : "pontos"}
+          </span>
+        )}
       </td>
     </tr>
   );
@@ -263,6 +291,7 @@ export default function GanttHypothesesView() {
   const [statusFilter,   setStatusFilter]   = useState<HypothesisStatus | "all">("all");
   const [priorityFilter, setPriorityFilter] = useState<HypothesisPriority | "all">("all");
   const [clienteOnly,    setClienteOnly]    = useState(false);
+  const [notDoingOnly,   setNotDoingOnly]   = useState(false);
   const [selected,       setSelected]       = useState<HypothesisItem | null>(null);
   const [sortCol,        setSortCol]        = useState<SortCol>("title");
   const [sortDir,        setSortDir]        = useState<SortDir>("asc");
@@ -299,6 +328,7 @@ export default function GanttHypothesesView() {
         if (trackFilter !== "all" && !item.type.includes(trackFilter)) return false;
         if (statusFilter !== "all" && item.status !== statusFilter) return false;
         if (clienteOnly && !item.clienteTags) return false;
+        if (notDoingOnly && (!item.notDoing || item.notDoing.length === 0)) return false;
         if (priorityFilter !== "all") {
           const p = overrides[item.id] ?? item.priority ?? null;
           if (p !== priorityFilter) return false;
@@ -318,14 +348,15 @@ export default function GanttHypothesesView() {
         return sortDir === "asc" ? cmp : -cmp;
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trackFilter, statusFilter, priorityFilter, clienteOnly, sortCol, sortDir, overrides]);
+  }, [trackFilter, statusFilter, priorityFilter, clienteOnly, notDoingOnly, sortCol, sortDir, overrides]);
 
   const counts = useMemo(() => ({
     total:    HYPOTHESES.length,
     migracao: HYPOTHESES.filter(h => h.type.includes("migracao")).length,
     evolucao: HYPOTHESES.filter(h => h.type.includes("evolucao")).length,
     cdp:      HYPOTHESES.filter(h => h.type.includes("cdp")).length,
-    clientes: HYPOTHESES.filter(h => !!h.clienteTags).length,
+    clientes:  HYPOTHESES.filter(h => !!h.clienteTags).length,
+    notDoing:  HYPOTHESES.filter(h => !!h.notDoing && h.notDoing.length > 0).length,
   }), []);
 
   const STATUSES: { id: HypothesisStatus | "all"; label: string }[] = [
@@ -413,6 +444,17 @@ export default function GanttHypothesesView() {
             ⭐ Pedidos especiais de clientes <span className="count">{counts.clientes}</span>
           </button>
         </div>
+
+        <div className="g-filter-group">
+          <span className="g-filter-label">Ponto de atenção:</span>
+          <button
+            className={"g-pill" + (notDoingOnly ? " active" : "")}
+            style={notDoingOnly ? { background: "#92400e", borderColor: "#92400e" } : undefined}
+            onClick={() => setNotDoingOnly(prev => !prev)}
+          >
+            ⚠️ Com ponto de atenção <span className="count">{counts.notDoing}</span>
+          </button>
+        </div>
       </div>
 
       <div style={{
@@ -429,8 +471,9 @@ export default function GanttHypothesesView() {
                   { col: "title",    label: "Item",       style: { paddingLeft: 16 } },
                   { col: "objetivo", label: "Objetivo",   style: { width: 260 } },
                   { col: "status",   label: "Status",     style: { width: 200 } },
-                  { col: "priority", label: "Prioridade", style: { width: 130 } },
-                  { col: null,       label: "Cliente",    style: { width: 160, paddingRight: 16 } },
+                  { col: "priority", label: "Prioridade",       style: { width: 130 } },
+                  { col: null,       label: "Cliente",          style: { width: 160 } },
+                  { col: null,       label: "Ponto de Atenção", style: { width: 150, paddingRight: 16 } },
                 ] as { col: SortCol | null; label: string; style: React.CSSProperties }[]).map(({ col, label, style }) => (
                   <th
                     key={label}
