@@ -225,6 +225,9 @@ export const HYPOTHESES: HypothesisItem[] = [
     type: ["evolucao", "cdp"],
     status: "a-avaliar",
     priority: "alta",
+    notDoing: [
+      "Outubro: apenas discovery para entender os pontos faltantes para liberação. Se o escopo for simples, a entrega pode acontecer ainda em outubro.",
+    ],
     subitems: [
       "Substituição dos dados mocados por dados reais na integração com o Córtex",
       "Refinamento da experiência e dos resultados gerados pelo Córtex no Segmentador",
