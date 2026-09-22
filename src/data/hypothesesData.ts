@@ -37,6 +37,9 @@ export const HYPOTHESES: HypothesisItem[] = [
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
     status: "a-avaliar",
+    notDoing: [
+      "Saldo conta corrente, Limite de crédito e Lista de desejos (wishlist) têm dependência do time de commerce — pendência de priorização pelo time antes de qualquer avanço.",
+    ],
     subitems: [
       "Produtos comprados",
       "Produtos visualizados",
