@@ -32,19 +32,6 @@ export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: 
 
 export const HYPOTHESES: HypothesisItem[] = [
   {
-    id: "h1",
-    title: "Segmentador — Critérios de Valor",
-    description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
-    type: ["migracao", "evolucao", "cdp"],
-    status: "em-andamento",
-    previsao: "Final de setembro",
-    priority: "alta",
-    subitems: [
-      "LTV",
-      "Ticket médio",
-    ],
-  },
-  {
     id: "h28",
     title: "Segmentador — Critérios de Comportamento e Commerce",
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
@@ -60,22 +47,6 @@ export const HYPOTHESES: HypothesisItem[] = [
       "Limite de crédito (dependência desenvolvimento time commerce)",
       "Lista de desejos (wishlist) (dependência desenvolvimento time commerce)",
     ],
-  },
-  {
-    id: "h2",
-    title: "Migração de Disparo de E-mail para SES",
-    description: "Migração da infraestrutura de disparo de e-mail para o Amazon SES (Simple Email Service), garantindo maior escalabilidade, reputação de entregabilidade e controle sobre os envios da plataforma.",
-    type: ["evolucao"],
-    status: "em-andamento",
-    previsao: "Final de setembro",
-  },
-  {
-    id: "h3",
-    title: "Nova página de perfil de clientes",
-    description: "Refatoração da tela de visão única de cliente trazendo mais dados relativos ao pedido, como forma de pagamento, entrega etc.",
-    type: ["migracao", "evolucao", "cdp"],
-    status: "em-andamento",
-    previsao: "Final de setembro",
   },
   {
     id: "h4",
@@ -255,21 +226,6 @@ export const HYPOTHESES: HypothesisItem[] = [
       "Substituição dos dados mocados por dados reais na integração com o Córtex",
       "Refinamento da experiência e dos resultados gerados pelo Córtex no Segmentador",
       "Evolução das capacidades analíticas do Córtex para segmentos",
-    ],
-  },
-  {
-    id: "h22",
-    title: "Receita e exportações CSV nas campanhas",
-    description: "Concluir a disponibilização de receita por campanha e as exportações de relatórios CSV (envios pontuais, automáticos e segmentos) via central de notificações.",
-    type: ["migracao"],
-    status: "em-andamento",
-    previsao: "Final de setembro",
-    subitems: [
-      "Receita por campanha disponível nos relatórios",
-      "Exportação CSV de envios pontuais",
-      "Exportação CSV de envios automáticos",
-      "Exportação CSV de segmentos",
-      "Distribuição via central de notificações",
     ],
   },
   {
