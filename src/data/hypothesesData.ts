@@ -94,6 +94,9 @@ export const HYPOTHESES: HypothesisItem[] = [
     status: "a-avaliar",
     priority: "alta",
     clienteTags: ["Ybera", "Shoulder"],
+    notDoing: [
+      "Outubro: apenas discovery para entender como os dados podem ser disponibilizados para os clientes — sem implementação neste ciclo.",
+    ],
     subitems: [
       "Consulta de dados de clientes e atributos armazenados na CDP",
       "Integração com sistemas externos como CRMs, ERPs e ferramentas de BI",
