@@ -53,8 +53,8 @@ export const HYPOTHESES: HypothesisItem[] = [
   },
   {
     id: "h2",
-    title: "IP Dedicado para E-mail",
-    description: "Infraestrutura de envio de e-mail com IP dedicado, garantindo maior reputação e entregabilidade para os disparos da plataforma.",
+    title: "Migração de Disparo de E-mail para SES",
+    description: "Migração da infraestrutura de disparo de e-mail para o Amazon SES (Simple Email Service), garantindo maior escalabilidade, reputação de entregabilidade e controle sobre os envios da plataforma.",
     type: ["evolucao"],
     status: "em-andamento",
     previsao: "Final de setembro",
@@ -311,6 +311,13 @@ export const HYPOTHESES: HypothesisItem[] = [
       "Adaptar layout do Segmentador para 1366x768",
       "Adaptar layout do Segmentador para 1280x720",
     ],
+  },
+  {
+    id: "h27",
+    title: "Criação de Domínio Dedicado de E-mail",
+    description: "Permitir que cada lojista configure seu próprio domínio de e-mail exclusivo na plataforma — por exemplo, contato@minhaloja.com.br. Com isso, os disparos saem com a identidade da marca do cliente, aumentando a taxa de abertura, a confiança do destinatário e a reputação do domínio próprio do lojista.",
+    type: ["evolucao"],
+    status: "a-avaliar",
   },
   {
     id: "h26",
