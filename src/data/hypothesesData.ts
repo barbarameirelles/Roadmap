@@ -58,6 +58,9 @@ export const HYPOTHESES: HypothesisItem[] = [
     type: ["evolucao"],
     status: "a-avaliar",
     priority: "alta",
+    notDoing: [
+      "Não será feito em outubro.",
+    ],
     subitems: ["LINX Microvix", "LINX POS", "TOTVS Moda"],
   },
   {
