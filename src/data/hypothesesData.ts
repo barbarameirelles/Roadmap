@@ -42,6 +42,17 @@ export const HYPOTHESES: HypothesisItem[] = [
     subitems: [
       "LTV",
       "Ticket médio",
+    ],
+  },
+  {
+    id: "h28",
+    title: "Expansão dos Critérios do Segmentador",
+    description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
+    type: ["migracao", "evolucao", "cdp"],
+    status: "em-andamento",
+    previsao: "Final de setembro",
+    priority: "alta",
+    subitems: [
       "Produtos comprados",
       "Produtos visualizados",
       "Categorias visualizadas",
