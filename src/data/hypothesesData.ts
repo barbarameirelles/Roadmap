@@ -302,9 +302,6 @@ export const HYPOTHESES: HypothesisItem[] = [
     status: "planejado",
     previsao: "Outubro",
     responsavel: "Isa",
-    notDoing: [
-      "Apenas front-end — sem alterações de back-end neste ciclo.",
-    ],
     subitems: [
       "Adaptar layout do Segmentador para 1366x768",
       "Adaptar layout do Segmentador para 1280x720",
