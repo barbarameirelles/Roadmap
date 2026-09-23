@@ -336,7 +336,7 @@ export default function GanttHypothesesView() {
     else { setSortCol(col); setSortDir("asc"); }
   }
 
-  const STATUS_ORDER: Record<HypothesisStatus, number> = { "em-andamento": 0, "planejado": 1, "a-avaliar": 2, "backlog": 3 };
+  const STATUS_ORDER: Record<HypothesisStatus, number> = { "em-andamento": 0, "planejado": 1, "discovery": 2, "a-avaliar": 3, "backlog": 4 };
 
   const filtered = useMemo(() => {
     return HYPOTHESES
