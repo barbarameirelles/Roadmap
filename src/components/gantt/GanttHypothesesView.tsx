@@ -281,7 +281,7 @@ function HypRow({
 
 // ── Main View ─────────────────────────────────────────────────────────────────
 
-type SortCol = "title" | "status" | "objetivo" | "priority";
+type SortCol = "title" | "status" | "objetivo" | "priority" | "notDoing";
 type SortDir = "asc" | "desc";
 
 const PRIORITY_SORT: Record<string, number> = { urgente: 0, alta: 1, media: 2, baixa: 3 };
@@ -344,6 +344,9 @@ export default function GanttHypothesesView() {
           const pa = PRIORITY_SORT[effectivePriority(a) ?? ""] ?? 99;
           const pb = PRIORITY_SORT[effectivePriority(b) ?? ""] ?? 99;
           cmp = pa - pb;
+        }
+        if (sortCol === "notDoing") {
+          cmp = (a.notDoing?.length ?? 0) - (b.notDoing?.length ?? 0);
         }
         return sortDir === "asc" ? cmp : -cmp;
       });
@@ -446,13 +449,13 @@ export default function GanttHypothesesView() {
         </div>
 
         <div className="g-filter-group">
-          <span className="g-filter-label">Ponto de atenção:</span>
+          <span className="g-filter-label">Hard Decisions:</span>
           <button
             className={"g-pill" + (notDoingOnly ? " active" : "")}
             style={notDoingOnly ? { background: "#92400e", borderColor: "#92400e" } : undefined}
             onClick={() => setNotDoingOnly(prev => !prev)}
           >
-            ⚠️ Com ponto de atenção <span className="count">{counts.notDoing}</span>
+            ⚠️ Com Hard Decision <span className="count">{counts.notDoing}</span>
           </button>
         </div>
       </div>
@@ -473,7 +476,7 @@ export default function GanttHypothesesView() {
                   { col: "status",   label: "Status",     style: { width: 200 } },
                   { col: "priority", label: "Prioridade",       style: { width: 130 } },
                   { col: null,       label: "Cliente",          style: { width: 160 } },
-                  { col: null,       label: "Ponto de Atenção", style: { width: 150, paddingRight: 16 } },
+                  { col: "notDoing", label: "Hard Decisions",   style: { width: 150, paddingRight: 16 } },
                 ] as { col: SortCol | null; label: string; style: React.CSSProperties }[]).map(({ col, label, style }) => (
                   <th
                     key={label}
