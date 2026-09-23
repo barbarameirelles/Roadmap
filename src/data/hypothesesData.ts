@@ -38,7 +38,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Segmentador — Critérios de Comportamento e Commerce",
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
-    status: "planejado",
+    status: "a-avaliar",
     previsao: "Outubro",
     responsavel: "Isa",
     notDoing: [
