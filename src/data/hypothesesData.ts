@@ -1,6 +1,6 @@
 import type { Track } from "./ganttData";
 
-export type HypothesisStatus   = "backlog" | "a-avaliar" | "planejado" | "em-andamento";
+export type HypothesisStatus   = "backlog" | "a-avaliar" | "discovery" | "planejado" | "em-andamento";
 export type HypothesisPriority = "baixa" | "media" | "alta" | "urgente";
 
 export interface HypothesisItem {
@@ -28,6 +28,7 @@ export const PRIORITY_META: Record<HypothesisPriority, { label: string; color: s
 export const HYPO_STATUS_META: Record<HypothesisStatus, { label: string; color: string; bg: string }> = {
   "backlog":      { label: "Backlog",      color: "#475569", bg: "#f1f5f9" },
   "a-avaliar":    { label: "A avaliar",    color: "#b45309", bg: "#fef3c7" },
+  "discovery":    { label: "Discovery",    color: "#7c3aed", bg: "#f5f3ff" },
   "planejado":    { label: "Planejado",    color: "#1d4ed8", bg: "#eff6ff" },
   "em-andamento": { label: "Em andamento", color: "#047857", bg: "#ecfdf5" },
 };
@@ -73,7 +74,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "API de Consulta de Dados da CDP",
     description: "API para consulta de dados diretamente na CDP da Wake Experience 2.0, permitindo que sistemas externos acessem o perfil unificado dos clientes de forma programática.",
     type: ["evolucao", "cdp"],
-    status: "planejado",
+    status: "discovery",
     previsao: "Outubro",
     priority: "alta",
     clienteTags: ["Ybera", "Shoulder"],
@@ -236,7 +237,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Córtex para Segmentos",
     description: "Refinamento e finalização do Córtex aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Córtex para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
     type: ["evolucao", "cdp"],
-    status: "planejado",
+    status: "discovery",
     previsao: "Outubro",
     responsavel: "Isa",
     priority: "alta",
