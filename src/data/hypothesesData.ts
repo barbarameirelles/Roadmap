@@ -375,9 +375,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Gestão de Franquia de Contatos — Painel Admin Wake",
     description: "Painel interno para o time de CS gerenciar a franquia de contatos de todos os tenants — visualização, edição de plano, bloqueio manual e histórico completo de alterações. Depende dos contextos de dados estabelecidos na Etapa 1 (Limitação de Usuários Únicos).",
     type: ["cdp"],
-    status: "planejado",
-    previsao: "Outubro",
-    responsavel: "Babi",
+    status: "a-avaliar",
     subitems: [
       "Listagem de tenants com nome, plano, percentual de uso, status e data de renovação",
       "Cards de resumo: Total / Normal / Alerta (≥80%) / Bloqueado",
