@@ -101,6 +101,13 @@ function HypothesisModal({
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
                 {priority && <PriorityBadge p={priority} />}
+                {item.quickWin && (
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, color: "#065f46",
+                    background: "#d1fae5", borderRadius: 999, padding: "2px 10px",
+                    border: "1px solid #6ee7b7",
+                  }}>⚡ Quick Win</span>
+                )}
                 {item.type.map(t => (
                   <span key={t} className="kb-track-tag" style={{ background: TRACK_META[t].bg, color: TRACK_META[t].color }}>
                     {TRACK_META[t].short}
@@ -199,8 +206,17 @@ function HypRow({
       onMouseLeave={e => { (e.currentTarget as HTMLTableRowElement).style.background = ""; }}
     >
       <td style={{ padding: "10px 12px 10px 16px", verticalAlign: "middle" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--g-ink, #0f172a)", lineHeight: 1.35, marginBottom: 2 }}>
-          {item.title}
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 2 }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--g-ink, #0f172a)", lineHeight: 1.35 }}>
+            {item.title}
+          </span>
+          {item.quickWin && (
+            <span style={{
+              fontSize: 10, fontWeight: 700, color: "#065f46",
+              background: "#d1fae5", borderRadius: 999, padding: "1px 7px",
+              border: "1px solid #6ee7b7", whiteSpace: "nowrap",
+            }}>⚡ Quick Win</span>
+          )}
         </div>
         {item.subitems && item.subitems.length > 0 && (
           <div style={{ fontSize: 11, color: "var(--g-muted, #64748b)" }}>

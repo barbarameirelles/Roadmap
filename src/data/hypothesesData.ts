@@ -10,6 +10,8 @@ export interface HypothesisItem {
   type: Track[];
   status: HypothesisStatus;
   previsao?: string;
+  responsavel?: string;
+  quickWin?: boolean;
   clienteTags?: string[];
   subitems?: string[];
   notDoing?: string[];
@@ -36,9 +38,12 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Segmentador — Critérios de Comportamento e Commerce",
     description: "Novos critérios de segmentação para enriquecer a construção de audiências.",
     type: ["migracao", "evolucao", "cdp"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
+    responsavel: "Isa",
     notDoing: [
       "Saldo conta corrente, Limite de crédito e Lista de desejos (wishlist) têm dependência do time de commerce — pendência de priorização pelo time antes de qualquer avanço.",
+      "Outubro: entender se os critérios abaixo estão prontos para entrar no segmentador, o que precisa ser feito, criar tarefas e definir priorização. Não necessariamente haverá entrega de desenvolvimento neste ciclo.",
     ],
     subitems: [
       "Produtos comprados",
@@ -59,7 +64,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     status: "a-avaliar",
     priority: "alta",
     notDoing: [
-      "Não será feito em outubro.",
+      "Não será feito em outubro. Sem previsão definida para este ciclo.",
     ],
     subitems: ["LINX Microvix", "LINX POS", "TOTVS Moda"],
   },
@@ -68,11 +73,12 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "API de Consulta de Dados da CDP",
     description: "API para consulta de dados diretamente na CDP da Wake Experience 2.0, permitindo que sistemas externos acessem o perfil unificado dos clientes de forma programática.",
     type: ["evolucao", "cdp"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
     priority: "alta",
     clienteTags: ["Ybera", "Shoulder"],
     notDoing: [
-      "Outubro: apenas discovery para entender como os dados podem ser disponibilizados para os clientes — sem implementação neste ciclo.",
+      "Outubro: apenas discovery — reunião com Girelli, Berutti, Diego e Doni para entender como os dados podem ser disponibilizados. Sem implementação neste ciclo.",
     ],
     subitems: [
       "Consulta de dados de clientes e atributos armazenados na CDP",
@@ -214,7 +220,11 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Novos Filtros na Tela de Visão de Clientes",
     description: "Evolução da tela de visão de clientes com novos critérios de filtragem, permitindo que o usuário faça combinações mais precisas para segmentar e analisar sua base diretamente na tela.",
     type: ["evolucao", "cdp"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
+    notDoing: [
+      "Outubro: entender dependência de back, criar tarefas e checar prioridade. Desenvolvimento pode ficar para ciclo seguinte dependendo das dependências identificadas.",
+    ],
     subitems: [
       "Filtro por ticket médio",
       "Filtro por LTV",
@@ -226,10 +236,12 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Córtex para Segmentos",
     description: "Refinamento e finalização do Córtex aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Córtex para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
     type: ["evolucao", "cdp"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
+    responsavel: "Isa",
     priority: "alta",
     notDoing: [
-      "Outubro: apenas discovery para entender os pontos faltantes para liberação. Se o escopo for simples, a entrega pode acontecer ainda em outubro.",
+      "Outubro: discovery para entender os pontos faltantes para liberação. Se o escopo for simples, a entrega pode acontecer ainda em outubro.",
     ],
     subitems: [
       "Substituição dos dados mocados por dados reais na integração com o Córtex",
@@ -255,8 +267,12 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Relatório de Segmento",
     description: "Área dedicada dentro do Segmentador para visualização detalhada de qualquer segmento — predefinido ou criado pelo usuário. Permite monitorar o tamanho da audiência, sua evolução ao longo do tempo e quem são os clientes dentro daquele segmento.",
     type: ["evolucao"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
     priority: "alta",
+    notDoing: [
+      "Front e back devem alinhar contratos de API antes da integração. O desenvolvimento pode ser iniciado em paralelo, integrando posteriormente.",
+    ],
     subitems: [
       "Visão do total de pessoas dentro de um segmento",
       "Evolução histórica do segmento (crescimento ou queda)",
@@ -283,8 +299,12 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Responsividade do Segmentador",
     description: "O componente de criação de segmentos quebra visualmente em resoluções menores que 1920x1080, comprometendo a experiência em 1366x768 (segunda resolução mais acessada na plataforma) e 1280x720. Tornar o componente responsivo resolve ambas as resoluções.",
     type: ["evolucao", "cdp"],
-    status: "a-avaliar",
+    status: "planejado",
     previsao: "Outubro",
+    responsavel: "Isa",
+    notDoing: [
+      "Apenas front-end — sem alterações de back-end neste ciclo.",
+    ],
     subitems: [
       "Adaptar layout do Segmentador para 1366x768",
       "Adaptar layout do Segmentador para 1280x720",
@@ -295,14 +315,18 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Criação de Domínio Dedicado de E-mail",
     description: "Permitir que cada lojista configure seu próprio domínio de e-mail exclusivo na plataforma — por exemplo, contato@minhaloja.com.br. Com isso, os disparos saem com a identidade da marca do cliente, aumentando a taxa de abertura, a confiança do destinatário e a reputação do domínio próprio do lojista.",
     type: ["evolucao"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
+    responsavel: "Babi",
   },
   {
     id: "h26",
     title: "Limitação de Usuários Únicos na Plataforma",
     description: "Criação de um mecanismo de limitação de usuários únicos processados pela plataforma. Cada plano contratado terá uma cota definida de usuários únicos — quando o limite é atingido, a plataforma bloqueia ou alerta o cliente, possibilitando upgrade de plano. Isso viabiliza um modelo de precificação baseado em volume de clientes únicos e dá à Wake controle sobre o consumo de infraestrutura por conta.",
     type: ["cdp"],
-    status: "a-avaliar",
+    status: "planejado",
+    previsao: "Outubro",
+    responsavel: "Babi",
   },
   {
     id: "h18",
@@ -314,6 +338,32 @@ export const HYPOTHESES: HypothesisItem[] = [
       "Cadastro e acesso à plataforma sem integração com Wake Commerce",
       "Compatibilidade com as principais plataformas de e-commerce do mercado",
       "Mesmas funcionalidades disponíveis para todos os clientes, independente da plataforma utilizada",
+    ],
+  },
+  {
+    id: "h29",
+    title: "Menu de Ações nos Segmentos",
+    description: "Adição de um menu de ações contextual na listagem de segmentos, permitindo que o usuário realize operações rápidas diretamente na tela (ex: duplicar, arquivar, renomear) sem precisar abrir o segmento.",
+    type: ["evolucao", "cdp"],
+    status: "planejado",
+    previsao: "Outubro",
+    responsavel: "Isa",
+    quickWin: true,
+    notDoing: [
+      "Apenas front-end — sem alterações de back-end neste ciclo.",
+    ],
+  },
+  {
+    id: "h31",
+    title: "Validação do Nome da Lista em Tempo Real",
+    description: "Ao criar ou renomear uma lista de segmentação, o sistema valida o nome em tempo real — verificando duplicidade, caracteres inválidos ou nome em branco — e exibe feedback imediato ao usuário antes do envio do formulário.",
+    type: ["evolucao", "cdp"],
+    status: "planejado",
+    previsao: "Outubro",
+    responsavel: "Isa",
+    quickWin: true,
+    notDoing: [
+      "Apenas front-end — sem alterações de back-end neste ciclo.",
     ],
   },
 ];
