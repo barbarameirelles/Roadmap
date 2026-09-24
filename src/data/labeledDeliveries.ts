@@ -273,6 +273,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         issues: [
           { key: "POS-4539", title: "Validações de Nome da Lista", status: "To Do" },
           { key: "POS-4540", title: "[Front] Validação de nome duplicado na criação/importação de Lista", status: "To Do" },
+          { key: "POS-4550", title: "Menu de ações nos Segmentos Pré Definidos", status: "To Do" },
         ],
       },
       {
