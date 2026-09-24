@@ -5,13 +5,14 @@ import GanttGoalsView from "./components/gantt/GanttGoalsView";
 import GanttExecView from "./components/gantt/GanttExecView";
 import GanttKanbanView from "./components/gantt/GanttKanbanView";
 import GanttHypothesesView from "./components/gantt/GanttHypothesesView";
+import GanttOpsView from "./components/gantt/GanttOpsView";
 import HomeScreen from "./components/HomeScreen";
 import PdvTopbar from "./components/pdv/PdvTopbar";
 import PdvRoadmapView from "./components/pdv/PdvRoadmapView";
 import { RoadmapProvider } from "./lib/RoadmapContext";
 
 type Screen = "home" | "xp" | "pdv";
-type Tab = "goals" | "exec" | "kanban" | "hypotheses";
+type Tab = "goals" | "exec" | "kanban" | "hypotheses" | "ops";
 
 // ── Rotas (sub-caminhos) ──────────────────────────────────────────────────────
 const TAB_PATHS: Record<Tab, string> = {
@@ -19,6 +20,7 @@ const TAB_PATHS: Record<Tab, string> = {
   kanban:     "/kanban",
   hypotheses: "/hipoteses",
   exec:       "/executiva",
+  ops:        "/operacional",
 };
 const PATH_TABS: Record<string, Tab> = Object.fromEntries(
   Object.entries(TAB_PATHS).map(([t, p]) => [p, t as Tab]),
@@ -82,6 +84,7 @@ export default function App() {
         {tab === "exec"        && <GanttExecView />}
         {tab === "kanban"      && <GanttKanbanView />}
         {tab === "hypotheses"  && <GanttHypothesesView />}
+        {tab === "ops"         && <GanttOpsView />}
       </div>
     </RoadmapProvider>
   );

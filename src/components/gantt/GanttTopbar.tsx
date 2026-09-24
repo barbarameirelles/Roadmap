@@ -1,6 +1,6 @@
 import { useRoadmap } from "@/lib/RoadmapContext";
 
-type Tab = "goals" | "exec" | "kanban" | "hypotheses";
+type Tab = "goals" | "exec" | "kanban" | "hypotheses" | "ops";
 
 interface Props {
   activeTab: Tab;
@@ -77,12 +77,23 @@ function HypothesesIcon() {
   );
 }
 
+function OpsIcon() {
+  return (
+    <svg className="g-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 9h18" />
+      <path d="M9 13h2M13 13h2M9 16h2M13 16h2" />
+    </svg>
+  );
+}
+
 export default function GanttTopbar({ activeTab, onTab, onHome }: Props) {
   const TABS: { id: Tab; title: string; sub: string; Icon: () => JSX.Element }[] = [
     { id: "hypotheses",  title: "Hipóteses",       sub: "Backlog · pedidos de clientes",    Icon: HypothesesIcon  },
     { id: "goals",       title: "Entrega do Mês",  sub: "Objetivo mensal por frente",       Icon: GoalsIcon       },
     { id: "kanban",      title: "Kanban",          sub: "Visão operacional do time",        Icon: KanbanIcon      },
     { id: "exec",        title: "Visão Executiva", sub: "Os 3 objetivos · evolução mensal", Icon: ExecIcon        },
+    { id: "ops",         title: "Sys-Ops",         sub: "SLA de tickets · por trilha",      Icon: OpsIcon         },
   ];
 
   return (
