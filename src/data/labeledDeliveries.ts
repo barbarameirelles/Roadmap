@@ -267,21 +267,27 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
     year: 2026,
     groups: [
       {
-        feature: "QuickWin",
-        description: "Validação em tempo real do nome da lista ao criar ou importar — o sistema bloqueia nomes duplicados antes do envio, com feedback visual imediato.",
-        context: "Elimina um ponto de frustração comum: hoje o usuário só descobre o nome duplicado no final do fluxo de upload. Com a validação inline, o erro é resolvido antes de avançar, reduzindo chamados de suporte e retrabalho.",
-        issues: [
-          { key: "POS-4539", title: "Validações de Nome da Lista", status: "To Do" },
-          { key: "POS-4540", title: "[Front] Validação de nome duplicado na criação/importação de Lista", status: "To Do" },
-          { key: "POS-4550", title: "Menu de ações nos Segmentos Pré Definidos", status: "To Do" },
-        ],
-      },
-      {
         feature: "Limitedeuso",
         description: "Experiência do usuário para gestão da franquia de contatos: exibição do uso atual, alertas progressivos de limite e bloqueio automático de acordo com o plano contratado.",
         context: "Viabiliza um modelo de precificação baseado em volume de contatos únicos, com transparência para o lojista sobre o consumo e opções claras de upgrade — sem surpresas na cobrança.",
         issues: [
           { key: "POS-4541", title: "Gestão de Franquia de Contatos — Etapa 1: Experiência do Usuário", status: "To Do" },
+        ],
+      },
+      {
+        feature: "dominio_email",
+        description: "Configuração de domínio dedicado de e-mail por lojista, permitindo que os disparos saiam com a identidade da marca do cliente (ex: contato@minhaloja.com.br).",
+        context: "E-mails enviados pelo próprio domínio do lojista aumentam taxas de abertura e constroem a reputação do remetente — diferencial competitivo direto frente a plataformas que usam domínio genérico compartilhado.",
+        issues: [
+          { key: "POS-4547", title: "Criação de Domínio Dedicado de E-mail", status: "To Do" },
+        ],
+      },
+      {
+        feature: "integracao_ga4",
+        description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
+        context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
+        issues: [
+          { key: "POS-4548", title: "Refazer integração de GA4", status: "To Do" },
         ],
       },
       {
@@ -302,19 +308,13 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
-        feature: "dominio_email",
-        description: "Configuração de domínio dedicado de e-mail por lojista, permitindo que os disparos saiam com a identidade da marca do cliente (ex: contato@minhaloja.com.br).",
-        context: "E-mails enviados pelo próprio domínio do lojista aumentam taxas de abertura e constroem a reputação do remetente — diferencial competitivo direto frente a plataformas que usam domínio genérico compartilhado.",
+        feature: "QuickWin",
+        description: "Validação em tempo real do nome da lista ao criar ou importar — o sistema bloqueia nomes duplicados antes do envio, com feedback visual imediato.",
+        context: "Elimina um ponto de frustração comum: hoje o usuário só descobre o nome duplicado no final do fluxo de upload. Com a validação inline, o erro é resolvido antes de avançar, reduzindo chamados de suporte e retrabalho.",
         issues: [
-          { key: "POS-4547", title: "Criação de Domínio Dedicado de E-mail", status: "To Do" },
-        ],
-      },
-      {
-        feature: "integracao_ga4",
-        description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
-        context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
-        issues: [
-          { key: "POS-4548", title: "Refazer integração de GA4", status: "To Do" },
+          { key: "POS-4539", title: "Validações de Nome da Lista", status: "To Do" },
+          { key: "POS-4540", title: "[Front] Validação de nome duplicado na criação/importação de Lista", status: "To Do" },
+          { key: "POS-4550", title: "Menu de ações nos Segmentos Pré Definidos", status: "To Do" },
         ],
       },
     ],
