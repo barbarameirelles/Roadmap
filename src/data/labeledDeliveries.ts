@@ -44,6 +44,13 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "Ipdedicado":          { label: "Migração para SES",        color: "#dc2626", bg: "#fee2e2" },
   "Novavisãocliente":    { label: "Nova Visão de Cliente",    color: "#4f46e5", bg: "#eef2ff" },
   "segmentador":         { label: "Segmentador",              color: "#16a34a", bg: "#f0fdf4" },
+  // Outubro/2026
+  "QuickWin":            { label: "⚡ Quick Win",              color: "#065f46", bg: "#d1fae5" },
+  "Limitedeuso":         { label: "Gestão de Franquia de Contatos", color: "#7c3aed", bg: "#f5f3ff" },
+  "discovery_cora":      { label: "Discovery: Khora no Segmentador", color: "#0369a1", bg: "#e0f2fe" },
+  "resp_audience":       { label: "Responsividade Audience",  color: "#16a34a", bg: "#f0fdf4" },
+  "dominio_email":       { label: "Domínio Dedicado de E-mail", color: "#dc2626", bg: "#fee2e2" },
+  "integracao_ga4":      { label: "Integração de GA4",        color: "#d97706", bg: "#fef3c7" },
 };
 
 export const DEFAULT_FEATURE_META = { label: "Outros", color: "#64748b", bg: "#f8fafc" };
@@ -236,6 +243,65 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "Blocked", blocked: true },
           { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do" },
           { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "In Progress" },
+        ],
+      },
+    ],
+  },
+
+  // ── Outubro/2026 ──────────────────────────────────────────────────────────────
+  {
+    monthLabel: "Outubro",
+    monthIdx: 9,
+    year: 2026,
+    groups: [
+      {
+        feature: "QuickWin",
+        description: "Validação em tempo real do nome da lista ao criar ou importar — o sistema bloqueia nomes duplicados antes do envio, com feedback visual imediato.",
+        context: "Elimina um ponto de frustração comum: hoje o usuário só descobre o nome duplicado no final do fluxo de upload. Com a validação inline, o erro é resolvido antes de avançar, reduzindo chamados de suporte e retrabalho.",
+        issues: [
+          { key: "POS-4539", title: "Validações de Nome da Lista", status: "To Do" },
+          { key: "POS-4540", title: "[Front] Validação de nome duplicado na criação/importação de Lista", status: "To Do" },
+        ],
+      },
+      {
+        feature: "Limitedeuso",
+        description: "Experiência do usuário para gestão da franquia de contatos: exibição do uso atual, alertas progressivos de limite e bloqueio automático de acordo com o plano contratado.",
+        context: "Viabiliza um modelo de precificação baseado em volume de contatos únicos, com transparência para o lojista sobre o consumo e opções claras de upgrade — sem surpresas na cobrança.",
+        issues: [
+          { key: "POS-4541", title: "Gestão de Franquia de Contatos — Etapa 1: Experiência do Usuário", status: "To Do" },
+        ],
+      },
+      {
+        feature: "discovery_cora",
+        description: "Mapeamento e diagnóstico do estado atual do Khora (ex-Córtex) integrado ao Segmentador, identificando o que está com dados mocados e o que precisa ser finalizado para liberação em produção.",
+        context: "O Khora está parcialmente integrado ao Segmentador com dados simulados. Este discovery define o escopo real de trabalho — se o gap for pequeno, a entrega pode acontecer ainda em outubro.",
+        issues: [
+          { key: "POS-4537", title: "Discovery: Khora (ex-Córtex) no Segmentador", status: "To Do" },
+          { key: "POS-4538", title: "[Back] [Discovery] Mapeamento e Diagnóstico do Cora no Segmentador", status: "To Do" },
+        ],
+      },
+      {
+        feature: "resp_audience",
+        description: "Adaptação do layout do Segmentador para as resoluções 1366x768 e 1280x720, corrigindo quebras visuais que afetam usuários fora da resolução padrão 1920x1080.",
+        context: "A segunda resolução mais acessada na plataforma é 1366x768 — e o Segmentador não renderiza corretamente nela. Resolver isso amplia a usabilidade para uma parcela significativa da base sem nenhuma alteração de back-end.",
+        issues: [
+          { key: "POS-4533", title: "Responsividade Audience", status: "To Do" },
+        ],
+      },
+      {
+        feature: "dominio_email",
+        description: "Configuração de domínio dedicado de e-mail por lojista, permitindo que os disparos saiam com a identidade da marca do cliente (ex: contato@minhaloja.com.br).",
+        context: "E-mails enviados pelo próprio domínio do lojista aumentam taxas de abertura e constroem a reputação do remetente — diferencial competitivo direto frente a plataformas que usam domínio genérico compartilhado.",
+        issues: [
+          { key: "POS-4547", title: "Criação de Domínio Dedicado de E-mail", status: "To Do" },
+        ],
+      },
+      {
+        feature: "integracao_ga4",
+        description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
+        context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
+        issues: [
+          { key: "POS-4548", title: "Refazer integração de GA4", status: "To Do" },
         ],
       },
     ],

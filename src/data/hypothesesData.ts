@@ -388,4 +388,18 @@ export const HYPOTHESES: HypothesisItem[] = [
       "QuotaBanner não exibido em rotas /admin/* para evitar confusão de contexto",
     ],
   },
+  {
+    id: "h34",
+    title: "Refazer Integração de GA4",
+    description: "Refatoração completa da integração com Google Analytics 4, corrigindo instabilidades na conexão de conta e garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
+    type: ["evolucao"],
+    status: "planejado",
+    previsao: "Outubro",
+    priority: "alta",
+    subitems: [
+      "Correção do fluxo de conexão da conta GA4 (OAuth)",
+      "Rastreamento correto de eventos de campanha",
+      "Atribuição de receita nas campanhas via GA4",
+    ],
+  },
 ];
