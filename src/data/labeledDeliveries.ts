@@ -44,8 +44,10 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "Ipdedicado":          { label: "Migração para SES",        color: "#dc2626", bg: "#fee2e2" },
   "Novavisãocliente":    { label: "Nova Visão de Cliente",    color: "#4f46e5", bg: "#eef2ff" },
   "segmentador":         { label: "Segmentador",              color: "#16a34a", bg: "#f0fdf4" },
-  // Outubro/2026
+  // Quick Win (setembro usa "quickwins", outubro usa "QuickWin")
   "QuickWin":            { label: "⚡ Quick Win",              color: "#065f46", bg: "#d1fae5" },
+  "quickwins":           { label: "⚡ Quick Win",              color: "#065f46", bg: "#d1fae5" },
+  // Outubro/2026
   "Limitedeuso":         { label: "Gestão de Franquia de Contatos", color: "#7c3aed", bg: "#f5f3ff" },
   "discovery_cora":      { label: "Discovery: Khora no Segmentador", color: "#0369a1", bg: "#e0f2fe" },
   "resp_audience":       { label: "Responsividade Audience",  color: "#16a34a", bg: "#f0fdf4" },
@@ -243,6 +245,16 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "FRONT-744", title: "Perfil do Cliente: Informações Pessoais, Visão Geral, Listas e Segmentos", status: "Blocked", blocked: true },
           { key: "FRONT-808", title: "Perfil de Cliente - Eventos, Pedidos e Filtros", status: "To Do" },
           { key: "POS-4313",  title: "Consolidação de ticket médio e LTV", status: "In Progress" },
+        ],
+      },
+      {
+        feature: "quickwins",
+        description: "Correções pontuais de alto impacto: pedido duplicado no histórico do cliente, dados mockados para o Wake Lab e eventos não chegando ao ClickHouse.",
+        context: "Itens rápidos que desbloqueiam situações concretas — um bug visível para o cliente final, uma preparação para evento e uma instabilidade de dados em produção. Resolvidos em setembro para não acumular dívida técnica.",
+        issues: [
+          { key: "POS-4525", title: "[Dados Mockados] Alimentar a plataforma Wake Lab para o evento", status: "Done" },
+          { key: "POS-4526", title: "[CDP] Pedido duplicado no histórico e valor de desconto não refletido", status: "In Progress" },
+          { key: "POS-4522", title: "Eventos não chegando ao ClickHouse em produção", status: "Blocked", blocked: true },
         ],
       },
     ],
