@@ -283,20 +283,20 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
-        feature: "integracao_ga4",
-        description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
-        context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
-        issues: [
-          { key: "POS-4548", title: "Refazer integração de GA4", status: "To Do" },
-        ],
-      },
-      {
         feature: "discovery_cora",
         description: "Mapeamento e diagnóstico do estado atual do Khora (ex-Córtex) integrado ao Segmentador, identificando o que está com dados mocados e o que precisa ser finalizado para liberação em produção.",
         context: "O Khora está parcialmente integrado ao Segmentador com dados simulados. Este discovery define o escopo real de trabalho — se o gap for pequeno, a entrega pode acontecer ainda em outubro.",
         issues: [
           { key: "POS-4537", title: "Discovery: Khora (ex-Córtex) no Segmentador", status: "To Do" },
           { key: "POS-4538", title: "[Back] [Discovery] Mapeamento e Diagnóstico do Cora no Segmentador", status: "To Do" },
+        ],
+      },
+      {
+        feature: "integracao_ga4",
+        description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
+        context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
+        issues: [
+          { key: "POS-4548", title: "Refazer integração de GA4", status: "To Do" },
         ],
       },
       {
