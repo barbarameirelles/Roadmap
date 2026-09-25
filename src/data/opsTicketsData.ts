@@ -99,7 +99,7 @@ export const PLATAFORMA: TrackData = {
 export const SMB: TrackData = {
   id: "smb",
   label: "SMB",
-  description: "Tray · Bagy · KingHost",
+  description: "Tray · Bagy · KingHost · Delivery Direto",
   color: "#7c3aed",
   months: [
     {
