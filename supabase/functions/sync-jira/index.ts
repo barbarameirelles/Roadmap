@@ -4,8 +4,8 @@
 //    issues novas sem precisar adicioná-las manualmente ao código.
 // 2. Status: atualiza o mapa { key → {status, blocked} } de TODAS as issues
 //    (estáticas de keys.json + recém-descobertas).
-// 3. Ops: consulta os épicos operacionais e grava o MonthStats do mês corrente
-//    na tabela ops_snapshot (usada pela aba Sys-Ops).
+// 3. Ops: consulta os épicos operacionais, computa SLA do mês corrente e
+//    inclui os dados em summary.ops_smb / summary.ops_plataforma no mesmo insert.
 //
 // Secrets necessários (Supabase → Edge Functions → Secrets):
 //   JIRA_EMAIL     e-mail da conta Atlassian
@@ -29,7 +29,7 @@ const cors = {
 
 type Mapped = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
 type DiscoveredIssue = { key: string; title: string };
-type DiscoveredMap = Record<string, DiscoveredIssue[]>; // "Setembro/segmentador" → issues
+type DiscoveredMap = Record<string, DiscoveredIssue[]>;
 
 function mapStatus(name: string): Mapped {
   const n = (name ?? "").trim().toUpperCase();
@@ -49,12 +49,12 @@ function json(body: unknown, status = 200) {
   });
 }
 
-// ── Helpers de Ops ────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 async function jiraFetchAll(
   auth: string, base: string, jql: string, fields: string[],
-): Promise<unknown[]> {
-  const all: unknown[] = [];
+): Promise<Record<string, unknown>[]> {
+  const all: Record<string, unknown>[] = [];
   let nextPageToken: string | undefined;
   do {
     const res = await fetch(`${base}/rest/api/3/search/jql`, {
@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
 
   const db = createClient(SUPABASE_URL, SERVICE_KEY);
 
-  // ── trava anti-rajada ──────────────────────────────────────────────────────
+  // ── Trava anti-rajada ──────────────────────────────────────────────────────
   const { data: last } = await db
     .from("roadmap_snapshot")
     .select("synced_at, summary")
@@ -178,7 +178,7 @@ Deno.serve(async (req) => {
           nextPageToken = data.isLast === false ? data.nextPageToken : undefined;
         } while (nextPageToken);
       } catch {
-        // discovery de um mês falhou → segue para o próximo sem travar o sync
+        // discovery de um mês falhou → segue para o próximo
       }
     }
   }
@@ -209,68 +209,37 @@ Deno.serve(async (req) => {
 
   for (const k of (KEYS as string[])) if (!(k in statuses)) missing.push(k);
 
-  // ── Contadores roadmap ─────────────────────────────────────────────────────
-  const vals = Object.values(statuses);
-  const discoveredCount = Object.values(discovered).reduce((s, g) => s + g.length, 0);
-  const summary = {
-    total:       vals.length,
-    done:        vals.filter(v => v.status === "Done").length,
-    in_progress: vals.filter(v => v.status === "In Progress").length,
-    to_do:       vals.filter(v => v.status === "To Do" && !v.blocked).length,
-    blocked:     vals.filter(v => v.blocked).length,
-    missing:     missing.length,
-    discovered:  discoveredCount,
-  };
-
-  const synced_by = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "app";
-  const { error } = await db
-    .from("roadmap_snapshot")
-    .insert({ statuses, summary, synced_by, discovered });
-
-  if (error) return json({ error: "Falha ao gravar snapshot", detail: error.message }, 500);
-
   // ── Fase 3: Ops live snapshot ──────────────────────────────────────────────
-  let opsSummary: Record<string, unknown> | null = null;
+  // Resultado vai dentro de summary.ops_smb / summary.ops_plataforma
+  // para não precisar de nova tabela no Supabase.
+  const opsData: Record<string, unknown> = {};
   try {
     const today = new Date();
     const yr = today.getUTCFullYear();
-    const mo = today.getUTCMonth(); // 0-indexed
-    const monthStr  = `${yr}-${String(mo + 1).padStart(2, "0")}`;
+    const mo = today.getUTCMonth();
+    const monthStr      = `${yr}-${String(mo + 1).padStart(2, "0")}`;
     const monthStartISO = `${yr}-${String(mo + 1).padStart(2, "0")}-01`;
     const monthLabelStr = PT_MONTHS[mo];
-
-    const OPS_FIELDS = ["summary", "status", "created", "resolutiondate", "assignee"];
-    const opsData: Record<string, unknown> = {};
+    const OPS_FIELDS    = ["summary", "status", "created", "resolutiondate", "assignee"];
 
     for (const trackCfg of OPS_TRACKS_CFG) {
       const epicClause = trackCfg.epics.join(",");
 
-      // Todos os tickets abertos (qualquer data de criação)
-      const openIssues = await jiraFetchAll(
-        auth, JIRA_BASE,
-        `parent in (${epicClause}) AND statusCategory in ("To Do", "In Progress") ORDER BY created ASC`,
-        OPS_FIELDS,
-      ) as Record<string, unknown>[];
+      const [openIssues, doneByResdate, doneNoResdate] = await Promise.all([
+        jiraFetchAll(auth, JIRA_BASE,
+          `parent in (${epicClause}) AND statusCategory in ("To Do", "In Progress") ORDER BY created ASC`,
+          OPS_FIELDS),
+        jiraFetchAll(auth, JIRA_BASE,
+          `parent in (${epicClause}) AND statusCategory = Done AND resolutiondate >= "${monthStartISO}" ORDER BY resolutiondate ASC`,
+          OPS_FIELDS),
+        jiraFetchAll(auth, JIRA_BASE,
+          `parent in (${epicClause}) AND statusCategory = Done AND resolutiondate is EMPTY AND created >= "${monthStartISO}" ORDER BY created ASC`,
+          OPS_FIELDS),
+      ]);
 
-      // Tickets concluídos com resolutiondate no mês corrente
-      const doneByResdate = await jiraFetchAll(
-        auth, JIRA_BASE,
-        `parent in (${epicClause}) AND statusCategory = Done AND resolutiondate >= "${monthStartISO}" ORDER BY resolutiondate ASC`,
-        OPS_FIELDS,
-      ) as Record<string, unknown>[];
-
-      // Tickets concluídos sem resolutiondate, criados no mês corrente
-      const doneNoResdate = await jiraFetchAll(
-        auth, JIRA_BASE,
-        `parent in (${epicClause}) AND statusCategory = Done AND resolutiondate is EMPTY AND created >= "${monthStartISO}" ORDER BY created ASC`,
-        OPS_FIELDS,
-      ) as Record<string, unknown>[];
-
-      // Merge e dedup por key
+      // Dedup por key
       const doneMap = new Map<string, Record<string, unknown>>();
-      for (const i of [...doneByResdate, ...doneNoResdate]) {
-        doneMap.set(i.key as string, i);
-      }
+      for (const i of [...doneByResdate, ...doneNoResdate]) doneMap.set(i.key as string, i);
       const doneIssues = Array.from(doneMap.values());
 
       const tickets = [];
@@ -285,7 +254,7 @@ Deno.serve(async (req) => {
         const days = businessDays(created, null);
         if (days <= 5) withinSla++; else outsideSla++;
         tickets.push({
-          key: issue.key,
+          key: issue.key as string,
           title: (f?.summary as string) ?? issue.key,
           status: st,
           created,
@@ -299,7 +268,7 @@ Deno.serve(async (req) => {
         const statusName = (f?.status as Record<string, unknown>)?.name as string ?? "";
         if (statusName.trim().toUpperCase() === "CANCELADO") continue;
         const created = ((f?.created as string) ?? "").split("T")[0];
-        const resdate = ((f?.resolutiondate as string | null) ?? "")?.split("T")[0] || null;
+        const resdate = ((f?.resolutiondate as string | null) ?? null)?.split("T")[0] ?? null;
         if (!resdate) {
           noDate++;
         } else {
@@ -321,10 +290,9 @@ Deno.serve(async (req) => {
         return businessDays(created, null) > 5;
       }).length;
 
-      const doneCount = doneIssues.filter(i => {
-        const f = i.fields as Record<string, unknown>;
-        return ((f?.status as Record<string, unknown>)?.name as string ?? "").trim().toUpperCase() !== "CANCELADO";
-      }).length;
+      const doneCount = doneIssues.filter(i =>
+        ((i.fields as Record<string, unknown>)?.status as Record<string, unknown>)?.name as string !== "CANCELADO"
+      ).length;
 
       opsData[trackCfg.id] = {
         month: monthStr,
@@ -341,22 +309,42 @@ Deno.serve(async (req) => {
         tickets,
       };
     }
-
-    const { error: opsErr } = await db
-      .from("ops_snapshot")
-      .insert({ smb: opsData.smb, plataforma: opsData.plataforma });
-
-    if (opsErr) {
-      console.error("ops_snapshot insert failed:", opsErr.message);
-    } else {
-      opsSummary = {
-        smb_volume: (opsData.smb as Record<string, unknown>)?.volume,
-        plataforma_volume: (opsData.plataforma as Record<string, unknown>)?.volume,
-      };
-    }
   } catch (opsErr) {
     console.error("Ops phase failed (non-blocking):", opsErr);
   }
 
-  return json({ ok: true, synced_at: new Date().toISOString(), summary, missing, discovered, ops: opsSummary });
+  // ── Insert único com roadmap + ops ─────────────────────────────────────────
+  const vals = Object.values(statuses);
+  const discoveredCount = Object.values(discovered).reduce((s, g) => s + g.length, 0);
+  const summary = {
+    total:       vals.length,
+    done:        vals.filter(v => v.status === "Done").length,
+    in_progress: vals.filter(v => v.status === "In Progress").length,
+    to_do:       vals.filter(v => v.status === "To Do" && !v.blocked).length,
+    blocked:     vals.filter(v => v.blocked).length,
+    missing:     missing.length,
+    discovered:  discoveredCount,
+    // Ops data embarcado — lido pelo frontend via snapshot.summary
+    ...(opsData.smb        && { ops_smb: opsData.smb }),
+    ...(opsData.plataforma && { ops_plataforma: opsData.plataforma }),
+  };
+
+  const synced_by = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "app";
+  const { error } = await db
+    .from("roadmap_snapshot")
+    .insert({ statuses, summary, synced_by, discovered });
+
+  if (error) return json({ error: "Falha ao gravar snapshot", detail: error.message }, 500);
+
+  return json({
+    ok: true,
+    synced_at: new Date().toISOString(),
+    summary,
+    missing,
+    discovered,
+    ops: {
+      smb_volume:       (opsData.smb as Record<string, unknown>)?.volume,
+      plataforma_volume: (opsData.plataforma as Record<string, unknown>)?.volume,
+    },
+  });
 });

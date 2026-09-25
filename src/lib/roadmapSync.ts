@@ -10,7 +10,6 @@ import type { MonthStats } from "@/data/opsTicketsData";
 export type SnapshotStatus = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
 export type StatusMap = Record<string, SnapshotStatus>;
 
-// ── Ops snapshot ──────────────────────────────────────────────────────────────
 // Chave = id da trilha ("smb" | "plataforma") → stats do mês corrente
 export type OpsSnapshotData = Record<string, MonthStats>;
 
@@ -19,36 +18,24 @@ export type DiscoveredMap = Record<string, DiscoveredIssue[]>; // "Setembro/segm
 
 export interface Snapshot {
   statuses: StatusMap;
-  summary: Record<string, number>;
+  summary: Record<string, unknown>;
   synced_at: string;
   discovered?: DiscoveredMap;
 }
 
 // ── Fórmula única ─────────────────────────────────────────────────────────────
-// % = concluídas / total (em-andamento NÃO conta). Vazio => 0.
 export function progressPct(subs: { status: string }[]): number {
   if (!subs.length) return 0;
   return Math.round((subs.filter(s => s.status === "Done").length / subs.length) * 100);
 }
 
-// ── Leitura do ops snapshot mais recente ─────────────────────────────────────
-export async function fetchLatestOpsSnapshot(): Promise<OpsSnapshotData | null> {
-  try {
-    const res = await fetch(
-      `${REST_URL}/ops_snapshot?select=smb,plataforma&order=synced_at.desc&limit=1`,
-      { headers: supabaseHeaders },
-    );
-    if (!res.ok) return null;
-    const rows = await res.json() as Array<{ smb: MonthStats | null; plataforma: MonthStats | null }>;
-    const row = rows[0];
-    if (!row) return null;
-    const result: OpsSnapshotData = {};
-    if (row.smb)        result.smb        = row.smb;
-    if (row.plataforma) result.plataforma = row.plataforma;
-    return Object.keys(result).length ? result : null;
-  } catch {
-    return null;
-  }
+// Extrai os dados de ops do summary do roadmap snapshot (gravados pela fase 3)
+export function opsSnapshotFromSummary(summary: Record<string, unknown> | null): OpsSnapshotData | null {
+  if (!summary) return null;
+  const result: OpsSnapshotData = {};
+  if (summary.ops_smb)        result.smb        = summary.ops_smb as MonthStats;
+  if (summary.ops_plataforma) result.plataforma = summary.ops_plataforma as MonthStats;
+  return Object.keys(result).length ? result : null;
 }
 
 // ── Leitura do snapshot mais recente ─────────────────────────────────────────
@@ -62,12 +49,12 @@ export async function fetchLatestSnapshot(): Promise<Snapshot | null> {
     const rows = (await res.json()) as Snapshot[];
     return rows[0] ?? null;
   } catch {
-    return null; // sem rede / sem Supabase → o caller usa o dado estático
+    return null;
   }
 }
 
 // ── Dispara o sync (Edge Function) ───────────────────────────────────────────
-export async function triggerSync(): Promise<{ ok: boolean; message?: string; summary?: Record<string, number> }> {
+export async function triggerSync(): Promise<{ ok: boolean; message?: string; summary?: Record<string, unknown> }> {
   try {
     const res = await fetch(SYNC_FUNCTION_URL, { method: "POST", headers: supabaseHeaders });
     const data = await res.json().catch(() => ({}));
@@ -80,9 +67,6 @@ export async function triggerSync(): Promise<{ ok: boolean; message?: string; su
 }
 
 // ── Overlay: aplica o mapa de status na estrutura ────────────────────────────
-// Sempre recalcula o progress pela fórmula única (Done/total), mesmo sem
-// snapshot — assim o Kanban (que lia o campo manual feat.progress) já alinha
-// com Exec e Entrega do Mês de imediato. Com snapshot, também sobrepõe os status.
 export function featuresWithStatuses(map: StatusMap | null): Feature[] {
   return FEATURES.map(f => {
     const subtasks = map
@@ -92,9 +76,6 @@ export function featuresWithStatuses(map: StatusMap | null): Feature[] {
         })
       : f.subtasks;
 
-    // Preserva a classificação de backlog (isBacklog = executed===null && progress===0):
-    // features de backlog seguem em 0 (ex.: cdp-2b), e nenhuma feature ativa cai
-    // acidentalmente pra backlog ao recalcular.
     const wasBacklog = f.executed === null && f.progress === 0;
     let progress: number;
     if (f.status === "concluido") progress = 100;
@@ -114,7 +95,6 @@ export function deliveriesWithStatuses(
   return MONTH_DELIVERIES.map(md => ({
     ...md,
     groups: md.groups.map(g => {
-      // Atualiza status das issues estáticas
       const existingIssues = g.issues.map(i => {
         if (!map) return i;
         const m = map[i.key];
@@ -123,7 +103,6 @@ export function deliveriesWithStatuses(
         return { ...i, status, blocked: m.blocked };
       });
 
-      // Mescla issues descobertas via label (evita duplicatas por key)
       if (discovered) {
         const groupKey = `${md.monthLabel}/${g.feature}`;
         const newIssues = (discovered[groupKey] ?? [])

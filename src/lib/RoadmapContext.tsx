@@ -2,7 +2,7 @@
 // sobreposta para as abas — fonte única, fórmula única (Done/total).
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
-  fetchLatestSnapshot, fetchLatestOpsSnapshot, triggerSync,
+  fetchLatestSnapshot, opsSnapshotFromSummary, triggerSync,
   featuresWithStatuses, deliveriesWithStatuses,
   type StatusMap, type DiscoveredMap, type OpsSnapshotData,
 } from "./roadmapSync";
@@ -33,9 +33,14 @@ export function RoadmapProvider({ children }: { children: ReactNode }) {
   const [message, setMessage] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const [snap, ops] = await Promise.all([fetchLatestSnapshot(), fetchLatestOpsSnapshot()]);
-    if (snap) { setMap(snap.statuses); setDiscovered(snap.discovered ?? null); setSyncedAt(snap.synced_at); }
-    if (ops) setOpsSnapshot(ops);
+    const snap = await fetchLatestSnapshot();
+    if (snap) {
+      setMap(snap.statuses);
+      setDiscovered(snap.discovered ?? null);
+      setSyncedAt(snap.synced_at);
+      const ops = opsSnapshotFromSummary(snap.summary);
+      if (ops) setOpsSnapshot(ops);
+    }
     setLoading(false);
   }, []);
 
