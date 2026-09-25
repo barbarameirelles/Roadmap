@@ -5,9 +5,14 @@
 import { REST_URL, SYNC_FUNCTION_URL, supabaseHeaders } from "@/config/supabase";
 import { FEATURES, type Feature } from "@/data/ganttData";
 import { MONTH_DELIVERIES, type MonthDelivery, type IssueStatus } from "@/data/labeledDeliveries";
+import type { MonthStats } from "@/data/opsTicketsData";
 
 export type SnapshotStatus = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
 export type StatusMap = Record<string, SnapshotStatus>;
+
+// ── Ops snapshot ──────────────────────────────────────────────────────────────
+// Chave = id da trilha ("smb" | "plataforma") → stats do mês corrente
+export type OpsSnapshotData = Record<string, MonthStats>;
 
 export type DiscoveredIssue = { key: string; title: string };
 export type DiscoveredMap = Record<string, DiscoveredIssue[]>; // "Setembro/segmentador" → issues
@@ -24,6 +29,26 @@ export interface Snapshot {
 export function progressPct(subs: { status: string }[]): number {
   if (!subs.length) return 0;
   return Math.round((subs.filter(s => s.status === "Done").length / subs.length) * 100);
+}
+
+// ── Leitura do ops snapshot mais recente ─────────────────────────────────────
+export async function fetchLatestOpsSnapshot(): Promise<OpsSnapshotData | null> {
+  try {
+    const res = await fetch(
+      `${REST_URL}/ops_snapshot?select=smb,plataforma&order=synced_at.desc&limit=1`,
+      { headers: supabaseHeaders },
+    );
+    if (!res.ok) return null;
+    const rows = await res.json() as Array<{ smb: MonthStats | null; plataforma: MonthStats | null }>;
+    const row = rows[0];
+    if (!row) return null;
+    const result: OpsSnapshotData = {};
+    if (row.smb)        result.smb        = row.smb;
+    if (row.plataforma) result.plataforma = row.plataforma;
+    return Object.keys(result).length ? result : null;
+  } catch {
+    return null;
+  }
 }
 
 // ── Leitura do snapshot mais recente ─────────────────────────────────────────

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   OPS_MONTHS, OPS_TRACKS, BROWSE,
   type TrackData, type MonthStats, type OpsTicket, type OpsStatus,
   slaPercent, slaColor,
 } from "@/data/opsTicketsData";
+import { useRoadmap } from "@/lib/RoadmapContext";
 
 // ── Status config ────────────────────────────────────────────────────────────
 
@@ -375,8 +376,21 @@ function TrackColumn({
 // ── Main view ────────────────────────────────────────────────────────────────
 
 export default function GanttOpsView() {
+  const { opsSnapshot } = useRoadmap();
   const [selectedMonth, setSelectedMonth] = useState(OPS_MONTHS[OPS_MONTHS.length - 1].month);
   const [drawer, setDrawer] = useState<{ track: TrackData; stats: MonthStats } | null>(null);
+
+  // Sobrepõe os dados ao vivo do Supabase no mês corrente (isLive=true)
+  const tracks = useMemo(() =>
+    OPS_TRACKS.map(track => ({
+      ...track,
+      months: track.months.map(m =>
+        m.isLive && opsSnapshot?.[track.id]
+          ? { ...opsSnapshot[track.id] as MonthStats, label: m.label, isLive: true as const }
+          : m
+      ),
+    })),
+  [opsSnapshot]);
 
   return (
     <div style={{ padding: "28px 32px", maxWidth: 1100, margin: "0 auto" }}>
@@ -421,7 +435,7 @@ export default function GanttOpsView() {
 
       {/* Track columns */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-        {OPS_TRACKS.map(track => {
+        {tracks.map(track => {
           const stats = track.months.find(m => m.month === selectedMonth);
           if (!stats) return null;
           return (

@@ -4,6 +4,8 @@
 //    issues novas sem precisar adicioná-las manualmente ao código.
 // 2. Status: atualiza o mapa { key → {status, blocked} } de TODAS as issues
 //    (estáticas de keys.json + recém-descobertas).
+// 3. Ops: consulta os épicos operacionais e grava o MonthStats do mês corrente
+//    na tabela ops_snapshot (usada pela aba Sys-Ops).
 //
 // Secrets necessários (Supabase → Edge Functions → Secrets):
 //   JIRA_EMAIL     e-mail da conta Atlassian
@@ -47,6 +49,60 @@ function json(body: unknown, status = 200) {
   });
 }
 
+// ── Helpers de Ops ────────────────────────────────────────────────────────────
+
+async function jiraFetchAll(
+  auth: string, base: string, jql: string, fields: string[],
+): Promise<unknown[]> {
+  const all: unknown[] = [];
+  let nextPageToken: string | undefined;
+  do {
+    const res = await fetch(`${base}/rest/api/3/search/jql`, {
+      method: "POST",
+      headers: { Authorization: auth, "content-type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ jql, fields, maxResults: 100, nextPageToken }),
+    });
+    if (!res.ok) break;
+    const data = await res.json();
+    for (const issue of data.issues ?? []) all.push(issue);
+    nextPageToken = data.isLast === false ? data.nextPageToken : undefined;
+  } while (nextPageToken);
+  return all;
+}
+
+function businessDays(startIso: string, endIso: string | null): number {
+  const s = new Date(startIso.split("T")[0] + "T12:00:00Z");
+  const e = endIso ? new Date(endIso.split("T")[0] + "T12:00:00Z") : new Date();
+  if (e < s) return 0;
+  let count = 0;
+  const cur = new Date(s);
+  while (cur <= e) {
+    const dow = cur.getUTCDay();
+    if (dow !== 0 && dow !== 6) count++;
+    cur.setUTCDate(cur.getUTCDate() + 1);
+  }
+  return count;
+}
+
+type OpsStatus = "Blocked" | "In Progress" | "To Do" | "Done";
+
+function opsStatus(name: string): OpsStatus {
+  const n = (name ?? "").trim().toUpperCase();
+  if (["CONCLUÍDO", "CANCELADO", "VALIDATION"].includes(n)) return "Done";
+  if (["BLOQUEADO", "BLOCKED"].includes(n)) return "Blocked";
+  if (["EM ANDAMENTO", "IN PROGRESS"].includes(n)) return "In Progress";
+  return "To Do";
+}
+
+const PT_MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+const OPS_TRACKS_CFG = [
+  { id: "smb",        epics: ["FRONT-124"] },
+  { id: "plataforma", epics: ["POS-221", "FRONT-132"] },
+] as const;
+
+// ── Handler ───────────────────────────────────────────────────────────────────
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
 
@@ -87,8 +143,6 @@ Deno.serve(async (req) => {
   const missing: string[] = [];
 
   // ── Fase 1: Discovery por label ────────────────────────────────────────────
-  // Para cada mês configurado, busca todas as issues que também têm um label de feature.
-  // Resultado: mapa "Setembro/segmentador" → [{ key, title }]
   const discovered: DiscoveredMap = {};
   const months: string[]   = (LABEL_CONFIG as { months: string[]; features: string[] }).months;
   const features: string[] = (LABEL_CONFIG as { months: string[]; features: string[] }).features;
@@ -105,7 +159,7 @@ Deno.serve(async (req) => {
             headers: { Authorization: auth, "content-type": "application/json", Accept: "application/json" },
             body: JSON.stringify({ jql, fields: ["summary", "status", "labels"], maxResults: 200, nextPageToken }),
           });
-          if (!res.ok) break; // discovery não bloqueia o sync de status
+          if (!res.ok) break;
           const data = await res.json();
 
           for (const issue of data.issues ?? []) {
@@ -119,7 +173,6 @@ Deno.serve(async (req) => {
               title: issue.fields?.summary ?? issue.key,
             });
 
-            // garante que a issue descoberta também entra no sync de status
             statuses[issue.key] = mapStatus(issue.fields?.status?.name ?? "");
           }
           nextPageToken = data.isLast === false ? data.nextPageToken : undefined;
@@ -131,7 +184,7 @@ Deno.serve(async (req) => {
   }
 
   // ── Fase 2: Status das issues estáticas (keys.json) ───────────────────────
-  const keys: string[] = (KEYS as string[]).filter(k => !(k in statuses)); // pula já descobertas
+  const keys: string[] = (KEYS as string[]).filter(k => !(k in statuses));
   for (let i = 0; i < keys.length; i += BATCH) {
     const batch = keys.slice(i, i + BATCH);
     const jql = `key in (${batch.join(",")})`;
@@ -154,20 +207,19 @@ Deno.serve(async (req) => {
     } while (nextPageToken);
   }
 
-  // keys que o Jira não retornou
   for (const k of (KEYS as string[])) if (!(k in statuses)) missing.push(k);
 
-  // ── Contadores ─────────────────────────────────────────────────────────────
+  // ── Contadores roadmap ─────────────────────────────────────────────────────
   const vals = Object.values(statuses);
   const discoveredCount = Object.values(discovered).reduce((s, g) => s + g.length, 0);
   const summary = {
-    total:      vals.length,
-    done:       vals.filter(v => v.status === "Done").length,
-    in_progress:vals.filter(v => v.status === "In Progress").length,
-    to_do:      vals.filter(v => v.status === "To Do" && !v.blocked).length,
-    blocked:    vals.filter(v => v.blocked).length,
-    missing:    missing.length,
-    discovered: discoveredCount,
+    total:       vals.length,
+    done:        vals.filter(v => v.status === "Done").length,
+    in_progress: vals.filter(v => v.status === "In Progress").length,
+    to_do:       vals.filter(v => v.status === "To Do" && !v.blocked).length,
+    blocked:     vals.filter(v => v.blocked).length,
+    missing:     missing.length,
+    discovered:  discoveredCount,
   };
 
   const synced_by = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "app";
@@ -177,5 +229,134 @@ Deno.serve(async (req) => {
 
   if (error) return json({ error: "Falha ao gravar snapshot", detail: error.message }, 500);
 
-  return json({ ok: true, synced_at: new Date().toISOString(), summary, missing, discovered });
+  // ── Fase 3: Ops live snapshot ──────────────────────────────────────────────
+  let opsSummary: Record<string, unknown> | null = null;
+  try {
+    const today = new Date();
+    const yr = today.getUTCFullYear();
+    const mo = today.getUTCMonth(); // 0-indexed
+    const monthStr  = `${yr}-${String(mo + 1).padStart(2, "0")}`;
+    const monthStartISO = `${yr}-${String(mo + 1).padStart(2, "0")}-01`;
+    const monthLabelStr = PT_MONTHS[mo];
+
+    const OPS_FIELDS = ["summary", "status", "created", "resolutiondate", "assignee"];
+    const opsData: Record<string, unknown> = {};
+
+    for (const trackCfg of OPS_TRACKS_CFG) {
+      const epicClause = trackCfg.epics.join(",");
+
+      // Todos os tickets abertos (qualquer data de criação)
+      const openIssues = await jiraFetchAll(
+        auth, JIRA_BASE,
+        `parent in (${epicClause}) AND statusCategory in ("To Do", "In Progress") ORDER BY created ASC`,
+        OPS_FIELDS,
+      ) as Record<string, unknown>[];
+
+      // Tickets concluídos com resolutiondate no mês corrente
+      const doneByResdate = await jiraFetchAll(
+        auth, JIRA_BASE,
+        `parent in (${epicClause}) AND statusCategory = Done AND resolutiondate >= "${monthStartISO}" ORDER BY resolutiondate ASC`,
+        OPS_FIELDS,
+      ) as Record<string, unknown>[];
+
+      // Tickets concluídos sem resolutiondate, criados no mês corrente
+      const doneNoResdate = await jiraFetchAll(
+        auth, JIRA_BASE,
+        `parent in (${epicClause}) AND statusCategory = Done AND resolutiondate is EMPTY AND created >= "${monthStartISO}" ORDER BY created ASC`,
+        OPS_FIELDS,
+      ) as Record<string, unknown>[];
+
+      // Merge e dedup por key
+      const doneMap = new Map<string, Record<string, unknown>>();
+      for (const i of [...doneByResdate, ...doneNoResdate]) {
+        doneMap.set(i.key as string, i);
+      }
+      const doneIssues = Array.from(doneMap.values());
+
+      const tickets = [];
+      let withinSla = 0, outsideSla = 0, noDate = 0, blocked = 0;
+
+      for (const issue of openIssues) {
+        const f = issue.fields as Record<string, unknown>;
+        const statusName = (f?.status as Record<string, unknown>)?.name as string ?? "";
+        const st = opsStatus(statusName);
+        const created = ((f?.created as string) ?? "").split("T")[0];
+        if (st === "Blocked") blocked++;
+        const days = businessDays(created, null);
+        if (days <= 5) withinSla++; else outsideSla++;
+        tickets.push({
+          key: issue.key,
+          title: (f?.summary as string) ?? issue.key,
+          status: st,
+          created,
+          resdate: null,
+          assignee: ((f?.assignee as Record<string, unknown>)?.displayName as string) ?? null,
+        });
+      }
+
+      for (const issue of doneIssues) {
+        const f = issue.fields as Record<string, unknown>;
+        const statusName = (f?.status as Record<string, unknown>)?.name as string ?? "";
+        if (statusName.trim().toUpperCase() === "CANCELADO") continue;
+        const created = ((f?.created as string) ?? "").split("T")[0];
+        const resdate = ((f?.resolutiondate as string | null) ?? "")?.split("T")[0] || null;
+        if (!resdate) {
+          noDate++;
+        } else {
+          const days = businessDays(created, resdate);
+          if (days <= 5) withinSla++; else outsideSla++;
+        }
+        tickets.push({
+          key: issue.key as string,
+          title: (f?.summary as string) ?? issue.key,
+          status: "Done" as OpsStatus,
+          created,
+          resdate,
+          assignee: ((f?.assignee as Record<string, unknown>)?.displayName as string) ?? null,
+        });
+      }
+
+      const atRisk = openIssues.filter(i => {
+        const created = (((i.fields as Record<string, unknown>)?.created as string) ?? "").split("T")[0];
+        return businessDays(created, null) > 5;
+      }).length;
+
+      const doneCount = doneIssues.filter(i => {
+        const f = i.fields as Record<string, unknown>;
+        return ((f?.status as Record<string, unknown>)?.name as string ?? "").trim().toUpperCase() !== "CANCELADO";
+      }).length;
+
+      opsData[trackCfg.id] = {
+        month: monthStr,
+        label: monthLabelStr,
+        isLive: true,
+        volume: tickets.length,
+        done: doneCount,
+        withinSla,
+        outsideSla,
+        open: openIssues.length,
+        blocked,
+        atRisk,
+        noDate,
+        tickets,
+      };
+    }
+
+    const { error: opsErr } = await db
+      .from("ops_snapshot")
+      .insert({ smb: opsData.smb, plataforma: opsData.plataforma });
+
+    if (opsErr) {
+      console.error("ops_snapshot insert failed:", opsErr.message);
+    } else {
+      opsSummary = {
+        smb_volume: (opsData.smb as Record<string, unknown>)?.volume,
+        plataforma_volume: (opsData.plataforma as Record<string, unknown>)?.volume,
+      };
+    }
+  } catch (opsErr) {
+    console.error("Ops phase failed (non-blocking):", opsErr);
+  }
+
+  return json({ ok: true, synced_at: new Date().toISOString(), summary, missing, discovered, ops: opsSummary });
 });
