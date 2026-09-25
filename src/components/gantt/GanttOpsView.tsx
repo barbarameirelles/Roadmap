@@ -330,7 +330,7 @@ function TrackColumn({
 
       {/* KPIs */}
       <div className="g-kpi-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
-        <KpiTile label="Tickets ativos" value={stats.volume} sub={`${stats.done} concluídos`} />
+        <KpiTile label="Total no mês" value={stats.volume} sub={`${stats.done} concluídos`} />
         <KpiTile
           label="Dentro do SLA"
           value={pct !== null ? `${pct}%` : "—"}
