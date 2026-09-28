@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import {
   OPS_MONTHS, OPS_TRACKS, BROWSE,
   type TrackData, type MonthStats, type OpsTicket, type OpsStatus,
-  slaPercent, slaColor,
 } from "@/data/opsTicketsData";
 import { useRoadmap } from "@/lib/RoadmapContext";
 
@@ -15,28 +14,44 @@ const STATUS_CFG: Record<OpsStatus, { label: string; bg: string; color: string; 
   "Done":        { label: "Concluído",    bg: "#dcfce7", color: "#166534", dot: "#16a34a" },
 };
 
-// ── SlideOver ────────────────────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
-function daysOpen(created: string): number {
-  const start = new Date(created);
-  const end = new Date();
+function businessDays(start: string, end: string | null): number {
+  const s = new Date(start.split("T")[0] + "T12:00:00");
+  const e = end ? new Date(end.split("T")[0] + "T12:00:00") : new Date();
+  if (e < s) return 0;
   let count = 0;
-  const cur = new Date(start);
-  while (cur <= end) {
+  const cur = new Date(s);
+  while (cur <= e) {
     if (cur.getDay() !== 0 && cur.getDay() !== 6) count++;
     cur.setDate(cur.getDate() + 1);
   }
   return count;
 }
 
+function avgResolutionDays(tickets: OpsTicket[]): number | null {
+  const done = tickets.filter(t => t.status === "Done" && t.resdate);
+  if (!done.length) return null;
+  const sum = done.reduce((acc, t) => acc + businessDays(t.created, t.resdate), 0);
+  return Math.round(sum / done.length);
+}
+
+function avgColor(avg: number | null): string {
+  if (avg === null) return "#94a3b8";
+  if (avg <= 3) return "#16a34a";
+  if (avg <= 5) return "#d97706";
+  return "#dc2626";
+}
+
+// ── SlideOver ────────────────────────────────────────────────────────────────
+
 function TrackSlideOver({
   track, stats, onClose,
 }: {
   track: TrackData; stats: MonthStats; onClose: () => void;
 }) {
-  const pct = slaPercent(stats);
-  const colorMap = { green: "#16a34a", amber: "#d97706", red: "#dc2626", gray: "#94a3b8" };
-  const barColor = colorMap[slaColor(pct)];
+  const avg = avgResolutionDays(stats.tickets);
+  const mainColor = avgColor(avg);
 
   const byStatus: Record<OpsStatus, OpsTicket[]> = {
     Blocked:      stats.tickets.filter(t => t.status === "Blocked"),
@@ -75,7 +90,7 @@ function TrackSlideOver({
                 {stats.label}{stats.isLive ? " · Abertos agora" : ""}
               </span>
               <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>
-                SLA: 5 dias úteis
+                Tempo médio de resolução
               </span>
             </div>
             <button onClick={onClose} style={{
@@ -93,21 +108,17 @@ function TrackSlideOver({
           </p>
         </div>
 
-        {/* SLA progress */}
+        {/* Avg resolution */}
         <div style={{ padding: "14px 24px", borderBottom: "1px solid #f1f5f9" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
-            <span style={{ fontSize: 28, fontWeight: 800, color: barColor }}>
-              {pct !== null ? `${pct}%` : "—"}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+            <span style={{ fontSize: 28, fontWeight: 800, color: mainColor }}>
+              {avg !== null ? `${avg}du` : "—"}
             </span>
             <span style={{ fontSize: 12, color: "#64748b" }}>
-              {stats.withinSla} de {stats.withinSla + stats.outsideSla} dentro do SLA
+              {avg !== null
+                ? `média de ${stats.done} tickets resolvidos`
+                : "sem tickets resolvidos no período"}
             </span>
-          </div>
-          <div style={{ height: 8, background: "#f1f5f9", borderRadius: 999, overflow: "hidden", marginBottom: 10 }}>
-            <div style={{
-              width: `${pct ?? 0}%`, height: "100%",
-              background: barColor, borderRadius: 999,
-            }} />
           </div>
           {stats.blocked > 0 ? (
             <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "8px 12px" }}>
@@ -143,7 +154,7 @@ function TrackSlideOver({
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     {items.map(ticket => {
-                      const bd = ticket.resdate ? null : daysOpen(ticket.created);
+                      const bd = ticket.resdate ? null : businessDays(ticket.created, null);
                       return (
                         <div key={ticket.key} style={{
                           display: "flex", alignItems: "flex-start", gap: 8, padding: "8px 10px",
@@ -211,50 +222,6 @@ function TrackSlideOver({
 
 // ── Sub-components ───────────────────────────────────────────────────────────
 
-function SlaBar({ pct, color }: { pct: number | null; color: "green" | "amber" | "red" | "gray" }) {
-  const colorMap = { green: "var(--g-green)", amber: "var(--g-orange)", red: "var(--g-red)", gray: "var(--g-border-strong)" };
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-      <div style={{ flex: 1, height: 6, background: "var(--g-border)", borderRadius: 999, overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${pct ?? 0}%`, background: colorMap[color], borderRadius: 999, transition: "width 0.4s ease" }} />
-      </div>
-      <span style={{
-        fontSize: 13, fontWeight: 700, letterSpacing: "-0.01em", minWidth: 42, textAlign: "right",
-        color: pct === null ? "var(--g-ink-4)" : colorMap[color],
-      }}>
-        {pct === null ? "—" : `${pct}%`}
-      </span>
-    </div>
-  );
-}
-
-function TrendDots({ track, selectedMonth }: { track: TrackData; selectedMonth: string }) {
-  return (
-    <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 20 }}>
-      {track.months.map(m => {
-        const pct = slaPercent(m);
-        const color = slaColor(pct);
-        const isSelected = m.month === selectedMonth;
-        const colorMap = { green: "var(--g-green)", amber: "var(--g-orange)", red: "var(--g-red)", gray: "var(--g-ink-4)" };
-        return (
-          <div key={m.month} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-            <div style={{
-              width: isSelected ? 10 : 7, height: isSelected ? 10 : 7,
-              borderRadius: "50%", background: colorMap[color],
-              opacity: isSelected ? 1 : 0.45,
-              transition: "all 0.2s",
-            }} />
-            <span style={{ fontSize: 10, color: isSelected ? "var(--g-ink-2)" : "var(--g-ink-4)", fontWeight: isSelected ? 600 : 400 }}>
-              {m.label.substring(0, 3)}
-            </span>
-          </div>
-        );
-      })}
-      <span style={{ fontSize: 11, color: "var(--g-ink-4)", marginLeft: 4 }}>histórico SLA</span>
-    </div>
-  );
-}
-
 function KpiTile({ label, value, sub, color, accent }: {
   label: string; value: string | number; sub?: string; color?: string; accent?: string;
 }) {
@@ -273,12 +240,8 @@ function TrackColumn({
   track: TrackData; stats: MonthStats; onOpen: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
-  const pct = slaPercent(stats);
-  const color = slaColor(pct);
-  const colorClass = { green: "green", amber: "amber", red: "red", gray: "" }[color];
+  const avg = avgResolutionDays(stats.tickets);
   const openAtRisk = stats.atRisk > 0;
-  const measuredBase = stats.withinSla + stats.outsideSla;
-  const noDate = Math.max(0, stats.done - measuredBase);
 
   return (
     <div
@@ -314,34 +277,22 @@ function TrackColumn({
             </span>
           )}
         </div>
-        <div style={{ marginTop: 4, fontSize: 12, color: "var(--g-ink-4)" }}>SLA: 5 dias úteis</div>
       </div>
-
-      {/* SLA bar */}
-      <div style={{ marginBottom: 4 }}>
-        <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", color: "var(--g-ink-4)", marginBottom: 6 }}>
-          Aderência ao SLA
-        </div>
-        <SlaBar pct={pct} color={color} />
-      </div>
-
-      {/* Trend */}
-      <TrendDots track={track} selectedMonth={stats.month} />
 
       {/* KPIs */}
-      <div className="g-kpi-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
+      <div className="g-kpi-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)", gap: 10, marginTop: 20 }}>
         <KpiTile label="Total no mês" value={stats.volume} sub={`${stats.done} concluídos`} />
         <KpiTile
-          label="Dentro do SLA"
-          value={pct !== null ? `${pct}%` : "—"}
-          sub={measuredBase > 0 ? `${stats.withinSla} de ${measuredBase} medidos${noDate > 0 ? ` · ${noDate} s/ data` : ""}` : "sem dados"}
-          color={colorClass || undefined}
-          accent={color !== "gray" ? color : undefined}
+          label="Tempo médio"
+          value={avg !== null ? `${avg}du` : "—"}
+          sub={avg !== null ? "para concluir" : "sem resoluções"}
+          color={avg !== null ? (avg <= 3 ? "green" : avg <= 5 ? "amber" : "red") : undefined}
+          accent={avg !== null ? (avg <= 3 ? "green" : avg <= 5 ? "amber" : "red") : undefined}
         />
         <KpiTile
           label="Em aberto"
           value={stats.open}
-          sub={openAtRisk ? `${stats.atRisk} fora do SLA` : stats.open === 0 ? "tudo resolvido" : "dentro do prazo"}
+          sub={openAtRisk ? `${stats.atRisk} passaram do prazo` : stats.open === 0 ? "tudo resolvido" : "dentro do prazo"}
           color={openAtRisk ? "red" : stats.open > 0 ? "amber" : "green"}
           accent={openAtRisk ? "red" : stats.open > 0 ? "amber" : undefined}
         />
@@ -400,7 +351,7 @@ export default function GanttOpsView() {
           Tickets Operacionais
         </h1>
         <p style={{ fontSize: 13, color: "var(--g-ink-3)", marginTop: 4, margin: 0 }}>
-          Demandas de suporte e operação por trilha · SLA de 5 dias úteis
+          Demandas de suporte e operação por trilha · tempo médio em dias úteis
         </p>
       </div>
 
