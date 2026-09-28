@@ -29,18 +29,17 @@ function businessDays(start: string, end: string | null): number {
   return count;
 }
 
-function avgResolutionDays(tickets: OpsTicket[]): number | null {
-  const done = tickets.filter(t => t.status === "Done" && t.resdate);
-  if (!done.length) return null;
-  const sum = done.reduce((acc, t) => acc + businessDays(t.created, t.resdate), 0);
-  return Math.round(sum / done.length);
+function quickPct(stats: MonthStats): number | null {
+  const base = stats.withinSla + stats.outsideSla;
+  if (!base) return null;
+  return Math.round((stats.withinSla / base) * 100);
 }
 
-function avgColor(avg: number | null): string {
-  if (avg === null) return "#94a3b8";
-  if (avg <= 3) return "#16a34a";
-  if (avg <= 5) return "#d97706";
-  return "#dc2626";
+function quickColor(pct: number | null): "green" | "amber" | "red" | "gray" {
+  if (pct === null) return "gray";
+  if (pct >= 80) return "green";
+  if (pct >= 60) return "amber";
+  return "red";
 }
 
 // ── SlideOver ────────────────────────────────────────────────────────────────
@@ -50,8 +49,10 @@ function TrackSlideOver({
 }: {
   track: TrackData; stats: MonthStats; onClose: () => void;
 }) {
-  const avg = avgResolutionDays(stats.tickets);
-  const mainColor = avgColor(avg);
+  const pct = quickPct(stats);
+  const colorKey = quickColor(pct);
+  const colorMap = { green: "#16a34a", amber: "#d97706", red: "#dc2626", gray: "#94a3b8" };
+  const mainColor = colorMap[colorKey];
 
   const byStatus: Record<OpsStatus, OpsTicket[]> = {
     Blocked:      stats.tickets.filter(t => t.status === "Blocked"),
@@ -108,17 +109,18 @@ function TrackSlideOver({
           </p>
         </div>
 
-        {/* Avg resolution */}
+        {/* Quick resolution */}
         <div style={{ padding: "14px 24px", borderBottom: "1px solid #f1f5f9" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
             <span style={{ fontSize: 28, fontWeight: 800, color: mainColor }}>
-              {avg !== null ? `${avg}du` : "—"}
+              {pct !== null ? `${pct}%` : "—"}
             </span>
             <span style={{ fontSize: 12, color: "#64748b" }}>
-              {avg !== null
-                ? `média de ${stats.done} tickets resolvidos`
-                : "sem tickets resolvidos no período"}
+              {stats.withinSla} de {stats.withinSla + stats.outsideSla} resolvidos em ≤5du
             </span>
+          </div>
+          <div style={{ height: 8, background: "#f1f5f9", borderRadius: 999, overflow: "hidden", marginBottom: 10 }}>
+            <div style={{ width: `${pct ?? 0}%`, height: "100%", background: mainColor, borderRadius: 999 }} />
           </div>
           {stats.blocked > 0 ? (
             <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "8px 12px" }}>
@@ -240,7 +242,8 @@ function TrackColumn({
   track: TrackData; stats: MonthStats; onOpen: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
-  const avg = avgResolutionDays(stats.tickets);
+  const pct = quickPct(stats);
+  const color = quickColor(pct);
   const openAtRisk = stats.atRisk > 0;
 
   return (
@@ -283,11 +286,11 @@ function TrackColumn({
       <div className="g-kpi-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)", gap: 10, marginTop: 20 }}>
         <KpiTile label="Total no mês" value={stats.volume} sub={`${stats.done} concluídos`} />
         <KpiTile
-          label="Tempo médio"
-          value={avg !== null ? `${avg}du` : "—"}
-          sub={avg !== null ? "para concluir" : "sem resoluções"}
-          color={avg !== null ? (avg <= 3 ? "green" : avg <= 5 ? "amber" : "red") : undefined}
-          accent={avg !== null ? (avg <= 3 ? "green" : avg <= 5 ? "amber" : "red") : undefined}
+          label="Resolvidos rápido"
+          value={pct !== null ? `${pct}%` : "—"}
+          sub={pct !== null ? `${stats.withinSla} de ${stats.withinSla + stats.outsideSla} em ≤5du` : "sem dados"}
+          color={color !== "gray" ? color : undefined}
+          accent={color !== "gray" ? color : undefined}
         />
         <KpiTile
           label="Em aberto"
@@ -351,7 +354,7 @@ export default function GanttOpsView() {
           Tickets Operacionais
         </h1>
         <p style={{ fontSize: 13, color: "var(--g-ink-3)", marginTop: 4, margin: 0 }}>
-          Demandas de suporte e operação por trilha · tempo médio em dias úteis
+          Demandas de suporte e operação por trilha · resolução em ≤5 dias úteis
         </p>
       </div>
 
