@@ -143,15 +143,14 @@ Deno.serve(async (req) => {
   const missing: string[] = [];
 
   // ── Fase 1: Discovery por label ────────────────────────────────────────────
+  // Busca TODAS as issues com label de mês — qualquer tag nova é rastreada automaticamente.
   const discovered: DiscoveredMap = {};
-  const months: string[]   = (LABEL_CONFIG as { months: string[]; features: string[] }).months;
-  const features: string[] = (LABEL_CONFIG as { months: string[]; features: string[] }).features;
+  const months: string[] = (LABEL_CONFIG as { months: string[] }).months;
 
-  if (months.length && features.length) {
-    const featureClause = features.map(f => `"${f}"`).join(",");
+  if (months.length) {
     for (const month of months) {
       try {
-        const jql = `labels = "${month}" AND labels in (${featureClause}) ORDER BY key ASC`;
+        const jql = `labels = "${month}" ORDER BY key ASC`;
         let nextPageToken: string | undefined;
         do {
           const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
@@ -164,7 +163,8 @@ Deno.serve(async (req) => {
 
           for (const issue of data.issues ?? []) {
             const issueLabels: string[] = issue.fields?.labels ?? [];
-            const featureLabel = issueLabels.find((l: string) => features.includes(l));
+            // Primeira label que não seja um nome de mês é a feature label
+            const featureLabel = issueLabels.find((l: string) => !PT_MONTHS.includes(l));
             if (!featureLabel) continue;
 
             const groupKey = `${month}/${featureLabel}`;
