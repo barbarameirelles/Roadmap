@@ -150,7 +150,7 @@ Deno.serve(async (req) => {
   if (months.length) {
     for (const month of months) {
       try {
-        const jql = `labels = "${month}" ORDER BY key ASC`;
+        const jql = `labels = "${month}" AND issuetype not in subTaskIssueTypes() ORDER BY key ASC`;
         let nextPageToken: string | undefined;
         do {
           const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
