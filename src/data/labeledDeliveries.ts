@@ -253,7 +253,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         context: "Itens rápidos que desbloqueiam situações concretas — um bug visível para o cliente final, uma preparação para evento e uma instabilidade de dados em produção. Resolvidos em setembro para não acumular dívida técnica.",
         issues: [
           { key: "POS-4525", title: "[Dados Mockados] Alimentar a plataforma Wake Lab para o evento", status: "Done" },
-          { key: "POS-4526", title: "[CDP] Pedido duplicado no histórico e valor de desconto não refletido", status: "In Progress" },
+          { key: "POS-4526", title: "[CDP] Pedido duplicado no histórico e valor de desconto não refletido", status: "Done" },
           { key: "POS-4522", title: "Eventos não chegando ao ClickHouse em produção", status: "Blocked", blocked: true },
         ],
       },
