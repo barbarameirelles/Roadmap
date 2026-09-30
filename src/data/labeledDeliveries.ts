@@ -248,7 +248,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
-        feature: "quickwins",
+        feature: "QuickWin",
         description: "Correções pontuais de alto impacto: pedido duplicado no histórico do cliente, dados mockados para o Wake Lab e eventos não chegando ao ClickHouse.",
         context: "Itens rápidos que desbloqueiam situações concretas — um bug visível para o cliente final, uma preparação para evento e uma instabilidade de dados em produção. Resolvidos em setembro para não acumular dívida técnica.",
         issues: [

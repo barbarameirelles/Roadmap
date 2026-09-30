@@ -96,6 +96,13 @@ function opsStatus(name: string): OpsStatus {
 
 const PT_MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
+// Normaliza variações de label para a forma canônica usada nos grupos do app
+function normalizeFeatureLabel(label: string): string {
+  const lower = label.toLowerCase();
+  if (lower === "quickwin" || lower === "quickwins") return "QuickWin";
+  return label;
+}
+
 const OPS_TRACKS_CFG = [
   { id: "smb",        epics: ["FRONT-124"] },
   { id: "plataforma", epics: ["POS-221", "FRONT-132"] },
@@ -167,7 +174,7 @@ Deno.serve(async (req) => {
             const featureLabel = issueLabels.find((l: string) => !PT_MONTHS.includes(l));
             if (!featureLabel) continue;
 
-            const groupKey = `${month}/${featureLabel}`;
+            const groupKey = `${month}/${normalizeFeatureLabel(featureLabel)}`;
             (discovered[groupKey] ??= []).push({
               key: issue.key,
               title: issue.fields?.summary ?? issue.key,
