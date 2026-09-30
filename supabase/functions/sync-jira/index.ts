@@ -194,7 +194,7 @@ Deno.serve(async (req) => {
   for (let i = 0; i < epicKeys.length; i += BATCH) {
     const batch = epicKeys.slice(i, i + BATCH);
     try {
-      const jql = `parent in (${batch.join(",")}) ORDER BY created ASC`;
+      const jql = `parent in (${batch.join(",")}) AND issuetype not in subTaskIssueTypes() ORDER BY created ASC`;
       let nextPageToken: string | undefined;
       do {
         const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
