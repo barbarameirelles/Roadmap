@@ -95,28 +95,29 @@ export function deliveriesWithStatuses(
   return MONTH_DELIVERIES.map(md => ({
     ...md,
     groups: md.groups.map(g => {
-      const existingIssues = g.issues.map(i => {
+      const groupKey = `${md.monthLabel}/${g.feature}`;
+
+      // Quando o sync tem dados para este grupo, eles são fonte de verdade —
+      // substitui as issues estáticas para refletir realocações de mês no Jira.
+      if (discovered && (discovered[groupKey]?.length ?? 0) > 0) {
+        const issues = discovered[groupKey].map(d => {
+          const m = map?.[d.key];
+          const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
+          const blocked = m?.blocked ?? false;
+          return { key: d.key, title: d.title, status, blocked };
+        });
+        return { ...g, issues };
+      }
+
+      // Fallback: issues estáticas com overlay de status do snapshot
+      const issues = g.issues.map(i => {
         if (!map) return i;
         const m = map[i.key];
         if (!m) return i;
         const status: IssueStatus = m.blocked ? "Blocked" : m.status;
         return { ...i, status, blocked: m.blocked };
       });
-
-      if (discovered) {
-        const groupKey = `${md.monthLabel}/${g.feature}`;
-        const newIssues = (discovered[groupKey] ?? [])
-          .filter(d => !existingIssues.find(e => e.key === d.key))
-          .map(d => {
-            const m = map?.[d.key];
-            const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
-            const blocked = m?.blocked ?? false;
-            return { key: d.key, title: d.title, status, blocked };
-          });
-        if (newIssues.length) return { ...g, issues: [...existingIssues, ...newIssues] };
-      }
-
-      return { ...g, issues: existingIssues };
+      return { ...g, issues };
     }),
   }));
 }
