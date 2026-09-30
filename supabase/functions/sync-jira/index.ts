@@ -183,6 +183,45 @@ Deno.serve(async (req) => {
     }
   }
 
+  // ── Fase 1.5: Filhos dos épicos descobertos ───────────────────────────────
+  // Para cada épico encontrado na Fase 1, busca suas tasks filhas e as adiciona
+  // ao mesmo grupo — assim qualquer task criada dentro do épico aparece automaticamente.
+  const epicToGroup: Record<string, string> = {};
+  for (const [groupKey, issues] of Object.entries(discovered)) {
+    for (const issue of issues) epicToGroup[issue.key] = groupKey;
+  }
+  const epicKeys = Object.keys(epicToGroup);
+  for (let i = 0; i < epicKeys.length; i += BATCH) {
+    const batch = epicKeys.slice(i, i + BATCH);
+    try {
+      const jql = `parent in (${batch.join(",")}) ORDER BY created ASC`;
+      let nextPageToken: string | undefined;
+      do {
+        const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
+          method: "POST",
+          headers: { Authorization: auth, "content-type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ jql, fields: ["summary", "status", "parent"], maxResults: 200, nextPageToken }),
+        });
+        if (!res.ok) break;
+        const data = await res.json();
+        for (const issue of data.issues ?? []) {
+          const parentKey = (issue.fields?.parent as Record<string, unknown>)?.key as string;
+          if (!parentKey) continue;
+          const groupKey = epicToGroup[parentKey];
+          if (!groupKey) continue;
+          const existing = discovered[groupKey] ?? [];
+          if (!existing.find(e => e.key === issue.key)) {
+            (discovered[groupKey] ??= []).push({ key: issue.key, title: issue.fields?.summary ?? issue.key });
+          }
+          statuses[issue.key] = mapStatus(issue.fields?.status?.name ?? "");
+        }
+        nextPageToken = data.isLast === false ? data.nextPageToken : undefined;
+      } while (nextPageToken);
+    } catch {
+      // falha num batch de filhos → segue
+    }
+  }
+
   // ── Fase 2: Status das issues estáticas (keys.json) ───────────────────────
   const keys: string[] = (KEYS as string[]).filter(k => !(k in statuses));
   for (let i = 0; i < keys.length; i += BATCH) {
