@@ -92,31 +92,57 @@ export function deliveriesWithStatuses(
   map: StatusMap | null,
   discovered?: DiscoveredMap | null,
 ): MonthDelivery[] {
+  // Índice invertido: key → meses em que aparece no discovered
+  const keyToMonths: Record<string, string[]> = {};
+  if (discovered) {
+    for (const [groupKey, issues] of Object.entries(discovered)) {
+      const month = groupKey.split("/")[0];
+      for (const issue of issues) {
+        (keyToMonths[issue.key] ??= []).push(month);
+      }
+    }
+  }
+
   return MONTH_DELIVERIES.map(md => ({
     ...md,
     groups: md.groups.map(g => {
       const groupKey = `${md.monthLabel}/${g.feature}`;
+      const discoveredForGroup: DiscoveredIssue[] = discovered?.[groupKey] ?? [];
 
-      // Quando o sync tem dados para este grupo, eles são fonte de verdade —
-      // substitui as issues estáticas para refletir realocações de mês no Jira.
-      if (discovered && (discovered[groupKey]?.length ?? 0) > 0) {
-        const issues = discovered[groupKey].map(d => {
+      // ── Grupo placeholder ──────────────────────────────────────────────────
+      // Grupo com uma única issue hardcoded que o sync também descobriu →
+      // é um épico-âncora. Usa discovered como fonte de verdade (épico + filhos).
+      const isSingleEpicPlaceholder =
+        g.issues.length === 1 &&
+        discoveredForGroup.some(d => d.key === g.issues[0].key);
+
+      if (discovered && isSingleEpicPlaceholder && discoveredForGroup.length > 0) {
+        const issues = discoveredForGroup.map(d => {
           const m = map?.[d.key];
           const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
-          const blocked = m?.blocked ?? false;
-          return { key: d.key, title: d.title, status, blocked };
+          return { key: d.key, title: d.title, status, blocked: m?.blocked ?? false };
         });
         return { ...g, issues };
       }
 
-      // Fallback: issues estáticas com overlay de status do snapshot
-      const issues = g.issues.map(i => {
-        if (!map) return i;
-        const m = map[i.key];
-        if (!m) return i;
-        const status: IssueStatus = m.blocked ? "Blocked" : m.status;
-        return { ...i, status, blocked: m.blocked };
-      });
+      // ── Grupo curado ───────────────────────────────────────────────────────
+      // Issues foram adicionadas manualmente. Mantém a lista curada, mas remove
+      // issues que foram realocadas para outro mês no Jira.
+      const issues = g.issues
+        .filter(i => {
+          if (!discovered) return true;
+          const months = keyToMonths[i.key];
+          if (!months) return true; // não aparece no discovered → mantém
+          if (months.includes(md.monthLabel)) return true; // ainda neste mês → mantém
+          return false; // aparece só em outro mês → realocada, remove
+        })
+        .map(i => {
+          if (!map) return i;
+          const m = map[i.key];
+          if (!m) return i;
+          const status: IssueStatus = m.blocked ? "Blocked" : m.status;
+          return { ...i, status, blocked: m.blocked };
+        });
       return { ...g, issues };
     }),
   }));
