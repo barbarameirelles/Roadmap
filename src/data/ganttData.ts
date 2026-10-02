@@ -2,7 +2,7 @@
 // Months are 0-indexed from Jan 2026 (month 0 = Jan 2026, month 14 = Mar 2027)
 // "Today" snapshot = Set 2026 = month 8
 
-export const TODAY_MONTH = 8;
+export const TODAY_MONTH = 9;
 
 export interface Month {
   idx: number;
