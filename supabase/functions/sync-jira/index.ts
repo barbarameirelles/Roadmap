@@ -170,8 +170,11 @@ Deno.serve(async (req) => {
 
           for (const issue of data.issues ?? []) {
             const issueLabels: string[] = issue.fields?.labels ?? [];
-            // Primeira label que não seja um nome de mês é a feature label
-            const featureLabel = issueLabels.find((l: string) => !PT_MONTHS.includes(l));
+            // Regra: tag de Quick Win tem prioridade — a issue vai sempre para o
+            // grupo QuickWin, mesmo com outra label de feature. Senão, a primeira
+            // label que não seja um nome de mês é a feature label.
+            const nonMonth = issueLabels.filter((l: string) => !PT_MONTHS.includes(l));
+            const featureLabel = nonMonth.find(l => normalizeFeatureLabel(l) === "QuickWin") ?? nonMonth[0];
             if (!featureLabel) continue;
 
             const groupKey = `${month}/${normalizeFeatureLabel(featureLabel)}`;
