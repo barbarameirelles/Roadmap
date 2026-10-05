@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   OPS_MONTHS, OPS_TRACKS, BROWSE,
   type TrackData, type MonthStats, type OpsTicket, type OpsStatus,
 } from "@/data/opsTicketsData";
 import { useRoadmap } from "@/lib/RoadmapContext";
+import { fetchOpsForMonth, type OpsSnapshotData } from "@/lib/roadmapSync";
 
 // ── Status config ────────────────────────────────────────────────────────────
 
@@ -40,6 +41,18 @@ function quickColor(pct: number | null): "green" | "amber" | "red" | "gray" {
   if (pct >= 80) return "green";
   if (pct >= 60) return "amber";
   return "red";
+}
+
+// Meses "YYYY-MM" estritamente entre a e b.
+function monthsBetween(a: string, b: string): string[] {
+  const out: string[] = [];
+  let [y, m] = a.split("-").map(Number);
+  for (;;) {
+    m++; if (m > 12) { m = 1; y++; }
+    const k = `${y}-${String(m).padStart(2, "0")}`;
+    if (k >= b) return out;
+    out.push(k);
+  }
 }
 
 // ── SlideOver ────────────────────────────────────────────────────────────────
@@ -331,20 +344,42 @@ function TrackColumn({
 
 export default function GanttOpsView() {
   const { opsSnapshot } = useRoadmap();
-  const [selectedMonth, setSelectedMonth] = useState(OPS_MONTHS[OPS_MONTHS.length - 1].month);
+  const [pickedMonth, setPickedMonth] = useState<string | null>(null);
   const [drawer, setDrawer] = useState<{ track: TrackData; stats: MonthStats } | null>(null);
+  const [gapData, setGapData] = useState<Record<string, OpsSnapshotData>>({});
 
-  // Sobrepõe os dados ao vivo do Supabase no mês corrente (isLive=true)
+  // Mês ao vivo = o que vier no snapshot (o sync sempre calcula o mês corrente).
+  const liveMonth = opsSnapshot?.plataforma?.month ?? opsSnapshot?.smb?.month ?? null;
+
+  // Meses fechados entre o último congelado no código e o mês ao vivo: busca o
+  // último snapshot de cada um no Supabase (ex.: virou o mês e ninguém congelou).
+  const gapMonths = useMemo(() => {
+    const last = OPS_MONTHS[OPS_MONTHS.length - 1].month;
+    return liveMonth ? monthsBetween(last, liveMonth) : [];
+  }, [liveMonth]);
+
+  useEffect(() => {
+    gapMonths.filter(m => !gapData[m]).forEach(m =>
+      fetchOpsForMonth(m).then(d => d && setGapData(prev => ({ ...prev, [m]: d }))),
+    );
+  }, [gapMonths, gapData]);
+
   const tracks = useMemo(() =>
-    OPS_TRACKS.map(track => ({
-      ...track,
-      months: track.months.map(m =>
-        m.isLive && opsSnapshot?.[track.id]
-          ? { ...opsSnapshot[track.id] as MonthStats, label: m.label, isLive: true as const }
-          : m
-      ),
-    })),
-  [opsSnapshot]);
+    OPS_TRACKS.map(track => {
+      const months = track.months.filter(m => m.month !== liveMonth);
+      for (const m of gapMonths) {
+        const s = gapData[m]?.[track.id];
+        if (s) months.push({ ...s, isLive: false });
+      }
+      const live = opsSnapshot?.[track.id];
+      if (live) months.push({ ...live, isLive: true });
+      return { ...track, months };
+    }),
+  [opsSnapshot, liveMonth, gapMonths, gapData]);
+
+  const monthTabs = tracks[0].months.map(m => ({ month: m.month, label: m.label, isLive: m.isLive }));
+  const selectedMonth = pickedMonth ?? monthTabs[monthTabs.length - 1].month;
+  const setSelectedMonth = setPickedMonth;
 
   return (
     <div style={{ padding: "28px 32px", maxWidth: 1100, margin: "0 auto" }}>
@@ -360,7 +395,7 @@ export default function GanttOpsView() {
 
       {/* Month selector */}
       <div style={{ display: "flex", gap: 6, marginBottom: 28 }}>
-        {OPS_MONTHS.map(m => (
+        {monthTabs.map(m => (
           <button
             key={m.month}
             onClick={() => setSelectedMonth(m.month)}

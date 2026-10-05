@@ -38,6 +38,22 @@ export function opsSnapshotFromSummary(summary: Record<string, unknown> | null):
   return Object.keys(result).length ? result : null;
 }
 
+// Último snapshot de ops gravado para um mês ("2026-09") — usado para meses que
+// já fecharam mas ainda não foram congelados em opsTicketsData.ts.
+export async function fetchOpsForMonth(month: string): Promise<OpsSnapshotData | null> {
+  try {
+    const res = await fetch(
+      `${REST_URL}/roadmap_snapshot?select=summary&summary->ops_smb->>month=eq.${month}&order=synced_at.desc&limit=1`,
+      { headers: supabaseHeaders },
+    );
+    if (!res.ok) return null;
+    const rows = (await res.json()) as { summary: Record<string, unknown> }[];
+    return opsSnapshotFromSummary(rows[0]?.summary ?? null);
+  } catch {
+    return null;
+  }
+}
+
 // ── Leitura do snapshot mais recente ─────────────────────────────────────────
 export async function fetchLatestSnapshot(): Promise<Snapshot | null> {
   try {
