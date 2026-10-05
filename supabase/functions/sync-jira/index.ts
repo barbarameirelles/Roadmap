@@ -253,6 +253,30 @@ Deno.serve(async (req) => {
     } while (nextPageToken);
   }
 
+  // ── Fase 2.5: Issues movidas de projeto ───────────────────────────────────
+  // Ao mover uma issue (ex.: FRONT → POS) ela ganha key nova; o `key in (...)`
+  // ainda a encontra, mas responde com a key nova — a antiga ficaria sem status.
+  // Resolve individualmente e grava o status nas duas keys.
+  const moved: Record<string, string> = {};
+  for (const k of (KEYS as string[])) {
+    if (k in statuses) continue;
+    try {
+      const res = await fetch(`${JIRA_BASE}/rest/api/3/issue/${k}?fields=status`, {
+        headers: { Authorization: auth, Accept: "application/json" },
+      });
+      if (!res.ok) continue;
+      const issue = await res.json();
+      const mapped = mapStatus(issue.fields?.status?.name ?? "");
+      statuses[k] = mapped;
+      if (issue.key && issue.key !== k) {
+        statuses[issue.key] = mapped;
+        moved[k] = issue.key;
+      }
+    } catch {
+      // segue — a key cai em `missing`
+    }
+  }
+
   for (const k of (KEYS as string[])) if (!(k in statuses)) missing.push(k);
 
   // ── Fase 3: Ops live snapshot ──────────────────────────────────────────────
@@ -369,6 +393,7 @@ Deno.serve(async (req) => {
     to_do:       vals.filter(v => v.status === "To Do" && !v.blocked).length,
     blocked:     vals.filter(v => v.blocked).length,
     missing:     missing.length,
+    moved:       Object.keys(moved).length,
     discovered:  discoveredCount,
     // Ops data embarcado — lido pelo frontend via snapshot.summary
     ...(opsData.smb        && { ops_smb: opsData.smb }),
@@ -387,6 +412,7 @@ Deno.serve(async (req) => {
     synced_at: new Date().toISOString(),
     summary,
     missing,
+    moved,
     discovered,
     ops: {
       smb_volume:       (opsData.smb as Record<string, unknown>)?.volume,

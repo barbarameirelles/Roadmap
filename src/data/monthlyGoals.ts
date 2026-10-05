@@ -116,7 +116,7 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
       "Refatoração da tela de visão única de cliente trazendo mais dados relativos ao pedido, como forma de pagamento, entrega etc.",
     context:
       "A tela atual mostra dados cadastrais limitados. A nova versão reúne em um só lugar histórico de pedidos, forma de pagamento, dados de entrega e outras informações relevantes — facilitando o atendimento ao cliente e dando mais contexto para decisões comerciais e de CS.",
-    jiraKeys: ["FRONT-744", "FRONT-808", "FRONT-764"],
+    jiraKeys: ["POS-4580", "POS-4590", "FRONT-764"],
   },
   {
     month: 8,
@@ -126,6 +126,6 @@ export const MONTHLY_GOALS: MonthlyGoal[] = [
       "Concluir a disponibilização de receita por campanha e as exportações de relatórios CSV (envios pontuais, automáticos e segmentos) via central de notificações.",
     context:
       "Fecha uma lacuna crítica da migração: o time de marketing ainda não consegue ver a receita gerada por cada campanha, nem exportar os dados de envio para análise. Essas funcionalidades existiam na 1.0 e estão sendo reativadas — sem elas, é difícil provar o ROI das campanhas.",
-    jiraKeys: ["FRONT-310", "FRONT-407", "FRONT-419", "FRONT-448", "POS-3928", "FRONT-369"],
+    jiraKeys: ["POS-4592", "POS-4593", "POS-4576", "POS-4594", "POS-3928", "FRONT-369"],
   },
 ];
