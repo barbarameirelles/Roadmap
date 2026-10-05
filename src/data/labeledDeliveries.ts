@@ -49,7 +49,8 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "quickwins":           { label: "⚡ Quick Win",              color: "#065f46", bg: "#d1fae5" },
   // Outubro/2026
   "Limitedeuso":         { label: "Gestão de Franquia de Contatos", color: "#7c3aed", bg: "#f5f3ff" },
-  "discovery_cora":      { label: "Discovery: Khora no Segmentador", color: "#0369a1", bg: "#e0f2fe" },
+  "discovery_khora":     { label: "Discovery: Khora no Segmentador", color: "#0369a1", bg: "#e0f2fe" },
+  "menudesegmento":      { label: "Menu de Ações nos Segmentos", color: "#065f46", bg: "#d1fae5" },
   "resp_audience":       { label: "Responsividade Audience",  color: "#16a34a", bg: "#f0fdf4" },
   "dominio_email":       { label: "Domínio Dedicado de E-mail", color: "#dc2626", bg: "#fee2e2" },
   "integracao_ga4":      { label: "Integração de GA4",        color: "#d97706", bg: "#fef3c7" },
@@ -283,7 +284,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         ],
       },
       {
-        feature: "discovery_cora",
+        feature: "discovery_khora",
         description: "Mapeamento e diagnóstico do estado atual do Khora (ex-Córtex) integrado ao Segmentador, identificando o que está com dados mocados e o que precisa ser finalizado para liberação em produção.",
         context: "O Khora está parcialmente integrado ao Segmentador com dados simulados. Este discovery define o escopo real de trabalho — se o gap for pequeno, a entrega pode acontecer ainda em outubro.",
         issues: [

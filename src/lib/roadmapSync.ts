@@ -104,25 +104,45 @@ export function featuresWithStatuses(map: StatusMap | null): Feature[] {
   });
 }
 
+const PT_MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+// Grupo descoberto: "Outubro/QuickWin" → chave normalizada "outubro/quickwin"
+// (labels do Jira variam de caixa: IPDedicado × Ipdedicado).
+const groupId = (month: string, feature: string) => `${month}/${feature}`.toLowerCase();
+
 export function deliveriesWithStatuses(
   map: StatusMap | null,
   discovered?: DiscoveredMap | null,
 ): MonthDelivery[] {
-  return MONTH_DELIVERIES.map(md => ({
+  const toIssue = (d: DiscoveredIssue) => {
+    const m = map?.[d.key];
+    const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
+    return { key: d.key, title: d.title, status, blocked: m?.blocked ?? false };
+  };
+
+  // Agrupa o discovered pela chave normalizada (une variações de caixa, sem duplicar)
+  const found = new Map<string, { month: string; feature: string; issues: DiscoveredIssue[] }>();
+  for (const [k, list] of Object.entries(discovered ?? {})) {
+    const [month, ...rest] = k.split("/");
+    const feature = rest.join("/");
+    const id = groupId(month, feature);
+    const entry = found.get(id) ?? { month, feature, issues: [] };
+    for (const i of list) if (!entry.issues.some(e => e.key === i.key)) entry.issues.push(i);
+    found.set(id, entry);
+  }
+  const used = new Set<string>();
+
+  const months: MonthDelivery[] = MONTH_DELIVERIES.map(md => ({
     ...md,
     groups: md.groups.map(g => {
-      const groupKey = `${md.monthLabel}/${g.feature}`;
-      const discoveredForGroup: DiscoveredIssue[] = discovered?.[groupKey] ?? [];
+      const id = groupId(md.monthLabel, g.feature);
+      const discoveredForGroup = found.get(id)?.issues ?? [];
 
       if (discoveredForGroup.length > 0) {
         // Discovered é a fonte de verdade: reflete exatamente o que está taggeado
         // no Jira (épico + filhos não-subtask para Regra 1; histórias para Regra 2).
-        const issues = discoveredForGroup.map(d => {
-          const m = map?.[d.key];
-          const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
-          return { key: d.key, title: d.title, status, blocked: m?.blocked ?? false };
-        });
-        return { ...g, issues };
+        used.add(id);
+        return { ...g, issues: discoveredForGroup.map(toIssue) };
       }
 
       // Fallback: sync ainda não rodou ou grupo sem issues taggeadas → usa hardcoded
@@ -136,4 +156,19 @@ export function deliveriesWithStatuses(
       return { ...g, issues };
     }),
   }));
+
+  // Grupos taggeados no Jira sem curadoria no código → aparecem mesmo assim
+  // (sem descrição/contexto). Mês ainda não cadastrado é criado.
+  for (const [id, f] of found) {
+    if (used.has(id) || !f.issues.length) continue;
+    let md = months.find(m => m.monthLabel.toLowerCase() === f.month.toLowerCase());
+    if (!md) {
+      const mi = PT_MONTHS.indexOf(f.month);
+      if (mi < 0) continue;
+      md = { monthLabel: f.month, monthIdx: mi, year: 2026, groups: [] };
+      months.push(md);
+    }
+    md.groups.push({ feature: f.feature, description: "", context: "", issues: f.issues.map(toIssue) });
+  }
+  return months;
 }

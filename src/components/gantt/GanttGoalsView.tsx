@@ -105,6 +105,7 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
         </div>
 
         {/* Contexto de negócio */}
+        {group.context && (
         <div style={{ padding: "14px 24px", background: "#fafbfd", borderBottom: "1px solid #f1f5f9" }}>
           <div style={{
             fontSize: 11, fontWeight: 700, textTransform: "uppercase",
@@ -117,6 +118,7 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
             {group.context}
           </p>
         </div>
+        )}
 
         {/* Progresso */}
         <div style={{ padding: "14px 24px", borderBottom: "1px solid #f1f5f9" }}>
@@ -244,11 +246,14 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
       </div>
 
       {/* Descrição */}
+      {group.description && (
       <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.55, whiteSpace: "pre-line" }}>
         {group.description}
       </div>
+      )}
 
       {/* Contexto — preview */}
+      {group.context && (
       <div style={{
         fontSize: 12, color: "#64748b", lineHeight: 1.5,
         borderLeft: `3px solid ${meta.color}44`, paddingLeft: 10,
@@ -259,6 +264,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
       }}>
         {group.context}
       </div>
+      )}
 
       {/* Progresso */}
       <div>
