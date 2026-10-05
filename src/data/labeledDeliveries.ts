@@ -288,7 +288,6 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         context: "O Khora está parcialmente integrado ao Segmentador com dados simulados. Este discovery define o escopo real de trabalho — se o gap for pequeno, a entrega pode acontecer ainda em outubro.",
         issues: [
           { key: "POS-4537", title: "Discovery: Khora (ex-Córtex) no Segmentador", status: "To Do" },
-          { key: "POS-4538", title: "[Back] [Discovery] Mapeamento e Diagnóstico do Cora no Segmentador", status: "To Do" },
         ],
       },
       {
