@@ -285,10 +285,10 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
       },
       {
         feature: "discovery_khora",
-        description: "Mapeamento e diagnóstico do estado atual do Khora (ex-Córtex) integrado ao Segmentador, identificando o que está com dados mocados e o que precisa ser finalizado para liberação em produção.",
-        context: "O Khora está parcialmente integrado ao Segmentador com dados simulados. Este discovery define o escopo real de trabalho — se o gap for pequeno, a entrega pode acontecer ainda em outubro.",
+        description: "Mapeamento e diagnóstico do estado atual do Wake Khora integrado ao Segmentador, identificando o que está com dados mocados e o que precisa ser finalizado para liberação em produção.",
+        context: "O Wake Khora está parcialmente integrado ao Segmentador com dados simulados. Este discovery define o escopo real de trabalho — se o gap for pequeno, a entrega pode acontecer ainda em outubro.",
         issues: [
-          { key: "POS-4537", title: "Discovery: Khora (ex-Córtex) no Segmentador", status: "To Do" },
+          { key: "POS-4537", title: "Discovery: Wake Khora no Segmentador", status: "To Do" },
         ],
       },
       {

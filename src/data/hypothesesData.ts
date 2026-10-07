@@ -234,8 +234,8 @@ export const HYPOTHESES: HypothesisItem[] = [
   },
   {
     id: "h23",
-    title: "Córtex para Segmentos",
-    description: "Refinamento e finalização do Córtex aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Córtex para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
+    title: "Wake Khora para Segmentos",
+    description: "Refinamento e finalização do Wake Khora aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Wake Khora para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
     type: ["evolucao", "cdp"],
     status: "discovery",
     previsao: "Outubro",
@@ -245,9 +245,9 @@ export const HYPOTHESES: HypothesisItem[] = [
       "Outubro: discovery para entender os pontos faltantes para liberação. Se o escopo for simples, a entrega pode acontecer ainda em outubro.",
     ],
     subitems: [
-      "Substituição dos dados mocados por dados reais na integração com o Córtex",
-      "Refinamento da experiência e dos resultados gerados pelo Córtex no Segmentador",
-      "Evolução das capacidades analíticas do Córtex para segmentos",
+      "Substituição dos dados mocados por dados reais na integração com o Wake Khora",
+      "Refinamento da experiência e dos resultados gerados pelo Wake Khora no Segmentador",
+      "Evolução das capacidades analíticas do Wake Khora para segmentos",
     ],
   },
   {
