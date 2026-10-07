@@ -152,6 +152,7 @@ Deno.serve(async (req) => {
   // ── Fase 1: Discovery por label ────────────────────────────────────────────
   // Busca TODAS as issues com label de mês — qualquer tag nova é rastreada automaticamente.
   const discovered: DiscoveredMap = {};
+  const labeledEpics = new Set<string>();
   const months: string[] = (LABEL_CONFIG as { months: string[] }).months;
 
   if (months.length) {
@@ -163,7 +164,7 @@ Deno.serve(async (req) => {
           const res = await fetch(`${JIRA_BASE}/rest/api/3/search/jql`, {
             method: "POST",
             headers: { Authorization: auth, "content-type": "application/json", Accept: "application/json" },
-            body: JSON.stringify({ jql, fields: ["summary", "status", "labels"], maxResults: 200, nextPageToken }),
+            body: JSON.stringify({ jql, fields: ["summary", "status", "labels", "issuetype"], maxResults: 200, nextPageToken }),
           });
           if (!res.ok) break;
           const data = await res.json();
@@ -178,6 +179,10 @@ Deno.serve(async (req) => {
             if (!featureLabel) continue;
 
             const groupKey = `${month}/${normalizeFeatureLabel(featureLabel)}`;
+            const type = issue.fields?.issuetype ?? {};
+            if (type.hierarchyLevel === 1 || /^(epic|épico)$/i.test(type.name ?? "")) {
+              labeledEpics.add(issue.key);
+            }
             (discovered[groupKey] ??= []).push({
               key: issue.key,
               title: issue.fields?.summary ?? issue.key,
@@ -230,6 +235,13 @@ Deno.serve(async (req) => {
     } catch {
       // falha num batch de filhos → segue
     }
+  }
+
+  // Épico é só agrupador: sai da lista de tarefas (e do %) quando o grupo tem
+  // filhos. Épico sem nenhum filho fica como único item, senão a entrega some.
+  for (const [groupKey, issues] of Object.entries(discovered)) {
+    const tasks = issues.filter(i => !labeledEpics.has(i.key));
+    if (tasks.length) discovered[groupKey] = tasks;
   }
 
   // ── Fase 2: Status das issues estáticas (keys.json) ───────────────────────
