@@ -23,9 +23,9 @@ function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "concluido") return "done";
   if (feat.status === "replanejado" || feat.status === "despriorizado") return "blocked";
   // REGRA: se existe ao menos UMA subtask em andamento (qualquer status ativo do
-  // Jira — Em Andamento, Validation, Homologation, Code Review, QA…, todos
-  // mapeados para "In Progress"; Ready to Deploy já conta como Done), o épico está SEMPRE em "Em andamento". Isso tem
-  // prioridade sobre validation e bloqueado (o card ainda sinaliza os bloqueios).
+  // Jira — Em Andamento, Validation, Homologation, Code Review, QA, Ready to
+  // Deploy…, todos mapeados para "In Progress"), o épico está SEMPRE em "Em
+  // andamento". Isso tem prioridade sobre validation e bloqueado (o card ainda sinaliza os bloqueios).
   if (feat.subtasks.some(s => s.status === "In Progress")) return "in-progress";
   const tp = taskProgress(feat);
   if (tp >= 80) return "validation";

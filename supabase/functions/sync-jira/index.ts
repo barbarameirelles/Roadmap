@@ -31,10 +31,10 @@ type Mapped = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
 type DiscoveredIssue = { key: string; title: string };
 type DiscoveredMap = Record<string, DiscoveredIssue[]>;
 
-// Linha de chegada = fim do desenvolvimento: Concluído, Cancelado e Ready to
-// Deploy contam como Done. Validation, QA, Code Review, Homologation etc. são
-// andamento (peso 0,5 no %) — decisão da Bárbara em 14/10/2026.
-const DONE_STATUSES = ["CONCLUÍDO", "CANCELADO", "READY TO DEPLOY"];
+// Só Concluído e Cancelado contam como Done. Ready to Deploy, Validation, QA,
+// Code Review, Homologation etc. são andamento (peso 0,5 no %); Bloqueado
+// também pesa 0,5 (ver ganttUtils) — decisão da Bárbara em 14/10/2026.
+const DONE_STATUSES = ["CONCLUÍDO", "CANCELADO"];
 
 function mapStatus(name: string): Mapped {
   const n = (name ?? "").trim().toUpperCase();

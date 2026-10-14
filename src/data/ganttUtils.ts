@@ -8,23 +8,27 @@ export function plannedFrac(f: Feature, m: number): number {
 }
 
 // ── Fórmula única de % (todas as abas) ───────────────────────────────────────
-// Done vale 1, In Progress vale 0,5, To Do/Blocked vale 0. Assim o % anda junto
-// com o trabalho em curso, e não só com o que já foi entregue.
+// Done vale 1; In Progress e Bloqueado valem 0,5 (bloqueado é trabalho iniciado
+// que parou); To Do vale 0. Assim o % anda junto com o trabalho em curso.
 export const IN_PROGRESS_WEIGHT = 0.5;
 
-export function progressBreakdown(subs: { status: string }[]) {
+type ProgressItem = { status: string; blocked?: boolean };
+
+export function progressBreakdown(subs: ProgressItem[]) {
   const total = subs.length;
   const done = subs.filter(s => s.status === "Done").length;
-  const inProgress = subs.filter(s => s.status === "In Progress").length;
-  if (total === 0) return { total, done, inProgress, donePct: 0, inProgressPct: 0, progress: 0 };
-  const progress = Math.round((done + IN_PROGRESS_WEIGHT * inProgress) / total * 100);
+  const inProgress = subs.filter(s => s.status === "In Progress" && !s.blocked).length;
+  // Bloqueio chega como status "Blocked" (Entrega do Mês) ou flag `blocked` (épicos).
+  const blocked = subs.filter(s => s.status !== "Done" && (s.blocked || s.status === "Blocked")).length;
+  if (total === 0) return { total, done, inProgress, blocked, donePct: 0, inProgressPct: 0, progress: 0 };
+  const progress = Math.round((done + IN_PROGRESS_WEIGHT * (inProgress + blocked)) / total * 100);
   const donePct = Math.round(done / total * 100);
   // Fatia da barra do andamento = parte ponderada, então barra total = progress.
   const inProgressPct = Math.max(progress - donePct, 0);
-  return { total, done, inProgress, donePct, inProgressPct, progress };
+  return { total, done, inProgress, blocked, donePct, inProgressPct, progress };
 }
 
-export function weightedProgress(subs: { status: string }[]): number {
+export function weightedProgress(subs: ProgressItem[]): number {
   return progressBreakdown(subs).progress;
 }
 

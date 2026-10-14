@@ -1,5 +1,5 @@
 // Camada de sync ao vivo: lê o snapshot de status do Supabase e sobrepõe na
-// estrutura (que vive no código). Fórmula ÚNICA de % = (Done + 0,5 × In Progress)
+// estrutura (que vive no código). Fórmula ÚNICA de % = (Done + 0,5 × andamento/bloqueado)
 // / total — usada por todas as abas, o que elimina a divergência entre elas.
 
 import { REST_URL, SYNC_FUNCTION_URL, supabaseHeaders } from "@/config/supabase";
