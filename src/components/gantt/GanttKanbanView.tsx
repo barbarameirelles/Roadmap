@@ -3,7 +3,7 @@ import {
   QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
   TRACK_META, hasTrack, tracksOf, type FeatureStatus, type Feature, type Track, type Subtask,
 } from "@/data/ganttData";
-import { taskProgress } from "@/data/ganttUtils";
+import { taskProgress, progressBreakdown } from "@/data/ganttUtils";
 import { useRoadmap } from "@/lib/RoadmapContext";
 
 const activeBlocked = (f: Feature) =>
@@ -24,7 +24,7 @@ function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "replanejado" || feat.status === "despriorizado") return "blocked";
   // REGRA: se existe ao menos UMA subtask em andamento (qualquer status ativo do
   // Jira — Em Andamento, Validation, Homologation, Code Review, QA…, todos
-  // mapeados para "In Progress"), o épico está SEMPRE em "Em andamento". Isso tem
+  // mapeados para "In Progress"; Ready to Deploy já conta como Done), o épico está SEMPRE em "Em andamento". Isso tem
   // prioridade sobre validation e bloqueado (o card ainda sinaliza os bloqueios).
   if (feat.subtasks.some(s => s.status === "In Progress")) return "in-progress";
   const tp = taskProgress(feat);
@@ -70,6 +70,7 @@ const SUB_STATUS_META: Record<SubStatus, { label: string; color: string; bg: str
 
 function EpicDetailModal({ feat, onClose }: { feat: Feature; onClose: () => void }) {
   const tp = taskProgress(feat);
+  const doneSeg = Math.min(progressBreakdown(feat.subtasks).donePct, tp);
   const total = feat.subtasks.length;
   const counts = {
     entregue:     feat.subtasks.filter(s => subStatus(s) === "entregue").length,
@@ -158,13 +159,10 @@ function EpicDetailModal({ feat, onClose }: { feat: Feature; onClose: () => void
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
                 <div style={{
                   flex: 1, height: 6, background: "var(--g-border, #e2e8f0)",
-                  borderRadius: 999, overflow: "hidden",
+                  borderRadius: 999, overflow: "hidden", display: "flex",
                 }}>
-                  <div style={{
-                    width: tp + "%", height: "100%",
-                    background: tp === 100 ? "#16a34a" : "#2563eb",
-                    borderRadius: 999, transition: "width 0.3s",
-                  }} />
+                  <div style={{ width: doneSeg + "%", height: "100%", background: "#16a34a", transition: "width 0.3s" }} />
+                  <div style={{ width: (tp - doneSeg) + "%", height: "100%", background: "#3b82f6", transition: "width 0.3s" }} />
                 </div>
                 <span style={{ fontSize: 13, fontWeight: 700, color: "var(--g-ink, #0f172a)", whiteSpace: "nowrap" }}>
                   {tp}%
@@ -267,7 +265,10 @@ function KanbanCard({ feat, showDates = true, onOpen }: { feat: Feature; showDat
   const done  = feat.subtasks.filter(s => s.status === "Done").length;
   const inp   = feat.subtasks.filter(s => s.status === "In Progress").length;
   const tp    = taskProgress(feat);
-  const inpPct = total > 0 ? Math.min(Math.round((inp / total) * 100), 100 - tp) : 0;
+  // Barra soma o % ponderado: verde = concluído, azul = andamento (peso 0,5).
+  const { donePct } = progressBreakdown(feat.subtasks);
+  const doneSeg = Math.min(donePct, tp);
+  const inpSeg  = tp - doneSeg;
 
   const tracks = tracksOf(feat);
 
@@ -320,12 +321,12 @@ function KanbanCard({ feat, showDates = true, onOpen }: { feat: Feature; showDat
       {total > 0 && (
         <div className="kb-card-progress">
           <div className="kb-progress-bar">
-            <div className="seg done" style={{ width: tp + "%" }} />
-            <div className="seg inp"  style={{ width: inpPct + "%" }} />
+            <div className="seg done" style={{ width: doneSeg + "%" }} />
+            <div className="seg inp"  style={{ width: inpSeg + "%" }} />
           </div>
           <div className="kb-progress-foot">
-            <span>{tp}% concluído</span>
-            <span>{done}/{total} tarefas</span>
+            <span>{tp}%</span>
+            <span title={inp > 0 ? `${inp} em andamento` : undefined}>{done}/{total} concluídas</span>
           </div>
         </div>
       )}

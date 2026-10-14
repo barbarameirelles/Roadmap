@@ -7,7 +7,28 @@ export function plannedFrac(f: Feature, m: number): number {
   return Math.min(Math.max((m - f.planned.start + 1) / span, 0), 1);
 }
 
-// Progresso real baseado em tasks. Concluídos = 100%.
+// ── Fórmula única de % (todas as abas) ───────────────────────────────────────
+// Done vale 1, In Progress vale 0,5, To Do/Blocked vale 0. Assim o % anda junto
+// com o trabalho em curso, e não só com o que já foi entregue.
+export const IN_PROGRESS_WEIGHT = 0.5;
+
+export function progressBreakdown(subs: { status: string }[]) {
+  const total = subs.length;
+  const done = subs.filter(s => s.status === "Done").length;
+  const inProgress = subs.filter(s => s.status === "In Progress").length;
+  if (total === 0) return { total, done, inProgress, donePct: 0, inProgressPct: 0, progress: 0 };
+  const progress = Math.round((done + IN_PROGRESS_WEIGHT * inProgress) / total * 100);
+  const donePct = Math.round(done / total * 100);
+  // Fatia da barra do andamento = parte ponderada, então barra total = progress.
+  const inProgressPct = Math.max(progress - donePct, 0);
+  return { total, done, inProgress, donePct, inProgressPct, progress };
+}
+
+export function weightedProgress(subs: { status: string }[]): number {
+  return progressBreakdown(subs).progress;
+}
+
+// Progresso real baseado em tasks (ponderado). Concluídos = 100%.
 // Sem tasks: usa o campo progress manual (sync Jira).
 export function taskProgress(f: Feature): number {
   if (f.status === "concluido") return 100;
@@ -16,7 +37,7 @@ export function taskProgress(f: Feature): number {
   if (f.executed === null && f.progress === 0) return f.progress;
   const n = f.subtasks.length;
   if (n === 0) return f.progress;
-  return Math.round(f.subtasks.filter(t => t.status === "Done").length / n * 100);
+  return weightedProgress(f.subtasks);
 }
 
 export function isBehind(f: Feature): boolean {

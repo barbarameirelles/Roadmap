@@ -1,9 +1,10 @@
 // Camada de sync ao vivo: lê o snapshot de status do Supabase e sobrepõe na
-// estrutura (que vive no código). Fórmula ÚNICA de % = Done / total — usada por
-// todas as abas, o que elimina a divergência histórica entre elas.
+// estrutura (que vive no código). Fórmula ÚNICA de % = (Done + 0,5 × In Progress)
+// / total — usada por todas as abas, o que elimina a divergência entre elas.
 
 import { REST_URL, SYNC_FUNCTION_URL, supabaseHeaders } from "@/config/supabase";
 import { FEATURES, type Feature } from "@/data/ganttData";
+import { weightedProgress } from "@/data/ganttUtils";
 import { MONTH_DELIVERIES, type MonthDelivery, type IssueStatus } from "@/data/labeledDeliveries";
 import type { MonthStats } from "@/data/opsTicketsData";
 
@@ -23,11 +24,8 @@ export interface Snapshot {
   discovered?: DiscoveredMap;
 }
 
-// ── Fórmula única ─────────────────────────────────────────────────────────────
-export function progressPct(subs: { status: string }[]): number {
-  if (!subs.length) return 0;
-  return Math.round((subs.filter(s => s.status === "Done").length / subs.length) * 100);
-}
+// ── Fórmula única (definida em ganttUtils) ────────────────────────────────────
+export const progressPct = weightedProgress;
 
 // Extrai os dados de ops do summary do roadmap snapshot (gravados pela fase 3)
 export function opsSnapshotFromSummary(summary: Record<string, unknown> | null): OpsSnapshotData | null {

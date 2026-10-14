@@ -3,6 +3,7 @@ import {
   FEATURES, MONTHS, QUARTERS, STATUS_META, TODAY_MONTH, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
   isBacklog, TRACK_META, hasTrack, type FeatureStatus, type Feature, type Track,
 } from "@/data/ganttData";
+import { progressBreakdown } from "@/data/ganttUtils";
 
 function pct(start: number, end: number): [number, number] {
   const total = MONTHS.length;
@@ -168,17 +169,16 @@ function GanttRow({
               <div className="g-feat-replan-note">{STATUS_META.replanejado.icon} {feat.note}</div>
             )}
             {feat.subtasks.length > 0 && (() => {
-              const total = feat.subtasks.length;
-              const inp   = feat.subtasks.filter(s => s.status === "In Progress").length;
-              const donePct = feat.progress;
-              const inpPct  = Math.min(Math.round((inp / total) * 100), 100 - donePct);
+              const prog    = feat.progress;
+              const donePct = Math.min(progressBreakdown(feat.subtasks).donePct, prog);
+              const inpPct  = prog - donePct;
               return (
                 <div className="g-feat-progress">
                   <div className="g-feat-progress-bar">
                     <div className="seg done"  style={{ width: donePct + "%" }} />
                     <div className="seg inp"   style={{ width: inpPct  + "%" }} />
                   </div>
-                  <span className="g-feat-progress-label">{donePct}% concluído</span>
+                  <span className="g-feat-progress-label">{prog}% de progresso</span>
                 </div>
               );
             })()}

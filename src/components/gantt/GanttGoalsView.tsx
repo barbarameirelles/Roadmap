@@ -8,6 +8,7 @@ import {
   type IssueStatus,
 } from "@/data/labeledDeliveries";
 import { useRoadmap } from "@/lib/RoadmapContext";
+import { progressBreakdown } from "@/data/ganttUtils";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -16,13 +17,27 @@ function featureMeta(feature: string) {
 }
 
 function groupStats(group: FeatureGroup) {
-  const total = group.issues.length;
-  const done = group.issues.filter(i => i.status === "Done").length;
+  const { total, done, inProgress, donePct, inProgressPct, progress } = progressBreakdown(group.issues);
   const blocked = group.issues.filter(i => i.blocked).length;
-  const inProgress = group.issues.filter(i => i.status === "In Progress").length;
   const todo = total - done - inProgress - blocked;
-  const progress = total === 0 ? 0 : Math.round(done / total * 100);
-  return { total, done, blocked, inProgress, todo, progress };
+  return { total, done, blocked, inProgress, todo, progress, donePct, inProgressPct };
+}
+
+// Barra em dois tons: verde = concluído, azul = andamento (peso 0,5).
+function ProgressBar({ stats, marginBottom = 0 }: { stats: ReturnType<typeof groupStats>; marginBottom?: number }) {
+  return (
+    <div style={{ height: 8, background: "#f1f5f9", borderRadius: 999, overflow: "hidden", marginBottom, display: "flex" }}>
+      <div style={{ width: `${stats.donePct}%`, height: "100%", background: "#16a34a" }} />
+      <div style={{ width: `${stats.inProgressPct}%`, height: "100%", background: "#3b82f6" }} />
+      {stats.progress === 0 && <div style={{ width: "2%", height: "100%", background: "#cbd5e1", borderRadius: 999 }} />}
+    </div>
+  );
+}
+
+function progressCaption(stats: ReturnType<typeof groupStats>) {
+  const parts = [`${stats.done} de ${stats.total} concluídas`];
+  if (stats.inProgress > 0) parts.push(`${stats.inProgress} em andamento`);
+  return parts.join(" · ");
 }
 
 function monthName(monthLabel: string, year: number) {
@@ -124,11 +139,9 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
         <div style={{ padding: "14px 24px", borderBottom: "1px solid #f1f5f9" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
             <span style={{ fontSize: 28, fontWeight: 800, color: barColor }}>{stats.progress}%</span>
-            <span style={{ fontSize: 12, color: "#64748b" }}>{stats.done} de {stats.total} concluídas</span>
+            <span style={{ fontSize: 12, color: "#64748b" }}>{progressCaption(stats)}</span>
           </div>
-          <div style={{ height: 8, background: "#f1f5f9", borderRadius: 999, overflow: "hidden", marginBottom: 10 }}>
-            <div style={{ width: `${Math.max(stats.progress, 2)}%`, height: "100%", background: barColor, borderRadius: 999 }} />
-          </div>
+          <ProgressBar stats={stats} marginBottom={10} />
           {stats.blocked > 0 ? (
             <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "8px 12px" }}>
               <span style={{ fontSize: 12, fontWeight: 700, color: "#b91c1c" }}>
@@ -272,9 +285,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
           <span style={{ fontSize: 28, fontWeight: 800, color: barColor }}>{stats.progress}%</span>
           <span style={{ fontSize: 12, color: "#64748b" }}>{stats.done}/{stats.total} concluídas</span>
         </div>
-        <div style={{ height: 8, background: "#f1f5f9", borderRadius: 999, overflow: "hidden" }}>
-          <div style={{ width: `${Math.max(stats.progress, 2)}%`, height: "100%", background: barColor, borderRadius: 999 }} />
-        </div>
+        <ProgressBar stats={stats} />
       </div>
 
       {/* Status pills */}

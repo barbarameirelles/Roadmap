@@ -31,9 +31,14 @@ type Mapped = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
 type DiscoveredIssue = { key: string; title: string };
 type DiscoveredMap = Record<string, DiscoveredIssue[]>;
 
+// Linha de chegada = fim do desenvolvimento: Concluído, Cancelado e Ready to
+// Deploy contam como Done. Validation, QA, Code Review, Homologation etc. são
+// andamento (peso 0,5 no %) — decisão da Bárbara em 14/10/2026.
+const DONE_STATUSES = ["CONCLUÍDO", "CANCELADO", "READY TO DEPLOY"];
+
 function mapStatus(name: string): Mapped {
   const n = (name ?? "").trim().toUpperCase();
-  if (n === "CONCLUÍDO" || n === "CANCELADO" || n === "VALIDATION")
+  if (DONE_STATUSES.includes(n))
     return { status: "Done", blocked: false };
   if (n === "BLOQUEADO" || n === "BLOCKED")
     return { status: "To Do", blocked: true };
@@ -88,10 +93,10 @@ type OpsStatus = "Blocked" | "In Progress" | "To Do" | "Done";
 
 function opsStatus(name: string): OpsStatus {
   const n = (name ?? "").trim().toUpperCase();
-  if (["CONCLUÍDO", "CANCELADO", "VALIDATION"].includes(n)) return "Done";
+  if (DONE_STATUSES.includes(n)) return "Done";
   if (["BLOQUEADO", "BLOCKED"].includes(n)) return "Blocked";
-  if (["EM ANDAMENTO", "IN PROGRESS"].includes(n)) return "In Progress";
-  return "To Do";
+  if (["TAREFA PENDENTE", "TAREFAS PENDENTES"].includes(n)) return "To Do";
+  return "In Progress";
 }
 
 const PT_MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
