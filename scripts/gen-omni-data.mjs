@@ -1,0 +1,273 @@
+// Gera src/data/omni/omniData.ts a partir do GitLab (grupo sintesesolucoes).
+// Iniciativas Omni = épicos de OMS, Wake U e PDV + grupos sugeridos para
+// objetivos/projetos que ainda não estão em épico. Cada iniciativa e cada
+// tarefa carrega `adjust`: o que ainda precisa ser ajustado no GitLab (vira o
+// "(!)" com tooltip na tela).
+//
+// Rodar: GITLAB_TOKEN=... node scripts/gen-omni-data.mjs   (escopo read_api)
+import fs from "fs";
+
+const TOKEN = process.env.GITLAB_TOKEN;
+if (!TOKEN) { console.error("Defina GITLAB_TOKEN (escopo read_api)."); process.exit(1); }
+const GROUP = 5910344;               // sintesesolucoes
+const API = "https://gitlab.com/api/v4";
+const TODAY = new Date().toISOString().slice(0, 10);
+
+async function rest(path, params = {}) {
+  const out = [];
+  for (let page = 1; ; page++) {
+    const qs = new URLSearchParams({ ...params, per_page: "100", page: String(page) });
+    const r = await fetch(`${API}${path}?${qs}`, { headers: { "PRIVATE-TOKEN": TOKEN } });
+    if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
+    out.push(...await r.json());
+    if (!r.headers.get("x-next-page")) return out;
+  }
+}
+async function gql(query, variables = {}) {
+  const r = await fetch("https://gitlab.com/api/graphql", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ query, variables }),
+  });
+  const d = await r.json();
+  if (d.errors) throw new Error(JSON.stringify(d.errors));
+  return d.data;
+}
+
+// ── Regras de classificação ──────────────────────────────────────────────────
+const PDV_LABELS = ["vertical::PDV", "prod::Wake PDV Loja", "prod::Wake PDV BackOffice", "prod::Wake Pdv", "prod::Wake broker"];
+const CANON = { OMS: "prod::SinOMS", "Wake U": "prod::WakeU", PDV: "vertical::PDV" };
+const CLIENTS = ["Levi's", "Levis", "Grupo Soma", "Taco", "Gregory", "Shoulder", "Osklen", "Track&Field",
+  "Reserva", "Tommy", "Andriello", "Intimissimi", "Soneda", "Ave Rara", "AramisWake", "AZZAS"];
+const PROJECT_CODE = /\(20\d\d\.\d{3}\.\d\d\)/;
+const IN_PROGRESS_WAIT = ["wait::Ag. Code Review", "wait::Ag. Deploy", "wait::Comunicação Suporte"];
+const MONTHS_PT = { janeiro: 1, fevereiro: 2, "março": 3, abril: 4, maio: 5, junho: 6, julho: 7,
+  agosto: 8, setembro: 9, outubro: 10, novembro: 11, dezembro: 12 };
+
+// Épicos sem etiqueta de produto: produto assumido (vira ajuste).
+const ASSUMED_PRODUCT = { 83: "OMS", 97: "OMS", 101: "OMS", 79: "OMS" };
+const EXCLUDE_EPICS = new Set([91]); // "Operacional - métricas de produtos non-OMS"
+
+// Objetivos/projetos sem épico → grupo sugerido (ainda não existe no GitLab).
+const GP = "ss-gestao-produtos/gestao-produtos";
+const SUGGESTED = {
+  "devolucoes":   { title: "Wake OMS - Evolução do Módulo de Devoluções", refs: [`${GP}#387`, `${GP}#649`] },
+  "aguard-fat":   { title: "Wake OMS - Pedidos Aguardando Faturamento", refs: [`${GP}#389`, `${GP}#673`] },
+  "nova-ux":      { title: "Wake OMS - Nova UX do módulo de Pedidos", refs: [`${GP}#307`] },
+  "fulfillment":  { title: "Wake OMS - Endpoints Fulfillment (Projeto Tommy / WMS Unlock)", refs: [`${GP}#627`] },
+  "observab":     { title: "Wake OMS - Observabilidade", refs: [`${GP}#656`] },
+  "multi-wh":     { title: "Wake OMS - Estoque de múltiplas Warehouses (1T25)", refs: [`${GP}#126`] },
+  "vd-vtex":      { title: "Wake U - Venda Digital VTEX", refs: [`${GP}#301`, `${GP}#526`, `${GP}#533`, `${GP}#306`] },
+  "on-hands":     { title: "Wake U - Vendas Presenciais (On-Hands)", refs: [`${GP}#382`, `${GP}#383`] },
+  "gregory":      { title: "[Gregory] Integração financeira multi-origem (2024.037.09)", refs: [`${GP}#742`] },
+  "reserva":      { title: "[Reserva] Change Seller por segmentação (2021.069.81)", refs: [`${GP}#596`] },
+  "soma-cash":    { title: "[Grupo Soma] Cashback App Soma Box (2021.070.29)", refs: [`${GP}#754`] },
+  "taco":         { title: "[Taco] Transportadora Anjun Express (2018.001.10)", refs: [`${GP}#743`] },
+};
+// Itens que entram em um épico que JÁ existe (sugestão de mover).
+const MOVE_TO_EPIC = {
+  "sintesesolucoes/wake/wake-backoffice/wake-backoffice-backend#11": 81,
+  "sintesesolucoes/wake/wake-backoffice/wake-backoffice-backend#19": 81,
+  "sintesesolucoes/wake/wake-sync/wake-broker#1": 81,
+  "sintesesolucoes/wake/wake-sync/wake-broker#5": 81,
+  [`sintesesolucoes/${GP}#610`]: 97,
+};
+
+function productsFrom(labels, title = "", projectPath = "") {
+  const t = title.toLowerCase(), s = new Set();
+  if (labels.some(l => PDV_LABELS.includes(l)) || projectPath.startsWith("sintesesolucoes/wake/") || /wake pdv/.test(t)) s.add("PDV");
+  if (labels.includes("prod::WakeU") || /wake u\b|venda digital/.test(t)) s.add("Wake U");
+  if (labels.includes("prod::SinOMS") || /wake oms|sinoms|sinomni|\boms\b/.test(t)) s.add("OMS");
+  return [...s];
+}
+// Nomes que também são palavras comuns só contam entre colchetes ou no início ("Taco - …").
+const AMBIGUOUS = new Set(["Reserva", "Taco", "Tommy"]);
+const clientOf = t => {
+  const c = CLIENTS.find(c => AMBIGUOUS.has(c)
+    ? t.includes(`[${c}]`) || t.startsWith(`${c} -`) || t.includes(`Projeto ${c}`)
+    : t.includes(c));
+  return c === "Levis" ? "Levi's" : c;
+};
+
+function itemStatus(state, labels) {
+  if (state === "closed" || state === "CLOSED") return { status: "Done" };
+  const blocked = labels.some(l => l.startsWith("block::"));
+  if (blocked) return { status: "Blocked", blocked: true };
+  if (labels.some(l => l.startsWith("work::")) || labels.some(l => IN_PROGRESS_WAIT.includes(l))) return { status: "In Progress" };
+  return { status: "To Do" };
+}
+
+function itemAdjust(labels, isOpen) {
+  const a = [];
+  const st = labels.filter(l => l.startsWith("wait::") || l.startsWith("work::"));
+  if (isOpen && st.length === 0 && !labels.some(l => l.startsWith("block::"))) a.push("Sem etiqueta de status no GitLab (contado como A fazer)");
+  if (st.length > 1) a.push(`Dois status ao mesmo tempo: ${st.join(", ")}`);
+  if (labels.includes("prod::Wake Pdv")) a.push('Etiqueta duplicada "prod::Wake Pdv" (usar vertical::PDV)');
+  return a;
+}
+
+const ym = d => d ? { year: +d.slice(0, 4), month: +d.slice(5, 7) } : null;
+const fmt = d => d ? `${d.slice(8, 10)}/${d.slice(5, 7)}/${d.slice(0, 4)}` : "";
+
+function monthFromText(s) {
+  const m = s && s.match(/\[(?:OMS\] )?([A-Za-zçÇ]+)\/(\d\d)\]?/);
+  if (m && MONTHS_PT[m[1].toLowerCase()]) return { year: 2000 + +m[2], month: MONTHS_PT[m[1].toLowerCase()] };
+  return null;
+}
+
+// ── Coleta ───────────────────────────────────────────────────────────────────
+console.log("Lendo épicos…");
+const epics = (await rest(`/groups/${GROUP}/epics`, { include_descendant_groups: "false" }))
+  .filter(e => e.group_id === GROUP && !EXCLUDE_EPICS.has(e.iid));
+
+const CHILDREN_Q = `query($p:ID!,$iids:[String!]){ project(fullPath:$p){ workItems(iids:$iids){ nodes{ iid
+  widgets{ ... on WorkItemWidgetHierarchy { children(first:100){ nodes{ iid title state webUrl workItemType{name}
+  widgets{ ... on WorkItemWidgetLabels{ labels(first:50){ nodes{ title } } } } } } } } } } } }`;
+
+async function childrenOf(issues) {
+  const byProject = {};
+  for (const i of issues) (byProject[i.references.full.split("#")[0]] ??= []).push(String(i.iid));
+  const res = {};
+  for (const [p, iids] of Object.entries(byProject)) {
+    for (let k = 0; k < iids.length; k += 50) {
+      const d = await gql(CHILDREN_Q, { p, iids: iids.slice(k, k + 50) });
+      for (const n of d.project?.workItems?.nodes ?? []) {
+        const h = n.widgets.find(w => w.children);
+        res[`${p}#${n.iid}`] = (h?.children?.nodes ?? []).map(c => ({
+          ref: `${p}#${c.iid}`, title: c.title, url: c.webUrl, state: c.state,
+          labels: (c.widgets.find(w => w.labels)?.labels.nodes ?? []).map(l => l.title),
+        }));
+      }
+    }
+  }
+  return res;
+}
+
+function toItems(issues, children) {
+  const items = [];
+  for (const i of issues) {
+    const ref = i.references.full;
+    const kids = children[ref] ?? [];
+    const issueAdj = itemAdjust(i.labels, i.state === "opened");
+    if (kids.length) {
+      // Conta as tasks filhas (a issue-mãe vira só o agrupador, como o épico no Jira).
+      for (const c of kids) {
+        items.push({ ref: c.ref.replace("sintesesolucoes/", ""), url: c.url, title: c.title, parent: i.title,
+          ...itemStatus(c.state, c.labels), adjust: itemAdjust(c.labels, c.state !== "CLOSED") });
+      }
+      // Tasks todas fechadas mas a issue-mãe segue aberta (homologação, documentação…):
+      // a issue entra como mais um item, para o % não marcar 100% antes da hora.
+      if (i.state === "opened" && kids.every(c => c.state === "CLOSED")) {
+        const st = i.labels.find(l => l.startsWith("work::") || l.startsWith("wait::"));
+        items.push({ ref: ref.replace("sintesesolucoes/", ""), url: i.web_url, title: i.title,
+          ...itemStatus(i.state, i.labels),
+          adjust: [`Todas as tasks fechadas, mas a issue segue aberta${st ? ` em "${st.split("::")[1].trim()}"` : ""} — fechar quando terminar`, ...issueAdj] });
+      }
+    } else {
+      items.push({ ref: ref.replace("sintesesolucoes/", ""), url: i.web_url, title: i.title,
+        ...itemStatus(i.state, i.labels), adjust: issueAdj, due: i.due_date ?? undefined,
+        iteration: i.iteration?.title ?? undefined });
+    }
+  }
+  return items;
+}
+
+function buildInitiative({ id, title, url, labels, start, due, issues, children, suggested, epicIid }) {
+  const items = toItems(issues, children);
+  const adjust = [];
+  // Produtos
+  let products = productsFrom(labels, title);
+  for (const i of issues) for (const p of productsFrom(i.labels, i.title, i.references.full)) if (!products.includes(p)) products.push(p);
+  if (products.length === 0 && ASSUMED_PRODUCT[epicIid]) {
+    products = [ASSUMED_PRODUCT[epicIid]];
+    adjust.push(`Épico sem etiqueta de produto — assumi ${products[0]}. Adicionar ${CANON[products[0]]}`);
+  } else if (!suggested) {
+    const missing = products.filter(p => !labels.includes(CANON[p]) && !(p === "PDV" && labels.some(l => PDV_LABELS.includes(l))));
+    if (missing.length) adjust.push(`Falta etiqueta de produto no épico: ${missing.map(p => CANON[p]).join(", ")}`);
+    const other = labels.filter(l => l.startsWith("prod::") && !Object.values(CANON).includes(l) && !PDV_LABELS.includes(l));
+    if (other.length) adjust.push(`Etiqueta de outro produto no épico (${other.join(", ")}) — confirmar o produto principal`);
+    if (products.includes("OMS") && products.includes("Wake U")) adjust.push("Envolve OMS e Wake U — confirmar o produto principal");
+  }
+  // Projeto de cliente x roadmap
+  // Projeto = vendido ao cliente: orig::Projeto ou código de projeto (AAAA.NNN.NN).
+  // Só citar um cliente no título não basta — vira pergunta no "(!)".
+  const isProject = labels.includes("orig::Projeto") || PROJECT_CODE.test(title)
+    || issues.some(i => i.labels.includes("orig::Projeto") || PROJECT_CODE.test(i.title));
+  const client = clientOf(title) ?? issues.map(i => clientOf(i.title)).find(Boolean);
+  const kind = isProject ? "projeto" : "roadmap";
+  if (!isProject && client) adjust.push(`Cita o cliente ${client} — é projeto vendido? Se sim, marcar orig::Projeto e cliente::${client}`);
+  if (isProject) {
+    if (!labels.includes("orig::Projeto")) adjust.push("Projeto de cliente sem orig::Projeto no épico");
+    if (client) adjust.push(`Adicionar etiqueta cliente::${client}`);
+    else adjust.push("Projeto sem nome de cliente identificado");
+    if (issues.some(i => i.labels.includes("OKR"))) adjust.push("Também é objetivo de OKR: é roadmap ou projeto de cliente? (decisão pendente)");
+  }
+  // Mês de entrega
+  let month = null, monthSource = "";
+  const mesLabel = labels.find(l => /^mes::\d{4}-\d{2}$/.test(l));
+  if (mesLabel) { month = { year: +mesLabel.slice(5, 9), month: +mesLabel.slice(10, 12) }; monthSource = "etiqueta"; }
+  if (!month) { month = monthFromText(title); if (month) monthSource = "título do épico"; }
+  if (!month) for (const i of issues) {
+    const m = monthFromText(i.iteration?.title) ?? monthFromText(i.title.match(/\[\w+\/\d\d\]/)?.[0]);
+    if (m) { month = m; monthSource = `iteration/título da issue`; break; }
+  }
+  const dueAll = due ?? issues.map(i => i.due_date).filter(Boolean).sort().pop() ?? null;
+  if (!month && dueAll) { month = ym(dueAll); monthSource = `prazo (${fmt(dueAll)})`; }
+  if (!mesLabel) adjust.push(month
+    ? `Mês deduzido pelo ${monthSource} — falta etiqueta mes::${month.year}-${String(month.month).padStart(2, "0")} no épico`
+    : "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico");
+  // Datas, prazo, status
+  if (!suggested && !(start && due)) adjust.push("Épico sem data de início e/ou fim (usadas na Visão Executiva)");
+  const allDone = items.length > 0 && items.every(i => i.status === "Done");
+  if (dueAll && dueAll < TODAY && !allDone) adjust.push(`Prazo venceu em ${fmt(dueAll)} — replanejar`);
+  if (items.length === 0) adjust.push("Épico sem tarefas — não dá para calcular %");
+  const epicStatus = labels.find(l => l.startsWith("work::") || l.startsWith("wait::"));
+  if (allDone && epicStatus) adjust.push(`Todas as tarefas fechadas, mas o épico está "${epicStatus.split("::")[1]}" — fechar o épico`);
+  if (issues.some(i => i.labels.includes("OKR - Em atraso"))) adjust.push('Marcado como "OKR - Em atraso" no GitLab');
+  if (suggested) adjust.unshift("Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues");
+  return { id, title, url, products, kind, client, month, start: start ?? undefined, due: dueAll ?? undefined,
+    gitlabStatus: epicStatus ? epicStatus.split("::")[1] : undefined, items, adjust };
+}
+
+const initiatives = [];
+const allIssuesByRef = {};
+const moved = {};
+console.log("Lendo issues soltas sugeridas…");
+for (const ref of [...Object.values(SUGGESTED).flatMap(g => g.refs.map(r => `sintesesolucoes/${r}`)), ...Object.keys(MOVE_TO_EPIC)]) {
+  const [p, iid] = ref.split("#");
+  const [i] = await rest(`/projects/${encodeURIComponent(p)}/issues`, { iids: iid });
+  if (i) allIssuesByRef[ref] = i;
+  if (i && MOVE_TO_EPIC[ref]) (moved[MOVE_TO_EPIC[ref]] ??= []).push(i);
+}
+
+console.log(`Lendo issues de ${epics.length} épicos…`);
+for (const e of epics) {
+  let issues = await rest(`/groups/${GROUP}/epics/${e.iid}/issues`);
+  const extra = moved[e.iid] ?? [];
+  issues = [...issues, ...extra];
+  const products = productsFrom(e.labels, e.title);
+  const itemProducts = issues.flatMap(i => productsFrom(i.labels, i.title, i.references.full));
+  if (!products.length && !itemProducts.length && !ASSUMED_PRODUCT[e.iid]) continue;
+  const children = await childrenOf(issues);
+  const ini = buildInitiative({ id: `ep-${e.iid}`, title: e.title, url: e.web_url, labels: e.labels,
+    start: e.start_date, due: e.due_date, issues, children, epicIid: e.iid });
+  for (const x of extra) {
+    const it = ini.items.find(i => i.ref.endsWith(`#${x.iid}`) && x.references.full.endsWith(i.ref));
+    if (it) it.adjust.unshift(`Issue sem épico no GitLab — sugiro mover para o épico #${e.iid}`);
+  }
+  initiatives.push(ini);
+}
+for (const [key, g] of Object.entries(SUGGESTED)) {
+  const issues = g.refs.map(r => allIssuesByRef[`sintesesolucoes/${r}`]).filter(i => i && !i.epic);
+  if (!issues.length) continue;
+  const children = await childrenOf(issues);
+  initiatives.push(buildInitiative({ id: `sug-${key}`, title: g.title, url: issues[0].web_url, labels: [],
+    issues, children, suggested: true }));
+}
+
+const out = { generatedAt: new Date().toISOString(), initiatives };
+fs.mkdirSync("src/data/omni", { recursive: true });
+fs.writeFileSync("src/data/omni/omniData.ts",
+  `// GERADO por scripts/gen-omni-data.mjs — não editar à mão.\nimport type { OmniData } from "./types";\n\n` +
+  `export const OMNI_DATA: OmniData = ${JSON.stringify(out, null, 1)};\n`);
+console.log(`omniData.ts: ${initiatives.length} iniciativas, ${initiatives.reduce((s, i) => s + i.items.length, 0)} tarefas`);

@@ -44,35 +44,16 @@ function CommerceLogo({ muted }: { muted?: boolean }) {
   );
 }
 
-function OMSLogo({ muted }: { muted?: boolean }) {
-  return (
-    <div className="hs-logo-oms">
-      <WakeWordmark muted={muted} width={66} />
-      <span className="hs-oms-badge" style={{
-        color: muted ? "#BDBDBD" : INK,
-        borderColor: muted ? "#E0E0E0" : INK,
-      }}>
-        OMS
-      </span>
-    </div>
-  );
-}
-
-function ULogo({ muted }: { muted?: boolean }) {
-  return (
-    <div className="hs-logo-wrap">
-      <WakeWordmark muted={muted} />
-      <div className="hs-u-char" style={{ color: muted ? "#BDBDBD" : PURPLE }}>Ü</div>
-    </div>
-  );
-}
-
-function PDVLogo({ muted }: { muted?: boolean }) {
+// Iniciativas Omni = OMS + Wake U + PDV num roadmap só (fonte: GitLab).
+function OmniLogo({ muted }: { muted?: boolean }) {
   return (
     <div className="hs-logo-wrap">
       <WakeWordmark muted={muted} />
       <div className="hs-product-line" style={{ color: muted ? "#BDBDBD" : PURPLE }}>
-        // PDV
+        // omni
+      </div>
+      <div className="hs-omni-prods" style={{ color: muted ? "#BDBDBD" : INK }}>
+        <span>OMS</span><span>U</span><span>PDV</span>
       </div>
     </div>
   );
@@ -88,17 +69,15 @@ interface Unit {
 const UNITS: Unit[] = [
   { id: "xp",       Logo: XPLogo,       active: true  },
   { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.commerce-wake.tech/" },
-  { id: "oms",      Logo: OMSLogo,      active: false },
-  { id: "u",        Logo: ULogo,        active: false },
-  { id: "pdv",      Logo: PDVLogo,      active: true  },
+  { id: "omni",     Logo: OmniLogo,     active: true  },
 ];
 
 interface Props {
   onEnterXP: () => void;
-  onEnterPDV: () => void;
+  onEnterOmni: () => void;
 }
 
-export default function HomeScreen({ onEnterXP, onEnterPDV }: Props) {
+export default function HomeScreen({ onEnterXP, onEnterOmni }: Props) {
   return (
     <div className="hs-page">
       <header className="hs-header">
@@ -118,7 +97,7 @@ export default function HomeScreen({ onEnterXP, onEnterPDV }: Props) {
             : undefined;
           const enter =
             openExternal ??
-            (id === "xp" ? onEnterXP : id === "pdv" ? onEnterPDV : undefined);
+            (id === "xp" ? onEnterXP : id === "omni" ? onEnterOmni : undefined);
           return (
           <div
             key={id}

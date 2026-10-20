@@ -1,4 +1,24 @@
 import "./pdv.css";
+import { AdjustFlag } from "@/components/omni/omniShared";
+
+// Divergências do roadmap estático com o GitLab (19/10/2026) → "(!)" com tooltip.
+const GITLAB_ADJUST: Record<string, string[]> = {
+  "m1": ["No GitLab o épico \"Wake PDV - MVP Fase 1\" terminava em 10/09/2026 (prazo vencido) — alinhar a data do M1"],
+  "Cadastro e consulta de cliente": ["GitLab: \"Cadastro de Cliente PDV\" e a tela ainda estão A fazer; sincronização de clientes em homologação"],
+  "Produto e tipo de venda": ["GitLab: catálogo e marcas prontos; preços no backlog; desconto e tipo de venda ainda \"a especificar\""],
+  "Cashback completo (CRM Bônus)": ["Não há tarefa de cashback no PDV — só existe no Wake U (épico CRM&Bonus). Criar no PDV ou tirar do M1"],
+  "Cartão de crédito, Pix, dinheiro vivo": ["GitLab: \"TEF Fiserv\" A fazer e \"Registrar pagamento (múltiplo)\" a especificar; Pix e dinheiro não aparecem"],
+  "Emissão de NFCe": ["GitLab: estrutura de documentos fiscais em análise; Omnitax não aparece em nenhuma tarefa"],
+  "Contingência offline": ["Sem tarefa explícita no GitLab (só o worker de sincronização e a \"Recuperação de venda\", aguardando detalhamento)"],
+  "Abertura/fechamento de caixa": ["Já está concluído no GitLab, dentro do MVP Fase 1 (M1) — mover para o M1"],
+  "Login e perfis de acesso": ["Só a estrutura de operadores e vendedores está concluída; login não aparece no GitLab"],
+  "Troca e devolução": ["Sem tarefa no GitLab"],
+  "Campanhas e promoções": ["Sem tarefa no GitLab"],
+  "Referenciamento de nota multicanal": ["Sem tarefa no GitLab"],
+  "m2": ["Não existe épico do M2 no GitLab"],
+  "rollout": ["Não existe épico de Roll out no GitLab"],
+  "futuro": ["Fases seguintes ainda não estão no GitLab"],
+};
 
 interface Milestone {
   id: string;
@@ -104,6 +124,11 @@ const M1_DETAILS: Detail[] = [
   },
 ];
 
+const DETAIL_TO_ITEM: Record<string, string> = {
+  "Cashback completo — CRM Bônus": "Cashback completo (CRM Bônus)",
+  "Pagamento: cartão, Pix e dinheiro vivo": "Cartão de crédito, Pix, dinheiro vivo",
+};
+
 export default function PdvRoadmapView() {
   return (
     <div className="pdv-page">
@@ -112,6 +137,9 @@ export default function PdvRoadmapView() {
           <span className="pdv-slash">//</span>Roadmap Wake PDV
         </h1>
         <p className="pdv-sub">Visão alto nível das entregas · do piloto no Showroom ao roll out</p>
+        <p className="g-page-note" style={{ marginTop: 8 }}>
+          <AdjustFlag notes={["Roadmap estático: não lê o GitLab. Os (!) mostram onde ele diverge do GitLab hoje"]} /> Os marcos abaixo são escritos à mão; o andamento real do PDV está nas abas Entrega do Mês, Kanban e Visão Executiva (filtro PDV).
+        </p>
       </div>
 
       {/* Timeline de marcos */}
@@ -127,7 +155,7 @@ export default function PdvRoadmapView() {
               <span className="pdv-ms-dot" />
             </div>
             <div className="pdv-card">
-              {m.tag && <span className="pdv-card-tag">{m.tag}</span>}
+              {m.tag && <span className="pdv-card-tag">{m.tag} <AdjustFlag notes={GITLAB_ADJUST[m.id] ?? []} size="sm" /></span>}
               {m.rollout ? (
                 <>
                   <div className="pdv-card-rollout">
@@ -141,7 +169,7 @@ export default function PdvRoadmapView() {
                 <>
                   <h3 className="pdv-card-title">{m.title}</h3>
                   <ul className="pdv-card-list">
-                    {m.items!.map((it) => <li key={it}>{it}</li>)}
+                    {m.items!.map((it) => <li key={it}>{it} <AdjustFlag notes={GITLAB_ADJUST[it] ?? []} size="sm" /></li>)}
                   </ul>
                 </>
               )}
@@ -164,7 +192,7 @@ export default function PdvRoadmapView() {
         <div className="pdv-detail-grid">
           {M1_DETAILS.map((d) => (
             <div className="pdv-detail" key={d.title}>
-              <h4 className="pdv-detail-title">{d.title}</h4>
+              <h4 className="pdv-detail-title">{d.title} <AdjustFlag notes={GITLAB_ADJUST[DETAIL_TO_ITEM[d.title] ?? d.title] ?? []} size="sm" /></h4>
               <p className="pdv-detail-body">{d.body}</p>
             </div>
           ))}
