@@ -217,7 +217,7 @@ function buildInitiative({ id, title, url, labels, start, due, issues, children,
     ? `Mês deduzido pelo ${monthSource} — falta etiqueta mes::${month.year}-${String(month.month).padStart(2, "0")} no épico`
     : "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico");
   // Datas, prazo, status
-  if (!suggested && !(start && due)) adjust.push("Épico sem data de início e/ou fim (usadas na Visão Executiva)");
+  if (!suggested && !(start && due)) adjust.push("Épico sem data de início e/ou fim");
   const allDone = items.length > 0 && items.every(i => i.status === "Done");
   if (dueAll && dueAll < TODAY && !allDone) adjust.push(`Prazo venceu em ${fmt(dueAll)} — replanejar`);
   if (items.length === 0) adjust.push("Épico sem tarefas — não dá para calcular %");
@@ -265,9 +265,80 @@ for (const [key, g] of Object.entries(SUGGESTED)) {
     issues, children, suggested: true }));
 }
 
-const out = { generatedAt: new Date().toISOString(), initiatives };
+// ── Hipóteses ─────────────────────────────────────────────────────────────────
+// Regra: épico sem nenhuma tarefa e sem status de andamento (work::) é hipótese
+// e aparece SÓ na aba Hipóteses. A etapa vem da coluna do board de épicos "Roadmap".
+// Épico com tarefas (mesmo sugeridas) fica nas abas de entrega.
+const COLUMN_OF = { "Roadmap::1. Triagem": "Triagem", "Roadmap::1.1 Backlog": "Backlog",
+  "Roadmap::2. Refinamento": "Refinamento", "wait::To-Do": "To-Do" };
+const PRIORITY = { "priority::Muito Alta": "urgente", "priority::Alta": "alta", "priority::Média": "media", "priority::Baixa": "baixa" };
+const plain = md => (md ?? "").replace(/<!--[\s\S]*?-->/g, "").replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+  .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#*_`>|]/g, "").replace(/\s+/g, " ").trim();
+const epicByIid = Object.fromEntries(epics.map(e => [e.iid, e]));
+const hypotheses = [];
+for (let k = initiatives.length - 1; k >= 0; k--) {
+  const ini = initiatives[k];
+  if (!ini.id.startsWith("ep-") || ini.items.length > 0) continue;
+  const e = epicByIid[+ini.id.slice(3)];
+  if (e.labels.some(l => l.startsWith("work::"))) {
+    ini.adjust.push("Épico em andamento, mas sem nenhuma tarefa — criar as issues");
+    continue;                                   // fica no Kanban
+  }
+  initiatives.splice(k, 1);
+  const column = COLUMN_OF[Object.keys(COLUMN_OF).find(l => e.labels.includes(l))] ?? "Open";
+  const adjust = ini.adjust.filter(a => !/^Mês |^Sem mês|sem data de início|sem tarefas/.test(a));
+  if (column === "Open") adjust.push("Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)");
+  if (column === "Refinamento" || column === "To-Do") adjust.push(`Está em ${column} mas ainda não tem tarefas — quebrar em issues`);
+  const priority = Object.entries(PRIORITY).find(([l]) => e.labels.includes(l))?.[1];
+  if (!priority) adjust.push("Sem prioridade (etiqueta priority::)");
+  const origin = e.labels.find(l => l.startsWith("orig::"))?.split("::")[1];
+  const desc = plain(e.description);
+  hypotheses.push({
+    id: ini.id, iid: e.iid, title: e.title, url: e.web_url, column, products: ini.products, priority,
+    client: ini.client, origin, type: e.labels.find(l => l.startsWith("type::"))?.split("::")[1],
+    description: desc.length > 400 ? desc.slice(0, 400).replace(/\s\S*$/, "") + "…" : desc,
+    created: e.created_at.slice(0, 10), adjust,
+  });
+}
+hypotheses.sort((a, b) => b.created.localeCompare(a.created));
+
+// ── Suporte: chamados do projeto suporte-produtos (OMS, Wake U, PDV) ─────────
+console.log("Lendo chamados de suporte…");
+const SUPPORT_PROJECT = 47412592; // ss-gestao-produtos/suporte-produtos
+const SUPPORT_SINCE = "2026-06-01";
+const supRaw = [
+  ...await rest(`/projects/${SUPPORT_PROJECT}/issues`, { created_after: `${SUPPORT_SINCE}T00:00:00Z` }),
+  ...await rest(`/projects/${SUPPORT_PROJECT}/issues`, { state: "opened" }),
+  ...await rest(`/projects/${SUPPORT_PROJECT}/issues`, { state: "closed", updated_after: `${SUPPORT_SINCE}T00:00:00Z` }),
+];
+const support = [];
+const seen = new Set();
+for (const i of supRaw) {
+  if (seen.has(i.id)) continue; seen.add(i.id);
+  const products = productsFrom(i.labels, "", i.references.full).filter(p => p !== "OMS" || i.labels.includes("prod::SinOMS"));
+  if (!products.length) continue;
+  const closed = i.closed_at ? i.closed_at.slice(0, 10) : null;
+  if (closed && closed < SUPPORT_SINCE) continue;
+  const adjust = [];
+  const priority = Object.entries(PRIORITY).find(([l]) => i.labels.includes(l))?.[1];
+  if (!priority) adjust.push("Sem prioridade (etiqueta priority::)");
+  if (i.state === "opened" && !i.labels.some(l => /^(wait|work|block)::/.test(l))) adjust.push("Chamado aberto sem etiqueta de status");
+  if (i.state === "opened" && !i.assignees.length) adjust.push("Chamado aberto sem responsável");
+  const ageDays = Math.round((Date.parse(TODAY) - Date.parse(i.created_at.slice(0, 10))) / 864e5);
+  if (i.state === "opened" && ageDays > 90) adjust.push(`Aberto há ${ageDays} dias — fechar, ou virar melhoria/épico se for evolução`);
+  support.push({
+    ref: i.references.full.replace("sintesesolucoes/", ""), url: i.web_url, title: i.title,
+    product: products[0], ...itemStatus(i.state, i.labels), priority,
+    created: i.created_at.slice(0, 10), closed,
+    assignee: i.assignees[0]?.name ?? null,
+    type: i.labels.find(l => l.startsWith("type::"))?.split("::")[1], adjust,
+  });
+}
+support.sort((a, b) => b.created.localeCompare(a.created));
+
+const out = { generatedAt: new Date().toISOString(), initiatives, hypotheses, support };
 fs.mkdirSync("src/data/omni", { recursive: true });
 fs.writeFileSync("src/data/omni/omniData.ts",
   `// GERADO por scripts/gen-omni-data.mjs — não editar à mão.\nimport type { OmniData } from "./types";\n\n` +
   `export const OMNI_DATA: OmniData = ${JSON.stringify(out, null, 1)};\n`);
-console.log(`omniData.ts: ${initiatives.length} iniciativas, ${initiatives.reduce((s, i) => s + i.items.length, 0)} tarefas`);
+console.log(`omniData.ts: ${initiatives.length} iniciativas, ${initiatives.reduce((s, i) => s + i.items.length, 0)} tarefas, ${hypotheses.length} hipóteses, ${support.length} chamados`);

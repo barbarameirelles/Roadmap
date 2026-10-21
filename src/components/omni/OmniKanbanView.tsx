@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { OmniInitiative } from "@/data/omni/types";
 import {
   AdjustFlag, InitiativeSlideOver, ProductTags, ProgressBar,
@@ -41,9 +41,8 @@ function KCard({ i, onClick }: { i: OmniInitiative; onClick: () => void }) {
 export default function OmniKanbanView({ filter }: { filter: OmniFilter }) {
   const all = useOmniInitiatives(filter);
   const [sel, setSel] = useState<OmniInitiative | null>(null);
-  const [showBacklog, setShowBacklog] = useState(false);
-  const withTasks = useMemo(() => all.filter(i => i.items.length > 0), [all]);
-  const backlog = useMemo(() => all.filter(i => i.items.length === 0), [all]);
+  // Épicos sem tarefas e sem andamento ficam só em Hipóteses (já filtrados na geração).
+  const withTasks = all;
 
   return (
     <div className="g-page">
@@ -66,30 +65,6 @@ export default function OmniKanbanView({ filter }: { filter: OmniFilter }) {
           );
         })}
       </div>
-      {backlog.length > 0 && (
-        <section style={{ marginTop: 24 }}>
-          <button className={"om-month" + (showBacklog ? " open" : "")} onClick={() => setShowBacklog(o => !o)}>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#64748b" strokeWidth="2.4"
-              strokeLinecap="round" strokeLinejoin="round" style={{ transform: showBacklog ? "rotate(90deg)" : "none" }}>
-              <polyline points="9 6 15 12 9 18" />
-            </svg>
-            <h2>Backlog · épicos sem tarefas</h2>
-            <AdjustFlag notes={["Esses épicos ainda não têm issues no GitLab — quebrar em tarefas quando entrarem no planejamento"]} />
-            <span className="om-meta" style={{ marginLeft: "auto" }}>{backlog.length} épicos</span>
-          </button>
-          {showBacklog && (
-            <div className="om-grid om-grid--dense">
-              {backlog.map(i => (
-                <div key={i.id} className="om-kcard" role="button" tabIndex={0} onClick={() => setSel(i)}
-                  onKeyDown={e => e.key === "Enter" && setSel(i)}>
-                  <div className="om-row-between"><ProductTags i={i} /><AdjustFlag notes={i.adjust} size="sm" /></div>
-                  <div className="om-kcard-title">{i.title}</div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
       {sel && <InitiativeSlideOver i={sel} onClose={() => setSel(null)} />}
     </div>
   );

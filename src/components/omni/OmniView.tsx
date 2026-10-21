@@ -5,16 +5,18 @@ import "./omni.css";
 import { OMNI_DATA } from "@/data/omni/omniData";
 import PdvRoadmapView from "@/components/pdv/PdvRoadmapView";
 import OmniGoalsView from "./OmniGoalsView";
+import OmniHypothesesView from "./OmniHypothesesView";
 import OmniKanbanView from "./OmniKanbanView";
-import OmniExecView from "./OmniExecView";
+import OmniSupportView from "./OmniSupportView";
 import { AdjustFlag, OmniFilterBar, type OmniFilter } from "./omniShared";
 
-export type OmniTab = "goals" | "kanban" | "exec" | "pdv";
+export type OmniTab = "hypotheses" | "goals" | "kanban" | "support" | "pdv";
 
 const TABS: { id: OmniTab; title: string; sub: string }[] = [
+  { id: "hypotheses", title: "Hipóteses",   sub: "Épicos sem tarefas" },
   { id: "goals",  title: "Entrega do Mês",  sub: "Iniciativas por mês" },
   { id: "kanban", title: "Kanban",          sub: "Visão operacional" },
-  { id: "exec",   title: "Visão Executiva", sub: "Resumo e atenção" },
+  { id: "support", title: "Suporte",        sub: "Chamados · prazo" },
   { id: "pdv",    title: "Marcos PDV",      sub: "Roadmap estático" },
 ];
 
@@ -63,11 +65,12 @@ export default function OmniView({ tab, onTab, onHome }: { tab: OmniTab; onTab: 
         </div>
       </div>
       {tab !== "pdv" && (
-        <div className="om-filterbar"><OmniFilterBar value={filter} onChange={setFilter} /></div>
+        <div className="om-filterbar"><OmniFilterBar value={filter} onChange={setFilter} showKind={tab !== "support"} /></div>
       )}
+      {tab === "hypotheses" && <OmniHypothesesView filter={filter} />}
       {tab === "goals"  && <OmniGoalsView filter={filter} />}
       {tab === "kanban" && <OmniKanbanView filter={filter} />}
-      {tab === "exec"   && <OmniExecView filter={filter} />}
+      {tab === "support" && <OmniSupportView filter={filter} />}
       {tab === "pdv"    && <PdvRoadmapView />}
     </div>
   );

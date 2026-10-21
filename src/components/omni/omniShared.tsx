@@ -34,7 +34,9 @@ export function useOmniInitiatives(f: OmniFilter): OmniInitiative[] {
     (f.kind === "Tudo" || i.kind === f.kind)), [f.product, f.kind]);
 }
 
-export function OmniFilterBar({ value, onChange }: { value: OmniFilter; onChange: (f: OmniFilter) => void }) {
+export function OmniFilterBar({ value, onChange, showKind = true }: {
+  value: OmniFilter; onChange: (f: OmniFilter) => void; showKind?: boolean;
+}) {
   const products: ProductFilter[] = ["Todos", "OMS", "Wake U", "PDV"];
   const kinds: { id: KindFilter; label: string }[] = [
     { id: "Tudo", label: "Tudo" }, { id: "roadmap", label: "Roadmap" }, { id: "projeto", label: "Projetos de cliente" },
@@ -48,13 +50,13 @@ export function OmniFilterBar({ value, onChange }: { value: OmniFilter; onChange
             onClick={() => onChange({ ...value, product: p })}>{p}</button>
         ))}
       </div>
-      <div className="om-filter-grp" role="group" aria-label="Tipo">
+      {showKind && <div className="om-filter-grp" role="group" aria-label="Tipo">
         <span className="om-filter-lbl">Tipo</span>
         {kinds.map(k => (
           <button key={k.id} className="om-chip" aria-pressed={value.kind === k.id}
             onClick={() => onChange({ ...value, kind: k.id })}>{k.label}</button>
         ))}
-      </div>
+      </div>}
     </div>
   );
 }

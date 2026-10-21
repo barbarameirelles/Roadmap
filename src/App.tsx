@@ -25,9 +25,10 @@ const PATH_TABS: Record<string, Tab> = Object.fromEntries(
   Object.entries(TAB_PATHS).map(([t, p]) => [p, t as Tab]),
 );
 const OMNI_PATHS: Record<OmniTab, string> = {
+  hypotheses: "/omni/hipoteses",
   goals:  "/omni",
   kanban: "/omni/kanban",
-  exec:   "/omni/executiva",
+  support: "/omni/suporte",
   pdv:    "/omni/pdv",
 };
 const PATH_OMNI: Record<string, OmniTab> = Object.fromEntries(
@@ -39,6 +40,7 @@ interface Route { screen: Screen; tab: Tab; omniTab: OmniTab }
 function parsePath(): Route {
   const p = (window.location.pathname.replace(/\/+$/, "") || "/").toLowerCase();
   if (p === "/pdv") return { screen: "omni", tab: "goals", omniTab: "pdv" }; // link antigo
+  if (p === "/omni/executiva") return { screen: "omni", tab: "goals", omniTab: "goals" }; // aba removida
   if (PATH_OMNI[p]) return { screen: "omni", tab: "goals", omniTab: PATH_OMNI[p] };
   if (PATH_TABS[p]) return { screen: "xp", tab: PATH_TABS[p], omniTab: "goals" };
   return { screen: "home", tab: "goals", omniTab: "goals" };

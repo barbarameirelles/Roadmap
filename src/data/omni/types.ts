@@ -31,7 +31,45 @@ export interface OmniInitiative {
   adjust: string[];
 }
 
+// Hipótese = épico sem tarefas e sem andamento; a etapa é a coluna do board de épicos "Roadmap".
+export type OmniHypoColumn = "Open" | "Triagem" | "Backlog" | "Refinamento" | "To-Do";
+export type OmniPriority = "urgente" | "alta" | "media" | "baixa";
+
+export interface OmniHypothesis {
+  id: string;
+  iid: number;
+  title: string;
+  url: string;
+  column: OmniHypoColumn;
+  products: OmniProduct[];
+  priority?: OmniPriority;   // etiqueta priority:: do GitLab
+  client?: string;
+  origin?: string;           // orig:: (Suporte, Solicitação Cliente, Projeto…)
+  type?: string;             // type:: (Feature, Melhoria…)
+  description: string;
+  created: string;
+  adjust: string[];
+}
+
+// Chamado do projeto suporte-produtos do GitLab.
+export interface OmniTicket {
+  ref: string;
+  url: string;
+  title: string;
+  product: OmniProduct;
+  status: IssueStatus;
+  blocked?: boolean;
+  priority?: OmniPriority;
+  created: string;           // YYYY-MM-DD
+  closed: string | null;
+  assignee: string | null;
+  type?: string;
+  adjust: string[];
+}
+
 export interface OmniData {
   generatedAt: string;
   initiatives: OmniInitiative[];
+  hypotheses: OmniHypothesis[];
+  support: OmniTicket[];
 }
