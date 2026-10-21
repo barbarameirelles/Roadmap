@@ -98,11 +98,12 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
               }}>
                 {meta.label}
               </span>
-              {group.eta && (
+              {group.eta && !group.deprioritized && (
                 <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b" }}>
                   Previsão: {group.eta}
                 </span>
               )}
+              <DeprioritizedBadge group={group} />
             </div>
             <button onClick={onClose} style={{
               width: 28, height: 28, border: "1px solid #e2e8f0", borderRadius: 6,
@@ -117,6 +118,11 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
           <p style={{ fontSize: 13.5, color: "#64748b", margin: 0, lineHeight: 1.6, whiteSpace: "pre-line" }}>
             {group.description}
           </p>
+          {group.deprioritized && (
+            <p style={{ fontSize: 12.5, fontWeight: 600, color: "#475569", background: "#f1f5f9", borderRadius: 8, padding: "6px 10px", margin: "10px 0 0" }}>
+              {group.deprioritized}
+            </p>
+          )}
         </div>
 
         {/* Contexto de negócio */}
@@ -214,6 +220,18 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
   );
 }
 
+function DeprioritizedBadge({ group }: { group: FeatureGroup }) {
+  if (!group.deprioritized) return null;
+  return (
+    <span title={group.deprioritized} style={{
+      fontSize: 11, fontWeight: 700, color: "#475569", background: "#e2e8f0",
+      borderRadius: 999, padding: "3px 10px", whiteSpace: "nowrap",
+    }}>
+      ⏸ Despriorizado
+    </span>
+  );
+}
+
 // ── Feature card ─────────────────────────────────────────────────────────────
 
 function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => void }) {
@@ -240,6 +258,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
         cursor: "pointer",
         transition: "box-shadow 0.15s, border-color 0.15s",
         boxShadow: hovered ? "0 4px 18px rgba(15,23,42,0.10)" : "none",
+        opacity: group.deprioritized && !hovered ? 0.6 : 1,
       }}
     >
       {/* Badge + eta */}
@@ -251,12 +270,19 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
         }}>
           {meta.label}
         </span>
-        {group.eta && (
+        {group.eta && !group.deprioritized && (
           <span style={{ fontSize: 11, fontWeight: 600, color: "#64748b", whiteSpace: "nowrap" }}>
             Previsão: {group.eta}
           </span>
         )}
+        <DeprioritizedBadge group={group} />
       </div>
+
+      {group.deprioritized && (
+        <div style={{ fontSize: 12, fontWeight: 600, color: "#475569", background: "#f1f5f9", borderRadius: 8, padding: "6px 10px" }}>
+          {group.deprioritized}
+        </div>
+      )}
 
       {/* Descrição */}
       {group.description && (
@@ -356,8 +382,10 @@ function MonthSection({ delivery }: { delivery: MonthDelivery }) {
   const [selected, setSelected] = useState<FeatureGroup | null>(null);
 
   const allStats = useMemo(() => delivery.groups.map(g => groupStats(g)), [delivery]);
-  const totalBlockers = allStats.reduce((s, st) => s + st.blocked, 0);
-  const avgProgress = allStats.length === 0 ? 0 : Math.round(allStats.reduce((s, st) => s + st.progress, 0) / allStats.length);
+  // Grupos despriorizados continuam visíveis, mas não entram na média nem nos bloqueios do mês.
+  const activeStats = allStats.filter((_, i) => !delivery.groups[i].deprioritized);
+  const totalBlockers = activeStats.reduce((s, st) => s + st.blocked, 0);
+  const avgProgress = activeStats.length === 0 ? 0 : Math.round(activeStats.reduce((s, st) => s + st.progress, 0) / activeStats.length);
   const badge = isCurrent ? "Mês atual" : isNext ? "Planejamento" : null;
 
   return (
@@ -401,8 +429,10 @@ function MonthSection({ delivery }: { delivery: MonthDelivery }) {
                 <span key={i} style={{
                   fontSize: 11, fontWeight: 600, color: m.color, background: m.bg,
                   borderRadius: 999, padding: "3px 10px", whiteSpace: "nowrap",
+                  textDecoration: g.deprioritized ? "line-through" : undefined,
+                  opacity: g.deprioritized ? 0.6 : 1,
                 }}>
-                  {m.label} · {allStats[i].progress}%
+                  {m.label} · {g.deprioritized ? "despriorizado" : `${allStats[i].progress}%`}
                 </span>
               );
             })}

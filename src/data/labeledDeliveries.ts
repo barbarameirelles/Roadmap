@@ -24,6 +24,7 @@ export interface FeatureGroup {
   description: string;    // 1–2 frases descrevendo o que está sendo entregue
   context: string;        // por que isso importa — linguagem de negócio para audiência de marketing
   eta?: string;           // previsão de entrega (ex: "Final de setembro")
+  deprioritized?: string; // saiu do mês: motivo exibido no card; não entra na média do mês
   issues: LabelIssue[];
 }
 
@@ -293,6 +294,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
       },
       {
         feature: "integracao_ga4",
+        deprioritized: "Despriorizado em outubro: voltou para hipóteses (A avaliar).",
         description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
         context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
         issues: [

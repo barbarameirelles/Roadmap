@@ -237,8 +237,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Wake Khora para Segmentos",
     description: "Refinamento e finalização do Wake Khora aplicado ao Segmentador, atualmente implementado com dados mocados. Inclui a evolução da inteligência do Wake Khora para enriquecer segmentos com dados reais e ampliar suas capacidades analíticas.",
     type: ["evolucao", "cdp"],
-    status: "discovery",
-    previsao: "Outubro",
+    status: "a-avaliar",
     responsavel: "Isa",
     priority: "alta",
     notDoing: [
@@ -268,8 +267,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Relatório de Segmento",
     description: "Área dedicada dentro do Segmentador para visualização detalhada de qualquer segmento — predefinido ou criado pelo usuário. Permite monitorar o tamanho da audiência, sua evolução ao longo do tempo e quem são os clientes dentro daquele segmento.",
     type: ["evolucao"],
-    status: "planejado",
-    previsao: "Outubro",
+    status: "a-avaliar",
     priority: "alta",
     notDoing: [
       "Front e back devem alinhar contratos de API antes da integração. O desenvolvimento pode ser iniciado em paralelo, integrando posteriormente.",
@@ -362,8 +360,7 @@ export const HYPOTHESES: HypothesisItem[] = [
     title: "Refazer Integração de GA4",
     description: "Refatoração completa da integração com Google Analytics 4, corrigindo instabilidades na conexão de conta e garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
     type: ["evolucao"],
-    status: "planejado",
-    previsao: "Outubro",
+    status: "a-avaliar",
     priority: "alta",
     subitems: [
       "Correção do fluxo de conexão da conta GA4 (OAuth)",
