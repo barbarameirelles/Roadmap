@@ -296,37 +296,6 @@ export const HYPOTHESES: HypothesisItem[] = [
     ],
   },
   {
-    id: "h25",
-    title: "Responsividade do Segmentador",
-    description: "O componente de criação de segmentos quebra visualmente em resoluções menores que 1920x1080, comprometendo a experiência em 1366x768 (segunda resolução mais acessada na plataforma) e 1280x720. Tornar o componente responsivo resolve ambas as resoluções.",
-    type: ["evolucao", "cdp"],
-    status: "planejado",
-    previsao: "Outubro",
-    responsavel: "Isa",
-    subitems: [
-      "Adaptar layout do Segmentador para 1366x768",
-      "Adaptar layout do Segmentador para 1280x720",
-    ],
-  },
-  {
-    id: "h27",
-    title: "Criação de Domínio Dedicado de E-mail",
-    description: "Permitir que cada lojista configure seu próprio domínio de e-mail exclusivo na plataforma — por exemplo, contato@minhaloja.com.br. Com isso, os disparos saem com a identidade da marca do cliente, aumentando a taxa de abertura, a confiança do destinatário e a reputação do domínio próprio do lojista.",
-    type: ["evolucao"],
-    status: "planejado",
-    previsao: "Outubro",
-    responsavel: "Babi",
-  },
-  {
-    id: "h26",
-    title: "Limitação de Usuários Únicos na Plataforma",
-    description: "Criação de um mecanismo de limitação de usuários únicos processados pela plataforma. Cada plano contratado terá uma cota definida de usuários únicos — quando o limite é atingido, a plataforma bloqueia ou alerta o cliente, possibilitando upgrade de plano. Isso viabiliza um modelo de precificação baseado em volume de clientes únicos e dá à Wake controle sobre o consumo de infraestrutura por conta.",
-    type: ["cdp"],
-    status: "planejado",
-    previsao: "Outubro",
-    responsavel: "Babi",
-  },
-  {
     id: "h18",
     title: "Acesso Independente de Plataforma de E-commerce",
     description: "Foco será em Wake Commerce. Clientes com outras plataformas (VTEX, Shopify, Magento) poderiam utilizar a plataforma de forma independente, sem necessidade de vínculo com o Wake Commerce.",
@@ -373,8 +342,8 @@ export const HYPOTHESES: HypothesisItem[] = [
   },
   {
     id: "h33",
-    title: "Gestão de Franquia de Contatos — Painel Admin Wake",
-    description: "Painel interno para o time de CS gerenciar a franquia de contatos de todos os tenants — visualização, edição de plano, bloqueio manual e histórico completo de alterações. Depende dos contextos de dados estabelecidos na Etapa 1 (Limitação de Usuários Únicos).",
+    title: "Gestão de Franquia de Contatos (Etapa 2) — Painel Admin Wake",
+    description: "Painel interno para o time de CS gerenciar a franquia de contatos de todos os tenants — visualização, edição de plano, bloqueio manual e histórico completo de alterações. Etapa 2 da Gestão de Franquia: depende dos contextos de dados da Etapa 1 (Limitação de Usuários Únicos), que já está em desenvolvimento.",
     type: ["cdp"],
     status: "a-avaliar",
     subitems: [
