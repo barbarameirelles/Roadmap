@@ -368,4 +368,18 @@ export const HYPOTHESES: HypothesisItem[] = [
       "Atribuição de receita nas campanhas via GA4",
     ],
   },
+  {
+    id: "h35",
+    title: "Área de Atributos Personalizados em Audiences (Commerce)",
+    description: "Inclusão de uma área de atributos personalizados dentro de Audiences no Commerce, permitindo que o lojista visualize e utilize atributos próprios dos clientes na construção e análise de audiências.",
+    type: ["cdp"],
+    status: "a-avaliar",
+  },
+  {
+    id: "h36",
+    title: "On Site e Landing Page em Audiences",
+    description: "Possibilidade de utilizar On Site e Landing Page a partir de Audiences, ativando os segmentos também nesses canais. Item a ser levado para discussão antes de qualquer definição de escopo.",
+    type: ["cdp"],
+    status: "a-avaliar",
+  },
 ];
