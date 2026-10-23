@@ -198,7 +198,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "POS-4296",  title: "Mover disparador de campanha do NiFi para Worker", status: "In Progress" },
           { key: "POS-4343",  title: "IP Dedicado: Adequação do disparador", status: "To Do" },
           { key: "POS-4456",  title: "[SES] - Criar dominio na cloudflare (back + infra)", status: "To Do" },
-          { key: "POS-4457",  title: "[SES] - Gera chaves DKIM (Configuração necessária para AWS)", status: "To Do" },
+          { key: "POS-4457",  title: "[SES] - Captura de eventos, envio, abertura, click, bounce", status: "To Do" },
           { key: "POS-4458",  title: "[SES] - Modelagem de banco e relacionamento cliente x dominio", status: "To Do" },
           { key: "POS-4459",  title: "[SES] - Cadastrar o dominio no Amazon SES", status: "To Do" },
           { key: "POS-4460",  title: "[SES] - Tenant, group, chaves DKIM retornadas da cloudflare", status: "To Do" },
