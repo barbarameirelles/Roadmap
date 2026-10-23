@@ -143,6 +143,7 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
 
         {/* Progresso */}
         <div style={{ padding: "14px 24px", borderBottom: "1px solid #f1f5f9" }}>
+          {stats.total === 0 ? <NoIssuesNote /> : <>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
             <span style={{ fontSize: 28, fontWeight: 800, color: barColor }}>{stats.progress}%</span>
             <span style={{ fontSize: 12, color: "#64748b" }}>{progressCaption(stats)}</span>
@@ -157,6 +158,7 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
           ) : (
             <div style={{ fontSize: 12, fontWeight: 600, color: "#15803d" }}>✓ Sem bloqueios</div>
           )}
+          </>}
         </div>
 
         {/* Issues por status */}
@@ -217,6 +219,15 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
         </div>
       </div>
     </>
+  );
+}
+
+// Grupo planejado à mão, ainda sem épico/tarefas no Jira.
+function NoIssuesNote() {
+  return (
+    <div style={{ fontSize: 12, fontWeight: 600, color: "#1d4ed8", background: "#eff6ff", borderRadius: 8, padding: "6px 10px" }}>
+      Planejado · tarefas ainda não criadas no Jira
+    </div>
   );
 }
 
@@ -306,6 +317,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
       )}
 
       {/* Progresso */}
+      {stats.total === 0 ? <NoIssuesNote /> : (
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
           <span style={{ fontSize: 28, fontWeight: 800, color: barColor }}>{stats.progress}%</span>
@@ -313,6 +325,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
         </div>
         <ProgressBar stats={stats} />
       </div>
+      )}
 
       {/* Status pills */}
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -355,7 +368,7 @@ function FeatureCard({ group, onClick }: { group: FeatureGroup; onClick: () => v
       )}
 
       {/* Bloqueios ou OK */}
-      {stats.blocked === 0 && stats.inProgress === 0 && stats.todo === 0 ? (
+      {stats.total === 0 ? null : stats.blocked === 0 && stats.inProgress === 0 && stats.todo === 0 ? (
         <div style={{ fontSize: 12, fontWeight: 600, color: "#15803d" }}>✓ Entrega concluída</div>
       ) : stats.blocked === 0 ? (
         <div style={{ fontSize: 12, fontWeight: 600, color: "#15803d" }}>✓ Sem bloqueios</div>
@@ -383,7 +396,8 @@ function MonthSection({ delivery }: { delivery: MonthDelivery }) {
 
   const allStats = useMemo(() => delivery.groups.map(g => groupStats(g)), [delivery]);
   // Grupos despriorizados continuam visíveis, mas não entram na média nem nos bloqueios do mês.
-  const activeStats = allStats.filter((_, i) => !delivery.groups[i].deprioritized);
+  // Grupos ainda sem tarefas no Jira também ficam fora da média.
+  const activeStats = allStats.filter((st, i) => !delivery.groups[i].deprioritized && st.total > 0);
   const totalBlockers = activeStats.reduce((s, st) => s + st.blocked, 0);
   const avgProgress = activeStats.length === 0 ? 0 : Math.round(activeStats.reduce((s, st) => s + st.progress, 0) / activeStats.length);
   const badge = isCurrent ? "Mês atual" : isNext ? "Planejamento" : null;
@@ -432,7 +446,7 @@ function MonthSection({ delivery }: { delivery: MonthDelivery }) {
                   textDecoration: g.deprioritized ? "line-through" : undefined,
                   opacity: g.deprioritized ? 0.6 : 1,
                 }}>
-                  {m.label} · {g.deprioritized ? "despriorizado" : `${allStats[i].progress}%`}
+                  {m.label} · {g.deprioritized ? "despriorizado" : allStats[i].total === 0 ? "planejado" : `${allStats[i].progress}%`}
                 </span>
               );
             })}

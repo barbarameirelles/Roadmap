@@ -55,6 +55,15 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "resp_audience":       { label: "Responsividade Audience",  color: "#16a34a", bg: "#f0fdf4" },
   "dominio_email":       { label: "Domínio Dedicado de E-mail", color: "#dc2626", bg: "#fee2e2" },
   "integracao_ga4":      { label: "Integração de GA4",        color: "#d97706", bg: "#fef3c7" },
+  // Novembro/2026 — grupos cadastrados à mão; ao criar no Jira, renomear a chave para a label real
+  "khora_segmentos":     { label: "Wake Khora para Segmentos", color: "#0369a1", bg: "#e0f2fe" },
+  "atributos_audience":  { label: "Atributos Personalizados em Audiences", color: "#4f46e5", bg: "#eef2ff" },
+  "onsite_audience":     { label: "On Site em Audiences",     color: "#db2777", bg: "#fce7f3" },
+  "sdk_url":             { label: "Verificação de URL do SDK", color: "#0d9488", bg: "#f0fdfa" },
+  "segmentador_criterios": { label: "Segmentador: Critérios de Compra e Comportamento", color: "#16a34a", bg: "#f0fdf4" },
+  "api_cdp":             { label: "Discovery: API de Consulta da CDP", color: "#2563eb", bg: "#eff6ff" },
+  "utm_sdk":             { label: "Captação de UTM pelo SDK", color: "#0f766e", bg: "#ccfbf1" },
+  "api_migracao":        { label: "API de Listas e Campanhas para Migração", color: "#1d4ed8", bg: "#dbeafe" },
 };
 
 export const DEFAULT_FEATURE_META = { label: "Outros", color: "#64748b", bg: "#f8fafc" };
@@ -294,7 +303,7 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
       },
       {
         feature: "integracao_ga4",
-        deprioritized: "Despriorizado em outubro: voltou para hipóteses (A avaliar).",
+        deprioritized: "Despriorizado em outubro: replanejado para novembro.",
         description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
         context: "A integração atual apresenta instabilidades na conexão da conta de GA4. Refazer a integração garante que as lojas consigam mensurar o impacto real das campanhas sem depender de suporte manual para reconectar.",
         issues: [
@@ -318,6 +327,76 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
           { key: "POS-4540", title: "[Front] Validação de nome duplicado na criação/importação de Lista", status: "To Do" },
           { key: "POS-4550", title: "Menu de ações nos Segmentos Pré Definidos", status: "To Do" },
         ],
+      },
+    ],
+  },
+  // ── Novembro/2026 ─────────────────────────────────────────────────────────────
+  // Cadastrado à mão: épicos/tarefas ainda serão criados no Jira. Quando existirem,
+  // trocar `feature` pela label real para o sync preencher as issues.
+  {
+    monthLabel: "Novembro",
+    monthIdx: 10,
+    year: 2026,
+    groups: [
+      {
+        feature: "khora_segmentos",
+        description: "Refinamento e finalização do Wake Khora aplicado ao Segmentador, substituindo os dados mocados por dados reais.",
+        context: "Leva para produção a inteligência do Wake Khora na construção de segmentos, enriquecendo as audiências com dados reais.",
+        issues: [],
+      },
+      {
+        feature: "Limitedeuso",
+        description: "Etapa 2 da Gestão de Franquia: painel interno para o CS gerenciar a franquia de contatos de todos os tenants — uso, plano, bloqueio manual e histórico de alterações.",
+        context: "Dá ao time de CS controle e visibilidade sobre o consumo de cada conta, sustentando o modelo de precificação por volume de contatos únicos.",
+        issues: [],
+      },
+      {
+        feature: "atributos_audience",
+        description: "Área de atributos personalizados dentro de Audiences no Commerce.",
+        context: "Permite que o lojista visualize e use atributos próprios dos clientes na construção e análise de audiências.",
+        issues: [],
+      },
+      {
+        feature: "onsite_audience",
+        description: "Uso de On Site a partir de Audiences, ativando os segmentos também nesse canal.",
+        context: "Amplia a ativação das audiências para o site do lojista, além dos canais de disparo.",
+        issues: [],
+      },
+      {
+        feature: "sdk_url",
+        description: "Verificação automática da URL na instalação do SDK, garantindo que o SDK de uma loja não seja instalado em outra.",
+        context: "Evita dados misturados entre lojas e retrabalho de suporte causado por instalação incorreta do SDK.",
+        issues: [],
+      },
+      {
+        feature: "segmentador_criterios",
+        description: "Novos critérios de compra e comportamento no Segmentador.",
+        context: "Enriquece a construção de audiências com dados de commerce e de navegação, permitindo segmentações mais precisas.",
+        issues: [],
+      },
+      {
+        feature: "api_cdp",
+        description: "Discovery da API de consulta de dados da CDP, para que sistemas externos acessem o perfil unificado dos clientes.",
+        context: "Define como os dados da CDP podem ser disponibilizados para clientes que precisam consumir o perfil unificado em seus próprios sistemas.",
+        issues: [],
+      },
+      {
+        feature: "integracao_ga4",
+        description: "Refatoração da integração com Google Analytics 4, garantindo rastreamento correto de eventos e atribuição de receita nas campanhas.",
+        context: "Replanejado de outubro. A integração atual apresenta instabilidades na conexão da conta de GA4; refazê-la garante que as lojas mensurem o impacto real das campanhas.",
+        issues: [],
+      },
+      {
+        feature: "utm_sdk",
+        description: "Captação da UTM da compra pelo SDK, tornando o dado segmentável e visível no perfil do cliente.",
+        context: "Mostra de qual campanha e canal de origem cada compra veio, habilitando segmentações e análises por origem.",
+        issues: [],
+      },
+      {
+        feature: "api_migracao",
+        description: "Criação de API para informações de listas e campanhas, apoiando a migração de base da plataforma 1.0.",
+        context: "Viabiliza a migração dos clientes da 1.0 para a 2.0 levando listas e campanhas, sem retrabalho manual.",
+        issues: [],
       },
     ],
   },
