@@ -483,7 +483,8 @@ function MonthSection({ delivery }: { delivery: MonthDelivery }) {
 export default function GanttGoalsView() {
   const { deliveries } = useRoadmap();
   const sorted = useMemo(
-    () => [...deliveries].sort((a, b) => a.monthIdx - b.monthIdx),
+    // Mais recente no topo: evita rolar a página toda para chegar ao mês atual.
+    () => [...deliveries].sort((a, b) => b.year - a.year || b.monthIdx - a.monthIdx),
     [deliveries],
   );
 
