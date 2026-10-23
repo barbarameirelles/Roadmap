@@ -13,6 +13,7 @@ export interface OpsTicket {
   key: string;
   title: string;
   status: OpsStatus;
+  jiraStatus?: string; // etapa exata no Jira (só tickets em aberto do snapshot ao vivo)
   created: string;    // YYYY-MM-DD
   resdate: string | null;
   assignee: string | null;

@@ -5,6 +5,7 @@ import {
 } from "@/data/opsTicketsData";
 import { useRoadmap } from "@/lib/RoadmapContext";
 import { fetchOpsForMonth, type OpsSnapshotData } from "@/lib/roadmapSync";
+import { stageLabel } from "@/data/ganttUtils";
 
 // ── Status config ────────────────────────────────────────────────────────────
 
@@ -16,6 +17,7 @@ const STATUS_CFG: Record<OpsStatus, { label: string; bg: string; color: string; 
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
+
 
 function businessDays(start: string, end: string | null): number {
   const s = new Date(start.split("T")[0] + "T12:00:00");
@@ -210,7 +212,7 @@ function TrackSlideOver({
                               background: cfg.bg, borderRadius: 4, padding: "2px 7px",
                               whiteSpace: "nowrap",
                             }}>
-                              {cfg.label}
+                              {ticket.jiraStatus && st === "In Progress" ? stageLabel(ticket.jiraStatus) : cfg.label}
                             </span>
                             {bd !== null && (
                               <span style={{

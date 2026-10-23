@@ -27,7 +27,8 @@ const cors = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-type Mapped = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
+// jiraStatus = nome exato do status no Jira (Ready to Deploy, QA…), exibido como etapa.
+type Mapped = { status: "Done" | "In Progress" | "To Do"; blocked: boolean; jiraStatus?: string };
 type DiscoveredIssue = { key: string; title: string };
 type DiscoveredMap = Record<string, DiscoveredIssue[]>;
 
@@ -37,14 +38,15 @@ type DiscoveredMap = Record<string, DiscoveredIssue[]>;
 const DONE_STATUSES = ["CONCLUÍDO", "CANCELADO"];
 
 function mapStatus(name: string): Mapped {
-  const n = (name ?? "").trim().toUpperCase();
+  const jiraStatus = (name ?? "").trim();
+  const n = jiraStatus.toUpperCase();
   if (DONE_STATUSES.includes(n))
-    return { status: "Done", blocked: false };
+    return { status: "Done", blocked: false, jiraStatus };
   if (n === "BLOQUEADO" || n === "BLOCKED")
-    return { status: "To Do", blocked: true };
+    return { status: "To Do", blocked: true, jiraStatus };
   if (n === "TAREFA PENDENTE" || n === "TAREFAS PENDENTES")
-    return { status: "To Do", blocked: false };
-  return { status: "In Progress", blocked: false };
+    return { status: "To Do", blocked: false, jiraStatus };
+  return { status: "In Progress", blocked: false, jiraStatus };
 }
 
 function json(body: unknown, status = 200) {
@@ -347,6 +349,7 @@ Deno.serve(async (req) => {
           key: issue.key as string,
           title: (f?.summary as string) ?? issue.key,
           status: st,
+          jiraStatus: statusName,   // etapa exata no Jira (Ready to Deploy, QA…)
           created,
           resdate: null,
           assignee: ((f?.assignee as Record<string, unknown>)?.displayName as string) ?? null,

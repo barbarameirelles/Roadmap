@@ -17,6 +17,7 @@ export interface LabelIssue {
   title: string;
   status: IssueStatus;
   blocked?: boolean;
+  jiraStatus?: string;    // etapa exata no Jira (Ready to Deploy, QA…), vinda do sync
 }
 
 export interface FeatureGroup {

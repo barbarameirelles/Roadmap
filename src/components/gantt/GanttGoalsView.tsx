@@ -8,7 +8,7 @@ import {
   type IssueStatus,
 } from "@/data/labeledDeliveries";
 import { useRoadmap } from "@/lib/RoadmapContext";
-import { progressBreakdown } from "@/data/ganttUtils";
+import { progressBreakdown, stageLabel } from "@/data/ganttUtils";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -208,7 +208,7 @@ function FeatureSlideOver({ group, onClose }: { group: FeatureGroup; onClose: ()
                         fontSize: 11, fontWeight: 600, color: cfg.color, background: cfg.bg,
                         borderRadius: 4, padding: "2px 7px", whiteSpace: "nowrap", flexShrink: 0,
                       }}>
-                        {cfg.label}
+                        {issue.jiraStatus && st === "In Progress" ? stageLabel(issue.jiraStatus) : cfg.label}
                       </span>
                     </div>
                   ))}

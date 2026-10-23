@@ -78,3 +78,13 @@ export function forecastFrac(f: Feature, targetMonth: number): number {
   }
   return prog;
 }
+
+// "READY TO DEPLOY" → "Ready to Deploy"; siglas curtas (QA) e nomes já formatados ficam como estão.
+const SMALL_WORDS = new Set(["to", "de", "do", "da", "em", "e", "of", "in"]);
+export function stageLabel(name: string): string {
+  const n = name.trim();
+  if (n !== n.toUpperCase() || n.length <= 3) return n;
+  return n.toLowerCase().split(/\s+/)
+    .map((w, i) => i > 0 && SMALL_WORDS.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}

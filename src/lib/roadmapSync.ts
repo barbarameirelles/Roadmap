@@ -8,7 +8,7 @@ import { weightedProgress } from "@/data/ganttUtils";
 import { MONTH_DELIVERIES, type MonthDelivery, type IssueStatus } from "@/data/labeledDeliveries";
 import type { MonthStats } from "@/data/opsTicketsData";
 
-export type SnapshotStatus = { status: "Done" | "In Progress" | "To Do"; blocked: boolean };
+export type SnapshotStatus = { status: "Done" | "In Progress" | "To Do"; blocked: boolean; jiraStatus?: string };
 export type StatusMap = Record<string, SnapshotStatus>;
 
 // Chave = id da trilha ("smb" | "plataforma") → stats do mês corrente
@@ -115,7 +115,7 @@ export function deliveriesWithStatuses(
   const toIssue = (d: DiscoveredIssue) => {
     const m = map?.[d.key];
     const status: IssueStatus = m ? (m.blocked ? "Blocked" : m.status) : "To Do";
-    return { key: d.key, title: d.title, status, blocked: m?.blocked ?? false };
+    return { key: d.key, title: d.title, status, blocked: m?.blocked ?? false, jiraStatus: m?.jiraStatus };
   };
 
   // Agrupa o discovered pela chave normalizada (une variações de caixa, sem duplicar)
@@ -149,7 +149,7 @@ export function deliveriesWithStatuses(
         const m = map[i.key];
         if (!m) return i;
         const status: IssueStatus = m.blocked ? "Blocked" : m.status;
-        return { ...i, status, blocked: m.blocked };
+        return { ...i, status, blocked: m.blocked, jiraStatus: m.jiraStatus };
       });
       return { ...g, issues };
     }),
