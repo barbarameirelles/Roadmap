@@ -3,7 +3,7 @@ import {
   QUARTERS, STATUS_META, MONTHS, THIS_MONTH_SPRINTS, CURRENT_MONTH_LABEL,
   TRACK_META, hasTrack, tracksOf, type FeatureStatus, type Feature, type Track, type Subtask,
 } from "@/data/ganttData";
-import { taskProgress, progressBreakdown } from "@/data/ganttUtils";
+import { taskProgress, progressBreakdown, stageLabel } from "@/data/ganttUtils";
 import { useRoadmap } from "@/lib/RoadmapContext";
 
 const activeBlocked = (f: Feature) =>
@@ -19,17 +19,19 @@ const COLUMN_CONFIG: Record<KanbanColumn, { title: string; color: string }> = {
   "done":        { title: "Done",                     color: "#16a34a" },
 };
 
+// Regra única (Bárbara, 23/10/2026). O status do épico já chega derivado das
+// tarefas pelo overlay (todas entregues → concluido; iniciado → em-andamento).
 function getKanbanColumn(feat: Feature): KanbanColumn {
   if (feat.status === "concluido") return "done";
   if (feat.status === "replanejado" || feat.status === "despriorizado") return "blocked";
-  // REGRA: se existe ao menos UMA subtask em andamento (qualquer status ativo do
-  // Jira — Em Andamento, Validation, Homologation, Code Review, QA, Ready to
-  // Deploy…, todos mapeados para "In Progress"), o épico está SEMPRE em "Em
-  // andamento". Isso tem prioridade sobre validation e bloqueado (o card ainda sinaliza os bloqueios).
-  if (feat.subtasks.some(s => s.status === "In Progress")) return "in-progress";
-  const tp = taskProgress(feat);
-  if (tp >= 80) return "validation";
+  // Alguma tarefa em andamento (qualquer status ativo do Jira — Validation, QA,
+  // Ready to Deploy…) → In progress, com prioridade sobre validation e bloqueio.
+  if (feat.subtasks.some(s => s.status === "In Progress" && !s.blocked)) return "in-progress";
+  if (taskProgress(feat) >= 80) return "validation";
   if (activeBlocked(feat) > 0) return "blocked";
+  // Épico já iniciado, mesmo sem tarefa em andamento agora.
+  if (feat.status === "em-andamento" || feat.status === "atrasado-em-andamento"
+    || feat.subtasks.some(s => s.status === "Done")) return "in-progress";
   return "todo";
 }
 
@@ -233,7 +235,7 @@ function EpicDetailModal({ feat, onClose }: { feat: Feature; onClose: () => void
                           background: m.bg, borderRadius: 999, padding: "2px 8px",
                           whiteSpace: "nowrap",
                         }}>
-                          <span>{m.icon}</span>{m.label}
+                          <span>{m.icon}</span>{ss === "em-andamento" && s.jiraStatus ? stageLabel(s.jiraStatus) : m.label}
                         </span>
                       </td>
                       <td style={{ padding: "8px 0", textAlign: "right", verticalAlign: "top" }}>

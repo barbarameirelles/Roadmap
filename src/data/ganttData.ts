@@ -61,6 +61,7 @@ export interface Subtask {
   points: number;
   sprint?: number;
   blocked?: boolean; // BLOQUEADO/BLOCKED no Jira — atualizado no sync semanal
+  jiraStatus?: string; // etapa exata no Jira (Ready to Deploy, QA…), vinda do sync
 }
 
 // ─── Objetivos estratégicos (tracks) ─────────────────────────────────────────
@@ -633,8 +634,6 @@ export const FEATURES: Feature[] = [
       { key: "POS-4662", title: "BTG - Regra Avise-me", status: "To Do", points: 3, sprint: 42 },
       { key: "POS-4657", title: "BTG - Regra de Fidelidade", status: "To Do", points: 3, sprint: 42 },
       { key: "FRONT-151", title: "BTG - Discovery para como usar templatize para recomendação de produtos", status: "Done", points: 0, sprint: 37 },
-      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "Done", points: 0 },
-      { key: "FRONT-727", title: "[UX] Revisar usabilidade de feature de pressão de comunicação", status: "Done", points: 0 },
     ],
   },
 
@@ -826,10 +825,8 @@ export const FEATURES: Feature[] = [
       { key: "FRONT-728", title: "[UX] Revisão feature de IP dedicado", status: "Done", points: 0 },
       { key: "POS-4417",  title: "Estudo de réguas para campanhas", status: "Done", points: 0, sprint: 46 },
       { key: "POS-4424",  title: "Cadastrar novas regras dentro do Unomi", status: "Done", points: 0, sprint: 46 },
-      { key: "POS-4588", title: "IP Dedicado e Entregabilidade de E-mail", status: "To Do", points: 0, sprint: 46, blocked: true },
       { key: "FRONT-830", title: "Ajustes para lançamento de campanhas", status: "Done", points: 0, sprint: 46 },
       { key: "POS-4421",  title: "Erro de envio de teste", status: "Done", points: 0, sprint: 46 },
-      { key: "POS-4422",  title: "Corrigir validação de campanhas automáticas para audiências do tipo Segmento", status: "In Progress", points: 0, sprint: 46 },
       { key: "POS-3385",  title: "Criação de campanha multicanal - Pontual (back)", status: "To Do", points: 5, sprint: 42 },
       { key: "POS-4343",  title: "IP Dedicado: Adequação do disparador", status: "To Do", points: 0, sprint: 48 },
       { key: "FRONT-16",  title: "Novos ações e status de envios pontuais", status: "Done", points: 0, sprint: 36 },
@@ -841,6 +838,8 @@ export const FEATURES: Feature[] = [
       { key: "POS-4618", title: "[UX] Pressão de Comunicação e consumo de SMS", status: "To Do", points: 0 },
       { key: "FRONT-683", title: "Segmentos Salvos em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43, blocked: true },
       { key: "FRONT-685", title: "Listas em Campanhas Automáticas", status: "To Do", points: 0, sprint: 43, blocked: true },
+      { key: "FRONT-690", title: "Configurações gerais BTG - Pressão de comunicação", status: "Done", points: 0 },
+      { key: "FRONT-727", title: "[UX] Revisar usabilidade de feature de pressão de comunicação", status: "Done", points: 0 },
     ],
   },
 
@@ -875,6 +874,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4472", title: "Padronizar endpoints de Segmentos Pré-definidos", status: "In Progress", points: 0, sprint: 47 },
       { key: "POS-4446", title: "Origem do Lead - Rodar script retroativos", status: "To Do", points: 0, sprint: 48 },
       { key: "POS-4401",  title: "Envios automáticos - Agendamento de Frequência de Envio (Listas e Segmentos)", status: "To Do", points: 0, sprint: 46 },
+      { key: "POS-4422",  title: "Corrigir validação de campanhas automáticas para audiências do tipo Segmento", status: "In Progress", points: 0, sprint: 46 },
     ],
   },
 
@@ -917,6 +917,7 @@ export const FEATURES: Feature[] = [
       { key: "POS-4463", title: "[SES Disparando] Usar configuração de domínio da campanha", status: "To Do", points: 0 },
       { key: "POS-4464", title: "[SES] Rota para DNS Check", status: "To Do", points: 0 },
       { key: "POS-4465", title: "[SES] Rota para Antispam Check", status: "To Do", points: 0 },
+      { key: "POS-4588", title: "IP Dedicado e Entregabilidade de E-mail", status: "To Do", points: 0, sprint: 46, blocked: true },
     ],
   },
 

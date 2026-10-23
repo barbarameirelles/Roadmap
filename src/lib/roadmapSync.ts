@@ -86,19 +86,33 @@ export function featuresWithStatuses(map: StatusMap | null): Feature[] {
     const subtasks = map
       ? f.subtasks.map(s => {
           const m = map[s.key];
-          return m ? { ...s, status: m.status, blocked: m.blocked } : s;
+          return m ? { ...s, status: m.status, blocked: m.blocked, jiraStatus: m.jiraStatus } : s;
         })
       : f.subtasks;
 
-    const wasBacklog = f.executed === null && f.progress === 0;
+    // Status do épico derivado das tarefas (regra da Bárbara, 23/10/2026), para
+    // Kanban, Visão Executiva e Roadmap dizerem o mesmo:
+    //  - todas as tarefas entregues → concluído (exceto despriorizado/replanejado);
+    //  - alguma tarefa entregue ou em andamento → épico iniciado ("no-prazo" vira
+    //    "em-andamento", "atrasado" vira "atrasado-em-andamento").
+    const parked = f.status === "despriorizado" || f.status === "replanejado";
+    const allDone = subtasks.length > 0 && subtasks.every(s => s.status === "Done");
+    const started = subtasks.some(s => s.status === "Done" || s.status === "In Progress");
+    let status = f.status;
+    if (!parked && allDone) status = "concluido";
+    else if (status === "no-prazo" && started) status = "em-andamento";
+    else if (status === "atrasado" && started) status = "atrasado-em-andamento";
+
+    // Backlog parkado só enquanto nenhuma tarefa começou.
+    const wasBacklog = f.executed === null && f.progress === 0 && !started;
     let progress: number;
-    if (f.status === "concluido") progress = 100;
+    if (status === "concluido") progress = 100;
     else if (wasBacklog) progress = 0;
     else {
       const p = progressPct(subtasks);
       progress = p === 0 && f.executed === null ? f.progress : p;
     }
-    return { ...f, subtasks, progress };
+    return { ...f, status, subtasks, progress };
   });
 }
 

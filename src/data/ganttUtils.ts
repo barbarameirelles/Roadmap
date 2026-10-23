@@ -36,9 +36,10 @@ export function weightedProgress(subs: ProgressItem[]): number {
 // Sem tasks: usa o campo progress manual (sync Jira).
 export function taskProgress(f: Feature): number {
   if (f.status === "concluido") return 100;
-  // Backlog parkado (executed:null + progress:0, ex.: cdp-2b): mantém o campo
-  // (0), mesmo tendo subtasks Done herdadas — consistente com Kanban/overlay.
-  if (f.executed === null && f.progress === 0) return f.progress;
+  // Backlog parkado (executed:null + progress:0) enquanto nenhuma tarefa começou;
+  // com tarefa entregue/em andamento vale o % real (consistente com o overlay).
+  const started = f.subtasks.some(s => s.status === "Done" || s.status === "In Progress");
+  if (f.executed === null && f.progress === 0 && !started) return f.progress;
   const n = f.subtasks.length;
   if (n === 0) return f.progress;
   return weightedProgress(f.subtasks);
