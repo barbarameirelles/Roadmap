@@ -56,15 +56,16 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "resp_audience":       { label: "Responsividade Audience",  color: "#16a34a", bg: "#f0fdf4" },
   "dominio_email":       { label: "Domínio Dedicado de E-mail", color: "#dc2626", bg: "#fee2e2" },
   "integracao_ga4":      { label: "Integração de GA4",        color: "#d97706", bg: "#fef3c7" },
-  // Novembro/2026 — grupos cadastrados à mão; ao criar no Jira, renomear a chave para a label real
-  "khora_segmentos":     { label: "Wake Khora para Segmentos", color: "#0369a1", bg: "#e0f2fe" },
-  "atributos_audience":  { label: "Atributos Personalizados em Audiences", color: "#4f46e5", bg: "#eef2ff" },
-  "onsite_audience":     { label: "On Site em Audiences",     color: "#db2777", bg: "#fce7f3" },
-  "sdk_url":             { label: "Verificação de URL do SDK", color: "#0d9488", bg: "#f0fdfa" },
-  "segmentador_criterios": { label: "Segmentador: Critérios de Compra e Comportamento", color: "#16a34a", bg: "#f0fdf4" },
-  "api_cdp":             { label: "Discovery: API de Consulta da CDP", color: "#2563eb", bg: "#eff6ff" },
-  "discovery_utm":       { label: "Discovery: UTM das Compras como Atributo", color: "#0f766e", bg: "#ccfbf1" },
-  "api_migracao":        { label: "API de Listas e Campanhas para Migração", color: "#1d4ed8", bg: "#dbeafe" },
+  // Novembro/2026 — chaves = labels reais dos épicos (POS-4781..4788, POS-4542; captação_UTM_SDK = POS-4787).
+  // integracao_ga4 ainda sem épico de novembro no Jira.
+  "Khora_segmentos":     { label: "Wake Khora para Segmentos", color: "#0369a1", bg: "#e0f2fe" },
+  "atributos_em_audiencias":  { label: "Atributos Personalizados em Audiences", color: "#4f46e5", bg: "#eef2ff" },
+  "onsite_em_audiencias":     { label: "On Site em Audiences",     color: "#db2777", bg: "#fce7f3" },
+  "Verif_URL_SDK":             { label: "Verificação de URL do SDK", color: "#0d9488", bg: "#f0fdfa" },
+  "Segmentador_crit_compra": { label: "Segmentador: Critérios de Compra e Comportamento", color: "#16a34a", bg: "#f0fdf4" },
+  "API_consulta_CDP":             { label: "Discovery: API de Consulta da CDP", color: "#2563eb", bg: "#eff6ff" },
+  "captação_UTM_SDK":       { label: "Discovery: UTM das Compras como Atributo", color: "#0f766e", bg: "#ccfbf1" },
+  "API_listas_e_campanhas_Migração":        { label: "API de Listas e Campanhas para Migração", color: "#1d4ed8", bg: "#dbeafe" },
 };
 
 export const DEFAULT_FEATURE_META = { label: "Outros", color: "#64748b", bg: "#f8fafc" };
@@ -332,15 +333,14 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
     ],
   },
   // ── Novembro/2026 ─────────────────────────────────────────────────────────────
-  // Cadastrado à mão: épicos/tarefas ainda serão criados no Jira. Quando existirem,
-  // trocar `feature` pela label real para o sync preencher as issues.
+  // Épicos criados no Jira em 27/10; o sync preenche as tarefas conforme forem criadas.
   {
     monthLabel: "Novembro",
     monthIdx: 10,
     year: 2026,
     groups: [
       {
-        feature: "khora_segmentos",
+        feature: "Khora_segmentos",
         description: "Refinamento e finalização do Wake Khora aplicado ao Segmentador, substituindo os dados mocados por dados reais.",
         context: "Leva para produção a inteligência do Wake Khora na construção de segmentos, enriquecendo as audiências com dados reais.",
         issues: [],
@@ -352,31 +352,31 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         issues: [],
       },
       {
-        feature: "atributos_audience",
+        feature: "atributos_em_audiencias",
         description: "Área de atributos personalizados dentro de Audiences no Commerce.",
         context: "Permite que o lojista visualize e use atributos próprios dos clientes na construção e análise de audiências.",
         issues: [],
       },
       {
-        feature: "onsite_audience",
+        feature: "onsite_em_audiencias",
         description: "Uso de On Site a partir de Audiences, ativando os segmentos também nesse canal.",
         context: "Amplia a ativação das audiências para o site do lojista, além dos canais de disparo.",
         issues: [],
       },
       {
-        feature: "sdk_url",
+        feature: "Verif_URL_SDK",
         description: "Verificação automática da URL na instalação do SDK, garantindo que o SDK de uma loja não seja instalado em outra.",
         context: "Evita dados misturados entre lojas e retrabalho de suporte causado por instalação incorreta do SDK.",
         issues: [],
       },
       {
-        feature: "segmentador_criterios",
+        feature: "Segmentador_crit_compra",
         description: "Novos critérios de compra e comportamento no Segmentador.",
         context: "Enriquece a construção de audiências com dados de commerce e de navegação, permitindo segmentações mais precisas.",
         issues: [],
       },
       {
-        feature: "api_cdp",
+        feature: "API_consulta_CDP",
         description: "Discovery da API de consulta de dados da CDP, para que sistemas externos acessem o perfil unificado dos clientes.",
         context: "Define como os dados da CDP podem ser disponibilizados para clientes que precisam consumir o perfil unificado em seus próprios sistemas.",
         issues: [],
@@ -388,13 +388,13 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         issues: [],
       },
       {
-        feature: "discovery_utm",
+        feature: "captação_UTM_SDK",
         description: "Discovery para transformar a UTM vinda das compras em atributos segmentáveis do cliente.",
         context: "Define como usar a origem de cada compra (campanha e canal) para segmentar e analisar a base por origem.",
         issues: [],
       },
       {
-        feature: "api_migracao",
+        feature: "API_listas_e_campanhas_Migração",
         description: "Criação de API para informações de listas e campanhas, apoiando a migração de base da plataforma 1.0.",
         context: "Viabiliza a migração dos clientes da 1.0 para a 2.0 levando listas e campanhas, sem retrabalho manual.",
         issues: [],
