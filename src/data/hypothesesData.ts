@@ -347,10 +347,10 @@ export const HYPOTHESES: HypothesisItem[] = [
   },
   {
     id: "h37",
-    title: "Captação de UTM da Compra pelo SDK",
-    description: "O SDK deve captar e armazenar a UTM associada a cada compra, tornando esse dado um critério segmentável e visível no perfil do cliente. Permite saber de qual campanha e canal de origem a compra veio.",
+    title: "UTM das Compras como Atributo Segmentável",
+    description: "Transformar a UTM vinda das compras em atributos segmentáveis do cliente, visíveis também no perfil. Permite saber de qual campanha e canal de origem a compra veio. Novembro: discovery.",
     type: ["evolucao", "cdp"],
-    status: "planejado",
+    status: "discovery",
     previsao: "Novembro",
     subitems: [
       "Captação da UTM da compra via SDK",
@@ -395,5 +395,13 @@ export const HYPOTHESES: HypothesisItem[] = [
     type: ["migracao"],
     status: "planejado",
     previsao: "Novembro",
+  },
+  {
+    id: "h43",
+    title: "Captação de Leads de Usuários Não Logados",
+    description: "Captar leads de visitantes que navegam no site sem estar logados, transformando esse tráfego anônimo em contatos identificados na CDP. Dezembro: discovery.",
+    type: ["evolucao", "cdp"],
+    status: "discovery",
+    previsao: "Dezembro",
   },
 ];

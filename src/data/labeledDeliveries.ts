@@ -63,7 +63,7 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "sdk_url":             { label: "Verificação de URL do SDK", color: "#0d9488", bg: "#f0fdfa" },
   "segmentador_criterios": { label: "Segmentador: Critérios de Compra e Comportamento", color: "#16a34a", bg: "#f0fdf4" },
   "api_cdp":             { label: "Discovery: API de Consulta da CDP", color: "#2563eb", bg: "#eff6ff" },
-  "utm_sdk":             { label: "Captação de UTM pelo SDK", color: "#0f766e", bg: "#ccfbf1" },
+  "discovery_utm":       { label: "Discovery: UTM das Compras como Atributo", color: "#0f766e", bg: "#ccfbf1" },
   "api_migracao":        { label: "API de Listas e Campanhas para Migração", color: "#1d4ed8", bg: "#dbeafe" },
 };
 
@@ -388,9 +388,9 @@ export const MONTH_DELIVERIES: MonthDelivery[] = [
         issues: [],
       },
       {
-        feature: "utm_sdk",
-        description: "Captação da UTM da compra pelo SDK, tornando o dado segmentável e visível no perfil do cliente.",
-        context: "Mostra de qual campanha e canal de origem cada compra veio, habilitando segmentações e análises por origem.",
+        feature: "discovery_utm",
+        description: "Discovery para transformar a UTM vinda das compras em atributos segmentáveis do cliente.",
+        context: "Define como usar a origem de cada compra (campanha e canal) para segmentar e analisar a base por origem.",
         issues: [],
       },
       {
