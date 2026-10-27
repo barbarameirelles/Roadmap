@@ -57,7 +57,7 @@ export const FEATURE_META: Record<string, { label: string; color: string; bg: st
   "dominio_email":       { label: "Domínio Dedicado de E-mail", color: "#dc2626", bg: "#fee2e2" },
   "integracao_ga4":      { label: "Integração de GA4",        color: "#d97706", bg: "#fef3c7" },
   // Novembro/2026 — chaves = labels reais dos épicos (POS-4781..4788, POS-4542; captação_UTM_SDK = POS-4787).
-  // integracao_ga4 ainda sem épico de novembro no Jira.
+  // integracao_ga4 = POS-4548 (épico de outubro replanejado, agora com label Novembro).
   "Khora_segmentos":     { label: "Wake Khora para Segmentos", color: "#0369a1", bg: "#e0f2fe" },
   "atributos_em_audiencias":  { label: "Atributos Personalizados em Audiences", color: "#4f46e5", bg: "#eef2ff" },
   "onsite_em_audiencias":     { label: "On Site em Audiences",     color: "#db2777", bg: "#fce7f3" },
