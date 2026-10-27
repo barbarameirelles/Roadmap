@@ -2,7 +2,7 @@
 import type { OmniData } from "./types";
 
 export const OMNI_DATA: OmniData = {
- "generatedAt": "2026-10-27T16:42:11.802Z",
+ "generatedAt": "2026-10-27T17:15:18.847Z",
  "initiatives": [
   {
    "id": "ep-104",

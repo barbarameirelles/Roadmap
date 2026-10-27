@@ -2,19 +2,18 @@
 // Mesma régua da aba Sys-Ops do XP: resolvido em até 5 dias úteis (criação →
 // fechamento; abertos são medidos até a data dos dados).
 import { useEffect, useMemo, useState } from "react";
-import { OMNI_DATA } from "@/data/omni/omniData";
+import { useOmniData } from "@/lib/omniSync";
 import type { IssueStatus } from "@/data/labeledDeliveries";
 import type { OmniPriority, OmniProduct, OmniTicket } from "@/data/omni/types";
 import { AdjustFlag, MONTH_NAMES, PRODUCT_META, STATUS_CFG, type OmniFilter } from "./omniShared";
 
 const SLA_DAYS = 5;
 const PRODUCTS: OmniProduct[] = ["OMS", "Wake U", "PDV"];
-const NOW = OMNI_DATA.generatedAt.slice(0, 10);   // "hoje" = data dos dados
 const PRIORITY_LABEL: Record<OmniPriority, string> = { urgente: "Muito alta", alta: "Alta", media: "Média", baixa: "Baixa" };
 
-function businessDays(start: string, end: string | null): number {
+function businessDays(start: string, end: string): number {
   const s = new Date(start + "T12:00:00");
-  const e = new Date((end ?? NOW) + "T12:00:00");
+  const e = new Date(end + "T12:00:00");
   let n = 0;
   for (const d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) if (d.getDay() % 6 !== 0) n++;
   return n;
@@ -33,14 +32,15 @@ interface MonthStats {
 
 // Mês fechado: abertos no fim do mês (qualquer data de criação) + fechados no mês.
 // Mês corrente: abertos agora + fechados no mês.
-function statsFor(list: OmniTicket[], month: string): MonthStats {
-  const end = month === NOW.slice(0, 7) ? NOW : monthEnd(month);
+// `now` = data dos dados (último sync), não o relógio do navegador.
+function statsFor(list: OmniTicket[], month: string, now: string): MonthStats {
+  const end = month === now.slice(0, 7) ? now : monthEnd(month);
   const tickets = list
     .filter(t => t.created <= end && (t.closed === null || t.closed >= `${month}-01`))
     .map(t => {
       const closedInMonth = !!t.closed && t.closed <= end;
       const openAtEnd = !closedInMonth;
-      const days = businessDays(t.created, closedInMonth ? t.closed : end);
+      const days = businessDays(t.created, closedInMonth && t.closed ? t.closed : end);
       return { ...t, days, late: days > SLA_DAYS, openAtEnd };
     });
   const done = tickets.filter(t => !t.openAtEnd);
@@ -51,7 +51,7 @@ function statsFor(list: OmniTicket[], month: string): MonthStats {
     outsideSla: done.filter(t => t.late).length + open.filter(t => t.late).length,
     open: open.length, atRisk: open.filter(t => t.late).length,
     // Bloqueio só é conhecido no estado atual do GitLab.
-    blocked: month === NOW.slice(0, 7) ? open.filter(t => t.blocked).length : 0,
+    blocked: month === now.slice(0, 7) ? open.filter(t => t.blocked).length : 0,
   };
 }
 
@@ -126,20 +126,23 @@ function TicketsSlide({ product, monthLabel, s, onClose }: { product: OmniProduc
 }
 
 export default function OmniSupportView({ filter }: { filter: OmniFilter }) {
+  const { data } = useOmniData();
+  const NOW = data.generatedAt.slice(0, 10);   // "hoje" = data dos dados
   const months = useMemo(() => {
     const out: string[] = [];
     for (let d = new Date("2026-07-15"); d.toISOString().slice(0, 7) <= NOW.slice(0, 7); d.setMonth(d.getMonth() + 1)) {
       out.push(d.toISOString().slice(0, 7));
     }
     return out;
-  }, []);
-  const [month, setMonth] = useState(months[months.length - 1]);
+  }, [NOW]);
+  const [picked, setMonth] = useState<string | null>(null);
+  const month = picked && months.includes(picked) ? picked : months[months.length - 1];
   const [open, setOpen] = useState<OmniProduct | null>(null);
   const products = PRODUCTS.filter(p => filter.product === "Todos" || filter.product === p);
   const label = (m: string) => MONTH_NAMES[+m.slice(5) - 1];
   const isLive = month === NOW.slice(0, 7);
   const stats = useMemo(() => Object.fromEntries(PRODUCTS.map(p =>
-    [p, statsFor(OMNI_DATA.support.filter(t => t.product === p), month)])) as Record<OmniProduct, MonthStats>, [month]);
+    [p, statsFor(data.support.filter(t => t.product === p), month, NOW)])) as Record<OmniProduct, MonthStats>, [data, month, NOW]);
 
   return (
     <div className="g-page">

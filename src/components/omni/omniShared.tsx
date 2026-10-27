@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { progressBreakdown } from "@/data/ganttUtils";
 import type { IssueStatus } from "@/data/labeledDeliveries";
-import { OMNI_DATA } from "@/data/omni/omniData";
+import { useOmniData } from "@/lib/omniSync";
 import type { OmniInitiative, OmniKind, OmniProduct } from "@/data/omni/types";
 
 export const PRODUCT_META: Record<OmniProduct, { color: string; bg: string }> = {
@@ -29,9 +29,10 @@ export type KindFilter = "Tudo" | OmniKind;
 export interface OmniFilter { product: ProductFilter; kind: KindFilter }
 
 export function useOmniInitiatives(f: OmniFilter): OmniInitiative[] {
-  return useMemo(() => OMNI_DATA.initiatives.filter(i =>
+  const { data } = useOmniData();
+  return useMemo(() => data.initiatives.filter(i =>
     (f.product === "Todos" || i.products.includes(f.product)) &&
-    (f.kind === "Tudo" || i.kind === f.kind)), [f.product, f.kind]);
+    (f.kind === "Tudo" || i.kind === f.kind)), [data, f.product, f.kind]);
 }
 
 export function OmniFilterBar({ value, onChange, showKind = true }: {

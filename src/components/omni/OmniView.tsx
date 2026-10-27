@@ -2,13 +2,13 @@
 // produto e por tipo (roadmap x projeto de cliente). Fonte: GitLab.
 import { useEffect, useState } from "react";
 import "./omni.css";
-import { OMNI_DATA } from "@/data/omni/omniData";
+import { OmniDataProvider, useOmniData } from "@/lib/omniSync";
 import PdvRoadmapView from "@/components/pdv/PdvRoadmapView";
 import OmniGoalsView from "./OmniGoalsView";
 import OmniHypothesesView from "./OmniHypothesesView";
 import OmniKanbanView from "./OmniKanbanView";
 import OmniSupportView from "./OmniSupportView";
-import { AdjustFlag, OmniFilterBar, type OmniFilter } from "./omniShared";
+import { OmniFilterBar, type OmniFilter } from "./omniShared";
 
 export type OmniTab = "hypotheses" | "goals" | "kanban" | "support" | "pdv";
 
@@ -29,10 +29,34 @@ function loadFilter(): OmniFilter {
   return { product: "Todos", kind: "Tudo" };
 }
 
-const generated = new Date(OMNI_DATA.generatedAt);
-const generatedText = `${generated.toLocaleDateString("pt-BR")} ${generated.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+function dateText(iso: string) {
+  const d = new Date(iso);
+  return `${d.toLocaleDateString("pt-BR")} ${d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+}
 
-export default function OmniView({ tab, onTab, onHome }: { tab: OmniTab; onTab: (t: OmniTab) => void; onHome: () => void }) {
+// Mesmo botão do XP (g-sync-*), lendo o GitLab via Edge Function sync-gitlab.
+function GitlabSyncButton() {
+  const { data, sync, syncing, message } = useOmniData();
+  return (
+    <div className="g-sync">
+      <button className="g-sync-btn" onClick={() => sync()} disabled={syncing} title="Sincronizar com o GitLab">
+        <svg className={"g-sync-icon" + (syncing ? " spin" : "")} viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12a9 9 0 1 1-2.6-6.4" />
+          <path d="M21 3v6h-6" />
+        </svg>
+        {syncing ? "Sincronizando…" : "Sincronizar"}
+      </button>
+      <span className="g-sync-meta">{message ?? `GitLab · ${dateText(data.generatedAt)}`}</span>
+    </div>
+  );
+}
+
+export default function OmniView(props: { tab: OmniTab; onTab: (t: OmniTab) => void; onHome: () => void }) {
+  return <OmniDataProvider><OmniScreen {...props} /></OmniDataProvider>;
+}
+
+function OmniScreen({ tab, onTab, onHome }: { tab: OmniTab; onTab: (t: OmniTab) => void; onHome: () => void }) {
   const [filter, setFilter] = useState<OmniFilter>(loadFilter);
   useEffect(() => { try { localStorage.setItem(STORE, JSON.stringify(filter)); } catch { /* ok */ } }, [filter]);
 
@@ -54,14 +78,7 @@ export default function OmniView({ tab, onTab, onHome }: { tab: OmniTab; onTab: 
               </button>
             ))}
           </div>
-          <div className="g-sync">
-            <span className="g-sync-meta">
-              GitLab · {generatedText}{" "}
-              <AdjustFlag size="sm" notes={[
-                "Ainda não há botão Sincronizar para o GitLab: os dados são de quando o script rodou (npm run sync:omni)",
-              ]} />
-            </span>
-          </div>
+          <GitlabSyncButton />
         </div>
       </div>
       {tab !== "pdv" && (

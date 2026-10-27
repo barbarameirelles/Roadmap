@@ -1,7 +1,7 @@
 // Hipóteses Omni: épicos sem tarefas e sem andamento. Ficam só aqui; a etapa é
 // a coluna do board de épicos "Roadmap" do GitLab.
 import { useEffect, useMemo, useState } from "react";
-import { OMNI_DATA } from "@/data/omni/omniData";
+import { useOmniData } from "@/lib/omniSync";
 import type { OmniHypoColumn, OmniHypothesis, OmniPriority } from "@/data/omni/types";
 import { AdjustFlag, PRODUCT_META, type OmniFilter } from "./omniShared";
 
@@ -71,9 +71,10 @@ export default function OmniHypothesesView({ filter }: { filter: OmniFilter }) {
   const [sort, setSort] = useState<{ col: SortCol; dir: 1 | -1 }>({ col: "column", dir: 1 });
   const [sel, setSel] = useState<OmniHypothesis | null>(null);
 
-  const base = useMemo(() => OMNI_DATA.hypotheses.filter(h =>
+  const { data } = useOmniData();
+  const base = useMemo(() => data.hypotheses.filter(h =>
     (filter.product === "Todos" || h.products.includes(filter.product)) &&
-    (filter.kind === "Tudo" || (filter.kind === "projeto") === (h.origin === "Projeto"))), [filter]);
+    (filter.kind === "Tudo" || (filter.kind === "projeto") === (h.origin === "Projeto"))), [data, filter]);
 
   const rows = useMemo(() => base
     .filter(h => (column === "all" || h.column === column) &&

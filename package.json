@@ -10,6 +10,7 @@
     "sync:keys": "node scripts/gen-sync-keys.mjs",
     "sync:labels": "node scripts/gen-label-config.mjs",
     "sync:omni": "node scripts/gen-omni-data.mjs",
+    "deploy:omni": "npx supabase@2 functions deploy sync-gitlab --use-api --project-ref mluvrpmjsgmaluuzilgg",
     "deploy:sync": "npm run sync:keys && npm run sync:labels && supabase functions deploy sync-jira --project-ref mluvrpmjsgmaluuzilgg"
   },
   "dependencies": {
