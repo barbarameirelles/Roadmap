@@ -2,7 +2,7 @@
 import type { OmniData } from "./types";
 
 export const OMNI_DATA: OmniData = {
- "generatedAt": "2026-10-21T14:26:18.216Z",
+ "generatedAt": "2026-10-27T16:42:11.802Z",
  "initiatives": [
   {
    "id": "ep-104",
@@ -17,7 +17,6 @@ export const OMNI_DATA: OmniData = {
     "month": 10
    },
    "due": "2026-10-21",
-   "gitlabStatus": "To-Do",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#740",
@@ -39,13 +38,12 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
-    "Épico sem data de início e/ou fim",
-    "Todas as tarefas fechadas, mas o épico está \"To-Do\" — fechar o épico"
+    "Épico sem data de início e/ou fim"
    ]
   },
   {
    "id": "ep-103",
-   "title": "[Outubro/26] Objetivo 6: Adequação ao Novo Layout de Etiquetas dos Correios",
+   "title": "[Outubro/26] Objetivo 6: Adequação novas exigências dos Correios",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/103",
    "products": [
     "OMS"
@@ -55,13 +53,20 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 10
    },
-   "gitlabStatus": "To-Do",
+   "gitlabStatus": "Em desenvolvimento",
    "items": [
+    {
+     "ref": "ss-gestao-produtos/suporte-produtos#2342",
+     "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2342",
+     "title": "[Gabriel.Silva] Adequação de Integração Correios (API/PPN) - Envio obrigatório da Chave de Acesso NF-e",
+     "status": "In Progress",
+     "adjust": []
+    },
     {
      "ref": "ss-gestao-produtos/gestao-produtos#749",
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/749",
      "title": "[Issue] Objetivo 6: Adequação ao Novo Layout de Etiquetas dos Correios",
-     "status": "To Do",
+     "status": "In Progress",
      "adjust": []
     }
    ],
@@ -225,7 +230,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
-   "gitlabStatus": "Em homologação",
+   "gitlabStatus": "Publicação Docs",
    "items": [
     {
      "ref": "ss-gestao-produtos/suporte-produtos#2192",
@@ -239,7 +244,7 @@ export const OMNI_DATA: OmniData = {
     "Falta etiqueta de produto no épico: prod::SinOMS",
     "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
     "Épico sem data de início e/ou fim",
-    "Todas as tarefas fechadas, mas o épico está \"Em homologação\" — fechar o épico"
+    "Todas as tarefas fechadas, mas o épico está \"Publicação Docs\" — fechar o épico"
    ]
   },
   {
@@ -256,7 +261,7 @@ export const OMNI_DATA: OmniData = {
     "month": 3
    },
    "due": "2026-03-23",
-   "gitlabStatus": "Em desenvolvimento",
+   "gitlabStatus": "Em homologação",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#507",
@@ -289,7 +294,7 @@ export const OMNI_DATA: OmniData = {
     "month": 8
    },
    "due": "2026-08-26",
-   "gitlabStatus": "Em desenvolvimento",
+   "gitlabStatus": "Em homologação",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#663",
@@ -383,7 +388,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/689",
      "title": "[Melhoria] - Fase 1: Estoque",
      "parent": "[Melhoria] - Migração da importação de planilhas Excel para S3 upload direto (Migração ECS))",
-     "status": "In Progress",
+     "status": "Done",
      "adjust": []
     },
     {
@@ -391,7 +396,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/690",
      "title": "[Melhoria] - Fase 2: Config De-Para",
      "parent": "[Melhoria] - Migração da importação de planilhas Excel para S3 upload direto (Migração ECS))",
-     "status": "In Progress",
+     "status": "Done",
      "adjust": []
     },
     {
@@ -399,7 +404,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/691",
      "title": "[Melhoria] - Fase 3: Config Aplicação",
      "parent": "[Melhoria] - Migração da importação de planilhas Excel para S3 upload direto (Migração ECS))",
-     "status": "In Progress",
+     "status": "Done",
      "adjust": []
     }
    ],
@@ -418,7 +423,12 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "projeto",
    "client": "Shoulder",
-   "month": null,
+   "month": {
+    "year": 2026,
+    "month": 11
+   },
+   "start": "2026-09-28",
+   "due": "2026-11-06",
    "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
@@ -432,8 +442,7 @@ export const OMNI_DATA: OmniData = {
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
     "Adicionar etiqueta cliente::Shoulder",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
-    "Épico sem data de início e/ou fim"
+    "Mês deduzido pelo prazo (06/11/2026) — falta etiqueta mes::2026-11 no épico"
    ]
   },
   {
@@ -450,7 +459,7 @@ export const OMNI_DATA: OmniData = {
    },
    "start": "2026-03-02",
    "due": "2026-08-31",
-   "gitlabStatus": "Em homologação",
+   "gitlabStatus": "Publicação Docs",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#559",
@@ -639,7 +648,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/630",
      "title": "[PRD#624] - US02: Trava financeira e revisão de valores",
      "parent": "Substituição de Itens do Pedido no Wake OMS (Change Order)",
-     "status": "To Do",
+     "status": "Done",
      "adjust": []
     },
     {
@@ -647,7 +656,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/631",
      "title": "[PRD#624] - US03: Revisão e efetivação da substituição",
      "parent": "Substituição de Itens do Pedido no Wake OMS (Change Order)",
-     "status": "To Do",
+     "status": "Done",
      "adjust": []
     },
     {
@@ -655,7 +664,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/632",
      "title": "[PRD#624] - US04: Registro da substituição no histórico",
      "parent": "Substituição de Itens do Pedido no Wake OMS (Change Order)",
-     "status": "To Do",
+     "status": "Done",
      "adjust": []
     },
     {
@@ -663,7 +672,7 @@ export const OMNI_DATA: OmniData = {
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/633",
      "title": "[PRD#624] - US05: Flags visuais na listagem de produtos (tela de detalhes)",
      "parent": "Substituição de Itens do Pedido no Wake OMS (Change Order)",
-     "status": "To Do",
+     "status": "Done",
      "adjust": []
     }
    ],
@@ -687,7 +696,7 @@ export const OMNI_DATA: OmniData = {
    },
    "start": "2026-08-17",
    "due": "2026-09-30",
-   "gitlabStatus": "Em desenvolvimento",
+   "gitlabStatus": "Em homologação",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#700",
@@ -752,7 +761,7 @@ export const OMNI_DATA: OmniData = {
    },
    "start": "2026-09-14",
    "due": "2026-09-30",
-   "gitlabStatus": "Em desenvolvimento",
+   "gitlabStatus": "Ag. Code Review",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#428",
@@ -821,7 +830,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
-   "gitlabStatus": "Em homologação",
+   "gitlabStatus": "Ag. Code Review",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#527",
@@ -854,7 +863,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
-   "gitlabStatus": "Em desenvolvimento",
+   "gitlabStatus": "Ag. Code Review",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#659",
@@ -870,7 +879,7 @@ export const OMNI_DATA: OmniData = {
      "title": "Objetivo 2: Desenvolvimento da Integração Smart POS Getnet no Wake U (via Eyemobile)",
      "status": "In Progress",
      "adjust": [
-      "Todas as tasks fechadas, mas a issue segue aberta em \"Ag. Code Review\" — fechar quando terminar"
+      "Todas as tasks fechadas, mas a issue segue aberta em \"Em homologação\" — fechar quando terminar"
      ]
     }
    ],
@@ -1228,10 +1237,9 @@ export const OMNI_DATA: OmniData = {
      "ref": "wake/wake-backoffice/wake-backoffice-backend#19",
      "url": "https://gitlab.com/sintesesolucoes/wake/wake-backoffice/wake-backoffice-backend/-/work_items/19",
      "title": "Modelagem de Banco, DTOs e Endpoint de Imagens",
-     "status": "To Do",
+     "status": "Done",
      "adjust": [
-      "Issue sem épico no GitLab — sugiro mover para o épico #81",
-      "Sem etiqueta de status no GitLab (contado como A fazer)"
+      "Issue sem épico no GitLab — sugiro mover para o épico #81"
      ]
     },
     {
@@ -1352,7 +1360,6 @@ export const OMNI_DATA: OmniData = {
    },
    "start": "2026-07-08",
    "due": "2026-07-14",
-   "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
      "ref": "wake/wake-pdv/wake-pdv#3",
@@ -1373,8 +1380,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo prazo (14/07/2026) — falta etiqueta mes::2026-07 no épico",
-    "Todas as tarefas fechadas, mas o épico está \"Em desenvolvimento\" — fechar o épico"
+    "Mês deduzido pelo prazo (14/07/2026) — falta etiqueta mes::2026-07 no épico"
    ]
   },
   {
@@ -1935,7 +1941,8 @@ export const OMNI_DATA: OmniData = {
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Projeto de cliente sem orig::Projeto no épico",
     "Adicionar etiqueta cliente::Gregory",
-    "Mês deduzido pelo prazo (23/10/2026) — falta etiqueta mes::2026-10 no épico"
+    "Mês deduzido pelo prazo (23/10/2026) — falta etiqueta mes::2026-10 no épico",
+    "Prazo venceu em 23/10/2026 — replanejar"
    ]
   },
   {
@@ -2719,6 +2726,136 @@ export const OMNI_DATA: OmniData = {
  ],
  "support": [
   {
+   "ref": "ss-gestao-produtos/suporte-produtos#2369",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2369",
+   "title": "[renan.teixeira] Projetos - Wake OMS - Problema na integração com a Intelipost para busca da etiqueta",
+   "product": "OMS",
+   "status": "In Progress",
+   "priority": "alta",
+   "created": "2026-10-26",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2368",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2368",
+   "title": "[Gabriel.Soares] Wake OMS - Divergencia de tracking code",
+   "product": "OMS",
+   "status": "In Progress",
+   "priority": "media",
+   "created": "2026-10-26",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2367",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2367",
+   "title": "[diego.santos] Suporte - Relatório Indicadores Operação não carrega as informações",
+   "product": "OMS",
+   "status": "To Do",
+   "priority": "baixa",
+   "created": "2026-10-26",
+   "closed": null,
+   "assignee": null,
+   "adjust": [
+    "Chamado aberto sem etiqueta de status",
+    "Chamado aberto sem responsável"
+   ]
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2366",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2366",
+   "title": "[Daniel Junior] - Projetos - Reintegrar pedidos com erro para gerar código de rastreio - Wake OMS",
+   "product": "OMS",
+   "status": "In Progress",
+   "created": "2026-10-24",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2365",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2365",
+   "title": "[Gabriel.Soares] Wake OMS - Valor Produto diferente do valor total do pedido",
+   "product": "OMS",
+   "status": "Done",
+   "priority": "alta",
+   "created": "2026-10-23",
+   "closed": "2026-10-27",
+   "assignee": "Daiana Alves",
+   "type": "Correção",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2362",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2362",
+   "title": "[Alex.Junior] Suporte - WakeOMS - Integração com DHL não levando bairro e complemento",
+   "product": "OMS",
+   "status": "In Progress",
+   "priority": "alta",
+   "created": "2026-10-22",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2361",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2361",
+   "title": "[aline.santana] Implantação SinOmni - Transportadora/TMS Abbiamo adição de mais um status para marcar pedido como expedido",
+   "product": "OMS",
+   "status": "In Progress",
+   "priority": "media",
+   "created": "2026-10-22",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "type": "Melhoria",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2360",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2360",
+   "title": "[diego.santos] Suporte - Pedidos WAKEU sendo cancelados, mesmo depois de terem sido pagos",
+   "product": "Wake U",
+   "status": "In Progress",
+   "priority": "alta",
+   "created": "2026-10-21",
+   "closed": null,
+   "assignee": "Daiana Alves",
+   "type": "Correção",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2359",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2359",
+   "title": "[iago.martuci] Implantação - SinOMS - Status fora da ordem lógica na timeline do pedido (Encerramento de Romaneio)",
+   "product": "OMS",
+   "status": "Blocked",
+   "blocked": true,
+   "created": "2026-10-21",
+   "closed": null,
+   "assignee": "Pedro Candiani",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2357",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2357",
+   "title": "[Alex.Junior] Suporte - WakeOMS - Devolução não integrando para o PDV",
+   "product": "OMS",
+   "status": "Done",
+   "priority": "alta",
+   "created": "2026-10-21",
+   "closed": "2026-10-22",
+   "assignee": "Carlos Sousa",
+   "type": "Correção",
+   "adjust": []
+  },
+  {
    "ref": "ss-gestao-produtos/suporte-produtos#2356",
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2356",
    "title": "[Alex.Junior] Suporte - WakeOMS - Erro para alterar o telefone do cliente",
@@ -2735,10 +2872,11 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2355",
    "title": "[guilherme.santos] - Erro | Importação do pedido 1000805",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "created": "2026-10-20",
-   "closed": null,
+   "closed": "2026-10-23",
    "assignee": "Daiana Alves",
+   "type": "Correção",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
@@ -2787,11 +2925,12 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2340",
    "title": "[diego.santos] Suporte - Problema com faturamento manual",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "priority": "alta",
    "created": "2026-10-15",
-   "closed": null,
+   "closed": "2026-10-23",
    "assignee": "Pedro Candiani",
+   "type": "Correção",
    "adjust": []
   },
   {
@@ -2812,7 +2951,7 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2334",
    "title": "[diego.santos] Melhoria - Solução para visualização de pedidos WAKEU/PRATELEIRA INFINITA",
    "product": "OMS",
-   "status": "To Do",
+   "status": "In Progress",
    "priority": "baixa",
    "created": "2026-10-08",
    "closed": null,
@@ -2903,10 +3042,10 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2315",
    "title": "[diego.santos] Suporte - Problema com change seller e com inclusão de faturamento manual no aceite do pedido",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "priority": "alta",
    "created": "2026-10-01",
-   "closed": null,
+   "closed": "2026-10-22",
    "assignee": "Pedro Candiani",
    "type": "Correção",
    "adjust": []
@@ -3590,6 +3729,7 @@ export const OMNI_DATA: OmniData = {
    "created": "2026-08-04",
    "closed": "2026-08-04",
    "assignee": "Isabella Honorato",
+   "type": "Correção",
    "adjust": []
   },
   {
@@ -3758,6 +3898,7 @@ export const OMNI_DATA: OmniData = {
    "created": "2026-07-22",
    "closed": "2026-07-29",
    "assignee": "Carlos Sousa",
+   "type": "Causa externa",
    "adjust": []
   },
   {
@@ -3786,7 +3927,7 @@ export const OMNI_DATA: OmniData = {
    "assignee": "Evaldo Martins",
    "type": "Melhoria",
    "adjust": [
-    "Aberto há 97 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 103 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4063,7 +4204,7 @@ export const OMNI_DATA: OmniData = {
    "assignee": "CaioSantAnna",
    "adjust": [
     "Sem prioridade (etiqueta priority::)",
-    "Aberto há 128 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 134 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4498,7 +4639,7 @@ export const OMNI_DATA: OmniData = {
    "type": "Dúvida",
    "adjust": [
     "Chamado aberto sem responsável",
-    "Aberto há 203 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 209 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4621,7 +4762,7 @@ export const OMNI_DATA: OmniData = {
    "type": "Melhoria",
    "adjust": [
     "Sem prioridade (etiqueta priority::)",
-    "Aberto há 362 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 368 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4664,7 +4805,7 @@ export const OMNI_DATA: OmniData = {
    "type": "Melhoria",
    "adjust": [
     "Sem prioridade (etiqueta priority::)",
-    "Aberto há 727 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 733 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   }
  ]
