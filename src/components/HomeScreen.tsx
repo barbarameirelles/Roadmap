@@ -44,7 +44,7 @@ function CommerceLogo({ muted }: { muted?: boolean }) {
   );
 }
 
-// Iniciativas Omni = OMS + Wake U + PDV num roadmap só (fonte: GitLab).
+// Iniciativas Omni = OMS + Wake U num roadmap só (fonte: GitLab).
 function OmniLogo({ muted }: { muted?: boolean }) {
   return (
     <div className="hs-logo-wrap">
@@ -53,7 +53,19 @@ function OmniLogo({ muted }: { muted?: boolean }) {
         // omni
       </div>
       <div className="hs-omni-prods" style={{ color: muted ? "#BDBDBD" : INK }}>
-        <span>OMS</span><span>U</span><span>PDV</span>
+        <span>OMS</span><span>U</span>
+      </div>
+    </div>
+  );
+}
+
+// Wake PDV: área própria, mesmas regras do Omni (fonte: GitLab).
+function PdvLogo({ muted }: { muted?: boolean }) {
+  return (
+    <div className="hs-logo-wrap">
+      <WakeWordmark muted={muted} />
+      <div className="hs-product-line" style={{ color: muted ? "#BDBDBD" : PURPLE }}>
+        // pdv
       </div>
     </div>
   );
@@ -81,6 +93,7 @@ const UNITS: Unit[] = [
   { id: "xp",       Logo: XPLogo,       active: true  },
   { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.apps-wake.tech/" },
   { id: "omni",     Logo: OmniLogo,     active: true  },
+  { id: "pdv",      Logo: PdvLogo,      active: true  },
 ];
 
 // Dashboards de adoção de features (externos).
@@ -92,6 +105,7 @@ const ADOPTION: Unit[] = [
 interface Props {
   onEnterXP: () => void;
   onEnterOmni: () => void;
+  onEnterPdv: () => void;
 }
 
 function UnitCard({ unit, cta, onEnter }: { unit: Unit; cta: string; onEnter?: () => void }) {
@@ -120,7 +134,7 @@ function UnitCard({ unit, cta, onEnter }: { unit: Unit; cta: string; onEnter?: (
   );
 }
 
-export default function HomeScreen({ onEnterXP, onEnterOmni }: Props) {
+export default function HomeScreen({ onEnterXP, onEnterOmni, onEnterPdv }: Props) {
   return (
     <div className="hs-page">
       <header className="hs-header">
@@ -139,7 +153,7 @@ export default function HomeScreen({ onEnterXP, onEnterOmni }: Props) {
             key={u.id}
             unit={u}
             cta="Ver roadmap"
-            onEnter={u.id === "xp" ? onEnterXP : u.id === "omni" ? onEnterOmni : undefined}
+            onEnter={u.id === "xp" ? onEnterXP : u.id === "omni" ? onEnterOmni : u.id === "pdv" ? onEnterPdv : undefined}
           />
         ))}
       </div>

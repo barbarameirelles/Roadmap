@@ -3,7 +3,7 @@ import type { OmniInitiative } from "@/data/omni/types";
 import { OMNI_SUMMARIES } from "@/data/omni/omniSummaries";
 import {
   AdjustFlag, InitiativeSlideOver, PRODUCT_META, ProductTags, ProgressBar, STATUS_CFG,
-  initiativeStats, monthText, useOmniInitiatives, type OmniFilter,
+  initiativeStats, monthText, productList, useOmniArea, useOmniInitiatives, type OmniFilter,
 } from "./omniShared";
 
 const NOW = new Date();
@@ -77,6 +77,7 @@ function MonthSection({ title, badge, items, defaultOpen, flag }: {
 }
 
 export default function OmniGoalsView({ filter }: { filter: OmniFilter }) {
+  const { products } = useOmniArea();
   const all = useOmniInitiatives(filter);
   const { months, noMonth } = useMemo(() => {
     // Sem tarefas só entra se foi planejado para o mês (Objetivo::<Mês>).
@@ -97,7 +98,7 @@ export default function OmniGoalsView({ filter }: { filter: OmniFilter }) {
       <div className="g-page-head">
         <h1 className="g-page-title">Entrega do Mês</h1>
         <p className="g-page-sub">
-          Iniciativas de OMS, Wake U e PDV agrupadas pelo mês de entrega · % = concluídas + metade das em andamento e bloqueadas · clique em um card para ver as tarefas
+          Iniciativas de {productList(products)} agrupadas pelo mês de entrega · % = concluídas + metade das em andamento e bloqueadas · clique em um card para ver as tarefas
         </p>
         <p className="g-page-note">
           O <span className="om-flag om-flag--inline">(!)</span> marca o que ainda será ajustado no GitLab. Passe o mouse para ver o ajuste.

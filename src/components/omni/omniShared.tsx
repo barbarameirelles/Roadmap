@@ -1,6 +1,6 @@
 // Peças compartilhadas pelas abas de Iniciativas Omni: filtros, "(!)" de ajuste,
 // barra de progresso e slide-over com as tarefas de uma iniciativa.
-import { useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { progressBreakdown } from "@/data/ganttUtils";
 import type { IssueStatus } from "@/data/labeledDeliveries";
 import { useOmniData } from "@/lib/omniSync";
@@ -24,6 +24,17 @@ export const STATUS_CFG: Record<IssueStatus, { label: string; bg: string; color:
 export const MONTH_NAMES = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
   "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
+// ── Área: Omni (OMS + Wake U) ou PDV — mesmas abas e regras, produtos diferentes ──
+export type OmniArea = "omni" | "pdv";
+export const AREA_PRODUCTS: Record<OmniArea, OmniProduct[]> = { omni: ["OMS", "Wake U"], pdv: ["PDV"] };
+const AreaCtx = createContext<OmniArea>("omni");
+export const OmniAreaProvider = AreaCtx.Provider;
+export function useOmniArea() {
+  const area = useContext(AreaCtx);
+  return { area, products: AREA_PRODUCTS[area] };
+}
+export const productList = (ps: string[]) => ps.length > 1 ? `${ps.slice(0, -1).join(", ")} e ${ps[ps.length - 1]}` : ps[0];
+
 // ── Filtros (produto + tipo) ─────────────────────────────────────────────────
 export type ProductFilter = "Todos" | OmniProduct;
 export type KindFilter = "Tudo" | OmniKind;
@@ -31,15 +42,19 @@ export interface OmniFilter { product: ProductFilter; kind: KindFilter }
 
 export function useOmniInitiatives(f: OmniFilter): OmniInitiative[] {
   const { data } = useOmniData();
+  const { products } = useOmniArea();
   return useMemo(() => data.initiatives.filter(i =>
+    i.products.some(p => products.includes(p)) &&
     (f.product === "Todos" || i.products.includes(f.product)) &&
-    (f.kind === "Tudo" || i.kind === f.kind)), [data, f.product, f.kind]);
+    (f.kind === "Tudo" || i.kind === f.kind)), [data, products, f.product, f.kind]);
 }
 
 export function OmniFilterBar({ value, onChange, showKind = true, showProduct = true }: {
   value: OmniFilter; onChange: (f: OmniFilter) => void; showKind?: boolean; showProduct?: boolean;
 }) {
-  const products: ProductFilter[] = ["Todos", "OMS", "Wake U", "PDV"];
+  const area = useOmniArea().products;
+  const products: ProductFilter[] = ["Todos", ...area];
+  if (area.length < 2) showProduct = false;     // área de um produto só (PDV): sem filtro
   const kinds: { id: KindFilter; label: string }[] = [
     { id: "Tudo", label: "Tudo" }, { id: "roadmap", label: "Roadmap" }, { id: "projeto", label: "Projetos de cliente" },
   ];

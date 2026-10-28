@@ -5,10 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useOmniData } from "@/lib/omniSync";
 import type { IssueStatus } from "@/data/labeledDeliveries";
 import type { OmniPriority, OmniProduct, OmniTicket } from "@/data/omni/types";
-import { AdjustFlag, MONTH_NAMES, PRODUCT_META, STATUS_CFG, type OmniFilter } from "./omniShared";
+import { AdjustFlag, MONTH_NAMES, PRODUCT_META, STATUS_CFG, useOmniArea, type OmniFilter } from "./omniShared";
 
 const SLA_DAYS = 5;
-const PRODUCTS: OmniProduct[] = ["OMS", "Wake U", "PDV"];
 const PRIORITY_LABEL: Record<OmniPriority, string> = { urgente: "Muito alta", alta: "Alta", media: "Média", baixa: "Baixa" };
 
 function businessDays(start: string, end: string): number {
@@ -127,6 +126,7 @@ function TicketsSlide({ product, monthLabel, s, onClose }: { product: OmniProduc
 
 export default function OmniSupportView({ filter }: { filter: OmniFilter }) {
   const { data } = useOmniData();
+  const PRODUCTS = useOmniArea().products;
   const NOW = data.generatedAt.slice(0, 10);   // "hoje" = data dos dados
   const months = useMemo(() => {
     const out: string[] = [];
@@ -142,7 +142,7 @@ export default function OmniSupportView({ filter }: { filter: OmniFilter }) {
   const label = (m: string) => MONTH_NAMES[+m.slice(5) - 1];
   const isLive = month === NOW.slice(0, 7);
   const stats = useMemo(() => Object.fromEntries(PRODUCTS.map(p =>
-    [p, statsFor(data.support.filter(t => t.product === p), month, NOW)])) as Record<OmniProduct, MonthStats>, [data, month, NOW]);
+    [p, statsFor(data.support.filter(t => t.product === p), month, NOW)])) as Record<OmniProduct, MonthStats>, [data, month, NOW, PRODUCTS]);
 
   return (
     <div className="g-page">

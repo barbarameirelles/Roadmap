@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useOmniData } from "@/lib/omniSync";
 import type { OmniHypoColumn, OmniHypothesis, OmniPriority } from "@/data/omni/types";
-import { AdjustFlag, PRODUCT_META, PROJECT_META, type OmniFilter } from "./omniShared";
+import { AdjustFlag, PRODUCT_META, PROJECT_META, useOmniArea, type OmniFilter } from "./omniShared";
 
 const COLUMN_META: Record<OmniHypoColumn, { label: string; color: string; bg: string; order: number }> = {
   "To-Do":       { label: "To-Do",            color: "#047857", bg: "#ecfdf5", order: 0 },
@@ -92,9 +92,12 @@ export default function OmniHypothesesView({ filter }: { filter: OmniFilter }) {
   const [sel, setSel] = useState<OmniHypothesis | null>(null);
 
   const { data } = useOmniData();
-  // O filtro global de produto (OMS/U/PDV) não vale aqui: a aba tem o próprio, com todos os produtos.
+  const { area } = useOmniArea();
+  // O filtro global de produto não vale aqui: a aba tem o próprio, com todos os produtos do board.
+  // Área PDV: só o que é de PDV. Área Omni: todo o resto (OMS, Wake U, B2B, Hub…).
   const base = useMemo(() => data.hypotheses.filter(h =>
-    filter.kind === "Tudo" || h.kind === filter.kind), [data, filter.kind]);
+    (area === "pdv") === (h.lines[0] === "PDV") &&
+    (filter.kind === "Tudo" || h.kind === filter.kind)), [data, area, filter.kind]);
   const lines = useMemo(() => [...new Set(base.map(h => h.lines[0]))].sort((a, b) => lineRank(a) - lineRank(b)), [base]);
 
   const rows = useMemo(() => base

@@ -138,7 +138,7 @@ export default function PdvRoadmapView() {
         </h1>
         <p className="pdv-sub">Visão alto nível das entregas · do piloto no Showroom ao roll out</p>
         <p className="g-page-note" style={{ marginTop: 8 }}>
-          <AdjustFlag notes={["Roadmap estático: não lê o GitLab. Os (!) mostram onde ele diverge do GitLab hoje"]} /> Os marcos abaixo são escritos à mão; o andamento real do PDV está nas abas Entrega do Mês e Kanban (filtro PDV).
+          <AdjustFlag notes={["Roadmap estático: não lê o GitLab. Os (!) mostram onde ele diverge do GitLab hoje"]} /> Os marcos abaixo são escritos à mão; o andamento real do PDV está nas abas Entrega do Mês e Kanban.
         </p>
       </div>
 
