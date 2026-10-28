@@ -3,12 +3,19 @@
 //   description → o que está sendo entregue (1–2 frases)
 //   context     → por que isso importa, em linguagem de negócio
 // Escrito à mão a partir da descrição do épico no GitLab e do planejamento.
-// A chave é o id da iniciativa ("ep-<iid>" ou "sug-<grupo>"). Iniciativa sem
-// resumo aqui aparece só com o título — escrever o texto ao entrar no planejamento.
+// A chave é o id da iniciativa ("ep-<iid>" ou "sug-<grupo>"). Sem texto aqui,
+// o card usa a descrição do épico no GitLab (summaryFor).
+import type { OmniInitiative } from "./types";
 
 export interface OmniSummary {
   description: string;
-  context: string;
+  context?: string;
+}
+
+export function summaryFor(i: OmniInitiative): OmniSummary | null {
+  const hand = OMNI_SUMMARIES[i.id];
+  if (hand) return hand;
+  return i.summary ? { description: i.summary, context: i.why } : null;
 }
 
 export const OMNI_SUMMARIES: Record<string, OmniSummary> = {

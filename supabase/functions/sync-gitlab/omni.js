@@ -108,6 +108,23 @@ function monthFromObjective(labels, today) {
   return { year: month < cur - 3 ? y + 1 : y, month, label: l };
 }
 
+// Markdown do GitLab → texto corrido.
+const plain = md => (md ?? "").replace(/<!--[\s\S]*?-->/g, "").replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+  .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#*_`>|]/g, "").replace(/\s+/g, " ").trim();
+
+const clip = (t, n) => t.length > n ? t.slice(0, n).replace(/\s\S*$/, "") + "…" : t;
+// Resumo do card a partir da descrição do épico: "Objetivo:" (ou o texto todo)
+// vira o resumo e "Benefícios:" vira o "por que isso importa".
+function summaryFrom(md) {
+  const t = plain(md).replace(/\s-{3,}\s/g, " — ");
+  if (!t) return {};
+  const STOP = "(?=\\b(?:Benefícios|Ganhos(?: \\(outcomes\\))?|KR|Cenários de uso|Referências|Problema|Diretriz do objetivo|Origem)\\s*:|$)";
+  const pick = label => t.match(new RegExp(`\\b${label}\\s*:?\\s*(.+?)${STOP}`, "i"))?.[1].trim().replace(/^[—-]\s*/, "");
+  const what = pick("(?<!do )(?:Objetivo(?: do projeto)?|Objective|Contexto)") ?? t;
+  const why = pick("(?:Benefícios|Ganhos(?: \\(outcomes\\))?)");
+  return { summary: clip(what, 320), why: why ? clip(why, 320) : undefined };
+}
+
 // ── Acesso ao GitLab ─────────────────────────────────────────────────────────
 // Cada chamada tem limite de 20s e até 2 novas tentativas (GitLab às vezes fica lento
 // ou responde 429/5xx) — assim o botão não fica preso esperando.
@@ -221,7 +238,7 @@ export async function buildOmniData(token, log = () => {}) {
     return items;
   }
 
-  function buildInitiative({ id, title, url, labels, start, due, issues, children, suggested, epicIid }) {
+  function buildInitiative({ id, title, url, labels, start, due, issues, children, suggested, epicIid, description }) {
     const items = toItems(issues, children);
     const adjust = [];
     // Produtos
@@ -280,7 +297,7 @@ export async function buildOmniData(token, log = () => {}) {
     if (allDone && epicStatus) adjust.push(`Todas as tarefas fechadas, mas o épico está "${epicStatus.split("::")[1]}" — fechar o épico`);
     if (issues.some(i => i.labels.includes("OKR - Em atraso"))) adjust.push('Marcado como "OKR - Em atraso" no GitLab');
     if (suggested) adjust.unshift("Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues");
-    return { id, title, url, products, kind, client, month, objective: !!objective || undefined, start: start ?? undefined, due: dueAll ?? undefined,
+    return { id, title, url, products, kind, client, month, objective: !!objective || undefined, ...summaryFrom(description), start: start ?? undefined, due: dueAll ?? undefined,
       gitlabStatus: epicStatus ? epicStatus.split("::")[1] : undefined, items, adjust };
   }
 
@@ -312,7 +329,7 @@ export async function buildOmniData(token, log = () => {}) {
     if (!products.length && !itemProducts.length && !ASSUMED_PRODUCT[e.iid]) continue;
     const children = epicChildren[k];
     const ini = buildInitiative({ id: `ep-${e.iid}`, title: e.title, url: e.web_url, labels: e.labels,
-      start: e.start_date, due: e.due_date, issues, children, epicIid: e.iid });
+      start: e.start_date, due: e.due_date, issues, children, epicIid: e.iid, description: e.description });
     for (const x of extra) {
       const it = ini.items.find(i => i.ref.endsWith(`#${x.iid}`) && x.references.full.endsWith(i.ref));
       if (it) it.adjust.unshift(`Issue sem épico no GitLab — sugiro mover para o épico #${e.iid}`);
@@ -343,8 +360,6 @@ export async function buildOmniData(token, log = () => {}) {
   const LINE_OF = [["prod::SinOMS", "OMS"], ["prod::WakeU", "Wake U"], ...PDV_LABELS.map(l => [l, "PDV"]),
     ["prod::SinHub", "Hub de integração"], ["prod::SinTalk", "SinTalk"], ["prod::SinB2B", "B2B"],
     ["prod::SinB2C", "B2C"], ["prod::SinAPI", "API"]];
-  const plain = md => (md ?? "").replace(/<!--[\s\S]*?-->/g, "").replace(/!\[[^\]]*\]\([^)]*\)/g, "")
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#*_`>|]/g, "").replace(/\s+/g, " ").trim();
   const iniByIid = Object.fromEntries(initiatives.filter(i => i.id.startsWith("ep-")).map(i => [+i.id.slice(3), i]));
   const hypotheses = [];
   for (const [k, e] of epics.entries()) {

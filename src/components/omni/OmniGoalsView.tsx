@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { OmniInitiative } from "@/data/omni/types";
-import { OMNI_SUMMARIES } from "@/data/omni/omniSummaries";
+import { summaryFor } from "@/data/omni/omniSummaries";
 import {
   AdjustFlag, InitiativeSlideOver, PRODUCT_META, ProductTags, ProgressBar, STATUS_CFG,
   initiativeStats, monthText, productList, useOmniArea, useOmniInitiatives, type OmniFilter,
@@ -13,7 +13,7 @@ const key = (m: { year: number; month: number }) => m.year * 100 + m.month;
 function Card({ i, onClick }: { i: OmniInitiative; onClick: () => void }) {
   const s = initiativeStats(i);
   const active = i.items.filter(x => x.status === "Blocked" || x.status === "In Progress").slice(0, 3);
-  const sum = OMNI_SUMMARIES[i.id];
+  const sum = summaryFor(i);
   return (
     <div className="om-card" role="button" tabIndex={0} onClick={onClick}
       onKeyDown={e => e.key === "Enter" && onClick()}>
@@ -23,7 +23,7 @@ function Card({ i, onClick }: { i: OmniInitiative; onClick: () => void }) {
       </div>
       <div className="om-card-title">{i.title}</div>
       {sum && <div className="om-card-desc">{sum.description}</div>}
-      {sum && <div className="om-card-why" style={{ borderLeftColor: `${PRODUCT_META[i.products[0]]?.color ?? "#94a3b8"}44` }}>{sum.context}</div>}
+      {sum?.context && <div className="om-card-why" style={{ borderLeftColor: `${PRODUCT_META[i.products[0]]?.color ?? "#94a3b8"}44` }}>{sum.context}</div>}
       <div>
         <div className="om-row-between" style={{ alignItems: "baseline", marginBottom: 6 }}>
           <span className="om-pct">{s.progress}%</span>

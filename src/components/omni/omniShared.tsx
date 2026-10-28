@@ -5,7 +5,7 @@ import { progressBreakdown } from "@/data/ganttUtils";
 import type { IssueStatus } from "@/data/labeledDeliveries";
 import { useOmniData } from "@/lib/omniSync";
 import type { OmniInitiative, OmniKind, OmniProduct } from "@/data/omni/types";
-import { OMNI_SUMMARIES } from "@/data/omni/omniSummaries";
+import { summaryFor } from "@/data/omni/omniSummaries";
 
 export const PRODUCT_META: Record<OmniProduct, { color: string; bg: string }> = {
   "OMS":    { color: "#0369a1", bg: "#e0f2fe" },
@@ -149,7 +149,7 @@ export function InitiativeSlideOver({ i, onClose }: { i: OmniInitiative; onClose
     return () => document.removeEventListener("keydown", k);
   }, [onClose]);
   const order: IssueStatus[] = ["Blocked", "In Progress", "To Do", "Done"];
-  const sum = OMNI_SUMMARIES[i.id];
+  const sum = summaryFor(i);
   return (
     <>
       <div className="om-scrim" onClick={onClose} />
@@ -170,7 +170,7 @@ export function InitiativeSlideOver({ i, onClose }: { i: OmniInitiative; onClose
           </div>
           {sum && <p className="om-slide-desc">{sum.description}</p>}
         </div>
-        {sum && (
+        {sum?.context && (
           <div className="om-slide-sec om-slide-why">
             <div className="om-group-lbl"><span aria-hidden>💡</span> Por que isso importa</div>
             <p>{sum.context}</p>

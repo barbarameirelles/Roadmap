@@ -2,11 +2,32 @@
 import type { OmniData } from "./types";
 
 export const OMNI_DATA: OmniData = {
- "generatedAt": "2026-10-28T19:30:26.911Z",
+ "generatedAt": "2026-10-28T21:16:35.884Z",
  "initiatives": [
   {
+   "id": "ep-106",
+   "title": "[Black Friday] Ajustes/Melhorias necessárias para sustenção da BF",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/106",
+   "products": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "month": {
+    "year": 2026,
+    "month": 11
+   },
+   "objective": true,
+   "summary": "Épico para ajustes e/ou melhorias para sustentação para Black Friday dos clientes.",
+   "start": "2026-11-03",
+   "due": "2026-11-30",
+   "items": [],
+   "adjust": [
+    "Planejado para o mês (Objetivo::Novembro), mas ainda sem tarefas — criar as issues para medir o %"
+   ]
+  },
+  {
    "id": "ep-104",
-   "title": "[Outubro/26] Objetivo 5: Bloqueio de Dados Anonimizados Marketplace na integração de Clientes no ERP Totvs Moda",
+   "title": "[Outubro/26]  Bloqueio de Dados Anonimizados Marketplace na integração de Clientes no ERP Totvs Moda",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/104",
    "products": [
     "OMS"
@@ -16,6 +37,8 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 10
    },
+   "summary": "Desenvolver uma nova regra de inteligência no fluxo de integração do Wake OMS com o ERP Totvs Moda, focada em resolver conflitos de sobrescrita de cadastro oriundos de pedidos de marketplaces (por exemplo, via Anymarket). O foco é implementar a identificação de pedidos com origem marketplace (baseada em flag de canal…",
+   "why": "Para a Marca: Minimiza o conflito de \"Múltiplos Cadastros vs. Sobrescrita de Dados\", evitando que a política de proteção de dados dos marketplaces corrompa o cadastro oficial dos consumidores no ecossistema da loja. Define o canal oficial (E-commerce / Prateleira Infinita) como a única fonte de verdade para a…",
    "due": "2026-10-21",
    "items": [
     {
@@ -53,6 +76,8 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 10
    },
+   "summary": "Implementar no Wake OMS e SinB2C, o novo padrão oficial de layout para as etiquetas de postagem recomendado pelos Correios. O foco é contemplar as novas diretrizes visuais de endereçamento e a inclusão do código Data Matrix (2D), reaproveitando a integração de postagem já existente (sem necessidade de desenvolver…",
+   "why": "Garante a efetividade e o cumprimento dos prazos de entrega ao consumidor final, evitando atrasos logísticos causados por endereçamento fora do padrão. Mantém a operação fluida e autônoma para lojas físicas que não possuem impressoras térmicas, permitindo a impressão do PDF atualizado direto do OMS.",
    "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
@@ -88,6 +113,8 @@ export const OMNI_DATA: OmniData = {
     "month": 11
    },
    "objective": true,
+   "summary": "Conduzir a fase de Discovery e estruturar o protótipo de interface para integrar o agente \"Khora\" ao painel Saúde do Atendimento (Monitor de Ruptura). O painel atual consolida dados essenciais, como GMV em risco e taxa de recusa, de forma puramente diagnóstica. O foco deste mês é aprofundar o escopo e desenhar um…",
+   "why": "Para a Marca: Acelera a tomada de decisão com as recomendações proativas para recuperar vendas que seriam recusadas pelas lojas, poupando o tempo para análise e qual ação tomar para aquele dado crítico.",
    "gitlabStatus": "To-Do",
    "items": [
     {
@@ -105,7 +132,7 @@ export const OMNI_DATA: OmniData = {
   },
   {
    "id": "ep-101",
-   "title": "[Outubro/26] Objetivo 1: Correção de Vulnerabilidades Críticas de Segurança (DOJO LWSA) – Fase 1",
+   "title": "Correção de Vulnerabilidades Críticas de Segurança (DOJO LWSA) – Fase 1 [Nov/26]",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/101",
    "products": [
     "OMS"
@@ -113,8 +140,11 @@ export const OMNI_DATA: OmniData = {
    "kind": "roadmap",
    "month": {
     "year": 2026,
-    "month": 10
+    "month": 11
    },
+   "objective": true,
+   "summary": "Executar a primeira fase do plano de mitigação apontado pela auditoria do time de SEC. A sprint focará exclusivamente na resolução dos 6 apontamentos de criticidade \"Muito Alta\". A engenharia atuará no saneamento do código-fonte para barrar injeções de SQL, isolar completamente os dados entre lojistas (garantindo que…",
+   "why": "Evita impactos graves para a operação, mitigando o risco de perda de contratos e multas da ANPD decorrentes de acessos cruzados ou vazamentos.",
    "gitlabStatus": "To-Do",
    "items": [
     {
@@ -180,7 +210,6 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico sem etiqueta de produto — assumi OMS. Adicionar prod::SinOMS",
-    "Mês deduzido pelo título do épico — falta etiqueta Objetivo::Outubro no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -197,6 +226,7 @@ export const OMNI_DATA: OmniData = {
     "month": 11
    },
    "objective": true,
+   "summary": "Com a Wake avançando em conversas com cliente grandes e que já estão no OMS usando Vtex, foi levantada a hipotese do OMS conseguir olhar para mais de uma plataforma de acordo com o que está configurado na conta. Isso vai facilitar a virada de clientes maiores que tem mais de uma marca como o Grupo Soma, por exemplo.…",
    "items": [],
    "adjust": [
     "Épico sem data de início e/ou fim",
@@ -216,6 +246,7 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 8
    },
+   "summary": "Issue: https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/workitems/2224 Quando o produto é devolvido, permanece no status problema na entrega e precisa ser despachado novamente. Vendo o cenário do cliente em 28/08, nos últimos 3 meses, tiveram 35 com status problema na entrega e sempre Correios.…",
    "due": "2026-08-31",
    "items": [
     {
@@ -248,6 +279,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "Desenvolvimento da integração de informações para o Document Wake desenvolvimento pelo time do Jimmy. Será um processo onde o lojista poderá criar entidades e enviar dados do ERP para o Document Wake e consumir essas informações no front do site.",
    "gitlabStatus": "Publicação Docs",
    "items": [
     {
@@ -278,6 +310,7 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 3
    },
+   "summary": "Desenvolvimento da criação do pedido e importação da etiqueta do TikTok Shop para despacho dos pedidos no padrão necessário e obrigatório para os pedidos originados pelo TikTok. Proposta Técnica Resumida 2021.069.79 - Grupo Soma - SINB2C e SINOMNI - Integração Etiqueta de Destino TikTok Shop - 27 fev 2026.pdf Escopo…",
    "due": "2026-03-23",
    "gitlabStatus": "Em homologação",
    "items": [
@@ -311,6 +344,7 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 8
    },
+   "summary": "Solicitado pela Osklen a alteração da base de cálculo dos valores de reembolso de frete, com o objetivo de evitar diferenças financeiras na Logística Reversa. Para isso, os dados da TroqueCommerce passarão a ser utilizados como a única fonte da verdade para os processos de reembolso de frete no ERP e para a emissão de…",
    "due": "2026-08-26",
    "gitlabStatus": "Em homologação",
    "items": [
@@ -341,6 +375,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "Dando continuidade na evolução da arquitetura e visando redução de custo, temos uma iniciativa de migrar nossas aplicações de EC2 com IIS para ECS via container. Para conseguirmos migrar o OMS para ECS precisamos atacar alguns debitos tecnicos e o time está atuando nessas frentes. Precisamos migrar para ECS antes da…",
    "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
@@ -445,6 +480,7 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 11
    },
+   "summary": "Implementar o fluxo de Triangulação Fiscal no Ship-from-Store (Shipping CTO) para a marca Shoulder. O objetivo é permitir que a loja física realize a separação e o despacho físico do produto, porém, sob a perspectiva fiscal, ocorra uma triangulação: o sistema emitirá uma Nota Fiscal de transferência simbólica da loja…",
    "start": "2026-09-28",
    "due": "2026-11-06",
    "gitlabStatus": "Em desenvolvimento",
@@ -475,6 +511,8 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 8
    },
+   "summary": "Este objetivo abrange o desenvolvimento da integração nativa entre o Wake OMS e a plataforma de e-commerce Shopify. O escopo contempla as APIs da Shopify para o fluxo de catálogo (produtos, SKUs e fotos), sincronização de estoque, o ciclo de vida completo de pedidos (importação e atualização de status) e a…",
+   "why": "Viabilização de projetos do Wake OMS para grandes contas, como Vix e Osklen, que operam nesta plataforma por causa da operação internacional. Expandir o portfólio de integrações nativas do Wake OMS, adicionando suporte à plataforma de e-commerce Shopify para futuras adoções.",
    "start": "2026-03-02",
    "due": "2026-08-31",
    "gitlabStatus": "Publicação Docs",
@@ -639,6 +677,8 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 7
    },
+   "summary": "Viabilizar a troca rápida de produtos direto na tela de detalhes do pedido no Wake OMS antes do faturamento, sem a necessidade de cancelar e refazer a venda do zero. O foco será em atender clientes da plataforma Wake Commerce, para cenários de ruptura de estoque ou solicitações de troca de itens, permitindo que o…",
+   "why": "Elimina o retrabalho do SAC na resolução de rupturas de estoque. Garante autonomia para o atendimento resolver trocas direto na tela do pedido. Bloqueia automaticamente alterações que gerem cobranças adicionais indesejadas.",
    "start": "2026-07-01",
    "due": "2026-07-31",
    "gitlabStatus": "Em desenvolvimento",
@@ -702,7 +742,7 @@ export const OMNI_DATA: OmniData = {
   },
   {
    "id": "ep-86",
-   "title": "Wake OMS - Saúde da distribuição (Insigths)",
+   "title": "Wake OMS - Saúde da distribuição (Insigths) [Nov/26]",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/86",
    "products": [
     "OMS"
@@ -710,10 +750,12 @@ export const OMNI_DATA: OmniData = {
    "kind": "roadmap",
    "month": {
     "year": 2026,
-    "month": 9
+    "month": 11
    },
+   "objective": true,
+   "summary": "Saúde da Distribuição Novo módulo do Wake OMS, dentro de Insights, para diagnóstico de roteamento e geografia de atendimento — com uma camada de sugestão de reordenação de lojas gerada pelo Córtex. Problema Hoje o OMS não responde, sem extração manual, perguntas básicas sobre como a rede distribui a demanda: Qual loja…",
    "start": "2026-08-17",
-   "due": "2026-09-30",
+   "due": "2026-11-30",
    "gitlabStatus": "Em homologação",
    "items": [
     {
@@ -760,9 +802,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Falta etiqueta de produto no épico: prod::SinOMS",
-    "Mês deduzido pelo prazo (30/09/2026) — falta etiqueta Objetivo::Setembro no épico",
-    "Prazo venceu em 30/09/2026 — replanejar"
+    "Falta etiqueta de produto no épico: prod::SinOMS"
    ]
   },
   {
@@ -777,6 +817,8 @@ export const OMNI_DATA: OmniData = {
     "year": 2026,
     "month": 9
    },
+   "summary": "Este objetivo visa o desenvolvimento da integração entre o módulo Venda Digital (Wake U) e a plataforma de fidelização CRM Bônus, através de APIs da parceira estratégica byCoders. O foco é permitir a consulta e o uso de saldo de Giftback (bônus do cliente) nos pedidos gerados pelo Venda Digital do Wake U. Isso alinha…",
+   "why": "Unificação da experiência de fidelidade do consumidor, permitindo o uso de benefícios tanto no e-commerce quanto nas jornadas digitais de loja física. Elevar a conversão e o ticket médio no Venda Digital com a adoção do Giftback praticado no E-commerce.",
    "start": "2026-09-14",
    "due": "2026-09-30",
    "gitlabStatus": "Ag. Code Review",
@@ -815,6 +857,8 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "visa adaptar o Wake OMS para processar e gerenciar pedidos de pré-venda importados de plataformas de e-commerce. O desenvolvimento contempla a criação de um novo status \"Pré-Venda\" (que bloqueia a movimentação logística), a adição do campo de data de lançamento no banco de dados e um processo para realizar o split…",
+   "why": "O split de pedido no OMS garante eficiência operacional, para que a separação na loja/CD só ocorra na data correta de lançamento para itens pré-vendas, e o atendimento imediato para itens pronta entrega, evitando confusões ou ruptura.",
    "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
@@ -848,6 +892,8 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "Este objetivo foca em tornar parametrizável o limite atual de 5 centros de distribuição (CDs) utilizados no processo de cotação e desempate da heurística de decisão de origem. A criação deste parâmetro na plataforma permitirá o aumento gradual da quantidade de lojas participantes no leilão de frete, até encontrar o…",
+   "why": "Permite otimizar o leilão de frete, encontrando opções melhores ao incluir mais lojas na cotação. Garante a estabilidade da plataforma, permitindo testar e validar o impacto em performance de forma controlada. Evita uma logística mais cara e demorada ao garantir que a proximidade geográfica (região) atue em conjunto…",
    "gitlabStatus": "Ag. Code Review",
    "items": [
     {
@@ -881,6 +927,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "Integração do Wake U com a Getnet, via plataforma Omni da Eyemobile (backend + terminais Smart POS). Fase 1: Cobrança, consulta, cancelamento de cobrança não paga Fase 2: Estorno, impressão de cupom e evoluções de robustez rumo à produção. Esse desenvolvimento está acontecendo em conjunto com o time da Getnet pois é…",
    "gitlabStatus": "Ag. Code Review",
    "items": [
     {
@@ -916,10 +963,10 @@ export const OMNI_DATA: OmniData = {
    "kind": "roadmap",
    "month": {
     "year": 2026,
-    "month": 9
+    "month": 11
    },
    "start": "2026-08-18",
-   "due": "2026-09-10",
+   "due": "2026-11-20",
    "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
@@ -1330,8 +1377,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo prazo (10/09/2026) — falta etiqueta Objetivo::Setembro no épico",
-    "Prazo venceu em 10/09/2026 — replanejar"
+    "Mês deduzido pelo prazo (20/11/2026) — falta etiqueta Objetivo::Novembro no épico"
    ]
   },
   {
@@ -1343,6 +1389,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "O time de SEC da LWSA fez a analise estática de código nos nosso repositórios e nos devolveu um relatório com cerca de 400 itens para revisão, correção ou explicação. Estou abrindo essa issue para que esse item fique no radar do time e seja planejado por fases com base nas analises que o @CaioSantAnna está fazendo do…",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#704",
@@ -1368,6 +1415,8 @@ export const OMNI_DATA: OmniData = {
    ],
    "kind": "roadmap",
    "month": null,
+   "summary": "Desenvolvimento de uma nova integração no Wake OMS para envio de todas as vendas físicas das lojas para a API de Audiência da Wake Experience. Este projeto será agnóstico, focando exclusivamente na integração de pedidos, independentemente da origem (Linx POS, TOTVS Moda, etc). Mas para a entrega deste objetivo, será…",
+   "why": "Potencializa o retorno (ROI) das campanhas da marca, nutrindo a Wake Experience com o comportamento unificado de compras do consumidor (físico e digital) para a criação de segmentações. Fortalece o valor comercial do ecossistema Wake ao conectar de forma nativa a ponta de segmentações (Experience), sem exigir esforço…",
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#736",
@@ -1395,6 +1444,8 @@ export const OMNI_DATA: OmniData = {
     "month": 11
    },
    "objective": true,
+   "summary": "Lançar o novo módulo \"Gestão de Entregas\" dentro do Wake Insights, desenhado para consolidar a jornada logística de ponta a ponta (do faturamento à entrega) em um painel gerencial único. O foco é entregar uma visão sobre a efetividade das transportadoras utilizadas pelas marcas, expondo KPIs como: % de entregas no…",
+   "why": "Para a Marca: Transforma dados operacionais soltos em inteligência acionável para cobrarem as transportadoras com evidências e evitar impactos na experiência do comprador. Além de maior clareza sobre o impacto financeiro nos redirecionamentos de pedidos (change seller). Para o CS / Suporte: Remove o ponto cego da…",
    "gitlabStatus": "To-Do",
    "items": [
     {
@@ -2095,6 +2146,28 @@ export const OMNI_DATA: OmniData = {
   }
  ],
  "hypotheses": [
+  {
+   "id": "ep-106",
+   "iid": 106,
+   "title": "[Black Friday] Ajustes/Melhorias necessárias para sustenção da BF",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/106",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": true,
+   "description": "Épico para ajustes e/ou melhorias para sustentação para Black Friday dos clientes.",
+   "created": "2026-10-28",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
   {
    "id": "ep-105",
    "iid": 105,
@@ -3431,15 +3504,13 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2374",
    "title": "[ana.paula] WakeOMS - Loja não sincroniza",
    "product": "OMS",
-   "status": "To Do",
+   "status": "In Progress",
    "priority": "alta",
    "created": "2026-10-28",
    "closed": null,
-   "assignee": null,
-   "adjust": [
-    "Chamado aberto sem etiqueta de status",
-    "Chamado aberto sem responsável"
-   ]
+   "assignee": "Daiana Alves",
+   "type": "Causa externa",
+   "adjust": []
   },
   {
    "ref": "ss-gestao-produtos/suporte-produtos#2373",

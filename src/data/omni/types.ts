@@ -25,6 +25,8 @@ export interface OmniInitiative {
   client?: string;
   month: { year: number; month: number } | null;
   objective?: boolean;    // tem etiqueta Objetivo::<Mês> (planejado para o mês)
+  summary?: string;       // resumo tirado da descrição do épico ("Objetivo:" ou o texto todo)
+  why?: string;           // "Benefícios:" da descrição do épico
   start?: string;
   due?: string;
   gitlabStatus?: string;  // status escrito no próprio épico
