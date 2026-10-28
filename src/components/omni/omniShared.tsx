@@ -5,6 +5,7 @@ import { progressBreakdown } from "@/data/ganttUtils";
 import type { IssueStatus } from "@/data/labeledDeliveries";
 import { useOmniData } from "@/lib/omniSync";
 import type { OmniInitiative, OmniKind, OmniProduct } from "@/data/omni/types";
+import { OMNI_SUMMARIES } from "@/data/omni/omniSummaries";
 
 export const PRODUCT_META: Record<OmniProduct, { color: string; bg: string }> = {
   "OMS":    { color: "#0369a1", bg: "#e0f2fe" },
@@ -133,6 +134,7 @@ export function InitiativeSlideOver({ i, onClose }: { i: OmniInitiative; onClose
     return () => document.removeEventListener("keydown", k);
   }, [onClose]);
   const order: IssueStatus[] = ["Blocked", "In Progress", "To Do", "Done"];
+  const sum = OMNI_SUMMARIES[i.id];
   return (
     <>
       <div className="om-scrim" onClick={onClose} />
@@ -151,7 +153,14 @@ export function InitiativeSlideOver({ i, onClose }: { i: OmniInitiative; onClose
             {i.gitlabStatus ? ` · No GitLab: ${i.gitlabStatus}` : ""}
             {" · "}<a href={i.url} target="_blank" rel="noreferrer">Abrir no GitLab ↗</a>
           </div>
+          {sum && <p className="om-slide-desc">{sum.description}</p>}
         </div>
+        {sum && (
+          <div className="om-slide-sec om-slide-why">
+            <div className="om-group-lbl"><span aria-hidden>💡</span> Por que isso importa</div>
+            <p>{sum.context}</p>
+          </div>
+        )}
         <div className="om-slide-sec">
           <div className="om-row-between" style={{ alignItems: "baseline" }}>
             <span className="om-pct">{s.progress}%</span>
