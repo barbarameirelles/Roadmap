@@ -13,7 +13,7 @@ import { OmniFilterBar, type OmniFilter } from "./omniShared";
 export type OmniTab = "hypotheses" | "goals" | "kanban" | "support" | "pdv";
 
 const TABS: { id: OmniTab; title: string; sub: string }[] = [
-  { id: "hypotheses", title: "Hipóteses",   sub: "Épicos sem tarefas" },
+  { id: "hypotheses", title: "Hipóteses",   sub: "Board de épicos" },
   { id: "goals",  title: "Entrega do Mês",  sub: "Iniciativas por mês" },
   { id: "kanban", title: "Kanban",          sub: "Visão operacional" },
   { id: "support", title: "Suporte",        sub: "Chamados · prazo" },
@@ -82,7 +82,7 @@ function OmniScreen({ tab, onTab, onHome }: { tab: OmniTab; onTab: (t: OmniTab) 
         </div>
       </div>
       {tab !== "pdv" && (
-        <div className="om-filterbar"><OmniFilterBar value={filter} onChange={setFilter} showKind={tab !== "support"} /></div>
+        <div className="om-filterbar"><OmniFilterBar value={filter} onChange={setFilter} showKind={tab !== "support"} showProduct={tab !== "hypotheses"} /></div>
       )}
       {tab === "hypotheses" && <OmniHypothesesView filter={filter} />}
       {tab === "goals"  && <OmniGoalsView filter={filter} />}

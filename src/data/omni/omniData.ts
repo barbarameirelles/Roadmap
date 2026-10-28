@@ -2,7 +2,7 @@
 import type { OmniData } from "./types";
 
 export const OMNI_DATA: OmniData = {
- "generatedAt": "2026-10-27T17:15:18.847Z",
+ "generatedAt": "2026-10-28T18:51:40.380Z",
  "initiatives": [
   {
    "id": "ep-104",
@@ -77,7 +77,7 @@ export const OMNI_DATA: OmniData = {
   },
   {
    "id": "ep-102",
-   "title": "[Outubro/26] Objetivo 4: Discovery e Prototipação – Integração da IA \"Khora\" no Saúde do Atendimento (Wake Insight)",
+   "title": "Discovery e Prototipação – Integração da IA \"Khora\" no Saúde do Atendimento (Wake Insight) [Nov/26]",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/102",
    "products": [
     "OMS"
@@ -99,7 +99,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
+    "Mês deduzido pelo iteration/título da issue — falta etiqueta mes::2026-10 no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -203,8 +203,7 @@ export const OMNI_DATA: OmniData = {
      "ref": "ss-gestao-produtos/gestao-produtos#610",
      "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/work_items/610",
      "title": "[Track&Field] SINOMNI e SINB2C - Otimização do Processo de Devolução por Insucesso de Entrega (2020.008.35)",
-     "status": "Blocked",
-     "blocked": true,
+     "status": "In Progress",
      "adjust": [
       "Issue sem épico no GitLab — sugiro mover para o épico #97"
      ],
@@ -905,6 +904,55 @@ export const OMNI_DATA: OmniData = {
    "gitlabStatus": "Em desenvolvimento",
    "items": [
     {
+     "ref": "wake/wake-backoffice/wake-backoffice-backend#22",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-backoffice/wake-backoffice-backend/-/work_items/22",
+     "title": "Sincronização de preços - Commerce > Backoffice",
+     "status": "To Do",
+     "adjust": []
+    },
+    {
+     "ref": "wake/wake-pdv/wake-pdv#46",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-pdv/wake-pdv/-/work_items/46",
+     "title": "[Venda] - Resumo de pedidos e perfil do cliente",
+     "status": "To Do",
+     "adjust": []
+    },
+    {
+     "ref": "wake/wake-pdv/wake-pdv#45",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-pdv/wake-pdv/-/work_items/45",
+     "title": "[Caixa] - Movimentações de caixa com filtros e período",
+     "status": "Done",
+     "adjust": []
+    },
+    {
+     "ref": "wake/wake-pdv/wake-pdv#44",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-pdv/wake-pdv/-/work_items/44",
+     "title": "[Caixa] - Resumo do caixa por meio de pagamento",
+     "status": "To Do",
+     "adjust": []
+    },
+    {
+     "ref": "wake/wake-pdv/wake-pdv#43",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-pdv/wake-pdv/-/work_items/43",
+     "title": "[Venda] - Detalhe da venda e ações de nota fiscal",
+     "status": "To Do",
+     "adjust": []
+    },
+    {
+     "ref": "wake/wake-pdv/wake-pdv#42",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-pdv/wake-pdv/-/work_items/42",
+     "title": "[Venda] - Busca de vendas para a tela Pedidos",
+     "status": "To Do",
+     "adjust": []
+    },
+    {
+     "ref": "wake/wake-pdv/wake-pdv#41",
+     "url": "https://gitlab.com/sintesesolucoes/wake/wake-pdv/wake-pdv/-/work_items/41",
+     "title": "[Venda] - Cancelamento e estorno de venda concluída",
+     "status": "To Do",
+     "adjust": []
+    },
+    {
      "ref": "wake/wake-sync/wake-broker#4",
      "url": "https://gitlab.com/sintesesolucoes/wake/wake-sync/wake-broker/-/work_items/4",
      "title": "Preços - Integração",
@@ -1320,7 +1368,7 @@ export const OMNI_DATA: OmniData = {
   },
   {
    "id": "ep-35",
-   "title": "[Outubro/26] Objetivo 2: Novo Módulo Wake Insights – Gestão de Entregas",
+   "title": "Novo Módulo Wake Insights – Gestão de Entregas [Nov/26]",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/35",
    "products": [
     "OMS"
@@ -1342,7 +1390,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
+    "Mês deduzido pelo iteration/título da issue — falta etiqueta mes::2026-10 no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -2041,13 +2089,42 @@ export const OMNI_DATA: OmniData = {
     "Wake U",
     "OMS"
    ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
    "type": "Melhoria",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
    "description": "Diretriz do objetivo: Evolução dos Recursos Core da Plataforma / Funcionalidades de Pagamento Origem: Demanda Comercial (ideia de Guilherme Silva) - Clientes Fuel e Aramis Objetivo: Implementar funcionalidade de split de pagamento flexível no Wake OMS com suporte a configuração de % valor produto e % valor frete por recebedor, replicando a funcionalidade disponibilizada no Wake Commerce com…",
    "created": "2026-10-02",
    "adjust": [
     "Falta etiqueta de produto no épico: prod::WakeU",
     "Envolve OMS e Wake U — confirmar o produto principal",
     "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-100",
+   "iid": 100,
+   "title": "[Eduardo.Soares] Suporte - SINB2C - Botão de 'Ajuda' com IA na validação de notas de venda e troca",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/100",
+   "column": "Open",
+   "products": [],
+   "lines": [
+    "B2C"
+   ],
+   "kind": "roadmap",
+   "type": "Roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "- Solicitante: Eduardo Soares - Cliente: - Chamado: Demanda Interna - Produto: SINB2C - Impacto: : Melhoria do produto - Criticidade: Baixa - Houve alinhamento interno: Sim, com @ss-danilo.barbosa Contexto Atualmente, no SINB2C, quando ocorre uma rejeição ou erro durante a validação de uma NF-e, seja em processos de venda ou devolução, o sistema apresenta ao usuário o log retornado pela SEFAZ,…",
+   "created": "2026-09-23",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
     "Sem prioridade (etiqueta priority::)"
    ]
   },
@@ -2060,7 +2137,14 @@ export const OMNI_DATA: OmniData = {
    "products": [
     "OMS"
    ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
    "type": "Roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
    "description": "Origem da demanda: https://lwsa-tech.slack.com/archives/C090W1CBHKL/p1788981999894359 1. Objetivo da Proposta Automatizar a obtenção das etiquetas disponibilizadas pelos marketplaces por meio da API do ANYMARKET (parceira oficial Wake Commerce para Marketplace Out), vinculando o documento ao pedido correspondente no SINOMS e disponibilizando-o na rotina de impressão de etiquetas já utilizada pela…",
    "created": "2026-09-17",
    "adjust": [
@@ -2077,6 +2161,14 @@ export const OMNI_DATA: OmniData = {
    "products": [
     "OMS"
    ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
    "description": "Objetivo --- Com a Wake avançando em conversas com cliente grandes e que já estão no OMS usando Vtex, foi levantada a hipotese do OMS conseguir olhar para mais de uma plataforma de acordo com o que está configurado na conta. Isso vai facilitar a virada de clientes maiores que tem mais de uma marca como o Grupo Soma, por exemplo. Em uma migração do Soma, as marcas seriam viarada de forma faseada e…",
    "created": "2026-08-31",
    "adjust": [
@@ -2085,16 +2177,122 @@ export const OMNI_DATA: OmniData = {
    ]
   },
   {
-   "id": "ep-22",
-   "iid": 22,
-   "title": "Prateleira Infinita Vtex - Feature On-hands (Q4-2026)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/22",
+   "id": "ep-97",
+   "iid": 97,
+   "title": "[Melhoria] Tratar pedidos com problema na entrega e devolvidos na origem",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/97",
+   "column": "Open",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "projeto",
+   "client": "Track&Field",
+   "tasks": 1,
+   "done": 0,
+   "inDelivery": true,
+   "description": "Issue: https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/workitems/2224 Quando o produto é devolvido, permanece no status problema na entrega e precisa ser despachado novamente. Vendo o cenário do cliente em 28/08, nos últimos 3 meses, tiveram 35 com status problema na entrega e sempre Correios. Não tem um processo de devolução no OMS para tratar esses casos, mas a loja…",
+   "created": "2026-08-28",
+   "adjust": [
+    "Falta etiqueta de produto no épico: prod::SinOMS",
+    "Projeto de cliente sem orig::Projeto no épico",
+    "Adicionar etiqueta cliente::Track&Field",
+    "Também é objetivo de OKR: é roadmap ou projeto de cliente? (decisão pendente)",
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-80",
+   "iid": 80,
+   "title": "[Melhoria] - VTEX Sales App Extensibility - avaliar adoção",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/80",
+   "column": "Open",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto Por que esta melhoria está sendo proposta? A VTEX lançou (em fase Beta) o VTEX Sales App Extensibility, funcionalidade que permite ao lojista personalizar a jornada padrão de vendas do Sales App por meio de extensões em pontos predefinidos da interface, sem precisar criar soluções do zero. A VTEX também disponibiliza uma skill de IA com conhecimento integrado sobre o Sales App e o…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-79",
+   "iid": 79,
+   "title": "[Segurança] DOJO - Apontamentos de segurança LWSA",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/79",
    "column": "Refinamento",
    "products": [
-    "Wake U"
+    "OMS"
    ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "type": "Segurança",
+   "tasks": 1,
+   "done": 0,
+   "inDelivery": true,
+   "description": "O time de SEC da LWSA fez a analise estática de código nos nosso repositórios e nos devolveu um relatório com cerca de 400 itens para revisão, correção ou explicação. Estou abrindo essa issue para que esse item fique no radar do time e seja planejado por fases com base nas analises que o @CaioSantAnna está fazendo do relatório. A ideia é criar um plano de resolução dos itens e apresentar para o…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Épico sem etiqueta de produto — assumi OMS. Adicionar prod::SinOMS",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-78",
+   "iid": 78,
+   "title": "[Outubro/26] Objetivo 3: Integração de Vendas Físicas com API de Audiência (Wake Experience)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/78",
+   "column": "Refinamento",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
    "type": "Feature",
-   "description": "Funcionalidade foi prometida para o cliente Lofty Style para Q4 de 2026. Alinhado entre Herbert e Felipe em 17/08, e Herbert terá uma agenda presencial com o cliente e Pavoni no dia 18/08. Projeto: https://teamwake.monday.com/boards/18414355609/views/266714237/pulses/12100456636 Proposta Técnica Resumida 2025.W005.03.05 - Lofty Style - Wake OMS - Implantação WakeU - 19 jun 2026 (1).pdf 20/08 -…",
+   "tasks": 1,
+   "done": 0,
+   "inDelivery": true,
+   "description": "Diretriz do objetivo: Inteligência de Dados / Aumento da sinergia entre as empresas do grupo Origem: Evolução de Produto Objetivo: Desenvolvimento de uma nova integração no Wake OMS para envio de todas as vendas físicas das lojas para a API de Audiência da Wake Experience. Este projeto será agnóstico, focando exclusivamente na integração de pedidos, independentemente da origem (Linx POS, TOTVS…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-77",
+   "iid": 77,
+   "title": "[Inteligência de Dados] Integrar vendas físicas do TOTVS Moda ao OMS",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/77",
+   "column": "Refinamento",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto\\ Hoje o OMS já recebe as vendas físicas registradas via Linx POS, dando à Wake uma visão consolidada das vendas de loja física. Lojistas que usam o TOTVS Moda como PDV, porém, não alimentam essa mesma estrutura — as vendas físicas desses clientes simplesmente não chegam ao OMS. Problema / Dor\\ Essa lacuna deixa a base de vendas físicas incompleta, dependendo apenas do PDV que o lojista…",
    "created": "2026-08-26",
    "adjust": [
     "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
@@ -2102,358 +2300,312 @@ export const OMNI_DATA: OmniData = {
    ]
   },
   {
-   "id": "ep-23",
-   "iid": 23,
-   "title": "Consulta Estoque Api Pública",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/23",
+   "id": "ep-76",
+   "iid": 76,
+   "title": "[Proteção Operacional] Intimissimi - Nova Regra de Parametrização para \"Quero Atender\"",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/76",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "client": "Intimissimi",
+   "origin": "Solicitação Cliente",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto Proposta Resumida 2020.265.06 (19/jun/2026) — Intimissimi/Oniverse — SinOMS — Nova Regra de Parametrização para a Funcionalidade \"Quero Atender\". Atualmente a plataforma OMS da Intimissimi permite que lojas físicas utilizem o \"Quero Atender\" (captura espontânea/interlojas de pedidos elegíveis de outras filiais) sem trava sistêmica atrelada ao horário de funcionamento real de cada loja.…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Cita o cliente Intimissimi — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Intimissimi",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-75",
+   "iid": 75,
+   "title": "[Melhoria] - Vitrine (Prateleira Infinita) bloqueia venda por seleção inválida e não respeita regra onhands — Richards Morumbi",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/75",
+   "column": "Backlog",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "origin": "Solicitação Cliente",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto Por que esta melhoria está sendo proposta? Na loja Richards Morumbi (Inbrands), identificamos dois comportamentos no fluxo de venda pela vitrine (Prateleira Infinita) que impactam diretamente a usabilidade do vendedor e geram frustração, ao ponto de bloquear a venda de produtos que na prática têm estoque disponível ou deveriam ser vendidos como onhands. O relato original veio de um…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-73",
+   "iid": 73,
+   "title": "[Proteção Operacional] Defaltor por atributo com expiração",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/73",
+   "column": "Refinamento",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Deflator de Estoque com Data de Validade por Atributo Contexto O OMS já possui um mecanismo de proteção de estoque via deflator, aplicável por atributo (ex: categoria, marca, grupo, canal, etc.), que reduz o estoque disponível para venda como forma de proteção/reserva. Atualmente, uma vez configurado, o deflator de atributo permanece ativo indefinidamente até ser removido ou alterado manualmente.…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-72",
+   "iid": 72,
+   "title": "[Segurança] Login Unificado com o Commerce",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/72",
+   "column": "Refinamento",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Login Único (SSO) entre OMS + Wake U e Wake Commerce Contexto Atualmente OMS e Wake Commerce possuem fluxos de autenticação independentes. O time de Experience já implementou uma solução de login único para o Commerce utilizando Keycloak, o que nos dá um caminho de referência para avaliar e potencialmente reaproveitar. Objetivo Investigar e especificar a implementação de um fluxo de autenticação…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-71",
+   "iid": 71,
+   "title": "Motor de troca e devolução (troque commerce)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/71",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Abri a issue para registrar a ideia mas ainda vou detalhar aqui na descrição. A ideia é criar um conceito no OMS onde o cliente final (consumidor) possa solicitar uma devolução em uma página nossa, vamos guiar os passos para que ele possa solicitar a devolução e vamos cria-la no OMS. Nesse link e no video abaixo tem um exemplo de jornada na troque commerce: https://sualoja.troque.app.br/ O passo…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-70",
+   "iid": 70,
+   "title": "[Inteligência de Dados] Dashboard de Indicadores — reestruturação da tela",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/70",
+   "column": "Refinamento",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "priority": "urgente",
+   "type": "Feature",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Dashboard de Indicadores — reestruturação da tela Contexto A tela de Dashboard de Indicadores é o cockpit diário do gestor de e-commerce: a visão de vendas, omnicanalidade e eficiência de atendimento. Hoje ela usa layout antigo, tem métricas sem base de comparação declarada e o TMA é calculado em tempo de requisição, o que é lento e limita a janela de análise. Esta issue cobre três frentes:…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues"
+   ]
+  },
+  {
+   "id": "ep-69",
+   "iid": 69,
+   "title": "[Melhoria] - Ave Rara: Tratamento de Pedidos Brinde na Integração Millennium",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/69",
    "column": "Triagem",
    "products": [
     "OMS"
    ],
-   "description": "Descrição da Melhoria --- Refatoração da query utilizada no endpoint de Estoque da API Pública visando otimização de performance. O objetivo é alterar a estratégia de junção de tabelas e filtragem para reduzir drasticamente o custo do plano de execução. Problema Atual --- A consulta atual apresenta alto consumo de CPU e leituras lógicas excessivas, especialmente durante picos de acesso. A análise…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-24",
-   "iid": 24,
-   "title": "- Retirar Change seller ME do sintalk",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/24",
-   "column": "Triagem",
-   "products": [
+   "lines": [
     "OMS"
    ],
-   "description": "Descrição da Melhoria --- Retirar o Change Seller ME da API do Sintalk e migrar para o SinHUB Problema Atual --- Processo hoje conecta diretamente no banco do OMS Justificativa para a Melhoria --- Melhoria continua de remover as dependências do Sintalk do banco do SinOMS Detalhes Técnicos ou Funcionais --- Processo hoje usa uma mesma transação para inserir o pedido para conta nova, cancelar na…",
+   "kind": "roadmap",
+   "client": "Ave Rara",
+   "origin": "Suporte",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto Por que esta melhoria está sendo proposta? O cliente Ave Rara (projeto 2026.W002.03) possui 30 pedidos parados em status \"Aceito\" no OMS com o erro de integração \"Pedido Sem pagamento\". Esses pedidos são resultado de um split onde apenas o item brinde (isBrinde = true) ficou alocado no CD — único com estoque desse produto. O Millennium não processa pedidos com valor total zerado, pois…",
    "created": "2026-08-26",
    "adjust": [
+    "Cita o cliente Ave Rara — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Ave Rara",
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-27",
-   "iid": 27,
-   "title": "Catálogo: Evolução na integração de catálogo para incluir 'Compre Junto' do Wake Commerce",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/27",
-   "column": "Backlog",
-   "products": [
-    "OMS"
-   ],
-   "description": "Objetivo Catálogo: Evolução na integraçãod e catálogo para incluir 'Compre Junto' do Wake Commerce Descrição Permitir, através de APIs, a criação de novos grupos Compre Junto (funcionalidade antes acessível apenas via Admin). Esta funcionalidade exige o consumo do endpoint atualizado da Wake Commerce (previsto para Q1) para configurar os produtos do grupo. O objetivo é reduzir o número de etapas…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-28",
-   "iid": 28,
-   "title": "Shoulder - Percentual na geração de vale de ruptura",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/28",
-   "column": "Backlog",
-   "products": [
-    "OMS"
-   ],
-   "client": "Shoulder",
-   "description": "Geração automática de VALE + percentual no valor da ruptura. Hoje na operação SHOULDER quando há ruptura nos pedidos é sempre gerado um vale para o cliente refazer a compra com um adicional de 20% do valor do item de ruptura. Com essa medida a operação obtém um sucesso de recompra com vale de 90% dos casos. Pelo que entendi, eles têm um processo automatizado na operação entre o ZenDesk e…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Cita o cliente Shoulder — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Shoulder",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-29",
-   "iid": 29,
-   "title": "Shoulder - Cancelamento de Vale e conversão em estorno",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/29",
-   "column": "Triagem",
-   "products": [
-    "OMS"
-   ],
-   "client": "Shoulder",
-   "description": "Cancelamento do VALE e geração de ESTORNO. Na operação atual da Shoulder, na geração do crédito na conta corrente, há um disparo de e-mail ao cliente informando sobre o vale gerado com o acréscimo de compensação pelo transtorno e informando que se o cliente não quiser fazer a utilização ele pode entrar em contato com o SAC para efetuar o estorno do cartão e “perder” o benefício do VALE com a…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Cita o cliente Shoulder — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Shoulder",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-32",
-   "iid": 32,
-   "title": "Gestão de perfil refletindo nos usuários",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/32",
-   "column": "Triagem",
-   "products": [
-    "OMS"
-   ],
-   "description": "Contexto (como funciona hoje) No OMS, o perfil de acesso funciona apenas como um facilitador de criação de usuários: no momento em que o usuário é criado, as permissões do perfil escolhido são copiadas para ele. A partir desse momento, não existe vínculo entre perfil e usuário. O perfil deixa de ser a fonte da verdade e cada usuário passa a carregar sua própria cópia isolada de permissões.…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-33",
-   "iid": 33,
-   "title": "[Agilidade Operacional] Quero Atender: Otimizar o Fluxo 'Quero Atender' com Alertas, Permissões e Change Seller Automático",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/33",
-   "column": "Backlog",
-   "products": [
-    "OMS"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Via Helen e Herbert Objetivo Implementar melhorias no fluxo 'Quero Atender' para aumentar a agilidade na realocação de pedidos e reduzir o TMA (como o caso da Osklen Savassi, com TMA de 87h). O projeto envolve: 1. Alertas: Adicionar uma notificação imediata (visual/sonora) para a loja sempre que um pedido ficar disponível para ser 'roubado'…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-34",
-   "iid": 34,
-   "title": "Pedido: Corrigir Importação Financeira de Pedidos de Marketplace Próprio (VTEX)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/34",
+   "id": "ep-68",
+   "iid": 68,
+   "title": "Soneda - Confirmar entrega em massa (Existe parcialmente na Wake ecommerce, mas não reflete na OMS)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/68",
    "column": "Open",
    "products": [
     "OMS"
    ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Veste e Grupo Soma Objetivo Ajustar o processo de importação de pedidos VTEX para identificar quando a venda ocorre através de um marketplace próprio (venda inter-sites, ex: Farm atendendo pedido OffPremium). O objetivo é garantir que a perna financeira do pedido seja buscada na conta do seller da marca (onde o pagamento foi processado) ao…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-36",
-   "iid": 36,
-   "title": "[2T25 | Objetivo 7 | KR1] Novo status de pedido “Aguardando Coleta” [Wake OMS] gestao-produtos #175",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/36",
-   "column": "Open",
-   "products": [
+   "lines": [
     "OMS"
    ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo [2T25 Objetivo 7 KR1] Novo status de pedido “Aguardando Coleta” [Wake OMS] gestao-produtos 175 Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "kind": "roadmap",
+   "priority": "baixa",
+   "client": "Soneda",
+   "origin": "Solicitação Cliente",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "",
    "created": "2026-08-26",
    "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
+    "Cita o cliente Soneda — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Soneda",
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)"
    ]
   },
   {
-   "id": "ep-37",
-   "iid": 37,
-   "title": "[Quickwin] Picking em Ondas: Impressão de Múltiplas Etiquetas de Picking (Web)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/37",
+   "id": "ep-67",
+   "iid": 67,
+   "title": "Permitir o estorno/crédito de valor do frete - caso a entrega do pedido atrase (Soneda - Wake)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/67",
    "column": "Backlog",
    "products": [
     "OMS"
    ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Gregory (Reunião de UX - Novo Layout de Pedidos) Objetivo Implementar uma funcionalidade de Ação em Massa na tela de listagem de pedidos que permita ao operador selecionar múltiplos pedidos e disparar a impressão de todas as etiquetas de picking associadas de uma única vez. A funcionalidade deve ser acessível via Wake OMS Web. Benefícios…",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "client": "Soneda",
+   "origin": "Solicitação Cliente",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Estudar caminho para Vtex também. Shoulder interessada também.",
+   "created": "2026-08-26",
+   "adjust": [
+    "Cita o cliente Soneda — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Soneda",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-66",
+   "iid": 66,
+   "title": "Plano: Migração da Integração de Estoque para Modelo Orientado a Eventos",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/66",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/workitems/530note3345300713 Plano: Migração da Integração de Estoque para Modelo Orientado a Eventos 1. Contexto Hoje a sincronização de estoque com a plataforma de e-commerce (VTEX, Wake) funciona por consulta periódica a cada 5 minutos (polling), orquestrada pelo Sincron chamando GET /estoques/pendente. A detecção de…",
    "created": "2026-08-26",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-39",
-   "iid": 39,
-   "title": "Código de confirmação para retirada de pedido",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/39",
+   "id": "ep-65",
+   "iid": 65,
+   "title": "Venda Digital integrado ao Shopify",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/65",
    "column": "Backlog",
    "products": [
     "Wake U"
    ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Futuro cliente Droga Leste Objetivo -Codigo de confirmação na retirada de pedido. Algo que já tinha listado aqui com minha experiência real: Herbert: Confirmação dos dados do cliente no momento da retirada. A Vivara utiliza um código de confirmação via email (de disponível para retirada) para inserir no app de 'picking' e entrega pelo…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-40",
-   "iid": 40,
-   "title": "Parametrização da etapa de Embalagem na Onda para desativar/ativar",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/40",
-   "column": "Backlog",
-   "products": [
+   "lines": [
     "Wake U"
    ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Futuro cliente Droga Leste Objetivo Parametrizar a etapa de embalagem na onda, para ativar ou desativar essa etapa, um potencial cliente não queria usar. && Permitir que o picking em ondas tenha apenas a etapa de separação sem a necessidade de usar a etapa de embalagem. Hoje os clientes não tem estrutura fisica nas lojas para usar a etapa de…",
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "",
    "created": "2026-08-26",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-41",
-   "iid": 41,
-   "title": "Permitir a marcação de itens para presente no Wake U.",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/41",
-   "column": "Open",
-   "products": [
-    "Wake U"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Permitir a marcação de itens para presente no Wake U. Esse objetivo foi planejado no passado mas foi despriorizado, precisamos retoma-lo nos próximos planejamentos. Issue original: gestao-produtos7 (closed) Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-42",
-   "iid": 42,
-   "title": "Evolução do compartilhamento de carrinho para Link de Pagamento do Wake Commerce",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/42",
-   "column": "Backlog",
-   "products": [
-    "Wake U"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Planejar novamente o compartilhamento do pedido via link de pagamento. Esse item era do Q1/25 e foi despriorizado por conta da Riachuelo e vamos planejar novamente no futuro. Issue: gestao-produtos122 (closed) [Objetivo 1 KR4] Compartilhar link de pagamento de pedido gerado pelo Venda Digital (Venda Assistida)…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-43",
-   "iid": 43,
-   "title": "Preparar APP para publicação na versão web do Flutter.",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/43",
-   "column": "Backlog",
-   "products": [
-    "Wake U"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo - Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-44",
-   "iid": 44,
-   "title": "Realizar um ajuste na tela para permitir a alteração da maquininha de POS e do tipo de pagamento do pedido.",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/44",
-   "column": "Open",
-   "products": [
-    "Wake U"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo - Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-45",
-   "iid": 45,
-   "title": "Abrir o carrinho no final mostrando por CD de origem (hoje não tem como pq o Store Front não traz esses dados).",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/45",
-   "column": "Open",
-   "products": [
-    "Wake U"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo - Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-47",
-   "iid": 47,
-   "title": "Editor de etiqueta no Wake OMS",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/47",
-   "column": "Open",
-   "products": [
-    "OMS"
-   ],
-   "description": "Tivemos uma resumida da T&F para ajustes na etiqueta recentemente. E já tivemos outras demandas com esse tipo de alteração, uma sugestão válida do Flávio foi de tentarmos disponibilizar um editor web de etiquetas, para que o cliente consiga customizar tamanho e parâmetros desejados. Precisa de aprofundamento técnico. Demanda:…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-53",
-   "iid": 53,
-   "title": "[SinOMS] Atualizador Chamada HTTPS (Aprendizados - Migração)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/53",
-   "column": "Open",
-   "products": [
-    "OMS"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Atualizador chamando web service HTTP. (precisamos mudar a chamada via web service de atualização para HTTPS) - Foi liberado o reencaminhamento http por enquanto Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-54",
-   "iid": 54,
-   "title": "[SinOMS] API SelfHost Sintalk - Change Seller (Aprendizados - Migração)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/54",
-   "column": "Open",
-   "products": [
-    "OMS"
-   ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Api SelfHost sintalk. Precisamos mudar o Change seller ME - para que seja feito pelo próprio OMS Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-55",
-   "iid": 55,
-   "title": "[SinOMS] Log JSON Integração Transportadora",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/55",
+   "id": "ep-64",
+   "iid": 64,
+   "title": "[Gerson][Roadmap] Bloqueio de split para brinde do pedido",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/64",
    "column": "Backlog",
    "products": [
     "OMS"
    ],
-   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Salvar o JSON do envio do pedido para a transportadora e o retorno da transportadora em uma tabela do banco para mostrar essa informação para os clientes e facilitar o suporte. Essa solicitação foi feita pelo Daniel do Suporte na issue suporte-produtos1409 (closed). Benefícios - KR - Desenvolvedor - Líder - Escopo -",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-56",
-   "iid": 56,
-   "title": "[SinOMS] Endpoint de lista de devoluções (Priorizar Q2)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/56",
-   "column": "Backlog",
-   "products": [
+   "lines": [
     "OMS"
    ],
-   "description": "Contexto: Herbert Menezes \\[Wake OMS\\] Olá pessoal, boa tarde.\\ O endpoint de Consultar Solicitação de Devolução, possui somente o campo de conta (nome ou cnpj) como obrigatório.\\ Link: https://wakecommerce.readme.io/reference/consultar-solicita%C3%A7%C3%A3o-de-devolu%C3%A7%C3%A3o\\ \\ A expectativa era que ao consultar por conta, trouxesse todas as solicitações existentes. Mas retornou vazio a…",
+   "kind": "roadmap",
+   "priority": "baixa",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Slack: https://lwsa-tech.slack.com/archives/C04TN7XR9BP/p1779717331977969?threadts=1779717315.585479&cid=C04TN7XR9BP Neste fórum, comuniquei sobre o bloqueio de split de pedido para Kit de produtos. O Nasser questionou sobre brinde, e não temos nenhuma tratativa no fluxo de importação para isso. Acho que faz sentido ao produto.",
    "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
+   "adjust": []
   },
   {
-   "id": "ep-61",
-   "iid": 61,
-   "title": "Discovery - Visita Presencial Osklen Vila Olímpia",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/61",
+   "id": "ep-63",
+   "iid": 63,
+   "title": "[Roasmap] Discovery Osklen - Separação Individual e Picking em Ondas",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/63",
    "column": "Backlog",
    "products": [
-    "OMS"
+    "Wake U"
    ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
    "client": "Osklen",
-   "description": "- [ ] Frete pela cubagem (caixa sai mais caro) - [ ] Cliente VIP e primeira compra no OMS p/ adicionar brinde. - [x] Manda print pro whatsapp da loja p/ coleta - [ ] \\[Wake U\\] Romaneio em massa tem a validação, mas teria que imprimir a última versão p/ assinar - [x] \\[Wake U\\] Impressão das etiquetas pelo app é fluido? Para alto volume deve ter confusão. - [x] Fizeram limpeza de ajuste de…",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Solicitação original https://gitlab.com/sintesesolucoes/ss-gestao-produtos/roadmap/-/workitems/157note3289665169 \\[Wake U\\] Impressão das etiquetas pelo app é fluido? Para alto volume deve ter confusão. Necessário testes. Tem outro tema que pode fazer sentido: https://gitlab.com/sintesesolucoes/ss-gestao-produtos/roadmap/-/workitems/53 \\[Roadmap\\]Parametrização da etapa de Embalagem na Onda para…",
    "created": "2026-08-26",
    "adjust": [
     "Cita o cliente Osklen — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Osklen",
@@ -2469,7 +2621,15 @@ export const OMNI_DATA: OmniData = {
    "products": [
     "OMS"
    ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
    "client": "Osklen",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
    "description": "Origem: https://gitlab.com/sintesesolucoes/ss-gestao-produtos/roadmap/-/workitems/157note3289742227 Fizeram limpeza de ajuste de estoque - taxa de recusa 5% foi p/ 15% - \\[NUNCA fizeram!\\] seria bom recomendações aos clientes (inteligência) Entender melhor o funcionamento. O cliente trabalha com inventário semestral (recontagem). E aplicar IA sobre sugestões de ajustes. Pois pode ter uma…",
    "created": "2026-08-26",
    "adjust": [
@@ -2478,16 +2638,24 @@ export const OMNI_DATA: OmniData = {
    ]
   },
   {
-   "id": "ep-63",
-   "iid": 63,
-   "title": "[Roasmap] Discovery Osklen - Separação Individual e Picking em Ondas",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/63",
+   "id": "ep-61",
+   "iid": 61,
+   "title": "Discovery - Visita Presencial Osklen Vila Olímpia",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/61",
    "column": "Backlog",
    "products": [
-    "Wake U"
+    "OMS"
    ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
    "client": "Osklen",
-   "description": "Solicitação original https://gitlab.com/sintesesolucoes/ss-gestao-produtos/roadmap/-/workitems/157note3289665169 \\[Wake U\\] Impressão das etiquetas pelo app é fluido? Para alto volume deve ter confusão. Necessário testes. Tem outro tema que pode fazer sentido: https://gitlab.com/sintesesolucoes/ss-gestao-produtos/roadmap/-/workitems/53 \\[Roadmap\\]Parametrização da etapa de Embalagem na Onda para…",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "- [ ] Frete pela cubagem (caixa sai mais caro) - [ ] Cliente VIP e primeira compra no OMS p/ adicionar brinde. - [x] Manda print pro whatsapp da loja p/ coleta - [ ] \\[Wake U\\] Romaneio em massa tem a validação, mas teria que imprimir a última versão p/ assinar - [x] \\[Wake U\\] Impressão das etiquetas pelo app é fluido? Para alto volume deve ter confusão. - [x] Fizeram limpeza de ajuste de…",
    "created": "2026-08-26",
    "adjust": [
     "Cita o cliente Osklen — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Osklen",
@@ -2495,146 +2663,701 @@ export const OMNI_DATA: OmniData = {
    ]
   },
   {
-   "id": "ep-64",
-   "iid": 64,
-   "title": "[Gerson][Roadmap] Bloqueio de split para brinde do pedido",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/64",
+   "id": "ep-60",
+   "iid": 60,
+   "title": "[Planejar Q3] Reestruturação e Novo Fluxo do Infobook [SinB2B]",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/60",
    "column": "Backlog",
-   "products": [
-    "OMS"
+   "products": [],
+   "lines": [
+    "B2B"
    ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Origem: Demanda de Clientes (Aramis, Shoulder) Diretriz: Evolução dos Recursos Core da Plataforma Contexto: Este objetivo foca em reformular a experiência de criação e gestão de catálogos comerciais (Infobooks) no SinB2B, resolvendo problemas de usabilidade, importação de dados e renderização de PDFs. O novo fluxo introduzirá uma exportação otimizada de produtos direto da gestão de coleções, um…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-59",
+   "iid": 59,
+   "title": "[daniel.junior] Suporte - Melhoria Tela de Metas - SinB2B (Planejar Q3)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/59",
+   "column": "Backlog",
+   "products": [],
+   "lines": [
+    "B2B"
+   ],
+   "kind": "roadmap",
    "priority": "baixa",
-   "description": "Slack: https://lwsa-tech.slack.com/archives/C04TN7XR9BP/p1779717331977969?threadts=1779717315.585479&cid=C04TN7XR9BP Neste fórum, comuniquei sobre o bloqueio de split de pedido para Kit de produtos. O Nasser questionou sobre brinde, e não temos nenhuma tratativa no fluxo de importação para isso. Acho que faz sentido ao produto.",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "- Solicitante: Daniel Junior - Cliente: Zahil e CK - Chamado: N/A - Produto: SinB2B - Impacto: Cliente não utiliza a funcionalidade. - Criticidade: Baixa - Houve alinhamento interno: Sim, João e Isabella Contexto Dentro da tela de METAS: https://zahil.sintesesolucoes.com.br/SinB2B/Gestao/Metas existem os filtros obrigatórios: Nível de Meta e Coleção, porém a obrigatoriedade do filtro coleção…",
    "created": "2026-08-26",
    "adjust": []
   },
   {
-   "id": "ep-65",
-   "iid": 65,
-   "title": "Venda Digital integrado ao Shopify",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/65",
-   "column": "Backlog",
-   "products": [
-    "Wake U"
+   "id": "ep-58",
+   "iid": 58,
+   "title": "[Performance] Avaliação do uso do Gotenberg para geração de PDFs",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/58",
+   "column": "Refinamento",
+   "products": [],
+   "lines": [
+    "API"
    ],
-   "description": "",
+   "kind": "roadmap",
+   "type": "Arquitetura",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto\\ Atualmente temos cenários nos nossos produtos que envolvem geração e manipulação de PDFs (ex: relatórios, documentos, exports, etc).\\ Precisamos avaliar uma solução mais robusta, padronizada e escalável para isso. O Gotenberg é uma API open source baseada em container que abstrai a geração de PDFs utilizando engines como Chromium e LibreOffice, permitindo converter HTML, URLs, Markdown…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-57",
+   "iid": 57,
+   "title": "Comunicação com as lojas via SignalR trava sob volume alto de dados — avaliar streaming (yield return)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/57",
+   "column": "Triagem",
+   "products": [],
+   "lines": [
+    "Hub de integração"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Tipo: Débito técnico / Melhoria de performance Produto: Wake OMS — Comunicação com lojas (SignalR) Status: Discovery técnico — problema mapeado, processo-piloto e desenho a definir no detalhamento --- Contexto A comunicação entre o OMS e as lojas é feita via SignalR. Nos cenários de tráfego de dados mais pesado, a comunicação fica lenta, não conclui e trava o client da loja. O comportamento hoje…",
    "created": "2026-08-26",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-66",
-   "iid": 66,
-   "title": "Plano: Migração da Integração de Estoque para Modelo Orientado a Eventos",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/66",
+   "id": "ep-56",
+   "iid": 56,
+   "title": "[SinOMS] Endpoint de lista de devoluções (Priorizar Q2)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/56",
    "column": "Backlog",
    "products": [
     "OMS"
    ],
-   "description": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/workitems/530note3345300713 Plano: Migração da Integração de Estoque para Modelo Orientado a Eventos 1. Contexto Hoje a sincronização de estoque com a plataforma de e-commerce (VTEX, Wake) funciona por consulta periódica a cada 5 minutos (polling), orquestrada pelo Sincron chamando GET /estoques/pendente. A detecção de…",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto: Herbert Menezes \\[Wake OMS\\] Olá pessoal, boa tarde.\\ O endpoint de Consultar Solicitação de Devolução, possui somente o campo de conta (nome ou cnpj) como obrigatório.\\ Link: https://wakecommerce.readme.io/reference/consultar-solicita%C3%A7%C3%A3o-de-devolu%C3%A7%C3%A3o\\ \\ A expectativa era que ao consultar por conta, trouxesse todas as solicitações existentes. Mas retornou vazio a…",
    "created": "2026-08-26",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-67",
-   "iid": 67,
-   "title": "Permitir o estorno/crédito de valor do frete - caso a entrega do pedido atrase (Soneda - Wake)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/67",
+   "id": "ep-55",
+   "iid": 55,
+   "title": "[SinOMS] Log JSON Integração Transportadora",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/55",
    "column": "Backlog",
    "products": [
     "OMS"
    ],
-   "client": "Soneda",
-   "origin": "Solicitação Cliente",
-   "description": "Estudar caminho para Vtex também. Shoulder interessada também.",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Salvar o JSON do envio do pedido para a transportadora e o retorno da transportadora em uma tabela do banco para mostrar essa informação para os clientes e facilitar o suporte. Essa solicitação foi feita pelo Daniel do Suporte na issue suporte-produtos1409 (closed). Benefícios - KR - Desenvolvedor - Líder - Escopo -",
    "created": "2026-08-26",
    "adjust": [
-    "Cita o cliente Soneda — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Soneda",
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-68",
-   "iid": 68,
-   "title": "Soneda - Confirmar entrega em massa (Existe parcialmente na Wake ecommerce, mas não reflete na OMS)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/68",
+   "id": "ep-54",
+   "iid": 54,
+   "title": "[SinOMS] API SelfHost Sintalk - Change Seller (Aprendizados - Migração)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/54",
    "column": "Open",
    "products": [
     "OMS"
    ],
-   "priority": "baixa",
-   "client": "Soneda",
-   "origin": "Solicitação Cliente",
-   "description": "",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Api SelfHost sintalk. Precisamos mudar o Change seller ME - para que seja feito pelo próprio OMS Benefícios - KR - Desenvolvedor - Líder - Escopo -",
    "created": "2026-08-26",
    "adjust": [
-    "Cita o cliente Soneda — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Soneda",
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)"
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-69",
-   "iid": 69,
-   "title": "[Melhoria] - Ave Rara: Tratamento de Pedidos Brinde na Integração Millennium",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/69",
+   "id": "ep-53",
+   "iid": 53,
+   "title": "[SinOMS] Atualizador Chamada HTTPS (Aprendizados - Migração)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/53",
+   "column": "Open",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Atualizador chamando web service HTTP. (precisamos mudar a chamada via web service de atualização para HTTPS) - Foi liberado o reencaminhamento http por enquanto Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-50",
+   "iid": 50,
+   "title": "[SinB2B] Compra Múltiplos Clientes",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/50",
+   "column": "Open",
+   "products": [],
+   "lines": [
+    "B2B"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Compra para múltiplos clientes (exemplo dono de várias Franquias) em uma única tela no SINB2B, com acompanhamento do valor total. 17/06/2024 (Retorno para o comercial): Isso é uma mudança estrutural, ocuparia um quarter inteiro. Agora no Q3 não será possível ser feito. Vamos deixar no radar para tentar fazer nos próximos Q's.…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-49",
+   "iid": 49,
+   "title": "[SinB2B] Migração Integração para API .Net Core",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/49",
+   "column": "Open",
+   "products": [],
+   "lines": [
+    "B2B"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Migrar integração atual para API. Temos algumas issues em aberto sobre este tema: https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/issues/115 [Síntese] Melhoria - SINB2B - Migração de controllers WS para API .Net Core https://gitlab.com/sintesesolucoes/ss-gestao-produtos/gestao-produtos/-/issues/115 [Síntese]…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-48",
+   "iid": 48,
+   "title": "[SinB2B] Shoulder - Acesso Limitado Logística (Planejar Q1-26)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/48",
+   "column": "Open",
+   "products": [],
+   "lines": [
+    "B2B"
+   ],
+   "kind": "roadmap",
+   "client": "Shoulder",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo [Planejar para Q3][Shoulder] Acesso Limitado - O time de Logística da Shoulder acessa o SINB2B para processar as devoluções no CD, mas além disso eles conseguem ver todas as outras camadas do admin. A Shoulder gostaria que tivesse um acesso específico que permita que seja enxergado apenas o Módulo de Devolução. Slack:…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-47",
+   "iid": 47,
+   "title": "Editor de etiqueta no Wake OMS",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/47",
+   "column": "Open",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Tivemos uma resumida da T&F para ajustes na etiqueta recentemente. E já tivemos outras demandas com esse tipo de alteração, uma sugestão válida do Flávio foi de tentarmos disponibilizar um editor web de etiquetas, para que o cliente consiga customizar tamanho e parâmetros desejados. Precisa de aprofundamento técnico. Demanda:…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-45",
+   "iid": 45,
+   "title": "Abrir o carrinho no final mostrando por CD de origem (hoje não tem como pq o Store Front não traz esses dados).",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/45",
+   "column": "Open",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo - Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-44",
+   "iid": 44,
+   "title": "Realizar um ajuste na tela para permitir a alteração da maquininha de POS e do tipo de pagamento do pedido.",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/44",
+   "column": "Open",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo - Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-43",
+   "iid": 43,
+   "title": "Preparar APP para publicação na versão web do Flutter.",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/43",
+   "column": "Backlog",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo - Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-42",
+   "iid": 42,
+   "title": "Evolução do compartilhamento de carrinho para Link de Pagamento do Wake Commerce",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/42",
+   "column": "Backlog",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Planejar novamente o compartilhamento do pedido via link de pagamento. Esse item era do Q1/25 e foi despriorizado por conta da Riachuelo e vamos planejar novamente no futuro. Issue: gestao-produtos122 (closed) [Objetivo 1 KR4] Compartilhar link de pagamento de pedido gerado pelo Venda Digital (Venda Assistida)…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-41",
+   "iid": 41,
+   "title": "Permitir a marcação de itens para presente no Wake U.",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/41",
+   "column": "Open",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo Permitir a marcação de itens para presente no Wake U. Esse objetivo foi planejado no passado mas foi despriorizado, precisamos retoma-lo nos próximos planejamentos. Issue original: gestao-produtos7 (closed) Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-40",
+   "iid": 40,
+   "title": "Parametrização da etapa de Embalagem na Onda para desativar/ativar",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/40",
+   "column": "Backlog",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Futuro cliente Droga Leste Objetivo Parametrizar a etapa de embalagem na onda, para ativar ou desativar essa etapa, um potencial cliente não queria usar. && Permitir que o picking em ondas tenha apenas a etapa de separação sem a necessidade de usar a etapa de embalagem. Hoje os clientes não tem estrutura fisica nas lojas para usar a etapa de…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-39",
+   "iid": 39,
+   "title": "Código de confirmação para retirada de pedido",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/39",
+   "column": "Backlog",
+   "products": [
+    "Wake U"
+   ],
+   "lines": [
+    "Wake U"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Futuro cliente Droga Leste Objetivo -Codigo de confirmação na retirada de pedido. Algo que já tinha listado aqui com minha experiência real: Herbert: Confirmação dos dados do cliente no momento da retirada. A Vivara utiliza um código de confirmação via email (de disponível para retirada) para inserir no app de 'picking' e entrega pelo…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-38",
+   "iid": 38,
+   "title": "[Quickwin] Melhoria na integração de fotos para mover para outra pasta as imagens que não tiveram o SKU enviado para o ecommerce. Solicitação do suporte: suporte-produtos#998 (closed)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/38",
+   "column": "Backlog",
+   "products": [],
+   "lines": [
+    "SinTalk"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Objetivo Benefícios KR - Desenvolvedor - Líder Não definido Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-37",
+   "iid": 37,
+   "title": "[Quickwin] Picking em Ondas: Impressão de Múltiplas Etiquetas de Picking (Web)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/37",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Gregory (Reunião de UX - Novo Layout de Pedidos) Objetivo Implementar uma funcionalidade de Ação em Massa na tela de listagem de pedidos que permita ao operador selecionar múltiplos pedidos e disparar a impressão de todas as etiquetas de picking associadas de uma única vez. A funcionalidade deve ser acessível via Wake OMS Web. Benefícios…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-36",
+   "iid": 36,
+   "title": "[2T25 | Objetivo 7 | KR1] Novo status de pedido “Aguardando Coleta” [Wake OMS] gestao-produtos #175",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/36",
+   "column": "Open",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem - Objetivo [2T25 Objetivo 7 KR1] Novo status de pedido “Aguardando Coleta” [Wake OMS] gestao-produtos 175 Benefícios - KR - Desenvolvedor - Líder - Escopo -",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-34",
+   "iid": 34,
+   "title": "Pedido: Corrigir Importação Financeira de Pedidos de Marketplace Próprio (VTEX)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/34",
+   "column": "Open",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Veste e Grupo Soma Objetivo Ajustar o processo de importação de pedidos VTEX para identificar quando a venda ocorre através de um marketplace próprio (venda inter-sites, ex: Farm atendendo pedido OffPremium). O objetivo é garantir que a perna financeira do pedido seja buscada na conta do seller da marca (onde o pagamento foi processado) ao…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-33",
+   "iid": 33,
+   "title": "[Agilidade Operacional] Quero Atender: Otimizar o Fluxo 'Quero Atender' com Alertas, Permissões e Change Seller Automático",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/33",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Diretriz do Trimestre: - Diretriz do objetivo - Origem Via Helen e Herbert Objetivo Implementar melhorias no fluxo 'Quero Atender' para aumentar a agilidade na realocação de pedidos e reduzir o TMA (como o caso da Osklen Savassi, com TMA de 87h). O projeto envolve: 1. Alertas: Adicionar uma notificação imediata (visual/sonora) para a loja sempre que um pedido ficar disponível para ser 'roubado'…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-32",
+   "iid": 32,
+   "title": "Gestão de perfil refletindo nos usuários",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/32",
    "column": "Triagem",
    "products": [
     "OMS"
    ],
-   "client": "Ave Rara",
-   "origin": "Suporte",
-   "description": "Contexto Por que esta melhoria está sendo proposta? O cliente Ave Rara (projeto 2026.W002.03) possui 30 pedidos parados em status \"Aceito\" no OMS com o erro de integração \"Pedido Sem pagamento\". Esses pedidos são resultado de um split onde apenas o item brinde (isBrinde = true) ficou alocado no CD — único com estoque desse produto. O Millennium não processa pedidos com valor total zerado, pois…",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Contexto (como funciona hoje) No OMS, o perfil de acesso funciona apenas como um facilitador de criação de usuários: no momento em que o usuário é criado, as permissões do perfil escolhido são copiadas para ele. A partir desse momento, não existe vínculo entre perfil e usuário. O perfil deixa de ser a fonte da verdade e cada usuário passa a carregar sua própria cópia isolada de permissões.…",
    "created": "2026-08-26",
    "adjust": [
-    "Cita o cliente Ave Rara — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Ave Rara",
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-70",
-   "iid": 70,
-   "title": "[Inteligência de Dados] Dashboard de Indicadores — reestruturação da tela",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/70",
-   "column": "Refinamento",
-   "products": [
-    "OMS"
+   "id": "ep-31",
+   "iid": 31,
+   "title": "Migração SinTalk > SinHub - Fase 4 (Pedidos)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/31",
+   "column": "Backlog",
+   "products": [],
+   "lines": [
+    "SinTalk"
    ],
-   "priority": "urgente",
-   "type": "Feature",
-   "description": "Dashboard de Indicadores — reestruturação da tela Contexto A tela de Dashboard de Indicadores é o cockpit diário do gestor de e-commerce: a visão de vendas, omnicanalidade e eficiência de atendimento. Hoje ela usa layout antigo, tem métricas sem base de comparação declarada e o TMA é calculado em tempo de requisição, o que é lento e limita a janela de análise. Esta issue cobre três frentes:…",
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Objetivo --- Esse desenvolvimento está separado em 4 fases para migração das integrações de loja física. Hoje alguns processos ainda estão rodando pelo SinTalk, com isso temos uma dependência de informações na loja e parte da inteligência está no cliente. Essa migração visa diminuir cada vez a responsabilidade do SinTalk na loja até o momento em que ele não será mais necessário e teremos as…",
    "created": "2026-08-26",
    "adjust": [
-    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues"
+    "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-71",
-   "iid": 71,
-   "title": "Motor de troca e devolução (troque commerce)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/71",
+   "id": "ep-30",
+   "iid": 30,
+   "title": "Migração SinTalk > SinHub - Fase 3 (Estoque)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/30",
+   "column": "Backlog",
+   "products": [],
+   "lines": [
+    "SinTalk"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Objetivo --- Esse desenvolvimento está separado em 4 fases para migração das integrações de loja física. Hoje alguns processos ainda estão rodando pelo SinTalk, com isso temos uma dependência de informações na loja e parte da inteligência está no cliente. Essa migração visa diminuir cada vez a responsabilidade do SinTalk na loja até o momento em que ele não será mais necessário e teremos as…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-29",
+   "iid": 29,
+   "title": "Shoulder - Cancelamento de Vale e conversão em estorno",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/29",
+   "column": "Triagem",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "client": "Shoulder",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Cancelamento do VALE e geração de ESTORNO. Na operação atual da Shoulder, na geração do crédito na conta corrente, há um disparo de e-mail ao cliente informando sobre o vale gerado com o acréscimo de compensação pelo transtorno e informando que se o cliente não quiser fazer a utilização ele pode entrar em contato com o SAC para efetuar o estorno do cartão e “perder” o benefício do VALE com a…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Cita o cliente Shoulder — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Shoulder",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-28",
+   "iid": 28,
+   "title": "Shoulder - Percentual na geração de vale de ruptura",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/28",
    "column": "Backlog",
    "products": [
     "OMS"
    ],
-   "description": "Abri a issue para registrar a ideia mas ainda vou detalhar aqui na descrição. A ideia é criar um conceito no OMS onde o cliente final (consumidor) possa solicitar uma devolução em uma página nossa, vamos guiar os passos para que ele possa solicitar a devolução e vamos cria-la no OMS. Nesse link e no video abaixo tem um exemplo de jornada na troque commerce: https://sualoja.troque.app.br/ O passo…",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "client": "Shoulder",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Geração automática de VALE + percentual no valor da ruptura. Hoje na operação SHOULDER quando há ruptura nos pedidos é sempre gerado um vale para o cliente refazer a compra com um adicional de 20% do valor do item de ruptura. Com essa medida a operação obtém um sucesso de recompra com vale de 90% dos casos. Pelo que entendi, eles têm um processo automatizado na operação entre o ZenDesk e…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Cita o cliente Shoulder — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Shoulder",
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-27",
+   "iid": 27,
+   "title": "Catálogo: Evolução na integração de catálogo para incluir 'Compre Junto' do Wake Commerce",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/27",
+   "column": "Backlog",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Objetivo Catálogo: Evolução na integraçãod e catálogo para incluir 'Compre Junto' do Wake Commerce Descrição Permitir, através de APIs, a criação de novos grupos Compre Junto (funcionalidade antes acessível apenas via Admin). Esta funcionalidade exige o consumo do endpoint atualizado da Wake Commerce (previsto para Q1) para configurar os produtos do grupo. O objetivo é reduzir o número de etapas…",
    "created": "2026-08-26",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-72",
-   "iid": 72,
-   "title": "[Segurança] Login Unificado com o Commerce",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/72",
-   "column": "Refinamento",
-   "products": [
-    "OMS"
+   "id": "ep-26",
+   "iid": 26,
+   "title": "[Síntese] Melhoria - Adaptação da Integração de Produtos (PATCH) para Grupos de Personalização",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/26",
+   "column": "Backlog",
+   "products": [],
+   "lines": [
+    "B2C"
    ],
-   "description": "Login Único (SSO) entre OMS + Wake U e Wake Commerce Contexto Atualmente OMS e Wake Commerce possuem fluxos de autenticação independentes. O time de Experience já implementou uma solução de login único para o Commerce utilizando Keycloak, o que nos dá um caminho de referência para avaliar e potencialmente reaproveitar. Objetivo Investigar e especificar a implementação de um fluxo de autenticação…",
+   "kind": "roadmap",
+   "vertical": "Commerce",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Descrição da Melhoria --- Este objetivo visa atualizar a forma como o SINB2C gerencia os vínculos de produtos a Grupos de Personalização na plataforma Wake Commerce. A equipe de Commerce disponibilizou uma melhoria na API de Produtos, permitindo a inclusão direta dos IDs dos grupos de personalização no endpoint PATCH. Comunicado no slack:…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-25",
+   "iid": 25,
+   "title": "Bloqueio impressão Etiqueta para pedidos que não tem código de rastreio",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/25",
+   "column": "Refinamento",
+   "products": [],
+   "lines": [
+    "B2C"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "- [ ] Destacar Pedidos com Erro no Monitor do Sinb2c: Implementar um destaque visual no monitor do Sinb2c para facilitar a identificação de pedidos com erro, permitindo que o cliente rapidamente identifique os casos que precisam de correção para a geração do código de rastreamento. - [ ] Bloquear Impressão de Etiqueta e Picking List no B2C: Impedir que pedidos sem código de rastreio avancem para…",
    "created": "2026-08-26",
    "adjust": [
     "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
@@ -2642,99 +3365,127 @@ export const OMNI_DATA: OmniData = {
    ]
   },
   {
-   "id": "ep-73",
-   "iid": 73,
-   "title": "[Proteção Operacional] Defaltor por atributo com expiração",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/73",
-   "column": "Refinamento",
+   "id": "ep-24",
+   "iid": 24,
+   "title": "- Retirar Change seller ME do sintalk",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/24",
+   "column": "Triagem",
    "products": [
     "OMS"
    ],
-   "description": "Deflator de Estoque com Data de Validade por Atributo Contexto O OMS já possui um mecanismo de proteção de estoque via deflator, aplicável por atributo (ex: categoria, marca, grupo, canal, etc.), que reduz o estoque disponível para venda como forma de proteção/reserva. Atualmente, uma vez configurado, o deflator de atributo permanece ativo indefinidamente até ser removido ou alterado manualmente.…",
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Descrição da Melhoria --- Retirar o Change Seller ME da API do Sintalk e migrar para o SinHUB Problema Atual --- Processo hoje conecta diretamente no banco do OMS Justificativa para a Melhoria --- Melhoria continua de remover as dependências do Sintalk do banco do SinOMS Detalhes Técnicos ou Funcionais --- Processo hoje usa uma mesma transação para inserir o pedido para conta nova, cancelar na…",
    "created": "2026-08-26",
    "adjust": [
-    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
     "Sem prioridade (etiqueta priority::)"
    ]
   },
   {
-   "id": "ep-75",
-   "iid": 75,
-   "title": "[Melhoria] - Vitrine (Prateleira Infinita) bloqueia venda por seleção inválida e não respeita regra onhands — Richards Morumbi",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/75",
-   "column": "Backlog",
+   "id": "ep-23",
+   "iid": 23,
+   "title": "Consulta Estoque Api Pública",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/23",
+   "column": "Triagem",
+   "products": [
+    "OMS"
+   ],
+   "lines": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Descrição da Melhoria --- Refatoração da query utilizada no endpoint de Estoque da API Pública visando otimização de performance. O objetivo é alterar a estratégia de junção de tabelas e filtragem para reduzir drasticamente o custo do plano de execução. Problema Atual --- A consulta atual apresenta alto consumo de CPU e leituras lógicas excessivas, especialmente durante picos de acesso. A análise…",
+   "created": "2026-08-26",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
+   "id": "ep-22",
+   "iid": 22,
+   "title": "Prateleira Infinita Vtex - Feature On-hands (Q4-2026)",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/22",
+   "column": "Refinamento",
    "products": [
     "Wake U"
    ],
-   "origin": "Solicitação Cliente",
-   "description": "Contexto Por que esta melhoria está sendo proposta? Na loja Richards Morumbi (Inbrands), identificamos dois comportamentos no fluxo de venda pela vitrine (Prateleira Infinita) que impactam diretamente a usabilidade do vendedor e geram frustração, ao ponto de bloquear a venda de produtos que na prática têm estoque disponível ou deveriam ser vendidos como onhands. O relato original veio de um…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-76",
-   "iid": 76,
-   "title": "[Proteção Operacional] Intimissimi - Nova Regra de Parametrização para \"Quero Atender\"",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/76",
-   "column": "Backlog",
-   "products": [
-    "OMS"
+   "lines": [
+    "Wake U"
    ],
-   "client": "Intimissimi",
-   "origin": "Solicitação Cliente",
-   "description": "Contexto Proposta Resumida 2020.265.06 (19/jun/2026) — Intimissimi/Oniverse — SinOMS — Nova Regra de Parametrização para a Funcionalidade \"Quero Atender\". Atualmente a plataforma OMS da Intimissimi permite que lojas físicas utilizem o \"Quero Atender\" (captura espontânea/interlojas de pedidos elegíveis de outras filiais) sem trava sistêmica atrelada ao horário de funcionamento real de cada loja.…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Cita o cliente Intimissimi — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Intimissimi",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-77",
-   "iid": 77,
-   "title": "[Inteligência de Dados] Integrar vendas físicas do TOTVS Moda ao OMS",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/77",
-   "column": "Refinamento",
-   "products": [
-    "OMS"
-   ],
-   "description": "Contexto\\ Hoje o OMS já recebe as vendas físicas registradas via Linx POS, dando à Wake uma visão consolidada das vendas de loja física. Lojistas que usam o TOTVS Moda como PDV, porém, não alimentam essa mesma estrutura — as vendas físicas desses clientes simplesmente não chegam ao OMS. Problema / Dor\\ Essa lacuna deixa a base de vendas físicas incompleta, dependendo apenas do PDV que o lojista…",
+   "kind": "roadmap",
+   "type": "Feature",
+   "tasks": 0,
+   "done": 0,
+   "inDelivery": false,
+   "description": "Funcionalidade foi prometida para o cliente Lofty Style para Q4 de 2026. Alinhado entre Herbert e Felipe em 17/08, e Herbert terá uma agenda presencial com o cliente e Pavoni no dia 18/08. Projeto: https://teamwake.monday.com/boards/18414355609/views/266714237/pulses/12100456636 Proposta Técnica Resumida 2025.W005.03.05 - Lofty Style - Wake OMS - Implantação WakeU - 19 jun 2026 (1).pdf 20/08 -…",
    "created": "2026-08-26",
    "adjust": [
     "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-80",
-   "iid": 80,
-   "title": "[Melhoria] - VTEX Sales App Extensibility - avaliar adoção",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/80",
-   "column": "Open",
-   "products": [
-    "OMS"
-   ],
-   "description": "Contexto Por que esta melhoria está sendo proposta? A VTEX lançou (em fase Beta) o VTEX Sales App Extensibility, funcionalidade que permite ao lojista personalizar a jornada padrão de vendas do Sales App por meio de extensões em pontos predefinidos da interface, sem precisar criar soluções do zero. A VTEX também disponibiliza uma skill de IA com conhecimento integrado sobre o Sales App e o…",
-   "created": "2026-08-26",
-   "adjust": [
-    "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
     "Sem prioridade (etiqueta priority::)"
    ]
   }
  ],
  "support": [
   {
+   "ref": "ss-gestao-produtos/suporte-produtos#2374",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2374",
+   "title": "[ana.paula] WakeOMS - Loja não sincroniza",
+   "product": "OMS",
+   "status": "To Do",
+   "priority": "alta",
+   "created": "2026-10-28",
+   "closed": null,
+   "assignee": null,
+   "adjust": [
+    "Chamado aberto sem etiqueta de status",
+    "Chamado aberto sem responsável"
+   ]
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2373",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2373",
+   "title": "[renan.teixeira] Projetos - Wake OMS - Divergência na data de entrega estimada",
+   "product": "OMS",
+   "status": "In Progress",
+   "priority": "alta",
+   "created": "2026-10-28",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "adjust": []
+  },
+  {
+   "ref": "ss-gestao-produtos/suporte-produtos#2371",
+   "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2371",
+   "title": "[jefferson.martins] Suporte - Planilha não está sendo importada no estoque",
+   "product": "OMS",
+   "status": "In Progress",
+   "created": "2026-10-27",
+   "closed": null,
+   "assignee": "Carlos Sousa",
+   "type": "Correção",
+   "adjust": [
+    "Sem prioridade (etiqueta priority::)"
+   ]
+  },
+  {
    "ref": "ss-gestao-produtos/suporte-produtos#2369",
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2369",
    "title": "[renan.teixeira] Projetos - Wake OMS - Problema na integração com a Intelipost para busca da etiqueta",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "priority": "alta",
    "created": "2026-10-26",
-   "closed": null,
+   "closed": "2026-10-27",
    "assignee": "Carlos Sousa",
+   "type": "Melhoria",
    "adjust": []
   },
   {
@@ -2742,10 +3493,10 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2368",
    "title": "[Gabriel.Soares] Wake OMS - Divergencia de tracking code",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "priority": "media",
    "created": "2026-10-26",
-   "closed": null,
+   "closed": "2026-10-28",
    "assignee": "Carlos Sousa",
    "adjust": []
   },
@@ -2754,15 +3505,13 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2367",
    "title": "[diego.santos] Suporte - Relatório Indicadores Operação não carrega as informações",
    "product": "OMS",
-   "status": "To Do",
+   "status": "Done",
    "priority": "baixa",
    "created": "2026-10-26",
-   "closed": null,
-   "assignee": null,
-   "adjust": [
-    "Chamado aberto sem etiqueta de status",
-    "Chamado aberto sem responsável"
-   ]
+   "closed": "2026-10-28",
+   "assignee": "Carlos Sousa",
+   "type": "Performance",
+   "adjust": []
   },
   {
    "ref": "ss-gestao-produtos/suporte-produtos#2366",
@@ -2795,11 +3544,12 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2362",
    "title": "[Alex.Junior] Suporte - WakeOMS - Integração com DHL não levando bairro e complemento",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "priority": "alta",
    "created": "2026-10-22",
-   "closed": null,
+   "closed": "2026-10-27",
    "assignee": "Carlos Sousa",
+   "type": "Correção",
    "adjust": []
   },
   {
@@ -2807,10 +3557,10 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2361",
    "title": "[aline.santana] Implantação SinOmni - Transportadora/TMS Abbiamo adição de mais um status para marcar pedido como expedido",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "priority": "media",
    "created": "2026-10-22",
-   "closed": null,
+   "closed": "2026-10-28",
    "assignee": "Carlos Sousa",
    "type": "Melhoria",
    "adjust": []
@@ -2872,13 +3622,14 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2355",
    "title": "[guilherme.santos] - Erro | Importação do pedido 1000805",
    "product": "OMS",
-   "status": "Done",
+   "status": "To Do",
    "created": "2026-10-20",
-   "closed": "2026-10-23",
+   "closed": null,
    "assignee": "Daiana Alves",
    "type": "Correção",
    "adjust": [
-    "Sem prioridade (etiqueta priority::)"
+    "Sem prioridade (etiqueta priority::)",
+    "Chamado aberto sem etiqueta de status"
    ]
   },
   {
@@ -2886,10 +3637,11 @@ export const OMNI_DATA: OmniData = {
    "url": "https://gitlab.com/sintesesolucoes/ss-gestao-produtos/suporte-produtos/-/work_items/2349",
    "title": "[iago.martuci] Suporte - SinOMS - Definição de usuários internos",
    "product": "OMS",
-   "status": "In Progress",
+   "status": "Done",
    "created": "2026-10-19",
-   "closed": null,
+   "closed": "2026-10-28",
    "assignee": "Carlos Sousa",
+   "type": "Correção",
    "adjust": [
     "Sem prioridade (etiqueta priority::)"
    ]
@@ -3927,7 +4679,7 @@ export const OMNI_DATA: OmniData = {
    "assignee": "Evaldo Martins",
    "type": "Melhoria",
    "adjust": [
-    "Aberto há 103 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 104 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4204,7 +4956,7 @@ export const OMNI_DATA: OmniData = {
    "assignee": "CaioSantAnna",
    "adjust": [
     "Sem prioridade (etiqueta priority::)",
-    "Aberto há 134 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 135 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4639,7 +5391,7 @@ export const OMNI_DATA: OmniData = {
    "type": "Dúvida",
    "adjust": [
     "Chamado aberto sem responsável",
-    "Aberto há 209 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 210 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4762,7 +5514,7 @@ export const OMNI_DATA: OmniData = {
    "type": "Melhoria",
    "adjust": [
     "Sem prioridade (etiqueta priority::)",
-    "Aberto há 368 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 369 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   },
   {
@@ -4805,7 +5557,7 @@ export const OMNI_DATA: OmniData = {
    "type": "Melhoria",
    "adjust": [
     "Sem prioridade (etiqueta priority::)",
-    "Aberto há 733 dias — fechar, ou virar melhoria/épico se for evolução"
+    "Aberto há 734 dias — fechar, ou virar melhoria/épico se for evolução"
    ]
   }
  ]

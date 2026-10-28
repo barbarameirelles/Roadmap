@@ -305,36 +305,62 @@ export async function buildOmniData(token, log = () => {}) {
   }
 
   // ── Hipóteses ─────────────────────────────────────────────────────────────────
-  // Regra: épico sem nenhuma tarefa e sem status de andamento (work::) é hipótese
-  // e aparece SÓ na aba Hipóteses. A etapa vem da coluna do board de épicos "Roadmap".
-  // Épico com tarefas (mesmo sugeridas) fica nas abas de entrega.
+  // Espelha o board de épicos "Roadmap": TODO épico aberto nas colunas Open, Triagem,
+  // Backlog e Refinamento entra aqui, de qualquer produto (B2B, B2C, Hub…), com ou
+  // sem tarefas. Quem já tem tarefas continua também em Entrega do Mês e Kanban.
+  // Épico sem tarefa e sem andamento (work::) fica SÓ aqui, em qualquer coluna.
   const COLUMN_OF = { "Roadmap::1. Triagem": "Triagem", "Roadmap::1.1 Backlog": "Backlog",
     "Roadmap::2. Refinamento": "Refinamento", "wait::To-Do": "To-Do" };
+  // Demais listas do board: épico com uma delas não está em "Open".
+  const BOARD_LISTS = [...Object.keys(COLUMN_OF), "work::Em desenvolvimento", "work::Em homologação", "wait::Ag. Code Review", "work::Publicação Docs"];
+  const HYPO_COLUMNS = new Set(["Open", "Triagem", "Backlog", "Refinamento"]);
   const PRIORITY = { "priority::Muito Alta": "urgente", "priority::Alta": "alta", "priority::Média": "media", "priority::Baixa": "baixa" };
+  // Produto (linha) da hipótese, pela etiqueta prod:: — a ordem decide o principal.
+  const LINE_OF = [["prod::SinOMS", "OMS"], ["prod::WakeU", "Wake U"], ...PDV_LABELS.map(l => [l, "PDV"]),
+    ["prod::SinHub", "Hub de integração"], ["prod::SinTalk", "SinTalk"], ["prod::SinB2B", "B2B"],
+    ["prod::SinB2C", "B2C"], ["prod::SinAPI", "API"]];
   const plain = md => (md ?? "").replace(/<!--[\s\S]*?-->/g, "").replace(/!\[[^\]]*\]\([^)]*\)/g, "")
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#*_`>|]/g, "").replace(/\s+/g, " ").trim();
-  const epicByIid = Object.fromEntries(epics.map(e => [e.iid, e]));
+  const iniByIid = Object.fromEntries(initiatives.filter(i => i.id.startsWith("ep-")).map(i => [+i.id.slice(3), i]));
   const hypotheses = [];
-  for (let k = initiatives.length - 1; k >= 0; k--) {
-    const ini = initiatives[k];
-    if (!ini.id.startsWith("ep-") || ini.items.length > 0) continue;
-    const e = epicByIid[+ini.id.slice(3)];
-    if (e.labels.some(l => l.startsWith("work::"))) {
-      ini.adjust.push("Épico em andamento, mas sem nenhuma tarefa — criar as issues");
-      continue;                                   // fica no Kanban
-    }
-    initiatives.splice(k, 1);
-    const column = COLUMN_OF[Object.keys(COLUMN_OF).find(l => e.labels.includes(l))] ?? "Open";
-    const adjust = ini.adjust.filter(a => !/^Mês |^Sem mês|sem data de início|sem tarefas/.test(a));
+  for (const [k, e] of epics.entries()) {
+    if (e.state !== "opened") continue;
+    const ini = iniByIid[e.iid];
+    const listLabel = BOARD_LISTS.find(l => e.labels.includes(l));
+    const column = COLUMN_OF[listLabel] ?? (listLabel ? null : "Open");
+    const working = e.labels.some(l => l.startsWith("work::"));
+    let items = ini?.items;
+    if (!items) items = toItems([...epicIssues[k], ...(moved[e.iid] ?? [])], epicChildren[k]);
+    const onlyHere = ini && items.length === 0 && !working;      // hipótese pura: sai das entregas
+    if (ini && items.length === 0 && working) ini.adjust.push("Épico em andamento, mas sem nenhuma tarefa — criar as issues");
+    if (!onlyHere && !HYPO_COLUMNS.has(column)) continue;
+    if (onlyHere) initiatives.splice(initiatives.indexOf(ini), 1);
+
+    // Linhas de produto: etiquetas prod:: → produto deduzido (OMS/U/PDV) → Segurança → sem produto.
+    let lines = [...new Set(LINE_OF.filter(([l]) => e.labels.includes(l)).map(([, n]) => n))];
+    for (const l of e.labels) if (l.startsWith("prod::") && !LINE_OF.some(([x]) => x === l)) lines.push(l.slice(6));
+    const adjust = (ini?.adjust ?? []).filter(a => !/^Mês |^Sem mês|sem data de início|sem tarefas|^Prazo venceu/.test(a));
+    if (!lines.length && ini?.products.length) lines = [...ini.products];
+    if (!lines.length && e.labels.includes("type::Segurança")) lines = ["Segurança"];
+    if (!lines.length) { lines = ["Sem produto"]; adjust.push("Épico sem etiqueta de produto (prod::)"); }
+
+    const isProject = ini ? ini.kind === "projeto" : (e.labels.includes("orig::Projeto") || PROJECT_CODE.test(e.title));
+    const client = ini?.client ?? clientOf(e.title);
+    if (!ini && isProject && !e.labels.includes("orig::Projeto")) adjust.push("Projeto de cliente sem orig::Projeto no épico");
     if (column === "Open") adjust.push("Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)");
-    if (column === "Refinamento" || column === "To-Do") adjust.push(`Está em ${column} mas ainda não tem tarefas — quebrar em issues`);
+    if (items.length === 0 && (column === "Refinamento" || column === "To-Do")) adjust.push(`Está em ${column} mas ainda não tem tarefas — quebrar em issues`);
     const priority = Object.entries(PRIORITY).find(([l]) => e.labels.includes(l))?.[1];
     if (!priority) adjust.push("Sem prioridade (etiqueta priority::)");
     const origin = e.labels.find(l => l.startsWith("orig::"))?.split("::")[1];
     const desc = plain(e.description);
     hypotheses.push({
-      id: ini.id, iid: e.iid, title: e.title, url: e.web_url, column, products: ini.products, priority,
-      client: ini.client, origin, type: e.labels.find(l => l.startsWith("type::"))?.split("::")[1],
+      id: `ep-${e.iid}`, iid: e.iid, title: e.title, url: e.web_url, column: column ?? "To-Do",
+      products: ini?.products ?? productsFrom(e.labels, e.title), lines,
+      kind: isProject ? "projeto" : "roadmap", priority, client, origin,
+      type: e.labels.find(l => l.startsWith("type::"))?.split("::")[1],
+      vertical: e.labels.find(l => l.startsWith("vertical::"))?.split("::")[1],
+      tasks: items.length, done: items.filter(i => i.status === "Done").length,
+      inDelivery: !!ini && !onlyHere,
       description: desc.length > 400 ? desc.slice(0, 400).replace(/\s\S*$/, "") + "…" : desc,
       created: e.created_at.slice(0, 10), adjust,
     });

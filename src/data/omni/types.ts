@@ -31,7 +31,8 @@ export interface OmniInitiative {
   adjust: string[];
 }
 
-// Hipótese = épico sem tarefas e sem andamento; a etapa é a coluna do board de épicos "Roadmap".
+// Hipótese = épico nas colunas Open/Triagem/Backlog/Refinamento do board de épicos "Roadmap"
+// (qualquer produto), ou épico sem tarefas e sem andamento em qualquer coluna.
 export type OmniHypoColumn = "Open" | "Triagem" | "Backlog" | "Refinamento" | "To-Do";
 export type OmniPriority = "urgente" | "alta" | "media" | "baixa";
 
@@ -42,6 +43,12 @@ export interface OmniHypothesis {
   url: string;
   column: OmniHypoColumn;
   products: OmniProduct[];
+  lines: string[];           // produtos pelas etiquetas prod:: (OMS, B2B, Hub de integração…); o 1º é o principal
+  kind: OmniKind;
+  vertical?: string;         // vertical:: (Commerce, Logística…)
+  tasks: number;
+  done: number;
+  inDelivery: boolean;       // também aparece em Entrega do Mês / Kanban (já tem tarefas)
   priority?: OmniPriority;   // etiqueta priority:: do GitLab
   client?: string;
   origin?: string;           // orig:: (Suporte, Solicitação Cliente, Projeto…)
