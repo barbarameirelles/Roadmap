@@ -85,10 +85,27 @@ function itemAdjust(labels, isOpen) {
 const ym = d => d ? { year: +d.slice(0, 4), month: +d.slice(5, 7) } : null;
 const fmt = d => d ? `${d.slice(8, 10)}/${d.slice(5, 7)}/${d.slice(0, 4)}` : "";
 
+// Mês por extenso ou abreviado ("Novembro", "Nov").
+const monthNum = name => {
+  const n = name.toLowerCase();
+  return MONTHS_PT[n] ?? Object.entries(MONTHS_PT).find(([m]) => n.length >= 3 && m.startsWith(n))?.[1];
+};
+
 function monthFromText(s) {
   const m = s && s.match(/\[(?:OMS\] )?([A-Za-zçÇ]+)\/(\d\d)\]?/);
-  if (m && MONTHS_PT[m[1].toLowerCase()]) return { year: 2000 + +m[2], month: MONTHS_PT[m[1].toLowerCase()] };
+  if (m && monthNum(m[1])) return { year: 2000 + +m[2], month: monthNum(m[1]) };
   return null;
+}
+
+// Etiqueta de planejamento "Objetivo::Novembro" (sem ano): o mais próximo de hoje —
+// meses que já passaram há mais de 3 meses contam como do ano seguinte.
+const OBJ_LABEL = /^objetivo::\s*(.+)$/i;
+function monthFromObjective(labels, today) {
+  const l = labels.find(x => OBJ_LABEL.test(x));
+  const month = l && monthNum(l.match(OBJ_LABEL)[1].trim());
+  if (!month) return null;
+  const y = +today.slice(0, 4), cur = +today.slice(5, 7);
+  return { year: month < cur - 3 ? y + 1 : y, month, label: l };
 }
 
 // ── Acesso ao GitLab ─────────────────────────────────────────────────────────
@@ -238,6 +255,9 @@ export async function buildOmniData(token, log = () => {}) {
     let month = null, monthSource = "";
     const mesLabel = labels.find(l => /^mes::\d{4}-\d{2}$/.test(l));
     if (mesLabel) { month = { year: +mesLabel.slice(5, 9), month: +mesLabel.slice(10, 12) }; monthSource = "etiqueta"; }
+    // Objetivo::<Mês> no épico (ou numa issue dele) = objetivo planejado para o mês.
+    const objective = monthFromObjective(labels, TODAY) ?? issues.map(i => monthFromObjective(i.labels, TODAY)).find(Boolean);
+    if (!month && objective) { month = { year: objective.year, month: objective.month }; monthSource = "etiqueta"; }
     if (!month) { month = monthFromText(title); if (month) monthSource = "título do épico"; }
     if (!month) for (const i of issues) {
       const m = monthFromText(i.iteration?.title) ?? monthFromText(i.title.match(/\[\w+\/\d\d\]/)?.[0]);
@@ -245,19 +265,22 @@ export async function buildOmniData(token, log = () => {}) {
     }
     const dueAll = due ?? issues.map(i => i.due_date).filter(Boolean).sort().pop() ?? null;
     if (!month && dueAll) { month = ym(dueAll); monthSource = `prazo (${fmt(dueAll)})`; }
-    if (!mesLabel) adjust.push(month
-      ? `Mês deduzido pelo ${monthSource} — falta etiqueta mes::${month.year}-${String(month.month).padStart(2, "0")} no épico`
-      : "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico");
+    const MONTH_LABEL = m => `Objetivo::${Object.keys(MONTHS_PT)[m.month - 1].replace(/^./, c => c.toUpperCase())}`;
+    if (!mesLabel && !objective) adjust.push(month
+      ? `Mês deduzido pelo ${monthSource} — falta etiqueta ${MONTH_LABEL(month)} no épico`
+      : "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico");
     // Datas, prazo, status
     if (!suggested && !(start && due)) adjust.push("Épico sem data de início e/ou fim");
     const allDone = items.length > 0 && items.every(i => i.status === "Done");
     if (dueAll && dueAll < TODAY && !allDone) adjust.push(`Prazo venceu em ${fmt(dueAll)} — replanejar`);
-    if (items.length === 0) adjust.push("Épico sem tarefas — não dá para calcular %");
+    if (items.length === 0) adjust.push(objective
+      ? `Planejado para o mês (${objective.label}), mas ainda sem tarefas — criar as issues para medir o %`
+      : "Épico sem tarefas — não dá para calcular %");
     const epicStatus = labels.find(l => l.startsWith("work::") || l.startsWith("wait::"));
     if (allDone && epicStatus) adjust.push(`Todas as tarefas fechadas, mas o épico está "${epicStatus.split("::")[1]}" — fechar o épico`);
     if (issues.some(i => i.labels.includes("OKR - Em atraso"))) adjust.push('Marcado como "OKR - Em atraso" no GitLab');
     if (suggested) adjust.unshift("Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues");
-    return { id, title, url, products, kind, client, month, start: start ?? undefined, due: dueAll ?? undefined,
+    return { id, title, url, products, kind, client, month, objective: !!objective || undefined, start: start ?? undefined, due: dueAll ?? undefined,
       gitlabStatus: epicStatus ? epicStatus.split("::")[1] : undefined, items, adjust };
   }
 
@@ -309,6 +332,7 @@ export async function buildOmniData(token, log = () => {}) {
   // Backlog e Refinamento entra aqui, de qualquer produto (B2B, B2C, Hub…), com ou
   // sem tarefas. Quem já tem tarefas continua também em Entrega do Mês e Kanban.
   // Épico sem tarefa e sem andamento (work::) fica SÓ aqui, em qualquer coluna.
+  // Exceção: em Refinamento com Objetivo::<Mês>, vai SÓ para Entrega do Mês.
   const COLUMN_OF = { "Roadmap::1. Triagem": "Triagem", "Roadmap::1.1 Backlog": "Backlog",
     "Roadmap::2. Refinamento": "Refinamento", "wait::To-Do": "To-Do" };
   // Demais listas do board: épico com uma delas não está em "Open".
@@ -331,9 +355,12 @@ export async function buildOmniData(token, log = () => {}) {
     const working = e.labels.some(l => l.startsWith("work::"));
     let items = ini?.items;
     if (!items) items = toItems([...epicIssues[k], ...(moved[e.iid] ?? [])], epicChildren[k]);
-    const onlyHere = ini && items.length === 0 && !working;      // hipótese pura: sai das entregas
-    if (ini && items.length === 0 && working) ini.adjust.push("Épico em andamento, mas sem nenhuma tarefa — criar as issues");
+    // Hipótese pura (sem tarefa, parada e sem Objetivo::<Mês>) sai das entregas.
+    const onlyHere = ini && items.length === 0 && !working && !ini.objective;
+    if (ini && items.length === 0 && working && !ini.objective) ini.adjust.push("Épico em andamento, mas sem nenhuma tarefa — criar as issues");
     if (!onlyHere && !HYPO_COLUMNS.has(column)) continue;
+    // Refinamento com Objetivo::<Mês> = já planejado: sai daqui e fica só em Entrega do Mês.
+    if (ini?.objective && column === "Refinamento") continue;
     if (onlyHere) initiatives.splice(initiatives.indexOf(ini), 1);
 
     // Linhas de produto: etiquetas prod:: → produto deduzido (OMS/U/PDV) → Segurança → sem produto.

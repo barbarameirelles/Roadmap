@@ -2,7 +2,7 @@
 import type { OmniData } from "./types";
 
 export const OMNI_DATA: OmniData = {
- "generatedAt": "2026-10-28T18:51:40.380Z",
+ "generatedAt": "2026-10-28T19:30:26.911Z",
  "initiatives": [
   {
    "id": "ep-104",
@@ -37,7 +37,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
+    "Mês deduzido pelo título do épico — falta etiqueta Objetivo::Outubro no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -71,7 +71,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
+    "Mês deduzido pelo título do épico — falta etiqueta Objetivo::Outubro no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -85,8 +85,9 @@ export const OMNI_DATA: OmniData = {
    "kind": "roadmap",
    "month": {
     "year": 2026,
-    "month": 10
+    "month": 11
    },
+   "objective": true,
    "gitlabStatus": "To-Do",
    "items": [
     {
@@ -99,7 +100,6 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo iteration/título da issue — falta etiqueta mes::2026-10 no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -180,8 +180,27 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico sem etiqueta de produto — assumi OMS. Adicionar prod::SinOMS",
-    "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
+    "Mês deduzido pelo título do épico — falta etiqueta Objetivo::Outubro no épico",
     "Épico sem data de início e/ou fim"
+   ]
+  },
+  {
+   "id": "ep-98",
+   "title": "OMS - Multiplataforma (Wake + Vtex + Shopify) [Nov/26]",
+   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/98",
+   "products": [
+    "OMS"
+   ],
+   "kind": "roadmap",
+   "month": {
+    "year": 2026,
+    "month": 11
+   },
+   "objective": true,
+   "items": [],
+   "adjust": [
+    "Épico sem data de início e/ou fim",
+    "Planejado para o mês (Objetivo::Novembro), mas ainda sem tarefas — criar as issues para medir o %"
    ]
   },
   {
@@ -215,7 +234,7 @@ export const OMNI_DATA: OmniData = {
     "Projeto de cliente sem orig::Projeto no épico",
     "Adicionar etiqueta cliente::Track&Field",
     "Também é objetivo de OKR: é roadmap ou projeto de cliente? (decisão pendente)",
-    "Mês deduzido pelo prazo (31/08/2026) — falta etiqueta mes::2026-08 no épico",
+    "Mês deduzido pelo prazo (31/08/2026) — falta etiqueta Objetivo::Agosto no épico",
     "Épico sem data de início e/ou fim",
     "Prazo venceu em 31/08/2026 — replanejar"
    ]
@@ -241,7 +260,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim",
     "Todas as tarefas fechadas, mas o épico está \"Publicação Docs\" — fechar o épico"
    ]
@@ -274,7 +293,7 @@ export const OMNI_DATA: OmniData = {
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
     "Adicionar etiqueta cliente::Grupo Soma",
-    "Mês deduzido pelo prazo (23/03/2026) — falta etiqueta mes::2026-03 no épico",
+    "Mês deduzido pelo prazo (23/03/2026) — falta etiqueta Objetivo::Março no épico",
     "Épico sem data de início e/ou fim",
     "Prazo venceu em 23/03/2026 — replanejar"
    ]
@@ -308,7 +327,7 @@ export const OMNI_DATA: OmniData = {
     "Falta etiqueta de produto no épico: prod::SinOMS",
     "Etiqueta de outro produto no épico (prod::SinHub) — confirmar o produto principal",
     "Adicionar etiqueta cliente::Osklen",
-    "Mês deduzido pelo prazo (26/08/2026) — falta etiqueta mes::2026-08 no épico",
+    "Mês deduzido pelo prazo (26/08/2026) — falta etiqueta Objetivo::Agosto no épico",
     "Épico sem data de início e/ou fim",
     "Prazo venceu em 26/08/2026 — replanejar"
    ]
@@ -409,7 +428,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -441,7 +460,7 @@ export const OMNI_DATA: OmniData = {
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
     "Adicionar etiqueta cliente::Shoulder",
-    "Mês deduzido pelo prazo (06/11/2026) — falta etiqueta mes::2026-11 no épico"
+    "Mês deduzido pelo prazo (06/11/2026) — falta etiqueta Objetivo::Novembro no épico"
    ]
   },
   {
@@ -604,7 +623,7 @@ export const OMNI_DATA: OmniData = {
     "Projeto de cliente sem orig::Projeto no épico",
     "Projeto sem nome de cliente identificado",
     "Também é objetivo de OKR: é roadmap ou projeto de cliente? (decisão pendente)",
-    "Mês deduzido pelo prazo (31/08/2026) — falta etiqueta mes::2026-08 no épico",
+    "Mês deduzido pelo prazo (31/08/2026) — falta etiqueta Objetivo::Agosto no épico",
     "Prazo venceu em 31/08/2026 — replanejar"
    ]
   },
@@ -677,7 +696,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
-    "Mês deduzido pelo prazo (31/07/2026) — falta etiqueta mes::2026-07 no épico",
+    "Mês deduzido pelo prazo (31/07/2026) — falta etiqueta Objetivo::Julho no épico",
     "Prazo venceu em 31/07/2026 — replanejar"
    ]
   },
@@ -742,7 +761,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
-    "Mês deduzido pelo prazo (30/09/2026) — falta etiqueta mes::2026-09 no épico",
+    "Mês deduzido pelo prazo (30/09/2026) — falta etiqueta Objetivo::Setembro no épico",
     "Prazo venceu em 30/09/2026 — replanejar"
    ]
   },
@@ -783,7 +802,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Falta etiqueta de produto no épico: prod::WakeU",
-    "Mês deduzido pelo prazo (30/09/2026) — falta etiqueta mes::2026-09 no épico",
+    "Mês deduzido pelo prazo (30/09/2026) — falta etiqueta Objetivo::Setembro no épico",
     "Prazo venceu em 30/09/2026 — replanejar"
    ]
   },
@@ -815,7 +834,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Falta etiqueta de produto no épico: prod::SinOMS",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
@@ -848,7 +867,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico sem etiqueta de produto — assumi OMS. Adicionar prod::SinOMS",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
@@ -883,7 +902,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -1311,7 +1330,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo prazo (10/09/2026) — falta etiqueta mes::2026-09 no épico",
+    "Mês deduzido pelo prazo (10/09/2026) — falta etiqueta Objetivo::Setembro no épico",
     "Prazo venceu em 10/09/2026 — replanejar"
    ]
   },
@@ -1336,22 +1355,19 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico sem etiqueta de produto — assumi OMS. Adicionar prod::SinOMS",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
   {
    "id": "ep-78",
-   "title": "[Outubro/26] Objetivo 3: Integração de Vendas Físicas com API de Audiência (Wake Experience)",
+   "title": "Integração de Vendas Físicas com API de Audiência (Wake Experience)",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/78",
    "products": [
     "OMS"
    ],
    "kind": "roadmap",
-   "month": {
-    "year": 2026,
-    "month": 10
-   },
+   "month": null,
    "items": [
     {
      "ref": "ss-gestao-produtos/gestao-produtos#736",
@@ -1362,7 +1378,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo título do épico — falta etiqueta mes::2026-10 no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -1376,8 +1392,9 @@ export const OMNI_DATA: OmniData = {
    "kind": "roadmap",
    "month": {
     "year": 2026,
-    "month": 10
+    "month": 11
    },
+   "objective": true,
    "gitlabStatus": "To-Do",
    "items": [
     {
@@ -1390,7 +1407,6 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo iteration/título da issue — falta etiqueta mes::2026-10 no épico",
     "Épico sem data de início e/ou fim"
    ]
   },
@@ -1428,7 +1444,7 @@ export const OMNI_DATA: OmniData = {
     }
    ],
    "adjust": [
-    "Mês deduzido pelo prazo (14/07/2026) — falta etiqueta mes::2026-07 no épico"
+    "Mês deduzido pelo prazo (14/07/2026) — falta etiqueta Objetivo::Julho no épico"
    ]
   },
   {
@@ -1562,7 +1578,7 @@ export const OMNI_DATA: OmniData = {
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Cita o cliente Andriello — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Andriello",
-    "Mês deduzido pelo prazo (23/03/2026) — falta etiqueta mes::2026-03 no épico",
+    "Mês deduzido pelo prazo (23/03/2026) — falta etiqueta Objetivo::Março no épico",
     "Prazo venceu em 23/03/2026 — replanejar",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
@@ -1609,7 +1625,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
-    "Mês deduzido pelo prazo (28/08/2026) — falta etiqueta mes::2026-08 no épico",
+    "Mês deduzido pelo prazo (28/08/2026) — falta etiqueta Objetivo::Agosto no épico",
     "Prazo venceu em 28/08/2026 — replanejar",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
@@ -1652,7 +1668,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico",
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
   },
@@ -1716,7 +1732,7 @@ export const OMNI_DATA: OmniData = {
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Cita o cliente Tommy — é projeto vendido? Se sim, marcar orig::Projeto e cliente::Tommy",
-    "Mês deduzido pelo prazo (15/07/2026) — falta etiqueta mes::2026-07 no épico",
+    "Mês deduzido pelo prazo (15/07/2026) — falta etiqueta Objetivo::Julho no épico",
     "Prazo venceu em 15/07/2026 — replanejar"
    ]
   },
@@ -1740,7 +1756,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico"
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico"
    ]
   },
   {
@@ -1793,7 +1809,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
-    "Mês deduzido pelo prazo (14/03/2025) — falta etiqueta mes::2025-03 no épico",
+    "Mês deduzido pelo prazo (14/03/2025) — falta etiqueta Objetivo::Março no épico",
     "Prazo venceu em 14/03/2025 — replanejar"
    ]
   },
@@ -1898,7 +1914,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
-    "Mês deduzido pelo prazo (06/03/2026) — falta etiqueta mes::2026-03 no épico",
+    "Mês deduzido pelo prazo (06/03/2026) — falta etiqueta Objetivo::Março no épico",
     "Prazo venceu em 06/03/2026 — replanejar",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
@@ -1956,7 +1972,7 @@ export const OMNI_DATA: OmniData = {
    ],
    "adjust": [
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
-    "Mês deduzido pelo prazo (13/03/2026) — falta etiqueta mes::2026-03 no épico",
+    "Mês deduzido pelo prazo (13/03/2026) — falta etiqueta Objetivo::Março no épico",
     "Prazo venceu em 13/03/2026 — replanejar",
     "Marcado como \"OKR - Em atraso\" no GitLab"
    ]
@@ -1989,7 +2005,7 @@ export const OMNI_DATA: OmniData = {
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Projeto de cliente sem orig::Projeto no épico",
     "Adicionar etiqueta cliente::Gregory",
-    "Mês deduzido pelo prazo (23/10/2026) — falta etiqueta mes::2026-10 no épico",
+    "Mês deduzido pelo prazo (23/10/2026) — falta etiqueta Objetivo::Outubro no épico",
     "Prazo venceu em 23/10/2026 — replanejar"
    ]
   },
@@ -2021,7 +2037,7 @@ export const OMNI_DATA: OmniData = {
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Projeto de cliente sem orig::Projeto no épico",
     "Adicionar etiqueta cliente::Reserva",
-    "Mês deduzido pelo prazo (03/08/2026) — falta etiqueta mes::2026-08 no épico",
+    "Mês deduzido pelo prazo (03/08/2026) — falta etiqueta Objetivo::Agosto no épico",
     "Prazo venceu em 03/08/2026 — replanejar"
    ]
   },
@@ -2048,7 +2064,7 @@ export const OMNI_DATA: OmniData = {
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Projeto de cliente sem orig::Projeto no épico",
     "Adicionar etiqueta cliente::Grupo Soma",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico"
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico"
    ]
   },
   {
@@ -2074,7 +2090,7 @@ export const OMNI_DATA: OmniData = {
     "Épico ainda não existe no GitLab — agrupamento sugerido. Criar o épico e mover as issues",
     "Projeto de cliente sem orig::Projeto no épico",
     "Adicionar etiqueta cliente::Taco",
-    "Sem mês de entrega — adicionar etiqueta mes::AAAA-MM no épico"
+    "Sem mês de entrega — adicionar etiqueta Objetivo::<Mês> no épico"
    ]
   }
  ],
@@ -2149,30 +2165,6 @@ export const OMNI_DATA: OmniData = {
    "created": "2026-09-17",
    "adjust": [
     "Ainda não triado: sem etiqueta Roadmap:: (está na coluna Open do board)",
-    "Sem prioridade (etiqueta priority::)"
-   ]
-  },
-  {
-   "id": "ep-98",
-   "iid": 98,
-   "title": "OMS - Multiplataforma (Wake + Vtex + Shopify)",
-   "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/98",
-   "column": "Refinamento",
-   "products": [
-    "OMS"
-   ],
-   "lines": [
-    "OMS"
-   ],
-   "kind": "roadmap",
-   "vertical": "Commerce",
-   "tasks": 0,
-   "done": 0,
-   "inDelivery": false,
-   "description": "Objetivo --- Com a Wake avançando em conversas com cliente grandes e que já estão no OMS usando Vtex, foi levantada a hipotese do OMS conseguir olhar para mais de uma plataforma de acordo com o que está configurado na conta. Isso vai facilitar a virada de clientes maiores que tem mais de uma marca como o Grupo Soma, por exemplo. Em uma migração do Soma, as marcas seriam viarada de forma faseada e…",
-   "created": "2026-08-31",
-   "adjust": [
-    "Está em Refinamento mas ainda não tem tarefas — quebrar em issues",
     "Sem prioridade (etiqueta priority::)"
    ]
   },
@@ -2255,9 +2247,9 @@ export const OMNI_DATA: OmniData = {
   {
    "id": "ep-78",
    "iid": 78,
-   "title": "[Outubro/26] Objetivo 3: Integração de Vendas Físicas com API de Audiência (Wake Experience)",
+   "title": "Integração de Vendas Físicas com API de Audiência (Wake Experience)",
    "url": "https://gitlab.com/groups/sintesesolucoes/-/epics/78",
-   "column": "Refinamento",
+   "column": "Backlog",
    "products": [
     "OMS"
    ],

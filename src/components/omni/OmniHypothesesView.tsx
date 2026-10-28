@@ -161,7 +161,7 @@ export default function OmniHypothesesView({ filter }: { filter: OmniFilter }) {
         </p>
         <p className="g-page-note">
           O produto vem da etiqueta <code>prod::</code> do épico e a prioridade, da <code>priority::</code>.
-          Épicos que já têm tarefas aparecem aqui e também em Entrega do Mês e Kanban. Épicos sem tarefa e parados ficam só aqui.
+          Épicos que já têm tarefas aparecem aqui e também em Entrega do Mês e Kanban. Épicos sem tarefa e parados ficam só aqui. Em Refinamento com etiqueta <code>Objetivo::&lt;Mês&gt;</code>, o épico já foi planejado: sai daqui e aparece só em Entrega do Mês.
         </p>
       </div>
 

@@ -75,7 +75,8 @@ function MonthSection({ title, badge, items, defaultOpen, flag }: {
 export default function OmniGoalsView({ filter }: { filter: OmniFilter }) {
   const all = useOmniInitiatives(filter);
   const { months, noMonth } = useMemo(() => {
-    const withTasks = all.filter(i => i.items.length > 0);
+    // Sem tarefas só entra se foi planejado para o mês (Objetivo::<Mês>).
+    const withTasks = all.filter(i => i.items.length > 0 || i.objective);
     const by = new Map<number, OmniInitiative[]>();
     for (const i of withTasks.filter(i => i.month)) {
       const k = key(i.month!);
@@ -96,7 +97,7 @@ export default function OmniGoalsView({ filter }: { filter: OmniFilter }) {
         </p>
         <p className="g-page-note">
           O <span className="om-flag om-flag--inline">(!)</span> marca o que ainda será ajustado no GitLab. Passe o mouse para ver o ajuste.
-          Enquanto não existir a etiqueta <code>mes::AAAA-MM</code>, o mês é deduzido do título, da iteration ou do prazo.
+          O mês vem da etiqueta <code>Objetivo::&lt;Mês&gt;</code> do épico; sem ela, é deduzido do título, da iteration ou do prazo.
         </p>
       </div>
       {months.length === 0 && noMonth.length === 0 && <div className="om-empty">Nenhuma iniciativa com esses filtros.</div>}
@@ -114,7 +115,7 @@ export default function OmniGoalsView({ filter }: { filter: OmniFilter }) {
       })}
       {noMonth.length > 0 && (
         <MonthSection title="Sem mês definido" items={noMonth} defaultOpen={false}
-          flag={["Essas iniciativas não têm mês no GitLab — adicionar etiqueta mes::AAAA-MM no épico"]} />
+          flag={["Essas iniciativas não têm mês no GitLab — adicionar etiqueta Objetivo::<Mês> no épico"]} />
       )}
     </div>
   );

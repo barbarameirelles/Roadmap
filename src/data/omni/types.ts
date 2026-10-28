@@ -24,6 +24,7 @@ export interface OmniInitiative {
   kind: OmniKind;
   client?: string;
   month: { year: number; month: number } | null;
+  objective?: boolean;    // tem etiqueta Objetivo::<Mês> (planejado para o mês)
   start?: string;
   due?: string;
   gitlabStatus?: string;  // status escrito no próprio épico
