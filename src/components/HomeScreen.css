@@ -53,6 +53,11 @@
   letter-spacing: -0.02em;
 }
 
+.hs-hero--section {
+  margin-top: 56px;
+  margin-bottom: 24px;
+}
+
 /* Row of cards */
 .hs-row {
   display: flex;

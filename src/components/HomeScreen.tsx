@@ -59,6 +59,17 @@ function OmniLogo({ muted }: { muted?: boolean }) {
   );
 }
 
+function AudiencesLogo({ muted }: { muted?: boolean }) {
+  return (
+    <div className="hs-logo-wrap">
+      <WakeWordmark muted={muted} />
+      <div className="hs-product-line" style={{ color: muted ? "#BDBDBD" : PURPLE }}>
+        // audiences
+      </div>
+    </div>
+  );
+}
+
 interface Unit {
   id: string;
   Logo: (props: { muted?: boolean }) => JSX.Element;
@@ -68,13 +79,45 @@ interface Unit {
 
 const UNITS: Unit[] = [
   { id: "xp",       Logo: XPLogo,       active: true  },
-  { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.commerce-wake.tech/" },
+  { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.apps-wake.tech/" },
   { id: "omni",     Logo: OmniLogo,     active: true  },
+];
+
+// Dashboards de adoção de features (externos).
+const ADOPTION: Unit[] = [
+  { id: "commerce-adoption",  Logo: CommerceLogo,  active: true, href: "https://roadmap-dashboard.apps-wake.tech/TUP" },
+  { id: "audiences-adoption", Logo: AudiencesLogo, active: true, href: "https://audiences-dashboard.vercel.app/" },
 ];
 
 interface Props {
   onEnterXP: () => void;
   onEnterOmni: () => void;
+}
+
+function UnitCard({ unit, cta, onEnter }: { unit: Unit; cta: string; onEnter?: () => void }) {
+  const { Logo, active, href } = unit;
+  const enter = href
+    ? () => window.open(href, "_blank", "noopener,noreferrer")
+    : onEnter;
+  return (
+    <div
+      className={`hs-card ${active ? "hs-card--active" : "hs-card--soon"}`}
+      onClick={active ? enter : undefined}
+      role={active ? "button" : undefined}
+      tabIndex={active ? 0 : undefined}
+      onKeyDown={active ? (e) => e.key === "Enter" && enter?.() : undefined}
+    >
+      <div className="hs-card-logo">
+        <Logo muted={!active} />
+      </div>
+      <div className="hs-card-footer">
+        {active
+          ? <span className="hs-cta">{href ? `${cta} ↗` : `${cta} →`}</span>
+          : <span className="hs-soon">Em breve</span>
+        }
+      </div>
+    </div>
+  );
 }
 
 export default function HomeScreen({ onEnterXP, onEnterOmni }: Props) {
@@ -91,34 +134,24 @@ export default function HomeScreen({ onEnterXP, onEnterOmni }: Props) {
       </div>
 
       <div className="hs-row">
-        {UNITS.map(({ id, Logo, active, href }) => {
-          const openExternal = href
-            ? () => window.open(href, "_blank", "noopener,noreferrer")
-            : undefined;
-          const enter =
-            openExternal ??
-            (id === "xp" ? onEnterXP : id === "omni" ? onEnterOmni : undefined);
-          return (
-          <div
-            key={id}
-            className={`hs-card ${active ? "hs-card--active" : "hs-card--soon"}`}
-            onClick={active ? enter : undefined}
-            role={active ? "button" : undefined}
-            tabIndex={active ? 0 : undefined}
-            onKeyDown={active ? (e) => e.key === "Enter" && enter?.() : undefined}
-          >
-            <div className="hs-card-logo">
-              <Logo muted={!active} />
-            </div>
-            <div className="hs-card-footer">
-              {active
-                ? <span className="hs-cta">{href ? "Ver roadmap ↗" : "Ver roadmap →"}</span>
-                : <span className="hs-soon">Em breve</span>
-              }
-            </div>
-          </div>
-          );
-        })}
+        {UNITS.map((u) => (
+          <UnitCard
+            key={u.id}
+            unit={u}
+            cta="Ver roadmap"
+            onEnter={u.id === "xp" ? onEnterXP : u.id === "omni" ? onEnterOmni : undefined}
+          />
+        ))}
+      </div>
+
+      <div className="hs-hero hs-hero--section">
+        <h2 className="hs-title">Adoção de features</h2>
+      </div>
+
+      <div className="hs-row">
+        {ADOPTION.map((u) => (
+          <UnitCard key={u.id} unit={u} cta="Ver dashboard" />
+        ))}
       </div>
     </div>
   );
