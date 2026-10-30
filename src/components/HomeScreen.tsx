@@ -87,18 +87,21 @@ interface Unit {
   Logo: (props: { muted?: boolean }) => JSX.Element;
   active: boolean;
   href?: string; // quando presente, o card abre um link externo em nova aba
+  note?: string; // aviso exibido no rodapé do card (ex.: requisito de acesso)
 }
+
+const VPN_NOTE = "Necessário VPN AWS para visualizar";
 
 const UNITS: Unit[] = [
   { id: "xp",       Logo: XPLogo,       active: true  },
-  { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.apps-wake.tech/" },
+  { id: "commerce", Logo: CommerceLogo, active: true, href: "https://roadmap-dashboard.apps-wake.tech/", note: VPN_NOTE },
   { id: "omni",     Logo: OmniLogo,     active: true  },
   { id: "pdv",      Logo: PdvLogo,      active: true  },
 ];
 
 // Dashboards de adoção de features (externos).
 const ADOPTION: Unit[] = [
-  { id: "commerce-adoption",  Logo: CommerceLogo,  active: true, href: "https://roadmap-dashboard.apps-wake.tech/TUP" },
+  { id: "commerce-adoption",  Logo: CommerceLogo,  active: true, href: "https://roadmap-dashboard.apps-wake.tech/TUP", note: VPN_NOTE },
   { id: "audiences-adoption", Logo: AudiencesLogo, active: true, href: "https://audiences-dashboard.vercel.app/" },
 ];
 
@@ -109,7 +112,7 @@ interface Props {
 }
 
 function UnitCard({ unit, cta, onEnter }: { unit: Unit; cta: string; onEnter?: () => void }) {
-  const { Logo, active, href } = unit;
+  const { Logo, active, href, note } = unit;
   const enter = href
     ? () => window.open(href, "_blank", "noopener,noreferrer")
     : onEnter;
@@ -129,6 +132,7 @@ function UnitCard({ unit, cta, onEnter }: { unit: Unit; cta: string; onEnter?: (
           ? <span className="hs-cta">{href ? `${cta} ↗` : `${cta} →`}</span>
           : <span className="hs-soon">Em breve</span>
         }
+        {note && <span className="hs-note">🔒 {note}</span>}
       </div>
     </div>
   );
